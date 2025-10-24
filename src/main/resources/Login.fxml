@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="701.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.LoginCG">
+   
+   <!-- Immagine di sfondo a sinistra -->
+   <ImageView fitHeight="700.0" fitWidth="752.0" layoutX="-9.0" layoutY="0.0">
+      <Image url="@Foto/SfondoLogin.png" />
+   </ImageView>
+   
+   <!-- Linea verticale divisoria -->
+   <Line endX="0.0" endY="700.0" layoutX="745.0" startX="0.0" startY="0.0" style="-fx-stroke: rgba(0, 0, 0, 0.26);" />
+   
+   <!-- Logo MeteoGusto -->
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="889.0" layoutY="100.0">
+      <Image url="@Foto/LogoMeteoGusto.png" />
+   </ImageView>
+   
+   <!-- Titolo Benvenuto -->
+   <Label alignment="CENTER" layoutX="743.0" layoutY="30.0" prefHeight="60.0" prefWidth="509.0" text="Benvenuto su MeteoGusto" textAlignment="CENTER">
+      <font>
+         <Font name="Roboto" size="24.0" />
+      </font>
+   </Label>
+   
+   <!-- Campo E-mail -->
+   <Label layoutX="817.0" layoutY="270.0" prefHeight="30.0" prefWidth="70.0" text="E-mail">
+      <font>
+         <Font name="Roboto" size="20.0" />
+      </font>
+   </Label>
+   
+   <TextField fx:id="campoEmail" layoutX="814.0" layoutY="300.0" prefHeight="45.0" prefWidth="350.0" promptText="Inserisci la tua email" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   
+   <!-- Campo Password -->
+   <Label layoutX="817.0" layoutY="370.0" prefHeight="30.0" prefWidth="100.0" text="Password">
+      <font>
+         <Font name="Roboto" size="20.0" />
+      </font>
+   </Label>
+   
+   <TextField fx:id="campoPassword" layoutX="814.0" layoutY="400.0" prefHeight="45.0" prefWidth="350.0" promptText="Inserisci la tua password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   
+   <!-- Link Password dimenticata -->
+   <Hyperlink fx:id="passwordDimenticata" layoutX="1008.0" layoutY="447.0" onAction="#clickPasswordDimenticata" prefHeight="30.0" prefWidth="158.0" text="Password dimenticata?" textFill="rgba(0, 0, 0, 0.58)" underline="true">
+      <font>
+         <Font name="Roboto" size="14.0" />
+      </font>
+   </Hyperlink>
+   
+   <!-- Bottone Login -->
+   <Button fx:id="accedi" layoutX="885.0" layoutY="514.0" onAction="#clickAccedi" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Accedi">
+      <font>
+         <Font name="Roboto" size="18.0" />
+      </font>
+      <textFill>
+         <Color>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <opacity>1.0</opacity>
+         </Color>
+      </textFill>
+   </Button>
+   
+   <!-- Link Registrati -->
+   <Hyperlink fx:id="registrati" alignment="CENTER" layoutX="756.0" layoutY="594.0" onAction="#clickRegistrati" prefHeight="40.0" prefWidth="458.0" text="Non hai un account? Registrati." textAlignment="CENTER" textFill="rgba(0, 0, 0, 0.58)" underline="true">
+      <font>
+         <Font name="Roboto" size="16.0" />
+      </font>
+   </Hyperlink>
+   <Label fx:id="infoErrore" alignment="CENTER" layoutX="748.0" layoutY="652.0" prefHeight="27.0" prefWidth="502.0" textFill="#000000">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+
+</AnchorPane>

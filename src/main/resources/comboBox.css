@@ -1,0 +1,19 @@
+.combo-box .arrow-button {
+    -fx-background-color: white;
+    -fx-border-color: #E97627;
+    -fx-border-width: 2px;
+    -fx-padding: 16px 20px 16px 20px;
+    -fx-pref-width: 52px;
+    -fx-pref-height: 52px;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #E97627;
+    -fx-scale-x: 2.0;
+    -fx-scale-y: 2.0;
+}
+
+.combo-box .text-input {
+    -fx-font-size: 20px;
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.5);
+}

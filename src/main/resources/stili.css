@@ -1,0 +1,17 @@
+.check-box-arancione .box {
+    -fx-background-color: white;
+    -fx-border-color: #e97627;
+    -fx-border-width: 2px;
+    -fx-border-radius: 3px;
+}
+
+.check-box-arancione:selected .box {
+    -fx-background-color: #e97627;
+    -fx-border-color: #e97627;
+    -fx-border-width: 2px;
+    -fx-border-radius: 3px;
+}
+
+.check-box-arancione:selected .mark {
+    -fx-background-color: white;
+}

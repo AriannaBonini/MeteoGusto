@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="701.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@stili.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.RegistrazioneUtenteCG">
+
+   <!-- Immagine di sfondo a sinistra -->
+   <ImageView fitHeight="701.0" fitWidth="752.0" layoutX="-9.0" layoutY="0.0">
+      <Image url="@Foto/SfondoLogin.png" />
+   </ImageView>
+   
+   <!-- Linea verticale divisoria -->
+   <Line endX="0.0" endY="701.0" layoutX="745.0" startX="0.0" startY="0.0" style="-fx-stroke: rgba(0, 0, 0, 0.26);" />
+   
+   <!-- Titolo Registrazione con "Utente" in arancione -->
+   <TextFlow layoutX="744.0" layoutY="47.0" prefHeight="52.0" prefWidth="506.0" textAlignment="CENTER">
+      <Text style="-fx-font-size: 32px; -fx-font-family: 'Roboto';" text="Registrazione ">
+         <font>
+            <Font name="Roboto" size="32.0" />
+         </font>
+      </Text>
+      <Text style="-fx-font-size: 32px; -fx-font-family: 'Roboto'; -fx-fill: #e97627;" text="Utente">
+         <font>
+            <Font name="Roboto" size="32.0" />
+         </font>
+      </Text>
+   </TextFlow>
+   
+   <!-- Rettangolo Informazioni Personali -->
+   <Rectangle arcHeight="8.0" arcWidth="8.0" fill="WHITE" height="230.0" layoutX="765.0" layoutY="106.0" stroke="rgba(0, 0, 0, 0.26)" strokeType="INSIDE" strokeWidth="1.0" style="-fx-arc-height: 25px; -fx-arc-width: 25px;" width="460.0" />
+   
+   <!-- Titolo Informazioni Personali -->
+   <Label layoutX="775.0" layoutY="120.0" text="Dati Anagrafici" textFill="#000000">
+      <font>
+         <Font name="Roboto" size="26.0" />
+      </font>
+   </Label>
+   
+   <!-- Campo Nome -->
+   <Label layoutX="781.0" layoutY="163.0" text="Nome:" textFill="#00000094">
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoNome" layoutX="888.0" layoutY="163.0" prefHeight="40.0" prefWidth="307.0" promptText="Inserisci il nome" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
+   
+   <!-- Campo Cognome -->
+   <Label layoutX="781.0" layoutY="217.0" text="Cognome:" textFill="#00000094">
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoCognome" layoutX="888.0" layoutY="217.0" prefHeight="40.0" prefWidth="307.0" promptText="Inserisci il cognome" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
+   
+   <!-- Campo Telefono -->
+   <Label layoutX="781.0" layoutY="271.0" text="Telefono:" textFill="#00000094">
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoTelefono" layoutX="888.0" layoutY="271.0" prefHeight="40.0" prefWidth="307.0" promptText="Inserisci il telefono" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
+   
+   <!-- Rettangolo Credenziali di Accesso -->
+   <Rectangle arcHeight="8.0" arcWidth="8.0" fill="WHITE" height="167.0" layoutX="765.0" layoutY="350.0" stroke="rgba(0, 0, 0, 0.26)" strokeType="INSIDE" strokeWidth="1.0" style="-fx-arc-height: 25px; -fx-arc-width: 25px;" width="460.0" />
+   
+   <!-- Titolo Credenziali di Accesso -->
+   <Label layoutX="775.0" layoutY="363.0" text="Credenziali di Accesso" textFill="#000000">
+      <font>
+         <Font name="Roboto" size="26.0" />
+      </font>
+   </Label>
+   
+   <!-- Campo Email -->
+   <Label layoutX="781.0" layoutY="406.0" text="Email:" textFill="#00000094">
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoEmail" layoutX="888.0" layoutY="406.0" prefHeight="40.0" prefWidth="307.0" promptText="Inserisci l'email" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
+   
+   <!-- Campo Password -->
+   <Label layoutX="781.0" layoutY="460.0" text="Password:" textFill="#00000094">
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </Label>
+   <PasswordField fx:id="campoPassword" layoutX="888.0" layoutY="460.0" prefHeight="40.0" prefWidth="307.0" promptText="Inserisci la password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </PasswordField>
+   
+   <!-- Checkbox Dichiarazione Maggiorenne -->
+   <CheckBox fx:id="checkBoxMaggiorenne" layoutX="765.0" layoutY="532.0" style="-fx-font-size: 23px; -fx-font-family: 'Roboto'; -fx-text-fill: black;" styleClass="check-box-arancione" text="Dichiaro di essere maggiorenne" selected="false">
+      <style>
+         -fx-background-color: white;
+         -fx-border-color: #e97627;
+         -fx-border-width: 2px;
+         -fx-border-radius: 3px;
+      </style>
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </CheckBox>
+   
+   <!-- Checkbox Accetto Termini e Privacy -->
+   <CheckBox fx:id="checkBoxTerminiPrivacy" layoutX="765.0" layoutY="570.0" style="-fx-font-size: 23px; -fx-font-family: 'Roboto'; -fx-text-fill: black;" styleClass="check-box-arancione" text="Accetto i termini e la privacy"  selected="false">
+      <style>
+         -fx-background-color: white;
+         -fx-border-color: #e97627;
+         -fx-border-width: 2px;
+         -fx-border-radius: 3px;
+      </style>
+      <font>
+         <Font name="Roboto" size="23.0" />
+      </font>
+   </CheckBox>
+   
+   <!-- Bottone Registrati -->
+   <Button fx:id="registrati" layoutX="910.0" layoutY="639.0" onAction="#clickRegistrati" prefHeight="44.0" prefWidth="162.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Registrati">
+      <font>
+         <Font name="Roboto" size="20.0" />
+      </font>
+      <textFill>
+         <Color>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <opacity>1.0</opacity>
+         </Color>
+      </textFill>
+   </Button>
+   
+   <!-- Label Errore -->
+   <Label fx:id="infoErrore" alignment="CENTER" layoutX="749.0" layoutY="603.0" prefHeight="27.0" prefWidth="502.0" textFill="#000000">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Label fx:id="tornaAlLogin" layoutX="786.0" onMouseClicked="#clickRitornaAlLogin" prefHeight="48.0" prefWidth="258.0" text="Torna al login">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <ImageView fx:id="imageTornaAlLogin" fitHeight="34.0" fitWidth="38.0" layoutX="755.0" layoutY="6.0" onMouseClicked="#clickRitornaAlLogin" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@Foto/TornaIndietro.png" />
+      </image>
+   </ImageView>
+
+</AnchorPane>

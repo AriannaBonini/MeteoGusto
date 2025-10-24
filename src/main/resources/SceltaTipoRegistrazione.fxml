@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="701.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.SceltaRegistrazioneCG">
+   
+   <!-- Immagine di sfondo a sinistra -->
+   <ImageView fitHeight="700.0" fitWidth="752.0" layoutX="-9.0" layoutY="0.0">
+      <Image url="@Foto/SfondoLogin.png" />
+   </ImageView>
+   
+   <!-- Linea verticale divisoria -->
+   <Line endX="0.0" endY="700.0" layoutX="745.0" startX="0.0" startY="0.0" style="-fx-stroke: rgba(0, 0, 0, 0.26);" />
+   
+   <!-- Logo MeteoGusto -->
+   <ImageView fitHeight="196.0" fitWidth="271.0" layoutX="861.0" layoutY="94.0" preserveRatio="true">
+      <Image url="@Foto/LogoMeteoGusto.png" />
+   </ImageView>
+   
+   <!-- Titolo Benvenuto -->
+   <Label alignment="CENTER" layoutX="748.0" layoutY="337.0" prefHeight="60.0" prefWidth="499.0" text="Come desideri registrarti ? " textAlignment="CENTER">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Label>
+   
+   <!-- Bottone Login -->
+   <Button fx:id="Utente" layoutX="894.0" layoutY="425.0" onAction="#clickUtente" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Utente">
+      <font>
+         <Font name="Roboto" size="18.0" />
+      </font>
+      <textFill>
+         <Color>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <opacity>1.0</opacity>
+         </Color>
+      </textFill>
+   </Button>
+   <Button fx:id="Ristoratore" layoutX="894.0" layoutY="498.0" onAction="#clickRistoratore" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Ristoratore">
+      <font>
+         <Font name="Roboto" size="18.0" />
+      </font>
+      <textFill>
+         <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
+      </textFill>
+   </Button>
+   <Label fx:id="tornaAlLogin" layoutX="805.0" layoutY="6.0" onMouseClicked="#clickRitornaAlLogin" prefHeight="48.0" prefWidth="258.0" text="Torna al login">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <ImageView fx:id="immagineTornaAlLogin" fitHeight="34.0" fitWidth="38.0" layoutX="774.0" layoutY="12.0" onMouseClicked="#clickRitornaAlLogin" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@Foto/TornaIndietro.png" />
+      </image>
+   </ImageView>
+
+</AnchorPane>
