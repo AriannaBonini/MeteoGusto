@@ -37,8 +37,8 @@ public class RistoranteBean {
     }
 
     private void validaNome(String nome) throws ValidazioneException {
-        if (!nome.matches("^[a-zA-Zàèéìòùçñ']+$")) {
-            throw new ValidazioneException("Il nome può contenere solo lettere (senza spazi)");
+        if (!nome.matches("^[a-zA-Zàèéìòùçñ'\\s]+$")) {
+            throw new ValidazioneException("Il nome può contenere solo lettere e spazi");
         }
     }
 

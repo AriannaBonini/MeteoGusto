@@ -3,22 +3,22 @@ package com.example.meteo_gusto.bean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 
 public class RegistrazioneUtenteBean {
-    private PersonaBean utente;
+    private PersonaBean persona;
     private final boolean maggiorenne;
     private final boolean accettaTermini;
 
     /* COSTRUTTORE CON PARAMETRI */
-    public RegistrazioneUtenteBean(PersonaBean utente, boolean maggiorenne, boolean accettaTermini) throws ValidazioneException {
+    public RegistrazioneUtenteBean(PersonaBean persona, boolean maggiorenne, boolean accettaTermini) throws ValidazioneException {
         validaCondizioni(maggiorenne, accettaTermini);
 
-        this.utente=utente;
+        this.persona = persona;
         this.maggiorenne = maggiorenne;
         this.accettaTermini = accettaTermini;
     }
 
     /* GETTER - SOLO LETTURA */
-    public PersonaBean getUtente() {return utente;}
-    public void setUtente(PersonaBean utente) {this.utente = utente;}
+    public PersonaBean getPersona() {return persona;}
+    public void setPersona(PersonaBean persona) {this.persona = persona;}
 
 
     /* METODI PRIVATI DI VALIDAZIONE */

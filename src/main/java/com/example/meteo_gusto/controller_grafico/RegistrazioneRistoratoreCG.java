@@ -146,15 +146,18 @@ public class RegistrazioneRistoratoreCG {
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
+            PersonaBean personaBean= new PersonaBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim());
+            RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean(personaBean,checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
 
-            RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim(),checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
-            OrariBean orariBean = new OrariBean(parse(inizioPranzo.getText(), formatoOrario), parse(finePranzo.getText(), formatoOrario), parse(inizioCena.getText(), formatoOrario), parse(fineCena.getText(), formatoOrario), giorniChiusura());
             PosizioneBean posizioneBean= new PosizioneBean(campoIndirizzo.getText(),campoCitta.getText(), campoCap.getText());
-            OffertaCulinariaBean offertaCulinariaBean= new OffertaCulinariaBean(comboBoxCucina.getValue(), dietaOffertaDalRistorante(),comboBoxPrezzo.getValue());
-            AmbienteECopertiBean ambienteECopertiBean= ambienteECopertiDelRistorante();
+            OrariBean orariBean = new OrariBean(parse(inizioPranzo.getText(), formatoOrario), parse(finePranzo.getText(), formatoOrario), parse(inizioCena.getText(), formatoOrario), parse(fineCena.getText(), formatoOrario));
+            OffertaCulinariaBean offertaCulinariaBean= new OffertaCulinariaBean(comboBoxCucina.getValue(),comboBoxPrezzo.getValue());
 
-            RistoranteBean ristoranteBean= new RistoranteBean(campoPartitaIva.getText(),campoNomeRistorante.getText(),campoTelefonoRistorante.getText(), orariBean, ambienteECopertiBean,offertaCulinariaBean,posizioneBean);
-            RegistrazioneRistoratoreBean registrazioneRistoratoreBean= new RegistrazioneRistoratoreBean(registrazioneUtenteBean,ristoranteBean);
+            RistoranteBean ristoranteBean= new RistoranteBean(campoPartitaIva.getText(),campoNomeRistorante.getText(),campoTelefonoRistorante.getText(),orariBean, offertaCulinariaBean, posizioneBean);
+
+
+
+            RegistrazioneRistoratoreBean registrazioneRistoratoreBean= new RegistrazioneRistoratoreBean(registrazioneUtenteBean,ristoranteBean,giorniChiusura(),dietaOffertaDalRistorante(),ambienteECopertiDelRistorante(),extraDelRistorante());
 
             registrazioneController.registraRistoratore(registrazioneRistoratoreBean);
 
@@ -171,7 +174,7 @@ public class RegistrazioneRistoratoreCG {
 
 
     private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
-        String testoIniziale = infoErrore.getText();
+        String testoIniziale = "Completa tutti i moduli per finalizzare la registrazione.";
         infoErrore.setText(messaggio);
 
         PauseTransition pausa = new PauseTransition(Duration.seconds(3));
@@ -207,9 +210,8 @@ public class RegistrazioneRistoratoreCG {
         return dietaSelezionata;
     }
 
-    private AmbienteECopertiBean ambienteECopertiDelRistorante() throws ValidazioneException {
+    private Map<TipoAmbiente, Integer> ambienteECopertiDelRistorante() {
         Map<TipoAmbiente, Integer> copertiMap = new HashMap<>();
-        Set<Extra> extraSelezionati = new HashSet<>();
 
         if (checkBoxInterno.isSelected()) {
             String testo = campoCopertiInterni.getText();
@@ -223,17 +225,7 @@ public class RegistrazioneRistoratoreCG {
             copertiMap.put(TipoAmbiente.ESTERNO, coperti);
         }
 
-        if (checkBoxEsternoCoperto.isSelected()) {
-            String testo = campoCopertiEsterniCoperti.getText();
-            Integer coperti = parseCoperti(testo);
-            copertiMap.put(TipoAmbiente.ESTERNO_COPERTO, coperti);
-        }
-
-        if (checkBoxRaffreddamento.isSelected()) extraSelezionati.add(Extra.RAFFREDDAMENTO);
-        if (checkBoxRiscaldamento.isSelected()) extraSelezionati.add(Extra.RISCALDAMENTO);
-
-
-        return new AmbienteECopertiBean(copertiMap,extraSelezionati);
+        return copertiMap;
     }
 
     private Integer parseCoperti(String testo) {
@@ -247,6 +239,24 @@ public class RegistrazioneRistoratoreCG {
         }
     }
 
+    private AmbienteSpecialeDisponibileBean extraDelRistorante() throws ValidazioneException {
+        Set<Extra> extraSelezionati = new HashSet<>();
+
+        if (checkBoxEsternoCoperto.isSelected()) {
+            if (checkBoxRaffreddamento.isSelected()) extraSelezionati.add(Extra.RAFFREDDAMENTO);
+            if (checkBoxRiscaldamento.isSelected()) extraSelezionati.add(Extra.RISCALDAMENTO);
+
+            Integer numeroCoperti = Integer.parseInt(campoCopertiEsterniCoperti.getText());
+
+            return new AmbienteSpecialeDisponibileBean(
+                    extraSelezionati,
+                    TipoAmbienteConExtra.ESTERNO_COPERTO,
+                    numeroCoperti
+            );
+        }
+
+        return null;
+    }
 
     @FXML
     private void clickRitornaAlLogin(MouseEvent evento) {

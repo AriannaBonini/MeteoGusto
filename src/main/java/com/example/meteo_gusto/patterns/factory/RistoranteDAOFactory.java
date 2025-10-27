@@ -1,6 +1,5 @@
 package com.example.meteo_gusto.patterns.factory;
 
-import com.example.meteo_gusto.dao.PersonaDAO;
 import com.example.meteo_gusto.dao.RistoranteDAO;
 import com.example.meteo_gusto.dao.memoria.RistoranteDAOMemoria;
 import com.example.meteo_gusto.dao.mysql.RistoranteDAOMySql;
@@ -15,6 +14,6 @@ public class RistoranteDAOFactory {
         };
     }
 
-    public PersonaDAO creaRistoranteDAOMYSQL(){return new RistoranteDAOMySql();}
-    public PersonaDAO creaRistoranteDAOMEMORIA(){return new RistoranteDAOMemoria();}
+    public RistoranteDAO creaRistoranteDAOMYSQL(){return new RistoranteDAOMySql();}
+    public RistoranteDAO creaRistoranteDAOMEMORIA(){return new RistoranteDAOMemoria();}
 }

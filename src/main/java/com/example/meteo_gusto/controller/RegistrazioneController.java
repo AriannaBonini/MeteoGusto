@@ -1,62 +1,111 @@
 package com.example.meteo_gusto.controller;
 
-import com.example.meteo_gusto.bean.RegistrazioneRistoratoreBean;
-import com.example.meteo_gusto.bean.RegistrazioneUtenteBean;
-import com.example.meteo_gusto.dao.PersonaDAO;
-import com.example.meteo_gusto.dao.RistoranteDAO;
+import com.example.meteo_gusto.bean.*;
+import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 import com.example.meteo_gusto.model.*;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
+import com.example.meteo_gusto.utilities.convertitore.ConvertitoreBeanModel;
 
 public class RegistrazioneController {
 
     private static final DAOFactoryFacade daoFactoryFacade= DAOFactoryFacade.getInstance();
     private static final PersonaDAO personaDAO= daoFactoryFacade.getPersonaDAO();
-    private static final RistoranteDAO ristoranteDAO= daoFactoryFacade.getRistoranteDAO();
+
 
     public void registraUtente(RegistrazioneUtenteBean registrazioneUtenteBean) throws EccezioneDAO{
         try {
-            Persona utente= new Persona(registrazioneUtenteBean.getNome(),
-                registrazioneUtenteBean.getCognome(),
-                registrazioneUtenteBean.getTelefono(),
-                registrazioneUtenteBean.getEmail(),
-                registrazioneUtenteBean.getPassword(), TipoPersona.UTENTE
-            );
+            Persona utente = ConvertitoreBeanModel.personaBeanInModel(registrazioneUtenteBean.getPersona(), TipoPersona.UTENTE);
 
-            personaDAO.registraUtente(utente);
+            personaDAO.registraPersona(utente);
 
         }catch (EccezioneDAO e) {
             throw new EccezioneDAO("Errore durante la registrazione dell'utente",e);
         }
     }
 
-    public void registraRistoratore(RegistrazioneRistoratoreBean registrazioneRistoratoreBean) throws EccezioneDAO{
+    public void registraRistoratore(RegistrazioneRistoratoreBean registrazioneRistoratoreBean) throws EccezioneDAO, ValidazioneException {
         try {
-            registraUtente(registrazioneRistoratoreBean.getDatiRistoratore());
+
+            RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
+            GiorniChiusuraDAO giorniChiusuraDAO = daoFactoryFacade.getGiorniChiusuraDAO();
+            DietaDAO dietaDAO = daoFactoryFacade.getDietaDAO();
+            DisponibilitaDAO disponibilitaDAO = daoFactoryFacade.getDisponibilitaDAO();
 
 
-            Orari orari = new Orari(registrazioneRistoratoreBean.getDatiRistorante().getOrari().getInizioPranzo(),registrazioneRistoratoreBean.getDatiRistorante().getOrari().getFinePranzo(),
-                    registrazioneRistoratoreBean.getDatiRistorante().getOrari().getInizioCena(),registrazioneRistoratoreBean.getDatiRistorante().getOrari().getFineCena());
+            Persona proprietarioRistorante = ConvertitoreBeanModel.personaBeanInModel(
+                    registrazioneRistoratoreBean.getProprietarioRistorante().getPersona(),
+                    TipoPersona.RISTORATORE
+            );
 
-            Posizione posizione= new Posizione(registrazioneRistoratoreBean.getDatiRistorante().getPosizioneRistorante().getIndirizzoCompleto(),registrazioneRistoratoreBean.getDatiRistorante().getPosizioneRistorante().getCitta(),registrazioneRistoratoreBean.getDatiRistorante().getPosizioneRistorante().getCap());
+            Ristorante ristorante = ConvertitoreBeanModel.ristoranteBeanInModel(
+                    registrazioneRistoratoreBean.getRistorante(),
+                    proprietarioRistorante
+            );
 
-            OffertaCulinaria offertaCulinaria= new OffertaCulinaria(registrazioneRistoratoreBean.getDatiRistorante().getOffertaCulinaria().getCucina(),registrazioneRistoratoreBean.getDatiRistorante().getOffertaCulinaria().getFasciaPrezzo());
+            GiorniChiusura giorniChiusura = ConvertitoreBeanModel.giorniChiusuraBeanInModel(
+                    new GiorniChiusuraBean(
+                            registrazioneRistoratoreBean.getRistorante(),
+                            registrazioneRistoratoreBean.getGiorniChiusura()
+                    ),
+                    proprietarioRistorante
+            );
 
-            Ristorante ristorante= new Ristorante(registrazioneRistoratoreBean.getDatiRistorante().getPartitaIVA(),
-                    registrazioneRistoratoreBean.getDatiRistorante().getNome(), registrazioneRistoratoreBean.getDatiRistorante().getTelefono(),
-                    orari, offertaCulinaria, posizione);
+            Dieta dieta = ConvertitoreBeanModel.dietaBeanInModel(
+                    new DietaBean(
+                            registrazioneRistoratoreBean.getRistorante(),
+                            registrazioneRistoratoreBean.getDieta()
+                    ),
+                    proprietarioRistorante
+            );
+
+            AmbienteDisponibile ambienteDisponibile = creaAmbienteDisponibile(
+                    registrazioneRistoratoreBean,
+                    proprietarioRistorante
+            );
 
 
-            AmbienteECoperti ambienteECoperti= new AmbienteECoperti(registrazioneRistoratoreBean.getDatiRistorante().getAmbienteECoperti().getAmbienteECopertiRistorante(),registrazioneRistoratoreBean.getDatiRistorante().getAmbienteECoperti().getExtra());
-
-
-
-
+            personaDAO.registraPersona(proprietarioRistorante);
             ristoranteDAO.registraRistorante(ristorante);
+            giorniChiusuraDAO.registraGiorniChiusuraRistorante(giorniChiusura);
+            dietaDAO.registraDieta(dieta);
+            disponibilitaDAO.registraDisponibilita(ambienteDisponibile);
 
-        }catch (EccezioneDAO e) {
-            throw new EccezioneDAO("Errore durante la registrazione del ristoratore",e);
+        } catch (EccezioneDAO e) {
+            throw new EccezioneDAO("Errore durante la registrazione del ristoratore", e);
         }
     }
+
+
+    private AmbienteDisponibile creaAmbienteDisponibile(RegistrazioneRistoratoreBean registrazioneRistoratoreBean, Persona proprietarioRistorante) throws ValidazioneException {
+        AmbienteSpecialeDisponibileBean ambienteSpecialeBean = creaAmbienteSpecialeBean(
+                registrazioneRistoratoreBean.getAmbienteSpecialeDisponibileBean()
+        );
+
+        AmbienteDisponibileBean ambienteDisponibileBean = new AmbienteDisponibileBean(
+                registrazioneRistoratoreBean.getRistorante(),
+                registrazioneRistoratoreBean.getDisponibilita(),
+                ambienteSpecialeBean
+        );
+
+        return ConvertitoreBeanModel.disponibilitaBeanInModel(
+                ambienteDisponibileBean,
+                proprietarioRistorante
+        );
+    }
+
+    private AmbienteSpecialeDisponibileBean creaAmbienteSpecialeBean(AmbienteSpecialeDisponibileBean bean) throws ValidazioneException {
+        if (bean == null) return null;
+
+        return new AmbienteSpecialeDisponibileBean(
+                bean.getExtra(),
+                bean.getTipoAmbienteConExtra(),
+                bean.getNumeroCoperti()
+        );
+    }
+
+
+
 }

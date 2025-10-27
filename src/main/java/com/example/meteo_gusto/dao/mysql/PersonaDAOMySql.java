@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
 
     @Override
-    public void registraUtente(Persona utente) throws EccezioneDAO{
+    public void registraPersona(Persona utente) throws EccezioneDAO{
         try {
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
             try (Connection conn = gestoreConn.creaConnessione();
@@ -36,6 +36,7 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
             throw new EccezioneDAO("Errore durante la registrazione dell'utente", e);
         }
     }
+
 
 
 

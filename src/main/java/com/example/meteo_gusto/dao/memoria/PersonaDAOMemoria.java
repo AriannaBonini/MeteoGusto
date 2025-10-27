@@ -8,7 +8,7 @@ import com.example.meteo_gusto.model.Persona;
 public class PersonaDAOMemoria implements PersonaDAO {
 
     @Override
-    public void registraUtente(Persona utente) throws EccezioneDAO {
+    public void registraPersona(Persona utente) throws EccezioneDAO {
     }
 
 

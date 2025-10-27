@@ -4,31 +4,32 @@ package com.example.meteo_gusto.utilities.convertitore;
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 import com.example.meteo_gusto.model.*;
-
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class ConvertitoreBeanModel {
 
     private ConvertitoreBeanModel(){/* COSTRUTTORE SENZA PARAMETRI*/}
-    public static Dieta dietaBeanInModel(DietaBean dieta, Persona proprietario) {
-        if (dieta == null) return null;
+    public static Dieta dietaBeanInModel(DietaBean bean,Persona proprietario) {
+        if (bean == null) return null;
 
-        Ristorante ristorante = ristoranteBeanInModel(dieta.getRistorante(),proprietario);
+        Ristorante ristorante = ristoranteBeanInModel(bean.getRistorante(), proprietario);
 
         return new Dieta(
                 ristorante,
-                dieta.getDieta() != null ? new HashSet<>(dieta.getDieta()) : new HashSet<>()
+                bean.getDieta() != null ? new HashSet<>(bean.getDieta()) : new HashSet<>()
         );
     }
 
-    public static GiorniChiusura giorniChiusuraBeanInModel(GiorniChiusuraBean giorniChiusuraBean, Persona proprietario) {
-        if (giorniChiusuraBean == null) return null;
 
-        Ristorante ristorante = ristoranteBeanInModel(giorniChiusuraBean.getRistorante(),proprietario);
+    public static GiorniChiusura giorniChiusuraBeanInModel(GiorniChiusuraBean bean, Persona proprietario) {
+        if (bean == null) return null;
+
+        Ristorante ristorante = ristoranteBeanInModel(bean.getRistorante(), proprietario);
 
         return new GiorniChiusura(
                 ristorante,
-                giorniChiusuraBean.getGiorniChiusura() != null ? new HashSet<>(giorniChiusuraBean.getGiorniChiusura()) : new HashSet<>()
+                bean.getGiorniChiusura() != null ? new HashSet<>(bean.getGiorniChiusura()) : new HashSet<>()
         );
     }
 
@@ -89,5 +90,30 @@ public class ConvertitoreBeanModel {
         );
     }
 
+    public static AmbienteDisponibile disponibilitaBeanInModel(AmbienteDisponibileBean ambienteDisponibileBean, Persona proprietario) {
+        if (ambienteDisponibileBean == null) return null;
+
+        Ristorante ristorante = ristoranteBeanInModel(ambienteDisponibileBean.getRistorante(), proprietario);
+
+        AmbienteSpecialeDisponibile ambienteSpeciale = ambienteDisponibileBean.getAmbienteSpecialeDisponibile() != null
+                ? ambienteSpecialeBeanInModel(ambienteDisponibileBean.getAmbienteSpecialeDisponibile())
+                : null;
+
+        return new AmbienteDisponibile(
+                ambienteDisponibileBean.getAmbienteDisponibile() != null ? new HashMap<>(ambienteDisponibileBean.getAmbienteDisponibile()) : new HashMap<>(),
+                ristorante,
+                ambienteSpeciale
+        );
+    }
+
+    public static AmbienteSpecialeDisponibile ambienteSpecialeBeanInModel(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean) {
+        if (ambienteSpecialeDisponibileBean == null) return null;
+
+        return new AmbienteSpecialeDisponibile(
+                ambienteSpecialeDisponibileBean.getExtra() != null ? new HashSet<>(ambienteSpecialeDisponibileBean.getExtra()) : new HashSet<>(),
+                ambienteSpecialeDisponibileBean.getTipoAmbienteConExtra(),
+                ambienteSpecialeDisponibileBean.getNumeroCoperti()
+        );
+    }
 
 }

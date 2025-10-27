@@ -1,5 +1,6 @@
 package com.example.meteo_gusto.controller_grafico;
 
+import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.RegistrazioneUtenteBean;
 import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
@@ -40,7 +41,8 @@ public class RegistrazioneUtenteCG {
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim(),checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
+            PersonaBean utenteBean= new PersonaBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim());
+            RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean(utenteBean,checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
 
             registrazioneController.registraUtente(registrazioneUtenteBean);
 

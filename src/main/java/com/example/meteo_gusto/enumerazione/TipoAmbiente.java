@@ -2,12 +2,9 @@ package com.example.meteo_gusto.enumerazione;
 
 public enum TipoAmbiente {
     INTERNO("interno"),
-    ESTERNO("esterno"),
-    ESTERNO_COPERTO("esterno_coperto");
-    private final String id;
+    ESTERNO("esterno");
 
-    TipoAmbiente(String id) {
-        this.id = id;
-    }
+    private final String id;
+    TipoAmbiente(String id) {this.id = id;}
     public String getId() {return id;}
 }

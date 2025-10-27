@@ -15,6 +15,7 @@ public class OrariBean {
     public OrariBean(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena) throws ValidazioneException  {
         validaOrario(inizioPranzo, finePranzo, "pranzo");
         validaOrario(inizioCena, fineCena, "cena");
+        validaOrariPranzoCena(inizioPranzo,finePranzo,inizioCena,fineCena);
 
         this.inizioPranzo=inizioPranzo;
         this.finePranzo= finePranzo;
@@ -42,6 +43,19 @@ public class OrariBean {
             throw new ValidazioneException("L'orario di inizio " + tipo + " deve essere prima dell'orario di fine");
         }
     }
+
+    private void validaOrariPranzoCena(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena) throws ValidazioneException {
+        if (!inizioPranzo.isBefore(finePranzo)) {
+            throw new ValidazioneException("L'orario di inizio pranzo deve essere prima dell'orario di fine pranzo");
+        }
+        if (!inizioCena.isBefore(fineCena)) {
+            throw new ValidazioneException("L'orario di inizio cena deve essere prima dell'orario di fine cena");
+        }
+        if (!finePranzo.isBefore(inizioCena)) {
+            throw new ValidazioneException("L'orario di inizio cena deve essere dopo la fine del pranzo");
+        }
+    }
+
 
 
 

@@ -3,33 +3,39 @@ package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.Extra;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
+import com.example.meteo_gusto.enumerazione.TipoAmbienteConExtra;
 import com.example.meteo_gusto.model.*;
-
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ConvertitoreModelBean {
 
     private ConvertitoreModelBean() {/* COSTRUTTORE SENZA PARAMETRI*/}
 
-    public static DietaBean dietaModelInBean(Dieta dieta) throws ValidazioneException {
-        if (dieta == null) return null;
+    public static DietaBean dietaModelInBean(Dieta model) throws ValidazioneException {
+        if (model == null) return null;
 
-        RistoranteBean ristoranteBean = ristoranteModelInBean(dieta.getRistorante());
+        RistoranteBean ristoranteBean = ristoranteModelInBean(model.getRistorante());
 
         return new DietaBean(
                 ristoranteBean,
-                dieta.getDieta() != null ? new HashSet<>(dieta.getDieta()) : new HashSet<>()
+                model.getDieta() != null ? new HashSet<>(model.getDieta()) : new HashSet<>()
         );
     }
 
-    public static GiorniChiusuraBean giorniChiusuraModelInBean(GiorniChiusura giorniChiusura) throws ValidazioneException {
-        if (giorniChiusura == null) return null;
 
-        RistoranteBean ristoranteBean = ristoranteModelInBean(giorniChiusura.getRistorante());
+    public static GiorniChiusuraBean giorniChiusuraModelInBean(GiorniChiusura model) throws ValidazioneException {
+        if (model == null) return null;
+
+        RistoranteBean ristoranteBean = ristoranteModelInBean(model.getRistorante());
 
         return new GiorniChiusuraBean(
                 ristoranteBean,
-                giorniChiusura.getGiorniChiusura() != null ? new HashSet<>(giorniChiusura.getGiorniChiusura()) : new HashSet<>()
+                model.getGiorniChiusura() != null ? new HashSet<>(model.getGiorniChiusura()) : new HashSet<>()
         );
     }
 
@@ -87,5 +93,36 @@ public class ConvertitoreModelBean {
                 posizioneModelInBean(ristorante.getPosizione())
         );
     }
+
+    public static AmbienteDisponibileBean disponibilitaModelInBean(AmbienteDisponibile ambienteDisponibile) throws ValidazioneException {
+        if (ambienteDisponibile == null) return null;
+
+        RistoranteBean ristoranteBean = ristoranteModelInBean(ambienteDisponibile.getRistorante());
+        Map<TipoAmbiente, Integer> ambienteDisponibileMap = ambienteDisponibile.getAmbienteDisponibile() != null
+                ? new HashMap<>(ambienteDisponibile.getAmbienteDisponibile())
+                : new HashMap<>();
+        AmbienteSpecialeDisponibileBean ambienteSpecialeBean = ambienteDisponibile.getAmbienteSpecialeDisponibile() != null
+                ? ambienteSpecialeModelInBean(ambienteDisponibile.getAmbienteSpecialeDisponibile())
+                : null;
+
+        return new AmbienteDisponibileBean(
+                ristoranteBean,
+                ambienteDisponibileMap,
+                ambienteSpecialeBean
+        );
+    }
+
+
+    public static AmbienteSpecialeDisponibileBean ambienteSpecialeModelInBean(AmbienteSpecialeDisponibile model) throws ValidazioneException {
+        if (model == null) return null;
+
+        Set<Extra> extra = model.getExtra() != null ? new HashSet<>(model.getExtra()) : new HashSet<>();
+        TipoAmbienteConExtra tipoAmbienteConExtra = model.getTipoAmbienteConExtra();
+        Integer numeroCoperti = model.getNumeroCoperti();
+
+        return new AmbienteSpecialeDisponibileBean(extra, tipoAmbienteConExtra, numeroCoperti);
+    }
+
+
 }
 
