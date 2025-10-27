@@ -4,6 +4,8 @@ import com.example.meteo_gusto.eccezione.ValidazioneException;
 
 import java.time.LocalTime;
 
+import java.time.LocalTime;
+
 public class OrariBean {
 
     private LocalTime inizioPranzo;
@@ -11,53 +13,58 @@ public class OrariBean {
     private LocalTime inizioCena;
     private LocalTime fineCena;
 
-    /* COSTRUTTORE CON PARAMETRI */
-    public OrariBean(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena) throws ValidazioneException  {
-        validaOrario(inizioPranzo, finePranzo, "pranzo");
-        validaOrario(inizioCena, fineCena, "cena");
-        validaOrariPranzoCena(inizioPranzo,finePranzo,inizioCena,fineCena);
+    public OrariBean() { /* COSTRUTTORE VUOTO */ }
 
-        this.inizioPranzo=inizioPranzo;
-        this.finePranzo= finePranzo;
-        this.inizioCena=inizioCena;
-        this.fineCena=fineCena;
+    /* SETTER CON VALIDAZIONE */
+    public void setInizioPranzo(LocalTime inizioPranzo) throws ValidazioneException {
+        if (inizioPranzo == null) {
+            throw new ValidazioneException("L'orario di inizio pranzo non può essere nullo.");
+        }
+        if (finePranzo != null && !inizioPranzo.isBefore(finePranzo)) {
+            throw new ValidazioneException("L'orario di inizio pranzo deve essere prima dell'orario di fine pranzo.");
+        }
+        this.inizioPranzo = inizioPranzo;
     }
 
-    /* METODI GETTER E SETTER */
-    public LocalTime getInizioPranzo() {return inizioPranzo;}
-    public void setInizioPranzo(LocalTime inizioPranzo) {this.inizioPranzo = inizioPranzo;}
-    public LocalTime getFinePranzo() {return finePranzo;}
-    public void setFinePranzo(LocalTime finePranzo) {this.finePranzo = finePranzo;}
-    public LocalTime getInizioCena() {return inizioCena;}
-    public void setInizioCena(LocalTime inizioCena) {this.inizioCena = inizioCena;}
-    public LocalTime getFineCena() {return fineCena;}
-    public void setFineCena(LocalTime fineCena) {this.fineCena = fineCena;}
-
-
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaOrario(LocalTime inizio, LocalTime fine, String tipo) throws ValidazioneException {
-        if (inizio == null || fine == null) {
-            throw new ValidazioneException("Gli orari di " + tipo + " non possono essere null");
+    public void setFinePranzo(LocalTime finePranzo) throws ValidazioneException {
+        if (finePranzo == null) {
+            throw new ValidazioneException("L'orario di fine pranzo non può essere nullo.");
         }
-        if (!inizio.isBefore(fine)) {
-            throw new ValidazioneException("L'orario di inizio " + tipo + " deve essere prima dell'orario di fine");
+        if (inizioPranzo != null && !inizioPranzo.isBefore(finePranzo)) {
+            throw new ValidazioneException("L'orario di fine pranzo deve essere dopo l'inizio pranzo.");
         }
+        if (inizioCena != null && !finePranzo.isBefore(inizioCena)) {
+            throw new ValidazioneException("La fine del pranzo deve essere prima dell'inizio della cena.");
+        }
+        this.finePranzo = finePranzo;
     }
 
-    private void validaOrariPranzoCena(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena) throws ValidazioneException {
-        if (!inizioPranzo.isBefore(finePranzo)) {
-            throw new ValidazioneException("L'orario di inizio pranzo deve essere prima dell'orario di fine pranzo");
+    public void setInizioCena(LocalTime inizioCena) throws ValidazioneException {
+        if (inizioCena == null) {
+            throw new ValidazioneException("L'orario di inizio cena non può essere nullo.");
         }
-        if (!inizioCena.isBefore(fineCena)) {
-            throw new ValidazioneException("L'orario di inizio cena deve essere prima dell'orario di fine cena");
+        if (finePranzo != null && !finePranzo.isBefore(inizioCena)) {
+            throw new ValidazioneException("L'inizio della cena deve essere dopo la fine del pranzo.");
         }
-        if (!finePranzo.isBefore(inizioCena)) {
-            throw new ValidazioneException("L'orario di inizio cena deve essere dopo la fine del pranzo");
+        if (fineCena != null && !inizioCena.isBefore(fineCena)) {
+            throw new ValidazioneException("L'orario di inizio cena deve essere prima dell'orario di fine cena.");
         }
+        this.inizioCena = inizioCena;
     }
 
+    public void setFineCena(LocalTime fineCena) throws ValidazioneException {
+        if (fineCena == null) {
+            throw new ValidazioneException("L'orario di fine cena non può essere nullo.");
+        }
+        if (inizioCena != null && !inizioCena.isBefore(fineCena)) {
+            throw new ValidazioneException("L'orario di fine cena deve essere dopo l'inizio cena.");
+        }
+        this.fineCena = fineCena;
+    }
 
-
-
-
+    /* GETTER */
+    public LocalTime getInizioPranzo() { return inizioPranzo; }
+    public LocalTime getFinePranzo() { return finePranzo; }
+    public LocalTime getInizioCena() { return inizioCena; }
+    public LocalTime getFineCena() { return fineCena; }
 }

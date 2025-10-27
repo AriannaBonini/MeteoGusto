@@ -27,8 +27,8 @@ public class DisponibilitaDAOMySql extends QuerySQLDisponibilitaDAO implements D
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(REGISTRA_DISPONIBILITA)) {
 
-                if (ambienteDisponibile.getAmbienteDisponibile() != null) {
-                    for (Map.Entry<TipoAmbiente, Integer> entry : ambienteDisponibile.getAmbienteDisponibile().entrySet()) {
+                if (ambienteDisponibile.getAmbienteECoperti() != null) {
+                    for (Map.Entry<TipoAmbiente, Integer> entry : ambienteDisponibile.getAmbienteECoperti().entrySet()) {
                         preparaRecord(ps, entry.getKey(), partitaIva, entry.getValue());
                     }
                 }

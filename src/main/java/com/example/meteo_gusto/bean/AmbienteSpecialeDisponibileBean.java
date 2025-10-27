@@ -10,35 +10,35 @@ public class AmbienteSpecialeDisponibileBean {
     private TipoAmbienteConExtra tipoAmbienteConExtra;
     private Integer numeroCoperti;
 
+    public AmbienteSpecialeDisponibileBean() { /* COSTRUTTORE VUOTO */}
 
-    /* COSTRUTTORE CON PARAMETRI */
-    public AmbienteSpecialeDisponibileBean(Set<Extra> extra, TipoAmbienteConExtra tipoAmbienteConExtra, Integer numeroCoperti) throws ValidazioneException{
-        validaCampi(tipoAmbienteConExtra,numeroCoperti);
+    /* SETTER CON VALIDAZIONE */
 
-        this.extra=extra;
-        this.tipoAmbienteConExtra=tipoAmbienteConExtra;
-        this.numeroCoperti=numeroCoperti;
+    public void setTipoAmbienteConExtra(TipoAmbienteConExtra tipoAmbienteConExtra) throws ValidazioneException {
+        if (tipoAmbienteConExtra == null && this.numeroCoperti != null) {
+            throw new ValidazioneException("Tipo ambiente non può essere nullo se sono stati specificati coperti");
+        }
+        this.tipoAmbienteConExtra = tipoAmbienteConExtra;
     }
 
-
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaCampi(TipoAmbienteConExtra tipoAmbienteConExtra, Integer numeroCoperti) throws ValidazioneException {
-        if(tipoAmbienteConExtra!=null) {
-            if(numeroCoperti==null) {
+    public void setNumeroCoperti(Integer numeroCoperti) throws ValidazioneException {
+        if (tipoAmbienteConExtra != null) {
+            if (numeroCoperti == null) {
                 throw new ValidazioneException("Numero di coperti non impostato per l'ambiente " + tipoAmbienteConExtra);
             }
-            if(numeroCoperti<=0) {
+            if (numeroCoperti <= 0) {
                 throw new ValidazioneException("Il numero di coperti deve essere maggiore di zero");
             }
         }
+        this.numeroCoperti = numeroCoperti;
     }
 
+    public void setExtra(Set<Extra> extra) {
+        this.extra = extra;
+    }
 
-    /* METODI GETTER E SETTER */
-    public Set<Extra> getExtra() {return extra;}
-    public void setExtra(Set<Extra> extra) {this.extra = extra;}
-    public TipoAmbienteConExtra getTipoAmbienteConExtra() {return tipoAmbienteConExtra;}
-    public void setTipoAmbienteConExtra(TipoAmbienteConExtra tipoAmbienteConExtra) {this.tipoAmbienteConExtra = tipoAmbienteConExtra;}
-    public Integer getNumeroCoperti() {return numeroCoperti;}
-    public void setNumeroCoperti(Integer numeroCoperti) {this.numeroCoperti = numeroCoperti;}
+    /* GETTER */
+    public Set<Extra> getExtra() { return extra; }
+    public TipoAmbienteConExtra getTipoAmbienteConExtra() { return tipoAmbienteConExtra; }
+    public Integer getNumeroCoperti() { return numeroCoperti; }
 }

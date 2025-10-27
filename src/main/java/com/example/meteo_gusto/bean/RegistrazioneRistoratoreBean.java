@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.bean;
 
 
-import com.example.meteo_gusto.enumerazione.Extra;
 import com.example.meteo_gusto.enumerazione.GiorniSettimana;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
@@ -15,18 +14,11 @@ public class RegistrazioneRistoratoreBean {
     private RistoranteBean ristorante;
     private Set<GiorniSettimana> giorniChiusura;
     private Set<TipoDieta> dieta;
-    private Map<TipoAmbiente, Integer> disponibilita;
-    private AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean;
+    private Map<TipoAmbiente, Integer> ambienteECoperti;
+    private AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile;
 
     /* COSTRUTTORI CON PARAMETRI */
-    public RegistrazioneRistoratoreBean( RegistrazioneUtenteBean proprietarioRistorante, RistoranteBean ristorante, Set<GiorniSettimana> giorniChiusura, Set<TipoDieta> dieta, Map<TipoAmbiente, Integer> disponibilita, AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean) {
-        this.proprietarioRistorante = proprietarioRistorante;
-        this.ristorante = ristorante;
-        this.giorniChiusura = giorniChiusura;
-        this.dieta = dieta;
-        this.disponibilita = disponibilita;
-        this.ambienteSpecialeDisponibileBean=ambienteSpecialeDisponibileBean;
-    }
+    public RegistrazioneRistoratoreBean() { /* COSTRUTTORE VUOTO */ }
 
     /* GETTER E SETTER */
     public RegistrazioneUtenteBean getProprietarioRistorante() {return proprietarioRistorante;}
@@ -37,9 +29,9 @@ public class RegistrazioneRistoratoreBean {
     public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
     public Set<TipoDieta> getDieta() {return dieta;}
     public void setDieta(Set<TipoDieta> dieta) {this.dieta = dieta;}
-    public Map<TipoAmbiente, Integer> getDisponibilita() {return disponibilita;}
-    public void setDisponibilita(Map<TipoAmbiente, Integer> disponibilita) {this.disponibilita = disponibilita;}
-    public AmbienteSpecialeDisponibileBean getAmbienteSpecialeDisponibileBean() {return ambienteSpecialeDisponibileBean;}
-    public void setAmbienteSpecialeDisponibileBean(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean) {this.ambienteSpecialeDisponibileBean = ambienteSpecialeDisponibileBean;}
+    public Map<TipoAmbiente, Integer> getAmbienteECoperti() {return ambienteECoperti;}
+    public void setAmbienteECoperti(Map<TipoAmbiente, Integer> ambienteECoperti) {this.ambienteECoperti = ambienteECoperti;}
+    public AmbienteSpecialeDisponibileBean getAmbienteSpecialeDisponibile() {return ambienteSpecialeDisponibile;}
+    public void setAmbienteSpecialeDisponibile(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) {this.ambienteSpecialeDisponibile = ambienteSpecialeDisponibile;}
 }
 

@@ -7,11 +7,7 @@ public class DietaBean {
     private RistoranteBean ristorante;
     private Set<TipoDieta> dieta;
 
-    /* COSTRUTTORI CON PARAMETRI */
-    public DietaBean(RistoranteBean ristorante, Set<TipoDieta> dieta) {
-        this.ristorante=ristorante;
-        this.dieta=dieta;
-    }
+    public DietaBean() { /* COSTRUTTORE VUOTO */ }
 
     /* METODI GETTER E SETTER */
     public RistoranteBean getRistorante() {return ristorante;}

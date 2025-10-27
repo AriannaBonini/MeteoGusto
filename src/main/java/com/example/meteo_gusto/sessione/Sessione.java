@@ -1,14 +1,22 @@
 package com.example.meteo_gusto.sessione;
 
-public abstract class Sessione {
-    private static boolean persistenza;
-    private static boolean versione;
+import com.example.meteo_gusto.model.Persona;
 
-    public static void setPersistenza(boolean tipoPersistenza) { persistenza = tipoPersistenza; }
-    public static void setVersione(boolean tipoVersione) { versione = tipoVersione; }
-    public static boolean getPersistenza() {return persistenza;}
-    public static boolean getVersione() {return versione;}
+public class Sessione {
+    private static Sessione instance;
+    private Persona persona;
 
-    public abstract void close();
+    private Sessione() {}
 
+    public static Sessione getInstance() {
+        if (instance == null) {
+            instance = new Sessione();
+        }
+        return instance;
+    }
+    public void login(Persona persona) {this.persona = persona;}
+    public Persona getPersona() {return persona;}
+    public void logout() {persona = null;}
+    public boolean tipoUtente() {return persona != null && persona.tipoUtente();}
+    public boolean tipoRistoratore() {return persona != null && persona.tipoRistoratore();}
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.PrenotaRistoranteFormInizialeCG">
+   <ImageView fitHeight="701.0" fitWidth="759.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="702.0" fitWidth="621.0" layoutX="632.0" pickOnBounds="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+   <TextField fx:id="inizioPranzo11" layoutX="244.0" layoutY="126.0" prefHeight="398.0" prefWidth="930.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: #e97627; -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+    
+    <!-- Immagini varie -->
+    <ImageView fx:id="meteogustoRemovebgPreview1" fitHeight="137.0" fitWidth="180.0" layoutX="11.0" layoutY="31.0" preserveRatio="true">
+      <image>
+         <Image url="@Foto/LogoMeteoGusto.png" />
+      </image></ImageView>
+    <ImageView fx:id="Esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
+      <image>
+         <Image url="@Foto/iconaEsciNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="ListaPrenotazioni" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="315.0" onMouseClicked="#clickListaPrenotazioni">
+      <image>
+         <Image url="@Foto/iconaPrenotazioniNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="PrenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
+      <image>
+         <Image url="@Foto/ClocheSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="ProfiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickProfiloPersonale">
+      <image>
+         <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+      </image></ImageView>
+   <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <DatePicker fx:id="campoData" layoutX="351.0" layoutY="272.0" prefHeight="46.0" prefWidth="217.0" promptText="GG/MM/AAAA" />
+   <Button fx:id="cerca" layoutX="599.0" layoutY="428.0" onMouseClicked="#clickCercaRistoranti" prefHeight="66.0" prefWidth="190.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Cerca">
+      <font>
+         <Font size="30.0" />
+      </font>
+      <textFill>
+         <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
+      </textFill>
+   </Button>
+   <TextField fx:id="campoOra" layoutX="351.0" layoutY="352.0" prefHeight="46.0" prefWidth="217.0" promptText="HH:mm" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <TextField fx:id="campoNumeroPersone" layoutX="898.0" layoutY="272.0" prefHeight="46.0" prefWidth="217.0" promptText="n° persone" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <Label layoutX="288.0" layoutY="277.0" text="Data:" textFill="#00000094" wrapText="true">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Label layoutX="288.0" layoutY="356.0" text="Ora:" textFill="#00000094" wrapText="true">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Label layoutX="700.0" layoutY="277.0" text="Numero Persone:" textFill="#00000094" wrapText="true">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="245.0" layoutY="140.0" prefHeight="58.0" prefWidth="926.0" text="Prenota il tuo tavolo in pochi secondi" textFill="#e97627">
+      <font>
+         <Font size="40.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="386.0" layoutY="193.0" prefHeight="34.0" prefWidth="651.0" text="Scegli la città, la data, l'ora e quante persone sarete" wrapText="true">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoCitta" layoutX="898.0" layoutY="352.0" prefHeight="46.0" prefWidth="217.0" promptText="Città" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <Label layoutX="819.0" layoutY="356.0" text="Città: " textFill="#00000094" wrapText="true">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <stylesheets>
+      <URL value="@comboBox.css" />
+      <URL value="@stili.css" />
+      <URL value="@datePicker.css" />
+   </stylesheets>
+
+</AnchorPane>

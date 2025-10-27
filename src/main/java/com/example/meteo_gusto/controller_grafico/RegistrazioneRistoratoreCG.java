@@ -20,10 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.time.LocalTime.*;
 
@@ -117,6 +114,7 @@ public class RegistrazioneRistoratoreCG {
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneRistoratoreCG.class.getName());
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
+    private TipoPersona tipoPersona;
 
     @FXML
     public void initialize() {
@@ -142,35 +140,77 @@ public class RegistrazioneRistoratoreCG {
 
     }
 
+    public void setTipoRegistrazione(TipoPersona tipoPersona) { this.tipoPersona=tipoPersona;}
+
 
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            PersonaBean personaBean= new PersonaBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim());
-            RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean(personaBean,checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
+            RegistrazioneUtenteBean registrazioneUtenteBean = creaRegistrazioneUtenteBean();
 
-            PosizioneBean posizioneBean= new PosizioneBean(campoIndirizzo.getText(),campoCitta.getText(), campoCap.getText());
-            OrariBean orariBean = new OrariBean(parse(inizioPranzo.getText(), formatoOrario), parse(finePranzo.getText(), formatoOrario), parse(inizioCena.getText(), formatoOrario), parse(fineCena.getText(), formatoOrario));
-            OffertaCulinariaBean offertaCulinariaBean= new OffertaCulinariaBean(comboBoxCucina.getValue(),comboBoxPrezzo.getValue());
+            PosizioneBean posizioneBean= new PosizioneBean();
+            posizioneBean.setIndirizzoCompleto(campoIndirizzo.getText());
+            posizioneBean.setCap(campoCap.getText());
+            posizioneBean.setCitta(campoCitta.getText());
 
-            RistoranteBean ristoranteBean= new RistoranteBean(campoPartitaIva.getText(),campoNomeRistorante.getText(),campoTelefonoRistorante.getText(),orariBean, offertaCulinariaBean, posizioneBean);
+            OrariBean orariBean = new OrariBean();
+            orariBean.setInizioPranzo(parse(inizioPranzo.getText(), formatoOrario));
+            orariBean.setFinePranzo(parse(finePranzo.getText(), formatoOrario));
+            orariBean.setInizioCena(parse(inizioCena.getText(), formatoOrario));
+            orariBean.setFineCena(parse(fineCena.getText(), formatoOrario));
+
+            OffertaCulinariaBean offertaCulinariaBean = new OffertaCulinariaBean();
+            offertaCulinariaBean.setCucina(comboBoxCucina.getValue());
+            offertaCulinariaBean.setFasciaPrezzo(comboBoxPrezzo.getValue());
+
+            RistoranteBean ristoranteBean= new RistoranteBean();
+            ristoranteBean.setPartitaIVA(campoPartitaIva.getText());
+            ristoranteBean.setNome(campoNomeRistorante.getText());
+            ristoranteBean.setTelefono(campoTelefonoRistorante.getText());
+            ristoranteBean.setOrari(orariBean);
+            ristoranteBean.setOffertaCulinaria(offertaCulinariaBean);
+            ristoranteBean.setPosizioneRistorante(posizioneBean);
+
+            RegistrazioneRistoratoreBean registrazioneRistoratoreBean= new RegistrazioneRistoratoreBean();
+            registrazioneRistoratoreBean.setProprietarioRistorante(registrazioneUtenteBean);
+            registrazioneRistoratoreBean.setRistorante(ristoranteBean);
+            registrazioneRistoratoreBean.setGiorniChiusura(giorniChiusura());
+            registrazioneRistoratoreBean.setDieta(dietaOffertaDalRistorante());
+            registrazioneRistoratoreBean.setAmbienteECoperti(ambienteECopertiDelRistorante());
+            registrazioneRistoratoreBean.setAmbienteSpecialeDisponibile(extraDelRistorante());
 
 
-
-            RegistrazioneRistoratoreBean registrazioneRistoratoreBean= new RegistrazioneRistoratoreBean(registrazioneUtenteBean,ristoranteBean,giorniChiusura(),dietaOffertaDalRistorante(),ambienteECopertiDelRistorante(),extraDelRistorante());
 
             registrazioneController.registraRistoratore(registrazioneRistoratoreBean);
 
-            GestoreScena.mostraAlertSenzaConferma("Successo","La registrazione è andata a buon fine ! ");
+            GestoreScena.mostraAlertSenzaConferma("Successo", "La registrazione è andata a buon fine!");
             GestoreScena.cambiaScena("/Login.fxml", evento);
 
-        }catch (ValidazioneException | EccezioneDAO e) {
+        } catch (ValidazioneException | EccezioneDAO e) {
             mostraErroreTemporaneamenteNellaLabel(e.getMessage());
             logger.error("Errore registrazione: ", e);
-        }catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             mostraErroreTemporaneamenteNellaLabel("Orario non valido. Usa il formato HH:mm");
         }
     }
+
+    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException {
+        PersonaBean personaBean = new PersonaBean();
+        personaBean.setEmail(campoEmail.getText().trim());
+        personaBean.setPassword(campoPassword.getText().trim());
+        personaBean.setNome(campoNome.getText().trim());
+        personaBean.setCognome(campoCognome.getText().trim());
+        personaBean.setTelefono(campoTelefono.getText().trim());
+        personaBean.setTipoPersona(tipoPersona);
+
+        RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean();
+        registrazioneUtenteBean.setPersona(personaBean);
+        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
+
+        return registrazioneUtenteBean;
+    }
+
 
 
     private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
@@ -211,7 +251,7 @@ public class RegistrazioneRistoratoreCG {
     }
 
     private Map<TipoAmbiente, Integer> ambienteECopertiDelRistorante() {
-        Map<TipoAmbiente, Integer> copertiMap = new HashMap<>();
+        Map<TipoAmbiente, Integer> copertiMap = new EnumMap<>(TipoAmbiente.class);
 
         if (checkBoxInterno.isSelected()) {
             String testo = campoCopertiInterni.getText();
@@ -227,6 +267,7 @@ public class RegistrazioneRistoratoreCG {
 
         return copertiMap;
     }
+
 
     private Integer parseCoperti(String testo) {
         if (testo == null || testo.trim().isEmpty()) {
@@ -248,11 +289,12 @@ public class RegistrazioneRistoratoreCG {
 
             Integer numeroCoperti = Integer.parseInt(campoCopertiEsterniCoperti.getText());
 
-            return new AmbienteSpecialeDisponibileBean(
-                    extraSelezionati,
-                    TipoAmbienteConExtra.ESTERNO_COPERTO,
-                    numeroCoperti
-            );
+            AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean= new AmbienteSpecialeDisponibileBean();
+            ambienteSpecialeDisponibileBean.setExtra(extraSelezionati);
+            ambienteSpecialeDisponibileBean.setTipoAmbienteConExtra(TipoAmbienteConExtra.ESTERNO_COPERTO);
+            ambienteSpecialeDisponibileBean.setNumeroCoperti(numeroCoperti);
+
+            return ambienteSpecialeDisponibileBean;
         }
 
         return null;

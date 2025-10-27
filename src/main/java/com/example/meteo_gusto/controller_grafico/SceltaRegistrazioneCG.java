@@ -1,5 +1,7 @@
 package com.example.meteo_gusto.controller_grafico;
 
+
+import com.example.meteo_gusto.enumerazione.TipoPersona;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
@@ -7,12 +9,10 @@ import javafx.scene.input.MouseEvent;
 public class SceltaRegistrazioneCG {
 
     @FXML
-    private void clickUtente(ActionEvent evento) {
-        GestoreScena.cambiaScena("/RegistrazioneUtente.fxml", evento);
-    }
+    private void clickUtente(ActionEvent evento) {GestoreScena.cambiaScenaConParametri("/RegistrazioneUtente.fxml", evento,(RegistrazioneUtenteCG controller) -> controller.setTipoRegistrazione(TipoPersona.UTENTE));}
 
     @FXML
-    private void clickRistoratore(ActionEvent evento) {GestoreScena.cambiaScena("/RegistrazioneRistoratore.fxml", evento);}
+    private void clickRistoratore(ActionEvent evento) {GestoreScena.cambiaScenaConParametri("/RegistrazioneRistoratore.fxml", evento, (RegistrazioneRistoratoreCG controller) -> controller.setTipoRegistrazione(TipoPersona.RISTORATORE));}
 
     @FXML
     private void clickRitornaAlLogin(MouseEvent evento) {

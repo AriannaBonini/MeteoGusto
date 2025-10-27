@@ -3,31 +3,39 @@ package com.example.meteo_gusto.bean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 
 public class RegistrazioneUtenteBean {
+
     private PersonaBean persona;
-    private final boolean maggiorenne;
-    private final boolean accettaTermini;
+    private boolean maggiorenne;
+    private boolean accettaTermini;
 
-    /* COSTRUTTORE CON PARAMETRI */
-    public RegistrazioneUtenteBean(PersonaBean persona, boolean maggiorenne, boolean accettaTermini) throws ValidazioneException {
-        validaCondizioni(maggiorenne, accettaTermini);
+    public RegistrazioneUtenteBean() {  /* COSTRUTTORE VUOTO */ }
 
+
+
+    /* SETTER CON VALIDAZIONE */
+    public void setPersona(PersonaBean persona) throws ValidazioneException {
+        if (persona == null) {
+            throw new ValidazioneException("I dati personali sono obbligatori per la registrazione.");
+        }
         this.persona = persona;
+    }
+
+    public void setMaggiorenne(boolean maggiorenne) throws ValidazioneException {
+        if (!maggiorenne) {
+            throw new ValidazioneException("È necessario essere maggiorenni per registrarsi.");
+        }
         this.maggiorenne = maggiorenne;
+    }
+
+    public void setAccettaTermini(boolean accettaTermini) throws ValidazioneException {
+        if (!accettaTermini) {
+            throw new ValidazioneException("È necessario accettare i termini e le condizioni.");
+        }
         this.accettaTermini = accettaTermini;
     }
 
-    /* GETTER - SOLO LETTURA */
-    public PersonaBean getPersona() {return persona;}
-    public void setPersona(PersonaBean persona) {this.persona = persona;}
-
-
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaCondizioni(boolean maggiorenne, boolean accettaTermini) throws ValidazioneException {
-        if (!maggiorenne) {
-            throw new ValidazioneException("È necessario essere maggiorenni per registrarsi");
-        }
-        if (!accettaTermini) {
-            throw new ValidazioneException("È necessario accettare i termini e condizioni");
-        }
-    }
+    /* GETTER */
+    public PersonaBean getPersona() { return persona; }
+    public boolean isMaggiorenne() { return maggiorenne; }
+    public boolean isAccettaTermini() { return accettaTermini; }
 }

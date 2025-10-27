@@ -1,0 +1,99 @@
+/* -------------------------
+   Stile personalizzato per DatePicker JavaFX
+   Campo grigio + pulsante calendario arancione
+   Testo della data nero, 20px
+   ------------------------- */
+
+/* Campo principale del DatePicker */
+.date-picker {
+    -fx-border-color: rgba(0, 0, 0, 0.26);
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-background-color: white;
+}
+
+/* Campo di testo interno (data mostrata) */
+.date-picker .text-field {
+    -fx-border-color: transparent;
+    -fx-background-color: white;
+    -fx-text-fill: #000000;     /* Testo nero */
+    -fx-font-size: 20px;        /* Dimensione 20px */
+    -fx-padding: 4px 8px;
+}
+
+/* Quando il DatePicker è in focus */
+.date-picker:focused,
+.date-picker .text-field:focused {
+    -fx-border-color: rgba(0, 0, 0, 0.45);
+}
+
+/* --- Pulsante del calendario (a destra) --- */
+.date-picker .arrow-button {
+    -fx-background-color: #e97627;      /* Pulsante arancione */
+    -fx-background-radius: 0 6px 6px 0;
+    -fx-border-radius: 0 6px 6px 0;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #cf611d;      /* Hover: arancione più scuro */
+}
+
+/* Icona della freccia */
+.date-picker .arrow {
+    -fx-background-color: white;        /* Icona bianca */
+}
+
+/* --- Popup del calendario --- */
+.date-picker-popup {
+    -fx-border-color: #e97627;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+/* Barra superiore con mese e anno */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #e97627;
+    -fx-text-fill: white;
+}
+
+/* Frecce per cambiare mese */
+.date-picker-popup > .month-year-pane .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+/* Testo mese e anno */
+.date-picker-popup > .month-year-pane .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Giorni della settimana */
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: #e97627;
+    -fx-font-weight: bold;
+}
+
+/* Giorni del mese */
+.date-picker-popup .cell {
+    -fx-text-fill: #333;
+}
+
+/* Giorno hover */
+.date-picker-popup .cell:hover {
+    -fx-background-color: #ffe3d1;
+    -fx-text-fill: #e97627;
+}
+
+/* Giorno selezionato */
+.date-picker-popup .selected {
+    -fx-background-color: #e97627;
+    -fx-text-fill: white;
+}
+
+/* Giorno di oggi */
+.date-picker-popup .today {
+    -fx-border-color: #e97627;
+    -fx-border-width: 1.5px;
+}

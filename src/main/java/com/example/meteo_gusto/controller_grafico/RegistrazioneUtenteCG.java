@@ -5,6 +5,7 @@ import com.example.meteo_gusto.bean.RegistrazioneUtenteBean;
 import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.TipoPersona;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -35,25 +36,44 @@ public class RegistrazioneUtenteCG {
 
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneUtenteCG.class.getName());
+    private TipoPersona tipoPersona;
 
+    public void setTipoRegistrazione(TipoPersona tipoPersona) { this.tipoPersona=tipoPersona;}
 
 
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            PersonaBean utenteBean= new PersonaBean(campoNome.getText().trim(),campoCognome.getText().trim(),campoTelefono.getText().trim(), campoEmail.getText().trim(), campoPassword.getText().trim());
-            RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean(utenteBean,checkBoxMaggiorenne.isSelected(),checkBoxTerminiPrivacy.isSelected());
+            RegistrazioneUtenteBean registrazioneUtenteBean = creaRegistrazioneUtenteBean();
 
             registrazioneController.registraUtente(registrazioneUtenteBean);
 
-            GestoreScena.mostraAlertSenzaConferma("Successo","La registrazione è andata a buon fine ! ");
+            GestoreScena.mostraAlertSenzaConferma("Successo", "La registrazione è andata a buon fine!");
             GestoreScena.cambiaScena("/Login.fxml", evento);
 
-        }catch (ValidazioneException | EccezioneDAO e) {
+        } catch (ValidazioneException | EccezioneDAO e) {
             infoErrore.setText(e.getMessage());
             logger.error("Errore registrazione: ", e);
         }
     }
+
+    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException {
+        PersonaBean personaBean = new PersonaBean();
+        personaBean.setNome(campoNome.getText().trim());
+        personaBean.setCognome(campoCognome.getText().trim());
+        personaBean.setTelefono(campoTelefono.getText().trim());
+        personaBean.setEmail(campoEmail.getText().trim());
+        personaBean.setPassword(campoPassword.getText().trim());
+        personaBean.setTipoPersona(tipoPersona);
+
+        RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean();
+        registrazioneUtenteBean.setPersona(personaBean);
+        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
+
+        return registrazioneUtenteBean;
+    }
+
 
 
     @FXML

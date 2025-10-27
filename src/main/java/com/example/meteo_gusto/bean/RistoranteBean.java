@@ -3,6 +3,7 @@ package com.example.meteo_gusto.bean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 
 public class RistoranteBean {
+
     private String partitaIVA;
     private String nome;
     private String telefono;
@@ -10,61 +11,67 @@ public class RistoranteBean {
     private OffertaCulinariaBean offertaCulinaria;
     private OrariBean orari;
 
-
-    /* COSTRUTTORE CON PARAMETRI */
-    public RistoranteBean(String partitaIVA, String nome, String telefono, OrariBean orari, OffertaCulinariaBean offertaCulinaria, PosizioneBean posizioneRistorante) throws ValidazioneException{
-        validaCampiNonVuoti(partitaIVA,nome,telefono);
-        validaNome(nome);
-        validaTelefono(telefono);
-        validaPartitaIVA(partitaIVA);
-
-        this.partitaIVA=partitaIVA;
-        this.nome=nome;
-        this.telefono=telefono;
-        this.orari = orari;
-        this.offertaCulinaria=offertaCulinaria;
-        this.posizioneRistorante=posizioneRistorante;
-    }
+    public RistoranteBean() { /* COSTRUTTORE VUOTO */ }
 
 
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaCampiNonVuoti(String partitaIVA, String nome, String telefono) throws ValidazioneException {
-        if (partitaIVA == null || partitaIVA.trim().isEmpty() ||
-                nome == null || nome.trim().isEmpty() ||
-                telefono == null || telefono.trim().isEmpty()) {
-            throw new ValidazioneException("Tutti i campi sono obbligatori");
+    /* SETTER CON VALIDAZIONE */
+
+    public void setPartitaIVA(String partitaIVA) throws ValidazioneException {
+        if (partitaIVA == null || partitaIVA.trim().isEmpty()) {
+            throw new ValidazioneException("La partita IVA non può essere vuota.");
         }
+        if (!partitaIVA.matches("^0\\d{10}$")) {
+            throw new ValidazioneException("La partita IVA deve contenere 11 cifre e iniziare con 0.");
+        }
+        this.partitaIVA = partitaIVA.trim();
     }
 
-    private void validaNome(String nome) throws ValidazioneException {
+    public void setNome(String nome) throws ValidazioneException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new ValidazioneException("Il nome del ristorante non può essere vuoto.");
+        }
         if (!nome.matches("^[a-zA-Zàèéìòùçñ'\\s]+$")) {
-            throw new ValidazioneException("Il nome può contenere solo lettere e spazi");
+            throw new ValidazioneException("Il nome può contenere solo lettere e spazi.");
         }
+        this.nome = nome.trim();
     }
 
-    private void validaTelefono(String telefono) throws ValidazioneException {
+    public void setTelefono(String telefono) throws ValidazioneException {
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new ValidazioneException("Il numero di telefono non può essere vuoto.");
+        }
         if (!telefono.matches("^\\d{10,15}$")) {
-            throw new ValidazioneException("Il telefono deve contenere solo numeri (10-15 cifre)");
+            throw new ValidazioneException("Il telefono deve contenere solo numeri (10-15 cifre).");
         }
+        this.telefono = telefono.trim();
     }
 
-    public static void validaPartitaIVA(String partitaIVA) throws ValidazioneException {
-        if (partitaIVA == null || !partitaIVA.matches("^0\\d{10}$")) {
-            throw new ValidazioneException("La partita IVA deve contenere 11 cifre e iniziare con 0");
+    public void setPosizioneRistorante(PosizioneBean posizioneRistorante) throws ValidazioneException {
+        if (posizioneRistorante == null) {
+            throw new ValidazioneException("La posizione del ristorante è obbligatoria.");
         }
+        this.posizioneRistorante = posizioneRistorante;
     }
 
-    /* METODI GETTER E SETTER */
-    public void setPartitaIVA(String partitaIVA) {this.partitaIVA = partitaIVA;}
-    public void setNome(String nome) {this.nome = nome;}
-    public void setTelefono(String telefono) {this.telefono = telefono;}
-    public OrariBean getOrari() {return orari;}
-    public void setOrari(OrariBean orari) {this.orari = orari;}
-    public PosizioneBean getPosizioneRistorante() {return posizioneRistorante;}
-    public void setPosizioneRistorante(PosizioneBean posizioneRistorante) {this.posizioneRistorante = posizioneRistorante;}
-    public OffertaCulinariaBean getOffertaCulinaria() {return offertaCulinaria;}
-    public void setOffertaCulinaria(OffertaCulinariaBean offertaCulinaria) {this.offertaCulinaria = offertaCulinaria;}
-    public String getPartitaIVA() {return partitaIVA;}
-    public String getNome() {return nome;}
-    public String getTelefono() {return telefono;}
+    public void setOffertaCulinaria(OffertaCulinariaBean offertaCulinaria) throws ValidazioneException {
+        if (offertaCulinaria == null) {
+            throw new ValidazioneException("L'offerta culinaria è obbligatoria.");
+        }
+        this.offertaCulinaria = offertaCulinaria;
+    }
+
+    public void setOrari(OrariBean orari) throws ValidazioneException {
+        if (orari == null) {
+            throw new ValidazioneException("Gli orari del ristorante sono obbligatori.");
+        }
+        this.orari = orari;
+    }
+
+    /* GETTER */
+    public String getPartitaIVA() { return partitaIVA; }
+    public String getNome() { return nome; }
+    public String getTelefono() { return telefono; }
+    public PosizioneBean getPosizioneRistorante() { return posizioneRistorante; }
+    public OffertaCulinariaBean getOffertaCulinaria() { return offertaCulinaria; }
+    public OrariBean getOrari() { return orari; }
 }

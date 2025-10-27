@@ -3,6 +3,7 @@ package com.example.meteo_gusto.bean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class AmbienteDisponibileBean {
@@ -12,44 +13,41 @@ public class AmbienteDisponibileBean {
     private AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile;
 
 
-    /* COSTRUTTORE CON PARAMETRI */
-    public AmbienteDisponibileBean(RistoranteBean ristorante, Map<TipoAmbiente, Integer> ambienteDisponibile, AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) throws ValidazioneException{
-        validaCampi(ambienteDisponibile, ambienteSpecialeDisponibile);
+    public AmbienteDisponibileBean() { /* COSTRUTTORE VUOTO */ }
 
-        this.ambienteDisponibile = ambienteDisponibile;
-        this.ristorante=ristorante;
-        this.ambienteSpecialeDisponibile=ambienteSpecialeDisponibile;
+
+    /* SETTER CON VALIDAZIONE */
+    public void setRistorante(RistoranteBean ristorante) throws ValidazioneException{
+        if (ristorante == null) {
+            throw new ValidazioneException("Il ristorante non può essere nullo.");
+        }
+        this.ristorante = ristorante;
     }
 
-
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaCampi(Map<TipoAmbiente, Integer> ambienteECopertiRistorante, AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) throws ValidazioneException {
-        boolean haAmbientiNormali = ambienteECopertiRistorante != null && !ambienteECopertiRistorante.isEmpty();
-        boolean haAmbienteSpeciale = ambienteSpecialeDisponibile != null;
-
-        if (!haAmbientiNormali && !haAmbienteSpeciale) {
-            throw new ValidazioneException("Deve esserci almeno un ambiente disponibile o un ambiente speciale disponibile");
+    public void setAmbienteDisponibile(Map<TipoAmbiente, Integer> ambienteDisponibile) throws ValidazioneException{
+        if ((ambienteDisponibile == null || ambienteDisponibile.isEmpty()) && this.ambienteSpecialeDisponibile == null) {
+            throw new ValidazioneException("Deve esserci almeno un ambiente disponibile o un ambiente speciale disponibile.");
         }
 
-        if (haAmbientiNormali) {
-            for (Map.Entry<TipoAmbiente, Integer> entry : ambienteECopertiRistorante.entrySet()) {
-                Integer numeroCoperti = entry.getValue();
-                if (numeroCoperti == null) {
-                    throw new ValidazioneException("Numero di coperti non impostato per l'ambiente " + entry.getKey());
-                }
-                if (numeroCoperti <= 0) {
-                    throw new ValidazioneException("Il numero di coperti per l'ambiente deve essere maggiore di zero");
-                }
+        for (Map.Entry<TipoAmbiente, Integer> entry : Objects.requireNonNull(ambienteDisponibile).entrySet()){
+            Integer numeroCoperti = entry.getValue();
+            if (numeroCoperti == null || numeroCoperti <= 0) {
+                throw new ValidazioneException("Il numero di coperti per l'ambiente " + entry.getKey() + " deve essere maggiore di zero.");
             }
         }
+
+        this.ambienteDisponibile = ambienteDisponibile;
     }
 
+    public void setAmbienteSpecialeDisponibile(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) throws ValidazioneException {
+        if ((this.ambienteDisponibile == null || this.ambienteDisponibile.isEmpty()) && ambienteSpecialeDisponibile == null) {
+            throw new ValidazioneException("Deve esserci almeno un ambiente disponibile o un ambiente speciale disponibile.");
+        }
+        this.ambienteSpecialeDisponibile = ambienteSpecialeDisponibile;
+    }
 
-    /* METODI GETTER E SETTER */
-    public Map<TipoAmbiente, Integer> getAmbienteDisponibile() {return ambienteDisponibile;}
-    public void setAmbienteDisponibile(Map<TipoAmbiente, Integer> ambienteDisponibile) {this.ambienteDisponibile = ambienteDisponibile;}
-    public RistoranteBean getRistorante() {return ristorante;}
-    public void setRistorante(RistoranteBean ristorante) {this.ristorante = ristorante;}
-    public AmbienteSpecialeDisponibileBean getAmbienteSpecialeDisponibile() {return ambienteSpecialeDisponibile;}
-    public void setAmbienteSpecialeDisponibile(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) {this.ambienteSpecialeDisponibile = ambienteSpecialeDisponibile;}
+    /* GETTER */
+    public Map<TipoAmbiente, Integer> getAmbienteDisponibile() { return ambienteDisponibile; }
+    public RistoranteBean getRistorante() { return ristorante; }
+    public AmbienteSpecialeDisponibileBean getAmbienteSpecialeDisponibile() { return ambienteSpecialeDisponibile; }
 }

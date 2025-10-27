@@ -8,7 +8,7 @@ public class Persona {
     private String telefono;
     private String email;
     private String password;
-    private final TipoPersona tipoPersona;
+    private TipoPersona tipoPersona;
 
     public Persona(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona) {
        this.nome=nome;
@@ -18,6 +18,13 @@ public class Persona {
        this.password=password;
        this.tipoPersona=tipoPersona;
     }
+
+    /* COSTRUTTORE PER IL LOGIN */
+    public Persona(String email, String password) {
+        this.email=email;
+        this.password=password;
+    }
+
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
     public  String getCognome() {return cognome;}
@@ -29,5 +36,12 @@ public class Persona {
     public  String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
     public TipoPersona getTipoPersona() {return tipoPersona;}
+
+
+    /* METODI DI LOGICA DI DOMINIO */
+    public boolean tipoUtente() {return tipoPersona==TipoPersona.UTENTE;}
+    public boolean tipoRistoratore() {return tipoPersona==TipoPersona.RISTORATORE;}
+
 }
+
 

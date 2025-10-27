@@ -9,31 +9,26 @@ public class OffertaCulinariaBean {
     private TipoCucina cucina;
     private FasciaPrezzoRistorante fasciaPrezzo;
 
-    /* COSTRUTTORI CON PARAMETRI */
-    public OffertaCulinariaBean(TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo) throws ValidazioneException{
-        validaCampoCucinaNonVuoto(cucina);
-        validaCampoPrezzoNonVuoto(fasciaPrezzo);
+    /* COSTRUTTORE VUOTO */
+    public OffertaCulinariaBean() { /* COSTRUTTORE VUOTO */ }
 
-        this.cucina=cucina;
-        this.fasciaPrezzo=fasciaPrezzo;
-    }
-
-    /* METODI GETTER E SETTER */
-    public TipoCucina getCucina() {return cucina;}
-    public void setCucina(TipoCucina cucina) {this.cucina = cucina;}
-    public FasciaPrezzoRistorante getFasciaPrezzo() {return fasciaPrezzo;}
-    public void setFasciaPrezzo(FasciaPrezzoRistorante fasciaPrezzo) {this.fasciaPrezzo = fasciaPrezzo;}
-
-
-    /* METODI PRIVATI DI VALIDAZIONE */
-    private void validaCampoCucinaNonVuoto(TipoCucina cucina) throws ValidazioneException {
-        if (cucina==null) {
-            throw new ValidazioneException("Il campo cucina è obbligatorio");
+    /* SETTER CON VALIDAZIONE */
+    public void setCucina(TipoCucina cucina) throws ValidazioneException {
+        if (cucina == null) {
+            throw new ValidazioneException("Il campo cucina è obbligatorio.");
         }
+        this.cucina = cucina;
     }
-    private void validaCampoPrezzoNonVuoto(FasciaPrezzoRistorante fasciaPrezzo) throws ValidazioneException {
-        if (fasciaPrezzo==null) {
-            throw new ValidazioneException("Il campo prezzo è obbligatorio");
+
+    public void setFasciaPrezzo(FasciaPrezzoRistorante fasciaPrezzo) throws ValidazioneException {
+        if (fasciaPrezzo == null) {
+            throw new ValidazioneException("Il campo prezzo è obbligatorio.");
         }
+        this.fasciaPrezzo = fasciaPrezzo;
     }
+
+    /* GETTER */
+    public TipoCucina getCucina() { return cucina; }
+    public FasciaPrezzoRistorante getFasciaPrezzo() { return fasciaPrezzo; }
 }
+

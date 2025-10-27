@@ -2,10 +2,13 @@ package com.example.meteo_gusto.utilities.convertitore;
 
 
 import com.example.meteo_gusto.bean.*;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 import com.example.meteo_gusto.model.*;
-import java.util.HashMap;
+
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class ConvertitoreBeanModel {
 
@@ -53,7 +56,7 @@ public class ConvertitoreBeanModel {
         );
     }
 
-    public static Persona personaBeanInModel(PersonaBean personaBean, TipoPersona tipoPersona) {
+    public static Persona personaBeanInModel(PersonaBean personaBean) {
         if (personaBean == null) return null;
 
         return new Persona(
@@ -62,7 +65,7 @@ public class ConvertitoreBeanModel {
                 personaBean.getTelefono(),
                 personaBean.getEmail(),
                 personaBean.getPassword(),
-                tipoPersona
+                personaBean.getTipoPersona()
         );
     }
 
@@ -99,12 +102,20 @@ public class ConvertitoreBeanModel {
                 ? ambienteSpecialeBeanInModel(ambienteDisponibileBean.getAmbienteSpecialeDisponibile())
                 : null;
 
+        EnumMap<TipoAmbiente, Integer> ambienteDisponibile = new EnumMap<>(TipoAmbiente.class);
+        Map<TipoAmbiente, Integer> sorgente = ambienteDisponibileBean.getAmbienteDisponibile();
+
+        if (sorgente != null) {
+            ambienteDisponibile.putAll(sorgente);
+        }
+
         return new AmbienteDisponibile(
-                ambienteDisponibileBean.getAmbienteDisponibile() != null ? new HashMap<>(ambienteDisponibileBean.getAmbienteDisponibile()) : new HashMap<>(),
+                ambienteDisponibile,
                 ristorante,
                 ambienteSpeciale
         );
     }
+
 
     public static AmbienteSpecialeDisponibile ambienteSpecialeBeanInModel(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean) {
         if (ambienteSpecialeDisponibileBean == null) return null;

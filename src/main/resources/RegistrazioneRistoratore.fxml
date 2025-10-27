@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -102,11 +103,6 @@
                            <Font size="23.0" />
                         </font>
                      </Label>
-                     <TextField fx:id="campoPassword" layoutX="136.0" layoutY="322.0" prefHeight="46.0" prefWidth="298.0" promptText="Inserisci la password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
-                        <font>
-                           <Font size="20.0" />
-                        </font>
-                     </TextField>
                      <Label layoutX="21.0" layoutY="227.0" text="Credenziali di accesso " textFill="#000000">
                         <font>
                            <Font size="26.0" />
@@ -460,5 +456,10 @@
          <Image url="@Foto/TornaIndietro.png" />
       </image>
    </ImageView>
+   <PasswordField fx:id="campoPassword1" layoutX="909.0" layoutY="513.0" prefHeight="46.0" prefWidth="298.0" promptText="Inserisci la password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </PasswordField>
 
 </AnchorPane>

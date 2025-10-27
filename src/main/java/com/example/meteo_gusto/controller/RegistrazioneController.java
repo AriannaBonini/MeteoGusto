@@ -17,7 +17,7 @@ public class RegistrazioneController {
 
     public void registraUtente(RegistrazioneUtenteBean registrazioneUtenteBean) throws EccezioneDAO{
         try {
-            Persona utente = ConvertitoreBeanModel.personaBeanInModel(registrazioneUtenteBean.getPersona(), TipoPersona.UTENTE);
+            Persona utente = ConvertitoreBeanModel.personaBeanInModel(registrazioneUtenteBean.getPersona());
 
             personaDAO.registraPersona(utente);
 
@@ -35,31 +35,21 @@ public class RegistrazioneController {
             DisponibilitaDAO disponibilitaDAO = daoFactoryFacade.getDisponibilitaDAO();
 
 
-            Persona proprietarioRistorante = ConvertitoreBeanModel.personaBeanInModel(
-                    registrazioneRistoratoreBean.getProprietarioRistorante().getPersona(),
-                    TipoPersona.RISTORATORE
-            );
+            Persona proprietarioRistorante = ConvertitoreBeanModel.personaBeanInModel(registrazioneRistoratoreBean.getProprietarioRistorante().getPersona());
 
-            Ristorante ristorante = ConvertitoreBeanModel.ristoranteBeanInModel(
-                    registrazioneRistoratoreBean.getRistorante(),
-                    proprietarioRistorante
-            );
+            Ristorante ristorante = ConvertitoreBeanModel.ristoranteBeanInModel(registrazioneRistoratoreBean.getRistorante(), proprietarioRistorante);
 
-            GiorniChiusura giorniChiusura = ConvertitoreBeanModel.giorniChiusuraBeanInModel(
-                    new GiorniChiusuraBean(
-                            registrazioneRistoratoreBean.getRistorante(),
-                            registrazioneRistoratoreBean.getGiorniChiusura()
-                    ),
-                    proprietarioRistorante
-            );
+            GiorniChiusuraBean giorniChiusuraBean= new GiorniChiusuraBean();
+            giorniChiusuraBean.setRistorante(registrazioneRistoratoreBean.getRistorante());
+            giorniChiusuraBean.setGiorniChiusura(registrazioneRistoratoreBean.getGiorniChiusura());
 
-            Dieta dieta = ConvertitoreBeanModel.dietaBeanInModel(
-                    new DietaBean(
-                            registrazioneRistoratoreBean.getRistorante(),
-                            registrazioneRistoratoreBean.getDieta()
-                    ),
-                    proprietarioRistorante
-            );
+            GiorniChiusura giorniChiusura = ConvertitoreBeanModel.giorniChiusuraBeanInModel(giorniChiusuraBean, proprietarioRistorante);
+
+            DietaBean dietaBean= new DietaBean();
+            dietaBean.setRistorante(registrazioneRistoratoreBean.getRistorante());
+            dietaBean.setDieta(registrazioneRistoratoreBean.getDieta());
+
+            Dieta dieta = ConvertitoreBeanModel.dietaBeanInModel(dietaBean, proprietarioRistorante);
 
             AmbienteDisponibile ambienteDisponibile = creaAmbienteDisponibile(
                     registrazioneRistoratoreBean,
@@ -81,14 +71,14 @@ public class RegistrazioneController {
 
     private AmbienteDisponibile creaAmbienteDisponibile(RegistrazioneRistoratoreBean registrazioneRistoratoreBean, Persona proprietarioRistorante) throws ValidazioneException {
         AmbienteSpecialeDisponibileBean ambienteSpecialeBean = creaAmbienteSpecialeBean(
-                registrazioneRistoratoreBean.getAmbienteSpecialeDisponibileBean()
+                registrazioneRistoratoreBean.getAmbienteSpecialeDisponibile()
         );
 
-        AmbienteDisponibileBean ambienteDisponibileBean = new AmbienteDisponibileBean(
-                registrazioneRistoratoreBean.getRistorante(),
-                registrazioneRistoratoreBean.getDisponibilita(),
-                ambienteSpecialeBean
-        );
+        AmbienteDisponibileBean ambienteDisponibileBean = new AmbienteDisponibileBean();
+        ambienteDisponibileBean.setRistorante(registrazioneRistoratoreBean.getRistorante());
+        ambienteDisponibileBean.setAmbienteDisponibile(registrazioneRistoratoreBean.getAmbienteECoperti());
+        ambienteDisponibileBean.setAmbienteSpecialeDisponibile(ambienteSpecialeBean);
+
 
         return ConvertitoreBeanModel.disponibilitaBeanInModel(
                 ambienteDisponibileBean,
@@ -99,11 +89,12 @@ public class RegistrazioneController {
     private AmbienteSpecialeDisponibileBean creaAmbienteSpecialeBean(AmbienteSpecialeDisponibileBean bean) throws ValidazioneException {
         if (bean == null) return null;
 
-        return new AmbienteSpecialeDisponibileBean(
-                bean.getExtra(),
-                bean.getTipoAmbienteConExtra(),
-                bean.getNumeroCoperti()
-        );
+        AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean=new AmbienteSpecialeDisponibileBean();
+        ambienteSpecialeDisponibileBean.setExtra(bean.getExtra());
+        ambienteSpecialeDisponibileBean.setTipoAmbienteConExtra(bean.getTipoAmbienteConExtra());
+        ambienteSpecialeDisponibileBean.setNumeroCoperti(bean.getNumeroCoperti());
+
+        return ambienteSpecialeDisponibileBean;
     }
 
 

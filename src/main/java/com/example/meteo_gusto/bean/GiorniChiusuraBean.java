@@ -7,11 +7,7 @@ public class GiorniChiusuraBean {
     private RistoranteBean ristorante;
     private Set<GiorniSettimana> giorniChiusura;
 
-    /* COSTRUTTORE CON PARAMETRI*/
-    public GiorniChiusuraBean(RistoranteBean ristorante, Set<GiorniSettimana> giorniChiusura) {
-        this.ristorante=ristorante;
-        this.giorniChiusura=giorniChiusura;
-    }
+    public GiorniChiusuraBean() { /* COSTRUTTORE VUOTO */ }
 
     /* METODI GETTER E SETTER */
     public RistoranteBean getRistorante() {return ristorante;}
