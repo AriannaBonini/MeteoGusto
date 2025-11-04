@@ -118,6 +118,11 @@
                            <Font size="15.0" />
                         </font>
                      </CheckBox>
+                     <PasswordField fx:id="campoPassword" layoutX="136.0" layoutY="322.0" prefHeight="46.0" prefWidth="298.0" promptText="Inserisci la password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </PasswordField>
                   </children>
                </AnchorPane>
             </content>
@@ -274,11 +279,6 @@
                         </font>
                      </Label>
                      <Rectangle arcHeight="8.0" arcWidth="8.0" fill="WHITE" height="205.0" layoutX="-9.0" layoutY="225.0" stroke="rgba(0, 0, 0, 0.26)" strokeType="INSIDE" strokeWidth="1.0" style="-fx-arc-height: 25px; -fx-arc-width: 25px;" width="454.0" />
-                     <Label layoutX="8.0" layoutY="225.0" text="Orario Pranzo" textFill="#000000">
-                        <font>
-                           <Font size="26.0" />
-                        </font>
-                     </Label>
                      <TextField fx:id="inizioPranzo" layoutX="57.0" layoutY="273.0" prefHeight="46.0" prefWidth="162.0" promptText="HH:mm" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
                         <font>
                            <Font size="20.0" />
@@ -324,11 +324,6 @@
                            <Font size="15.0" />
                         </font>
                      </CheckBox>
-                     <Label layoutX="8.0" layoutY="326.0" text="Orario Cena" textFill="#000000">
-                        <font>
-                           <Font size="26.0" />
-                        </font>
-                     </Label>
                      <TextField fx:id="inizioCena" layoutX="57.0" layoutY="374.0" prefHeight="46.0" prefWidth="162.0" promptText="HH:mm" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
                         <font>
                            <Font size="20.0" />
@@ -349,6 +344,16 @@
                            <Font size="23.0" />
                         </font>
                      </Label>
+                     <CheckBox fx:id="checkBoxPranzo" layoutX="8.0" layoutY="234.0" style="&#10;   " styleClass="check-box-arancione" text="Pranzo">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </CheckBox>
+                     <CheckBox fx:id="checkBoxCena" layoutX="8.0" layoutY="335.0" style="&#10;   " styleClass="check-box-arancione" text="Cena">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </CheckBox>
                   </children>
                </AnchorPane>
             </content>
@@ -456,10 +461,5 @@
          <Image url="@Foto/TornaIndietro.png" />
       </image>
    </ImageView>
-   <PasswordField fx:id="campoPassword1" layoutX="909.0" layoutY="513.0" prefHeight="46.0" prefWidth="298.0" promptText="Inserisci la password" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
-      <font>
-         <Font size="20.0" />
-      </font>
-   </PasswordField>
 
 </AnchorPane>

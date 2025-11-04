@@ -1,11 +1,29 @@
-/* Nasconde il corner (quadratino grigio) */
-.scroll-pane .corner {
+/* ================================================
+   SCROLLPANE STILE PERSONALIZZATO
+   ================================================ */
+
+/* Sfondo completamente trasparente per lo ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Rende trasparente anche la viewport (contenuto interno) */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Nasconde il corner (l’angolino grigio in basso a destra) */
+.scroll-pane > .corner {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-opacity: 0;
 }
 
-/* Nasconde completamente lo scrollbar orizzontale */
+/* ================================================
+   SCROLLBAR ORIZZONTALE — NASCOSTA COMPLETAMENTE
+   ================================================ */
 .scroll-pane .scroll-bar:horizontal,
 .scroll-pane .scroll-bar:horizontal .track,
 .scroll-pane .scroll-bar:horizontal .thumb,
@@ -18,105 +36,48 @@
     -fx-min-height: 0;
 }
 
-/* Stile per la scrollbar verticale */
+/* ================================================
+   SCROLLBAR VERTICALE — PERSONALIZZATA
+   ================================================ */
+
+/* Scrollbar verticale trasparente */
 .scroll-pane .scroll-bar:vertical {
     -fx-background-color: transparent;
 }
 
+/* Track (traccia) trasparente */
 .scroll-pane .scroll-bar:vertical .track {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
+/* Thumb (parte mobile arancione) */
 .scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #E97627;
+    -fx-background-color: #E97627; /* Arancione */
     -fx-background-radius: 5px;
 }
 
+/* Pulsanti su e giù (freccine) */
 .scroll-pane .scroll-bar:vertical .increment-button,
 .scroll-pane .scroll-bar:vertical .decrement-button {
     -fx-background-color: transparent;
     -fx-padding: 8px;
 }
 
+/* Freccine vere e proprie */
 .scroll-pane .scroll-bar:vertical .increment-arrow,
 .scroll-pane .scroll-bar:vertical .decrement-arrow {
     -fx-background-color: #E97627;
-    -fx-shape: "M 0 0 L 6 10 L 12 0 Z";
+    -fx-shape: "M 0 0 L 6 10 L 12 0 Z"; /* Triangolo */
     -fx-scale-x: 2.0;
     -fx-scale-y: 2.0;
 }
 
+/* Direzione freccine */
 .scroll-pane .scroll-bar:vertical .increment-arrow {
     -fx-rotate: 0;
 }
 
 .scroll-pane .scroll-bar:vertical .decrement-arrow {
     -fx-rotate: 180;
-}
-
-
-
-/* ===== STILE SPECIFICO PER IL PROFILO RISTORATORE ===== */
-
-.tab-pane .scroll-pane {
-    -fx-background-color: white; /* Sfondo bianco */
-    -fx-border-color: transparent; /* Nessun contorno */
-    -fx-border-width: 0px; /* Rimuove il bordo */
-    -fx-border-radius: 0px;
-    -fx-background-radius: 0px;
-}
-
-.tab-pane .scroll-pane .viewport {
-    -fx-background-color: white; /* Sfondo bianco */
-}
-
-.tab-pane .scroll-pane .content {
-    -fx-background-color: white; /* Sfondo bianco */
-}
-
-/* ✅ SCROLLBAR VISIBILE con freccine */
-.tab-pane .scroll-pane .scroll-bar:vertical {
-    -fx-background-color: transparent;
-    -fx-pref-width: 15px;
-}
-
-.tab-pane .scroll-pane .scroll-bar:vertical .track {
-    -fx-background-color: transparent;
-}
-
-.tab-pane .scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #E97627;
-    -fx-background-radius: 5px;
-}
-
-/* ✅ FRECCINE VISIBILI */
-.tab-pane .scroll-pane .scroll-bar:vertical .increment-button,
-.tab-pane .scroll-pane .scroll-bar:vertical .decrement-button {
-    -fx-background-color: transparent;
-    -fx-padding: 5px;
-    -fx-opacity: 1;
-}
-
-.tab-pane .scroll-pane .scroll-bar:vertical .increment-arrow,
-.tab-pane .scroll-pane .scroll-bar:vertical .decrement-arrow {
-    -fx-background-color: #E97627;
-    -fx-shape: "M 0 0 L 6 10 L 12 0 Z";
-    -fx-scale-x: 1.5;
-    -fx-scale-y: 1.5;
-    -fx-opacity: 1;
-}
-
-.tab-pane .scroll-pane .scroll-bar:vertical .increment-arrow {
-    -fx-rotate: 0;
-}
-
-.tab-pane .scroll-pane .scroll-bar:vertical .decrement-arrow {
-    -fx-rotate: 180;
-}
-
-/* Nasconde solo la scrollbar orizzontale */
-.tab-pane .scroll-pane .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-pref-height: 0;
 }

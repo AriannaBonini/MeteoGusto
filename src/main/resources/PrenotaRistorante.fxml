@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.PrenotaRistoranteCG">
+   <ImageView fitHeight="700.0" fitWidth="748.0" layoutX="198.0" layoutY="2.0" opacity="0.4" pickOnBounds="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+   <Label layoutX="974.0" layoutY="144.0" text="Cucina:">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+    
+    <!-- Immagini varie -->
+    <ImageView fx:id="meteogustoRemovebgPreview1" fitHeight="137.0" fitWidth="180.0" layoutX="11.0" layoutY="31.0" preserveRatio="true">
+      <image>
+         <Image url="@Foto/LogoMeteoGusto.png" />
+      </image></ImageView>
+    <ImageView fx:id="Esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0">
+      <image>
+         <Image url="@Foto/iconaEsciNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="ListaPrenotazioni" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="315.0">
+      <image>
+         <Image url="@Foto/iconaPrenotazioniNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="PrenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
+      <image>
+         <Image url="@Foto/ClocheSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="ProfiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0">
+      <image>
+         <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+      </image></ImageView>
+   <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Line endY="702.0" layoutX="948.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <DatePicker fx:id="campoData" layoutX="426.0" layoutY="109.0" prefHeight="46.0" prefWidth="169.0" />
+   <CheckBox fx:id="checkBoxSushi" layoutX="1109.0" layoutY="187.0" style="&#10;   " styleClass="check-box-arancione" text="Sushi ">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxItaliana" layoutX="996.0" layoutY="187.0" style="&#10;   " styleClass="check-box-arancione" text="Italiana">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <Button fx:id="filtra" layoutX="1062.0" layoutY="635.0" onAction="#clickFiltra" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Filtra">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <textFill>
+         <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
+      </textFill>
+   </Button>
+   <Button fx:id="cerca" layoutX="790.0" layoutY="109.0" onAction="#clickCerca" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Cerca">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <textFill>
+         <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
+      </textFill>
+   </Button>
+   <TextField fx:id="campoOra" layoutX="610.0" layoutY="109.0" prefHeight="46.0" prefWidth="92.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <Label alignment="CENTER" layoutX="948.0" layoutY="1.0" prefHeight="51.0" prefWidth="303.0" text="Filtri">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Label>
+   <ComboBox fx:id="filtroFasciaPrezzo" layoutX="978.0" layoutY="72.0" prefHeight="46.0" prefWidth="227.0" promptText="Scegli la fascia prezzo" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;" styleClass="combo-box" />
+   <CheckBox fx:id="checkBoxGreca" layoutX="1109.0" layoutY="224.0" style="&#10;   " styleClass="check-box-arancione" text="Greca">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxCinese" layoutX="996.0" layoutY="224.0" style="&#10;   " styleClass="check-box-arancione" text="Cinese ">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxPizza" layoutX="1109.0" layoutY="260.0" style="&#10;   " styleClass="check-box-arancione" text="Pizza">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxTurca" layoutX="996.0" layoutY="260.0" style="&#10;   " styleClass="check-box-arancione" text="Turca">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxFastFood" layoutX="1109.0" layoutY="297.0" style="&#10;   " styleClass="check-box-arancione" text="Fast Food">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxMessicana" layoutX="996.0" layoutY="297.0" style="&#10;   " styleClass="check-box-arancione" text="Messicana">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <Label layoutX="974.0" layoutY="348.0" text="Dieta: ">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <CheckBox fx:id="checkBoxHalal" layoutX="1109.0" layoutY="391.0" style="&#10;   " styleClass="check-box-arancione" text="Halal">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxKosher" layoutX="996.0" layoutY="391.0" style="&#10;   " styleClass="check-box-arancione" text="Kosher">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxSenzaLattosio" layoutX="1109.0" layoutY="428.0" style="&#10;   " styleClass="check-box-arancione" text="Senza lattosio">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxVegano" layoutX="996.0" layoutY="428.0" style="&#10;   " styleClass="check-box-arancione" text="Vegano">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxCeliaco" layoutX="1109.0" layoutY="464.0" style="&#10;   " styleClass="check-box-arancione" text="Celiaco">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxVegetariano" layoutX="996.0" layoutY="464.0" style="&#10;   " styleClass="check-box-arancione" text="Vegetariano">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxPescetariano" layoutX="996.0" layoutY="501.0" style="&#10;   " styleClass="check-box-arancione" text="Pescetariano">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <CheckBox fx:id="checkBoxMeteo" layoutX="974.0" layoutY="561.0" prefHeight="31.0" prefWidth="260.0" style="&#10;   " styleClass="check-box-arancione" text="Solo ristoranti adatti al meteo">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </CheckBox>
+   <Label alignment="CENTER" layoutX="199.0" layoutY="24.0" prefHeight="74.0" prefWidth="747.0" text="Prenota Ristorante " textFill="#e97627">
+      <font>
+         <Font size="50.0" />
+      </font>
+   </Label>
+   <TextField fx:id="campoNumeroPersone" layoutX="715.0" layoutY="109.0" prefHeight="46.0" prefWidth="53.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <HBox fx:id="boxMeteo" layoutX="229.0" layoutY="184.0" prefHeight="42.0" prefWidth="673.0" spacing="4.0">
+      <children>
+         <ImageView fx:id="immagineMeteo" fitHeight="37.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+               <Insets left="250.0" />
+            </HBox.margin>
+         </ImageView>
+         <Label fx:id="meteo">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="4.0" top="4.0" />
+            </HBox.margin>
+         </Label>
+         <ImageView fx:id="immagineTemperatura" fitHeight="37.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+               <Insets top="1.0" />
+            </HBox.margin>
+         </ImageView>
+      </children>
+   </HBox>
+   <ScrollPane layoutX="218.0" layoutY="231.0" prefHeight="426.0" prefWidth="712.0" style="-fx-background-color: transparent;">
+      <content>
+         <VBox fx:id="vBoxRistoranti" alignment="TOP_CENTER" prefHeight="430.0" prefWidth="679.0" spacing="20.0" style="-fx-background-color: white;">
+            <children>
+               <HBox fx:id="hBoxRigaRistoranti" alignment="CENTER" prefHeight="370.0" prefWidth="578.0" spacing="25.0" style="-fx-background-color: transparent;">
+                  <children>
+                     <VBox fx:id="vBoxSchedaRistorante" prefHeight="358.0" prefWidth="286.0" spacing="14.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+                        <children>
+                           <ImageView fx:id="immagineRistorante" fitHeight="200.0" fitWidth="271.0" pickOnBounds="true">
+                              <VBox.margin>
+                                 <Insets left="6.0" top="6.0" />
+                              </VBox.margin>
+                              <image>
+                                 <Image url="@Foto/FotoPaninoteca.png" />
+                              </image>
+                           </ImageView>
+                           <HBox fx:id="hBoxInfoRistorante1" prefHeight="40.0" prefWidth="285.0" spacing="3.0">
+                              <children>
+                                 <Label fx:id="campoNomeRistorante" prefHeight="18.0" prefWidth="133.0">
+                                    <font>
+                                       <Font size="20.0" />
+                                    </font>
+                                    <HBox.margin>
+                                       <Insets left="14.0" top="5.0" />
+                                    </HBox.margin>
+                                 </Label>
+                                 <HBox fx:id="hBoxInfoFasciaPrezzo" prefHeight="40.0" prefWidth="144.0">
+                                    <children>
+                                       <ImageView fx:id="immagineDollaro" fitHeight="36.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@Foto/Prezzo.png" />
+                                          </image>
+                                          <HBox.margin>
+                                             <Insets top="5.0" />
+                                          </HBox.margin>
+                                       </ImageView>
+                                    </children>
+                                 </HBox>
+                              </children>
+                           </HBox>
+                           <HBox fx:id="hBoxInfoRistorante2" prefHeight="39.0" prefWidth="285.0" spacing="20.0">
+                              <children>
+                                 <Label fx:id="campoTipoCucinaRistorante">
+                                    <font>
+                                       <Font size="20.0" />
+                                    </font>
+                                    <HBox.margin>
+                                       <Insets left="14.0" />
+                                    </HBox.margin>
+                                 </Label>
+                                 <Label fx:id="campoCittaRistorante">
+                                    <font>
+                                       <Font size="20.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </HBox>
+                           <HBox fx:id="hBoxInfoRistorante3" prefHeight="113.0" prefWidth="285.0">
+                              <children>
+                                 <HBox fx:id="hBoxInfoStelle" prefHeight="114.0" prefWidth="109.0" spacing="4.0">
+                                    <children>
+                                       <ImageView fx:id="immagineStella" fitHeight="36.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@Foto/stellinaColorata.png" />
+                                          </image>
+                                          <HBox.margin>
+                                             <Insets left="14.0" />
+                                          </HBox.margin>
+                                       </ImageView>
+                                       <Label fx:id="campoMediaRecensione">
+                                          <font>
+                                             <Font size="20.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets top="3.0" />
+                                          </HBox.margin>
+                                       </Label>
+                                    </children>
+                                    <HBox.margin>
+                                       <Insets top="8.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                       <Insets top="3.0" />
+                                    </padding>
+                                 </HBox>
+                                 <Button fx:id="bottoneScopriDiPiu" onAction="#clickScopriDiPiu" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Scopri di più">
+                                    <font>
+                                       <Font size="20.0" />
+                                    </font>
+                                    <textFill>
+                                       <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
+                                    </textFill>
+                                    <HBox.margin>
+                                       <Insets right="17.0" top="3.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                       <Insets bottom="4.0" />
+                                    </padding>
+                                 </Button>
+                              </children>
+                              <padding>
+                                 <Insets bottom="10.0" />
+                              </padding>
+                           </HBox>
+                        </children>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </VBox>
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </content>
+   </ScrollPane>
+   <TextField fx:id="campoCitta" layoutX="216.0" layoutY="109.0" prefHeight="46.0" prefWidth="195.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </TextField>
+   <stylesheets>
+      <URL value="@comboBox.css" />
+      <URL value="@stili.css" />
+      <URL value="@datePicker.css" />
+      <URL value="@datePicker.css" />
+      <URL value="@scrollPane.css" />
+   </stylesheets>
+
+</AnchorPane>

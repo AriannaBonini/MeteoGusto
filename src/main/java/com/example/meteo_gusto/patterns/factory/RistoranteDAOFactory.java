@@ -8,8 +8,7 @@ import com.example.meteo_gusto.patterns.facade.TipoPersistenza;
 public class RistoranteDAOFactory {
     public RistoranteDAO getRistoranteDAO(TipoPersistenza tipoPersistenza) {
         return switch (tipoPersistenza){
-            case CSV -> creaRistoranteDAOMYSQL();
-            case MYSQL -> creaRistoranteDAOMYSQL();
+            case CSV, MYSQL -> creaRistoranteDAOMYSQL();
             case MEMORIA -> creaRistoranteDAOMEMORIA();
         };
     }

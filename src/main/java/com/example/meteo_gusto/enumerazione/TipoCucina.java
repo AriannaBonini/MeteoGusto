@@ -16,4 +16,12 @@ public enum TipoCucina {
         this.id = id;
     }
     public String getId() {return id;}
+    public static TipoCucina fromId(String id) {
+        for (TipoCucina tipo : values()) {
+            if (tipo.getId().equalsIgnoreCase(id)) {
+                return tipo;
+            }
+        }
+        throw new IllegalArgumentException("Valore non valido per TipoCucina: " + id);
+    }
 }

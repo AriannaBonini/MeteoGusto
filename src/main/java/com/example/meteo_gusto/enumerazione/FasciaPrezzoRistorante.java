@@ -12,4 +12,13 @@ public enum FasciaPrezzoRistorante {
         this.id = id;
     }
     public String getId() {return id;}
+
+    public static FasciaPrezzoRistorante fasciaPrezzoDaId(String id) {
+        for (FasciaPrezzoRistorante tipo : values()) {
+            if (tipo.getId().equalsIgnoreCase(id)) {
+                return tipo;
+            }
+        }
+        throw new IllegalArgumentException("Valore non valido per FasciaPrezzoRistorante: " + id);
+    }
 }

@@ -1,37 +1,52 @@
 package com.example.meteo_gusto.bean;
 
 
+import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.GiorniSettimana;
-import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 
 public class RegistrazioneRistoratoreBean {
 
-    private RegistrazioneUtenteBean proprietarioRistorante;
-    private RistoranteBean ristorante;
     private Set<GiorniSettimana> giorniChiusura;
     private Set<TipoDieta> dieta;
-    private Map<TipoAmbiente, Integer> ambienteECoperti;
-    private AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile;
+    private boolean maggiorenne;
+    private boolean accettaTermini;
+    private List<AmbienteBean> ambiente;
+    private RistoranteBean ristorante;
 
-    /* COSTRUTTORI CON PARAMETRI */
-    public RegistrazioneRistoratoreBean() { /* COSTRUTTORE VUOTO */ }
+    public RegistrazioneRistoratoreBean() {   /* COSTRUTTORE VUOTO */ }
 
-    /* GETTER E SETTER */
-    public RegistrazioneUtenteBean getProprietarioRistorante() {return proprietarioRistorante;}
-    public void setProprietarioRistorante(RegistrazioneUtenteBean proprietarioRistorante) {this.proprietarioRistorante = proprietarioRistorante;}
+
+    /* SETTER CON VALIDAZIONE */
+
+    public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
+    public void setDieta(Set<TipoDieta> dieta) {this.dieta = dieta;}
+
+    public void setMaggiorenne(boolean maggiorenne) throws ValidazioneException {
+        if (!maggiorenne) {
+            throw new ValidazioneException("È necessario essere maggiorenni per registrarsi.");
+        }
+        this.maggiorenne = true;
+    }
+
+    public void setAccettaTermini(boolean accettaTermini) throws ValidazioneException {
+        if (!accettaTermini) {
+            throw new ValidazioneException("È necessario accettare i termini e le condizioni.");
+        }
+        this.accettaTermini = true;
+    }
+
+    /* GETTER */
+
+    public Set<GiorniSettimana> getGiorniChiusura() { return giorniChiusura; }
+    public Set<TipoDieta> getDieta() { return dieta; }
+    public boolean getMaggiorenne() { return maggiorenne; }
+    public boolean getAccettaTermini() { return accettaTermini; }
+    public List<AmbienteBean> getAmbiente() {return ambiente;}
+    public void setAmbiente(List<AmbienteBean> ambiente) {this.ambiente = ambiente;}
     public RistoranteBean getRistorante() {return ristorante;}
     public void setRistorante(RistoranteBean ristorante) {this.ristorante = ristorante;}
-    public Set<GiorniSettimana> getGiorniChiusura() {return giorniChiusura;}
-    public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
-    public Set<TipoDieta> getDieta() {return dieta;}
-    public void setDieta(Set<TipoDieta> dieta) {this.dieta = dieta;}
-    public Map<TipoAmbiente, Integer> getAmbienteECoperti() {return ambienteECoperti;}
-    public void setAmbienteECoperti(Map<TipoAmbiente, Integer> ambienteECoperti) {this.ambienteECoperti = ambienteECoperti;}
-    public AmbienteSpecialeDisponibileBean getAmbienteSpecialeDisponibile() {return ambienteSpecialeDisponibile;}
-    public void setAmbienteSpecialeDisponibile(AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibile) {this.ambienteSpecialeDisponibile = ambienteSpecialeDisponibile;}
 }
-

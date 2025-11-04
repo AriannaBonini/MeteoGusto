@@ -6,17 +6,18 @@ import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RegistrazioneUtenteCG {
-
     @FXML
     private TextField campoNome;
     @FXML
@@ -52,19 +53,18 @@ public class RegistrazioneUtenteCG {
             GestoreScena.cambiaScena("/Login.fxml", evento);
 
         } catch (ValidazioneException | EccezioneDAO e) {
-            infoErrore.setText(e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
             logger.error("Errore registrazione: ", e);
         }
     }
 
     private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException {
-        PersonaBean personaBean = new PersonaBean();
-        personaBean.setNome(campoNome.getText().trim());
-        personaBean.setCognome(campoCognome.getText().trim());
-        personaBean.setTelefono(campoTelefono.getText().trim());
-        personaBean.setEmail(campoEmail.getText().trim());
-        personaBean.setPassword(campoPassword.getText().trim());
-        personaBean.setTipoPersona(tipoPersona);
+        PersonaBean personaBean= new PersonaBean(campoNome.getText().trim(),
+                campoCognome.getText().trim(),
+                campoTelefono.getText().trim(),
+                campoEmail.getText().trim(),
+                campoPassword.getText().trim(),
+                tipoPersona);
 
         RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean();
         registrazioneUtenteBean.setPersona(personaBean);
@@ -82,5 +82,14 @@ public class RegistrazioneUtenteCG {
         if (risposta) {
             GestoreScena.cambiaScena("/Login.fxml", evento);
         }
+    }
+
+    private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
+        String testoIniziale = "";
+        infoErrore.setText(messaggio);
+
+        PauseTransition pausa = new PauseTransition(Duration.seconds(3));
+        pausa.setOnFinished(event -> infoErrore.setText(testoIniziale));
+        pausa.play();
     }
 }

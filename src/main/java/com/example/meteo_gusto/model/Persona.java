@@ -10,6 +10,7 @@ public class Persona {
     private String password;
     private TipoPersona tipoPersona;
 
+    /* COSTRUTTORE PER LA REGISTRAZIONE*/
     public Persona(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona) {
        this.nome=nome;
        this.cognome=cognome;
@@ -19,11 +20,10 @@ public class Persona {
        this.tipoPersona=tipoPersona;
     }
 
-    /* COSTRUTTORE PER IL LOGIN */
-    public Persona(String email, String password) {
+    public Persona(String email) {
         this.email=email;
-        this.password=password;
     }
+
 
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}

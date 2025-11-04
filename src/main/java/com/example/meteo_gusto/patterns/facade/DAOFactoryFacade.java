@@ -9,9 +9,10 @@ public class DAOFactoryFacade {
     private TipoPersistenza tipoPersistenza;
     private PersonaDAO personaDAO;
     private RistoranteDAO ristoranteDAO;
-    private GiorniChiusuraDAO giorniChiusuraDAO;
+    private GiornoChiusuraDAO giornoChiusuraDAO;
     private DietaDAO dietaDAO;
-    private DisponibilitaDAO disponibilitaDAO;
+    private AmbienteDAO ambienteDAO;
+    private PrenotazioneDAO prenotazioneDAO;
 
 
     private DAOFactoryFacade() {/* Costruttore privato per impedire la creazione di istanze */}
@@ -43,12 +44,12 @@ public class DAOFactoryFacade {
         return ristoranteDAO;
     }
 
-    public GiorniChiusuraDAO getGiorniChiusuraDAO() {
-        if(giorniChiusuraDAO ==null) {
-            GiorniChiusuraDAOFactory giorniChiusuraDAOFactory = new GiorniChiusuraDAOFactory();
-            giorniChiusuraDAO = giorniChiusuraDAOFactory.getGiorniChiusuraDAO(tipoPersistenza);
+    public GiornoChiusuraDAO getGiornoChiusuraDAO() {
+        if(giornoChiusuraDAO ==null) {
+            GiornoChiusuraDAOFactory giornoChiusuraDAOFactory = new GiornoChiusuraDAOFactory();
+            giornoChiusuraDAO = giornoChiusuraDAOFactory.getGiornoChiusuraDAO(tipoPersistenza);
         }
-        return giorniChiusuraDAO;
+        return giornoChiusuraDAO;
     }
 
     public DietaDAO getDietaDAO() {
@@ -59,13 +60,23 @@ public class DAOFactoryFacade {
         return dietaDAO;
     }
 
-    public DisponibilitaDAO getDisponibilitaDAO() {
-        if(disponibilitaDAO ==null) {
-            DisponibilitaDAOFactory disponibilitaDAOFactory = new DisponibilitaDAOFactory();
-            disponibilitaDAO =disponibilitaDAOFactory.getDisponibilitaDAO(tipoPersistenza);
+    public AmbienteDAO getAmbienteDAO() {
+        if(ambienteDAO ==null) {
+            AmbienteDAOFactory ambienteDAOFactory = new AmbienteDAOFactory();
+            ambienteDAO = ambienteDAOFactory.getAmbienteDAO(tipoPersistenza);
         }
-        return disponibilitaDAO;
+        return ambienteDAO;
     }
+
+
+    public PrenotazioneDAO getPrenotazioneDAO() {
+        if(prenotazioneDAO ==null) {
+            PrenotazioneDAOFactory prenotazioneDAOFactory= new PrenotazioneDAOFactory();
+            prenotazioneDAO = prenotazioneDAOFactory.getPrenotazioneDAO(tipoPersistenza);
+        }
+        return prenotazioneDAO;
+    }
+
 
 
 }

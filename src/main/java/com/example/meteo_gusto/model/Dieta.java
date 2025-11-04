@@ -1,22 +1,21 @@
 package com.example.meteo_gusto.model;
 
+
 import com.example.meteo_gusto.enumerazione.TipoDieta;
-import java.util.Set;
 
 public class Dieta {
-
     private Ristorante ristorante;
-    private Set<TipoDieta> dieta;
+    private TipoDieta tipoDieta;
 
     /* COSTRUTTORI CON PARAMETRI */
-    public Dieta(Ristorante ristorante, Set<TipoDieta> dieta) {
+    public Dieta(Ristorante ristorante, TipoDieta tipoDieta) {
         this.ristorante=ristorante;
-        this.dieta=dieta;
+        this.tipoDieta = tipoDieta;
     }
 
     /* METODI GETTER E SETTER */
     public Ristorante getRistorante() {return ristorante;}
     public void setRistorante(Ristorante ristorante) {this.ristorante = ristorante;}
-    public Set<TipoDieta> getDieta() {return dieta;}
-    public void setDieta(Set<TipoDieta> dieta) {this.dieta = dieta;}
+    public TipoDieta getTipoDieta() {return tipoDieta;}
+    public void setTipoDieta(TipoDieta tipoDieta) {this.tipoDieta = tipoDieta;}
 }

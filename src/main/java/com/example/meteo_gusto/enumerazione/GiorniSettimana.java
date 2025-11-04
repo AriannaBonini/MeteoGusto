@@ -1,5 +1,6 @@
 package com.example.meteo_gusto.enumerazione;
 
+
 public enum GiorniSettimana {
     LUNEDI("lunedì"),
     MARTEDI("martedì"),
@@ -13,4 +14,13 @@ public enum GiorniSettimana {
 
     GiorniSettimana(String id) {this.id = id;}
     public String getId() {return id;}
+    public static GiorniSettimana giorniSettimanaDaId(String id) {
+        for (GiorniSettimana giorni : values()) {
+            if (giorni.getId().equalsIgnoreCase(id)) {
+                return giorni;
+            }
+        }
+        throw new IllegalArgumentException("Valore non valido per GiorniSettimana: " + id);
+    }
+
 }

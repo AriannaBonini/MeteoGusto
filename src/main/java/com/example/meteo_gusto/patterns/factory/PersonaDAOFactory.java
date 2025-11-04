@@ -9,8 +9,7 @@ public class PersonaDAOFactory {
 
     public PersonaDAO getPersonaDAO(TipoPersistenza tipoPersistenza) {
         return switch (tipoPersistenza){
-            case CSV -> creaPersonaDAOMYSQL();
-            case MYSQL -> creaPersonaDAOMYSQL();
+            case CSV, MYSQL -> creaPersonaDAOMYSQL();
             case MEMORIA -> creaPersonaDAOMEMORIA();
         };
     }

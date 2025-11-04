@@ -2,7 +2,6 @@ package com.example.meteo_gusto.controller_grafico;
 
 
 import com.example.meteo_gusto.bean.PersonaBean;
-import com.example.meteo_gusto.bean.CredenzialiBean;
 import com.example.meteo_gusto.controller.LoginController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
@@ -28,11 +27,16 @@ public class LoginCG {
     @FXML
     private void clickAccedi(ActionEvent evento) {
         try {
-            CredenzialiBean credenzialiBean = new CredenzialiBean();
-            credenzialiBean.setEmail(campoEmail.getText());
-            credenzialiBean.setPassword(campoPassword.getText());
+            PersonaBean credenzialiPersonaBean = new PersonaBean(campoEmail.getText(),
+                    campoPassword.getText());
 
-            PersonaBean personaBean = loginController.accedi(credenzialiBean);
+            PersonaBean personaBean = loginController.accedi(credenzialiPersonaBean);
+
+            if(personaBean==null){
+                infoErrore.setText("Credenziali Errate");
+            }
+
+            assert personaBean != null;
             if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
                 GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
             }else{

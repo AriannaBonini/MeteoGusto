@@ -67,10 +67,7 @@ public class GestoreScena {
      * @param evento l'evento che ha scatenato il cambio
      * @param gestoreController funzione per configurare il controller
      */
-    public static <T> void cambiaScenaConParametri(
-            String percorso,
-            ActionEvent evento,
-            Consumer<T> gestoreController) {
+    public static <T> void cambiaScenaConParametri(String percorso, ActionEvent evento, Consumer<T> gestoreController) {
 
         try {
             FXMLLoader caricatore = new FXMLLoader(GestoreScena.class.getResource(percorso));

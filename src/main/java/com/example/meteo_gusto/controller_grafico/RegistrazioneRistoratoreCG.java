@@ -18,11 +18,10 @@ import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-
-import static java.time.LocalTime.*;
 
 public class RegistrazioneRistoratoreCG {
 
@@ -110,6 +109,11 @@ public class RegistrazioneRistoratoreCG {
     private CheckBox checkBoxRiscaldamento;
     @FXML
     private CheckBox checkBoxRaffreddamento;
+    @FXML
+    private CheckBox checkBoxCena;
+    @FXML
+    private CheckBox checkBoxPranzo;
+
 
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneRistoratoreCG.class.getName());
@@ -138,6 +142,22 @@ public class RegistrazioneRistoratoreCG {
             checkBoxRiscaldamento.setDisable(!newValue);
         });
 
+        inizioPranzo.setDisable(true);
+        finePranzo.setDisable(true);
+        inizioCena.setDisable(true);
+        fineCena.setDisable(true);
+
+        checkBoxPranzo.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            inizioPranzo.setDisable(!newValue);
+            finePranzo.setDisable(!newValue);
+        });
+
+
+        checkBoxCena.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            inizioCena.setDisable(!newValue);
+            fineCena.setDisable(!newValue);
+        });
+
     }
 
     public void setTipoRegistrazione(TipoPersona tipoPersona) { this.tipoPersona=tipoPersona;}
@@ -146,40 +166,13 @@ public class RegistrazioneRistoratoreCG {
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            RegistrazioneUtenteBean registrazioneUtenteBean = creaRegistrazioneUtenteBean();
-
-            PosizioneBean posizioneBean= new PosizioneBean();
-            posizioneBean.setIndirizzoCompleto(campoIndirizzo.getText());
-            posizioneBean.setCap(campoCap.getText());
-            posizioneBean.setCitta(campoCitta.getText());
-
-            OrariBean orariBean = new OrariBean();
-            orariBean.setInizioPranzo(parse(inizioPranzo.getText(), formatoOrario));
-            orariBean.setFinePranzo(parse(finePranzo.getText(), formatoOrario));
-            orariBean.setInizioCena(parse(inizioCena.getText(), formatoOrario));
-            orariBean.setFineCena(parse(fineCena.getText(), formatoOrario));
-
-            OffertaCulinariaBean offertaCulinariaBean = new OffertaCulinariaBean();
-            offertaCulinariaBean.setCucina(comboBoxCucina.getValue());
-            offertaCulinariaBean.setFasciaPrezzo(comboBoxPrezzo.getValue());
-
-            RistoranteBean ristoranteBean= new RistoranteBean();
-            ristoranteBean.setPartitaIVA(campoPartitaIva.getText());
-            ristoranteBean.setNome(campoNomeRistorante.getText());
-            ristoranteBean.setTelefono(campoTelefonoRistorante.getText());
-            ristoranteBean.setOrari(orariBean);
-            ristoranteBean.setOffertaCulinaria(offertaCulinariaBean);
-            ristoranteBean.setPosizioneRistorante(posizioneBean);
-
             RegistrazioneRistoratoreBean registrazioneRistoratoreBean= new RegistrazioneRistoratoreBean();
-            registrazioneRistoratoreBean.setProprietarioRistorante(registrazioneUtenteBean);
-            registrazioneRistoratoreBean.setRistorante(ristoranteBean);
+            registrazioneRistoratoreBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+            registrazioneRistoratoreBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
             registrazioneRistoratoreBean.setGiorniChiusura(giorniChiusura());
             registrazioneRistoratoreBean.setDieta(dietaOffertaDalRistorante());
-            registrazioneRistoratoreBean.setAmbienteECoperti(ambienteECopertiDelRistorante());
-            registrazioneRistoratoreBean.setAmbienteSpecialeDisponibile(extraDelRistorante());
-
-
+            registrazioneRistoratoreBean.setRistorante(datiRistorante());
+            registrazioneRistoratoreBean.setAmbiente(ambientiDelRistorante());
 
             registrazioneController.registraRistoratore(registrazioneRistoratoreBean);
 
@@ -194,24 +187,62 @@ public class RegistrazioneRistoratoreCG {
         }
     }
 
-    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException {
-        PersonaBean personaBean = new PersonaBean();
-        personaBean.setEmail(campoEmail.getText().trim());
-        personaBean.setPassword(campoPassword.getText().trim());
-        personaBean.setNome(campoNome.getText().trim());
-        personaBean.setCognome(campoCognome.getText().trim());
-        personaBean.setTelefono(campoTelefono.getText().trim());
-        personaBean.setTipoPersona(tipoPersona);
+    private Set<Extra> extraDelRistorante(){
+        Set<Extra> extraSelezionati = new HashSet<>();
+        if(checkBoxEsternoCoperto.isSelected()) {
+            if (checkBoxRaffreddamento.isSelected()) extraSelezionati.add(Extra.RAFFREDDAMENTO);
+            if (checkBoxRiscaldamento.isSelected()) extraSelezionati.add(Extra.RISCALDAMENTO);
+        }
 
-        RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean();
-        registrazioneUtenteBean.setPersona(personaBean);
-        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
-        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
-
-        return registrazioneUtenteBean;
+        return extraSelezionati;
     }
 
+    private RistoranteBean orariRistorante(RistoranteBean ristoranteBean)  {
 
+        if (checkBoxPranzo.isSelected()) {
+            LocalTime oraInizioPranzo = LocalTime.parse(inizioPranzo.getText().trim(), formatoOrario);
+            LocalTime oraFinePranzo = LocalTime.parse(finePranzo.getText().trim(), formatoOrario);
+
+            ristoranteBean.setInizioPranzo(oraInizioPranzo);
+            ristoranteBean.setFinePranzo(oraFinePranzo);
+        }
+
+        if (checkBoxCena.isSelected()) {
+            LocalTime oraInizioCena = LocalTime.parse(inizioCena.getText().trim(), formatoOrario);
+            LocalTime oraFineCena= LocalTime.parse(fineCena.getText().trim(), formatoOrario);
+
+            ristoranteBean.setInizioCena(oraInizioCena);
+            ristoranteBean.setFineCena(oraFineCena);
+        }
+
+        return ristoranteBean;
+    }
+
+        private RistoranteBean datiRistorante() throws ValidazioneException {
+        RistoranteBean ristoranteBean= new RistoranteBean(campoPartitaIva.getText().trim(),
+                datiProprietarioRistorante(),
+                campoNomeRistorante.getText(),
+                campoTelefonoRistorante.getText(),
+                comboBoxCucina.getValue(),
+                comboBoxPrezzo.getValue(),
+                campoIndirizzo.getText(),
+                campoCap.getText(), 
+                campoCitta.getText());
+
+
+        return orariRistorante(ristoranteBean);
+    }
+
+    private PersonaBean datiProprietarioRistorante() throws ValidazioneException {
+        return new PersonaBean(campoNome.getText().trim(),
+                campoCognome.getText().trim(),
+                campoTelefono.getText().trim(),
+                campoEmail.getText().trim(),
+                campoPassword.getText().trim(),
+                tipoPersona);
+
+
+    }
 
     private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
         String testoIniziale = "Completa tutti i moduli per finalizzare la registrazione.";
@@ -250,22 +281,41 @@ public class RegistrazioneRistoratoreCG {
         return dietaSelezionata;
     }
 
-    private Map<TipoAmbiente, Integer> ambienteECopertiDelRistorante() {
-        Map<TipoAmbiente, Integer> copertiMap = new EnumMap<>(TipoAmbiente.class);
+    private List<AmbienteBean> ambientiDelRistorante() throws ValidazioneException {
+        List<AmbienteBean> listaAmbientiRistorante=new ArrayList<>();
 
         if (checkBoxInterno.isSelected()) {
             String testo = campoCopertiInterni.getText();
             Integer coperti = parseCoperti(testo);
-            copertiMap.put(TipoAmbiente.INTERNO, coperti);
+            AmbienteBean ambiente= new AmbienteBean();
+            ambiente.setAmbiente(TipoAmbiente.INTERNO);
+            ambiente.setNumeroCoperti(coperti);
+
+            listaAmbientiRistorante.add(ambiente);
         }
 
         if (checkBoxEsterno.isSelected()) {
             String testo = campoCopertiEsterni.getText();
             Integer coperti = parseCoperti(testo);
-            copertiMap.put(TipoAmbiente.ESTERNO, coperti);
+            AmbienteBean ambiente= new AmbienteBean();
+            ambiente.setAmbiente(TipoAmbiente.ESTERNO);
+            ambiente.setNumeroCoperti(coperti);
+
+            listaAmbientiRistorante.add(ambiente);
         }
 
-        return copertiMap;
+        if (checkBoxEsternoCoperto.isSelected()) {
+            String testo = campoCopertiEsterniCoperti.getText();
+            Integer coperti = parseCoperti(testo);
+            AmbienteBean ambiente= new AmbienteBean();
+            ambiente.setAmbiente(TipoAmbiente.ESTERNO_COPERTO);
+            ambiente.setNumeroCoperti(coperti);
+            ambiente.setExtra(extraDelRistorante());
+
+            listaAmbientiRistorante.add(ambiente);
+        }
+
+        return listaAmbientiRistorante;
     }
 
 
@@ -280,25 +330,6 @@ public class RegistrazioneRistoratoreCG {
         }
     }
 
-    private AmbienteSpecialeDisponibileBean extraDelRistorante() throws ValidazioneException {
-        Set<Extra> extraSelezionati = new HashSet<>();
-
-        if (checkBoxEsternoCoperto.isSelected()) {
-            if (checkBoxRaffreddamento.isSelected()) extraSelezionati.add(Extra.RAFFREDDAMENTO);
-            if (checkBoxRiscaldamento.isSelected()) extraSelezionati.add(Extra.RISCALDAMENTO);
-
-            Integer numeroCoperti = Integer.parseInt(campoCopertiEsterniCoperti.getText());
-
-            AmbienteSpecialeDisponibileBean ambienteSpecialeDisponibileBean= new AmbienteSpecialeDisponibileBean();
-            ambienteSpecialeDisponibileBean.setExtra(extraSelezionati);
-            ambienteSpecialeDisponibileBean.setTipoAmbienteConExtra(TipoAmbienteConExtra.ESTERNO_COPERTO);
-            ambienteSpecialeDisponibileBean.setNumeroCoperti(numeroCoperti);
-
-            return ambienteSpecialeDisponibileBean;
-        }
-
-        return null;
-    }
 
     @FXML
     private void clickRitornaAlLogin(MouseEvent evento) {

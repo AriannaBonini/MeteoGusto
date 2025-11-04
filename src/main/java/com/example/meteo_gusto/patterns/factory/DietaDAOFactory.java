@@ -9,8 +9,7 @@ import com.example.meteo_gusto.patterns.facade.TipoPersistenza;
 public class DietaDAOFactory {
     public DietaDAO getDietaDAO(TipoPersistenza tipoPersistenza) {
         return switch (tipoPersistenza){
-            case CSV -> creaDietaDAOMYSQL();
-            case MYSQL -> creaDietaDAOMYSQL();
+            case CSV, MYSQL -> creaDietaDAOMYSQL();
             case MEMORIA -> creaDietaDAOMEMORIA();
         };
     }
