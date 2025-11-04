@@ -42,7 +42,7 @@ public class AmbienteBean {
     }
 
 
-    private void validaNumeroCoperti(Integer numeroCoperti) throws ValidazioneException{
+    private void validaNumeroCoperti(Integer numeroCoperti) throws ValidazioneException, NumberFormatException{
         if (numeroCoperti == null || numeroCoperti <= 0) {
             throw new ValidazioneException("Il numero di coperti deve essere maggiore di zero.");
         }

@@ -2,15 +2,17 @@ package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 
+import java.util.Set;
+
 public class DietaBean {
     private RistoranteBean ristorante;
-    private TipoDieta dieta;
+    private Set<TipoDieta> tipoDieta;
 
     public DietaBean() { /* COSTRUTTORE VUOTO */}
 
     /* METODI GETTER E SETTER */
     public RistoranteBean getRistorante() {return ristorante;}
     public void setRistorante(RistoranteBean ristorante) {this.ristorante = ristorante;}
-    public TipoDieta getDieta() {return dieta;}
-    public void setDieta(TipoDieta dieta) {this.dieta = dieta;}
+    public Set<TipoDieta> getTipoDieta() {return tipoDieta;}
+    public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
 }

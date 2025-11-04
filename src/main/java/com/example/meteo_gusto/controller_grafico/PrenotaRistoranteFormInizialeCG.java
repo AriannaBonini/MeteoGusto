@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.controller_grafico;
 
 import com.example.meteo_gusto.bean.FiltriBean;
-import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
 import javafx.animation.PauseTransition;
@@ -13,9 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -35,8 +31,6 @@ public class PrenotaRistoranteFormInizialeCG {
     private TextField campoCitta;
     @FXML
     private Label infoErrore;
-
-    private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteFormInizialeCG.class.getName());
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
 
     public void initialize() {
@@ -70,25 +64,21 @@ public class PrenotaRistoranteFormInizialeCG {
         try {
             FiltriBean filtriBean = creaFiltriBean();
             GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
-                    (PrenotaRistoranteCG controller) -> {
-                        try {
-                            controller.setFiltriBean(filtriBean);
-                        } catch (EccezioneDAO e) {
-                            logger.error("Errore nel passaggio dei parametri tra PrenotaRistoranteFormInizialeCG e PrenotaRistoranteCG",e);
-                        }
-                    });
+                    (PrenotaRistoranteCG controller) -> controller.setFiltriBean(filtriBean));
         } catch (ValidazioneException e) {
             mostraErroreTemporaneamenteNellaLabel(e.getMessage());
-            logger.error("Errore campi inseriti: ", e);
         } catch (DateTimeParseException e) {
             mostraErroreTemporaneamenteNellaLabel("Orario non valido. Usa il formato HH:mm");
+        }catch (NumberFormatException e) {
+            mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
         }
     }
 
-    private FiltriBean creaFiltriBean() throws ValidazioneException, DateTimeParseException {
+    private FiltriBean creaFiltriBean() throws ValidazioneException, DateTimeParseException, NumberFormatException {
         LocalTime ora = parse(campoOra.getText(), formatoOrario);
         return new FiltriBean(campoData.getValue(), ora, campoCitta.getText(), Integer.parseInt(campoNumeroPersone.getText()));
     }
+
 
 
     @FXML

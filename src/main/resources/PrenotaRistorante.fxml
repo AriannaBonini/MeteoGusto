@@ -65,7 +65,7 @@
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <Button fx:id="filtra" layoutX="1062.0" layoutY="635.0" onAction="#clickFiltra" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Filtra">
+   <Button fx:id="filtra" disable="true" layoutX="1062.0" layoutY="635.0" onAction="#clickFiltra" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Filtra">
       <font>
          <Font size="20.0" />
       </font>
@@ -319,6 +319,11 @@
          <Font size="20.0" />
       </font>
    </TextField>
+   <Label fx:id="infoErrore" alignment="CENTER" layoutX="225.0" layoutY="168.0" prefHeight="27.0" prefWidth="647.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
    <stylesheets>
       <URL value="@comboBox.css" />
       <URL value="@stili.css" />

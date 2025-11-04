@@ -75,16 +75,20 @@ public class RegistrazioneController {
 
 
     private List<Dieta> dietaRistoranteInModel(RegistrazioneRistoratoreBean registrazione) {
-        if (registrazione.getDieta() == null || registrazione.getDieta().isEmpty()) {
+        DietaBean bean = new DietaBean();
+        bean.setRistorante(registrazione.getRistorante());
+        bean.setTipoDieta(registrazione.getDieta());
+
+        if (bean.getTipoDieta() == null || bean.getTipoDieta().isEmpty()) {
             return Collections.emptyList();
         }
 
-        return registrazione.getDieta().stream()
-                .map(dieta -> {
-                    DietaBean bean = new DietaBean();
-                    bean.setDieta(dieta);
-                    bean.setRistorante(registrazione.getRistorante());
-                    return ConvertitoreDieta.dietaBeanInModel(bean);
+        return bean.getTipoDieta().stream()
+                .map(tipo -> {
+                    DietaBean singoloBean = new DietaBean();
+                    singoloBean.setRistorante(bean.getRistorante());
+                    singoloBean.setTipoDieta(Set.of(tipo));
+                    return ConvertitoreDieta.dietaBeanInModel(singoloBean);
                 })
                 .toList();
     }

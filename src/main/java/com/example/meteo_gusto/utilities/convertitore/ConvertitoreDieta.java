@@ -14,14 +14,14 @@ public class ConvertitoreDieta {
 
         Ristorante ristoranteModel = ConvertitoreRistorante.ristoranteBeanInModel(dietaBean.getRistorante());
 
-        return new Dieta(ristoranteModel, dietaBean.getDieta());
+        return new Dieta(ristoranteModel, dietaBean.getTipoDieta());
     }
 
     public static DietaBean dietaModelInBean(Dieta dietaModel) throws ValidazioneException {
         if (dietaModel == null) return null;
 
         DietaBean dietaBean= new DietaBean();
-        dietaBean.setDieta(dietaModel.getTipoDieta());
+        dietaBean.setTipoDieta(dietaModel.getTipoDieta());
         dietaBean.setRistorante(ConvertitoreRistorante.ristoranteModelInBean(dietaModel.getRistorante()));
 
         return dietaBean;

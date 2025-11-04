@@ -20,7 +20,7 @@ public class ConvertitoreAmbiente {
     }
 
 
-    public static AmbienteBean ambienteModelInBean(Ambiente ambienteModel) throws ValidazioneException {
+    public static AmbienteBean ambienteModelInBean(Ambiente ambienteModel) throws ValidazioneException, NumberFormatException{
         if (ambienteModel == null) return null;
 
         return new AmbienteBean(ambienteModel.getTipoAmbiente(),

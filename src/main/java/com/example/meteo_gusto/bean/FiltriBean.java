@@ -1,18 +1,29 @@
 package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-
+import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
+import com.example.meteo_gusto.enumerazione.TipoCucina;
+import com.example.meteo_gusto.enumerazione.TipoDieta;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.Set;
 
 public class FiltriBean {
     private LocalDate data;
     private LocalTime ora;
     private String citta;
     private Integer numeroPersone;
+    private FasciaPrezzoRistorante fasciaPrezzoRistorante;
+    private Set<TipoCucina> tipoCucina;
+    private Set<TipoDieta> tipoDieta;
+    private boolean meteo;
+
+
 
     public FiltriBean() { /* COSTRUTTORE VUOTO */ }
 
+    /* COSTRUTTORE PER IL FORM INIZIALE DELLA PRENOTAZIONE */
     public FiltriBean(LocalDate data, LocalTime ora, String citta, Integer numeroPersone) throws ValidazioneException {
         validaCitta(citta);
         validaOra(ora);
@@ -26,21 +37,20 @@ public class FiltriBean {
     }
 
 
-
     /* METODI DI VALIDAZIONE SINTATTICA */
-    private void validaOra(LocalTime ora) throws ValidazioneException{
+    private void validaOra(LocalTime ora) throws ValidazioneException, DateTimeParseException {
         if (ora == null) {
             throw new ValidazioneException("L'orario della prenotazione non può essere nullo.");
         }
     }
 
-    private void validaData(LocalDate data) throws ValidazioneException{
+    private void validaData(LocalDate data) throws ValidazioneException, DateTimeParseException{
         if (data == null) {
             throw new ValidazioneException("Data non valida. Usa il formato GG/MM/AAAA");
         }
     }
 
-    private void validaNumeroPersone(Integer numeroPersone) throws ValidazioneException{
+    private void validaNumeroPersone(Integer numeroPersone) throws ValidazioneException, NumberFormatException{
         if (numeroPersone == null || numeroPersone<=0) {
             throw new ValidazioneException("Il numero di persone deve essere maggiore di zero.");
         }
@@ -65,4 +75,12 @@ public class FiltriBean {
     public void setOra(LocalTime ora) {this.ora = ora;}
     public void setData(LocalDate data) {this.data = data;}
     public void setNumeroPersone(Integer numeroPersone) {this.numeroPersone = numeroPersone;}
+    public FasciaPrezzoRistorante getFasciaPrezzoRistorante() {return fasciaPrezzoRistorante;}
+    public void setFasciaPrezzoRistorante(FasciaPrezzoRistorante fasciaPrezzoRistorante) {this.fasciaPrezzoRistorante = fasciaPrezzoRistorante;}
+    public Set<TipoCucina> getTipoCucina() {return tipoCucina;}
+    public void setTipoCucina(Set<TipoCucina> tipoCucina) {this.tipoCucina = tipoCucina;}
+    public Set<TipoDieta> getTipoDieta() {return tipoDieta;}
+    public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
+    public boolean getMeteo() {return meteo;}
+    public void setMeteo(boolean meteo) {this.meteo = meteo;}
 }

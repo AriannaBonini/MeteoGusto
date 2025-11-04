@@ -11,7 +11,12 @@ public class ConvertitoreFiltri {
         return new Filtro(filtroBean.getData(),
                 filtroBean.getOra(),
                 filtroBean.getCitta(),
-                filtroBean.getNumeroPersone());
+                filtroBean.getNumeroPersone(),
+                filtroBean.getFasciaPrezzoRistorante(),
+                filtroBean.getTipoCucina(),
+                filtroBean.getTipoDieta(),
+                filtroBean.getMeteo());
+
     }
 
     public static FiltriBean filtriModelInBean(Filtro filtroModel)  {

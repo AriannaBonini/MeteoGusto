@@ -10,4 +10,7 @@ public class DietaDAOMemoria implements DietaDAO {
 
     @Override
     public void registraDieta(List<Dieta> dieta) throws EccezioneDAO {}
+
+    @Override
+    public Dieta controllaDieteDelRistorante(Dieta filtroDieta) throws EccezioneDAO{return null;}
 }
