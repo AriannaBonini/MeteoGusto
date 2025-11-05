@@ -23,7 +23,7 @@
          <Image url="@Foto/SfondoMeteoGusto.png" />
       </image>
    </ImageView>
-   <TextField editable="false" layoutX="244.0" layoutY="126.0" prefHeight="425.0" prefWidth="930.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: #e97627; -fx-border-radius: 8px; -fx-border-width: 1px;">
+   <TextField editable="false" layoutX="268.0" layoutY="130.0" prefHeight="426.0" prefWidth="871.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: #e97627; -fx-border-radius: 8px; -fx-border-width: 1px;">
       <font>
          <Font size="20.0" />
       </font>
@@ -34,7 +34,7 @@
       <image>
          <Image url="@Foto/LogoMeteoGusto.png" />
       </image></ImageView>
-    <ImageView fx:id="Esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
+    <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
       <image>
          <Image url="@Foto/iconaEsciNonSelezionata.png" />
       </image></ImageView>
@@ -42,7 +42,7 @@
       <image>
          <Image url="@Foto/iconaPrenotazioniNonSelezionata.png" />
       </image></ImageView>
-    <ImageView fx:id="PrenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
+    <ImageView fx:id="prenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
       <image>
          <Image url="@Foto/ClocheSelezionata.png" />
       </image></ImageView>
@@ -52,8 +52,8 @@
       </image></ImageView>
    <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
    <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
-   <DatePicker fx:id="campoData" layoutX="425.0" layoutY="272.0" prefHeight="46.0" prefWidth="217.0" promptText="GG/MM/AAAA" />
-   <Button fx:id="cerca" layoutX="613.0" layoutY="433.0" onAction="#clickCerca" prefHeight="66.0" prefWidth="190.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Cerca">
+   <DatePicker fx:id="campoData" layoutX="381.0" layoutY="276.0" prefHeight="46.0" prefWidth="217.0" promptText="GG/MM/AAAA" />
+   <Button fx:id="cerca" layoutX="606.0" layoutY="429.0" onAction="#clickCerca" prefHeight="66.0" prefWidth="190.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Cerca">
       <font>
          <Font size="30.0" />
       </font>
@@ -61,52 +61,52 @@
          <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
       </textFill>
    </Button>
-   <TextField fx:id="campoOra" layoutX="425.0" layoutY="342.0" prefHeight="46.0" prefWidth="217.0" promptText="HH:mm" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+   <TextField fx:id="campoOra" layoutX="381.0" layoutY="346.0" prefHeight="46.0" prefWidth="217.0" promptText="HH:mm" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
       <font>
          <Font size="20.0" />
       </font>
    </TextField>
-   <TextField fx:id="campoCitta" layoutX="930.0" layoutY="342.0" prefHeight="46.0" prefWidth="217.0" promptText="Inserisci la città" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+   <TextField fx:id="campoCitta" layoutX="886.0" layoutY="346.0" prefHeight="46.0" prefWidth="217.0" promptText="Inserisci la città" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
       <font>
          <Font size="20.0" />
       </font>
    </TextField>
-   <Label layoutX="359.0" layoutY="277.0" text="Data:" textFill="#00000094" wrapText="true">
+   <Label layoutX="315.0" layoutY="281.0" text="Data:" textFill="#00000094" wrapText="true">
       <font>
          <Font size="25.0" />
       </font>
    </Label>
-   <Label layoutX="369.0" layoutY="347.0" text="Ora:" textFill="#00000094" wrapText="true">
+   <Label layoutX="318.0" layoutY="351.0" text="Ora:" textFill="#00000094" wrapText="true">
       <font>
          <Font size="25.0" />
       </font>
    </Label>
-   <Label layoutX="865.0" layoutY="347.0" text="Città:" textFill="#00000094" wrapText="true">
+   <Label layoutX="821.0" layoutY="351.0" text="Città:" textFill="#00000094" wrapText="true">
       <font>
          <Font size="25.0" />
       </font>
    </Label>
-   <Label alignment="CENTER" layoutX="245.0" layoutY="140.0" prefHeight="58.0" prefWidth="926.0" text="Prenota il tuo tavolo in pochi secondi" textFill="#e97627">
+   <Label alignment="CENTER" layoutX="268.0" layoutY="144.0" prefHeight="58.0" prefWidth="870.0" text="Prenota il tuo tavolo in pochi secondi" textFill="#e97627">
       <font>
          <Font size="40.0" />
       </font>
    </Label>
-   <Label alignment="CENTER" layoutX="386.0" layoutY="193.0" prefHeight="34.0" prefWidth="651.0" text="Scegli la città, la data, l'ora e quante persone sarete" wrapText="true">
+   <Label alignment="CENTER" layoutX="266.0" layoutY="197.0" prefHeight="34.0" prefWidth="868.0" text="Scegli la città, la data, l'ora e quante persone sarete" wrapText="true">
       <font>
          <Font size="23.0" />
       </font>
    </Label>
-   <Label fx:id="infoErrore" alignment="CENTER" layoutX="452.0" layoutY="509.0" prefHeight="27.0" prefWidth="502.0" textFill="#000000">
+   <Label fx:id="infoErrore" alignment="CENTER" layoutX="269.0" layoutY="509.0" prefHeight="27.0" prefWidth="869.0" textFill="#000000">
       <font>
          <Font size="18.0" />
       </font>
    </Label>
-   <TextField fx:id="campoNumeroPersone" layoutX="929.0" layoutY="267.0" prefHeight="46.0" prefWidth="217.0" promptText="n° persone" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
+   <TextField fx:id="campoNumeroPersone" layoutX="885.0" layoutY="271.0" prefHeight="46.0" prefWidth="217.0" promptText="n° persone" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;">
       <font>
          <Font size="20.0" />
       </font>
    </TextField>
-   <Label layoutX="728.0" layoutY="272.0" text="Numero Persone:" textFill="#00000094" wrapText="true">
+   <Label layoutX="684.0" layoutY="276.0" text="Numero Persone:" textFill="#00000094" wrapText="true">
       <font>
          <Font size="25.0" />
       </font>

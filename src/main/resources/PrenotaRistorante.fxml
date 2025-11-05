@@ -35,7 +35,7 @@
       <image>
          <Image url="@Foto/LogoMeteoGusto.png" />
       </image></ImageView>
-    <ImageView fx:id="Esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0">
+    <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
       <image>
          <Image url="@Foto/iconaEsciNonSelezionata.png" />
       </image></ImageView>
@@ -43,7 +43,7 @@
       <image>
          <Image url="@Foto/iconaPrenotazioniNonSelezionata.png" />
       </image></ImageView>
-    <ImageView fx:id="PrenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
+    <ImageView fx:id="prenotaRistorante" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
       <image>
          <Image url="@Foto/ClocheSelezionata.png" />
       </image></ImageView>

@@ -1,10 +1,8 @@
 package com.example.meteo_gusto.utilities;
 
 import com.example.meteo_gusto.enumerazione.GiorniSettimana;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 
 public final class GiorniSettimanaHelper {
 

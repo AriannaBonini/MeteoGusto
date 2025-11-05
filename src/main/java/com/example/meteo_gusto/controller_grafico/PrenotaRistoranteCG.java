@@ -10,7 +10,9 @@ import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
+import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.SupportoComponentiGUISchedaRistorante;
+import com.example.meteo_gusto.utilities.SupportoGUILogout;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -18,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -44,8 +47,6 @@ public class PrenotaRistoranteCG {
     private Button cerca;
     @FXML
     private Button filtra;
-    @FXML
-    private HBox boxMeteo;
     @FXML
     private ImageView immagineMeteo;
     @FXML
@@ -87,13 +88,15 @@ public class PrenotaRistoranteCG {
     @FXML
     private HBox hBoxRigaRistoranti;
     @FXML
-    private Button bottoneScopriDiPiu;
-    @FXML
     private VBox vBoxRistoranti;
     @FXML
     private CheckBox checkBoxMeteo;
     @FXML
     private Label infoErrore;
+    @FXML
+    private ImageView esci;
+    @FXML
+    private ImageView prenotaRistorante;
 
 
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCG.class.getName());
@@ -415,5 +418,17 @@ public class PrenotaRistoranteCG {
         immagine= new Image(is);
         immagineTemperatura.setImage(immagine);
     }
+
+
+    @FXML
+    private void clickEsci(MouseEvent evento){
+        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
+
+        if (risposta) {
+            Sessione.getInstance().logout();
+            GestoreScena.cambiaScena("/Login.fxml", evento);
+        }
+    }
+
 
 }

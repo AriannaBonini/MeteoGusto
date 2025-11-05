@@ -3,6 +3,7 @@ package com.example.meteo_gusto.controller_grafico;
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
+import com.example.meteo_gusto.utilities.SupportoGUILogout;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import java.time.LocalDate;
@@ -31,6 +33,10 @@ public class PrenotaRistoranteFormInizialeCG {
     private TextField campoCitta;
     @FXML
     private Label infoErrore;
+    @FXML
+    private ImageView esci;
+    @FXML
+    private ImageView prenotaRistorante;
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
 
     public void initialize() {
@@ -51,8 +57,9 @@ public class PrenotaRistoranteFormInizialeCG {
 
 
     @FXML
-    private void clickEsci(MouseEvent evento) {
-        boolean risposta = GestoreScena.mostraAlertConConferma("Conferma uscita", "Sei sicuro di voler uscire ?");
+    private void clickEsci(MouseEvent evento){
+        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
+
         if (risposta) {
             Sessione.getInstance().logout();
             GestoreScena.cambiaScena("/Login.fxml", evento);
