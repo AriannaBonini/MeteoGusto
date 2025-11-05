@@ -102,9 +102,6 @@ public class RegistrazioneController {
 
         for (AmbienteBean ambienteBean : registrazione.getAmbiente()) {
             ambienteBean.setRistorante(registrazione.getRistorante());
-            Ambiente ambiente= ConvertitoreAmbiente.ambienteBeanInModel(ambienteBean);
-
-            ambiente.validaExtra();
 
             listaAmbiente.add(ConvertitoreAmbiente.ambienteBeanInModel(ambienteBean));
         }

@@ -2,7 +2,6 @@ package com.example.meteo_gusto.model;
 
 import com.example.meteo_gusto.enumerazione.Extra;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Ambiente {
@@ -17,14 +16,13 @@ public class Ambiente {
         this.tipoAmbiente = tipoAmbiente;
         this.numeroCoperti = numeroCoperti;
         this.ristorante = ristorante;
-        this.extra = (extra != null) ? new HashSet<>(extra) : new HashSet<>();
+        aggiungiExtra(extra);
     }
 
     /* METODI GETTER E SETTER */
     public TipoAmbiente getTipoAmbiente() { return tipoAmbiente; }
     public Integer getNumeroCoperti() { return numeroCoperti; }
     public Set<Extra> getExtra() { return extra; }
-    public void setExtra(Set<Extra> extra) { this.extra = (extra != null) ? new HashSet<>(extra) : new HashSet<>();}
     public Ristorante getRistorante() { return ristorante; }
     public Integer getIdAmbiente() { return idAmbiente; }
     public void setTipoAmbiente(TipoAmbiente tipoAmbiente) { this.tipoAmbiente = tipoAmbiente; }
@@ -34,11 +32,16 @@ public class Ambiente {
 
 
     /* METODO DI LOGICA DI DOMINIO */
-    public void validaExtra() throws IllegalArgumentException {
-        if (tipoAmbiente != TipoAmbiente.ESTERNO_COPERTO) {
-            throw new IllegalArgumentException("Solo l'ambiente ESTERNO_COPERTO può avere extra.");
+    private void aggiungiExtra(Set<Extra> extra) {
+        if (tipoAmbiente == TipoAmbiente.ESTERNO_COPERTO) {
+            this.extra=extra;
         }
     }
+
+    public boolean supportaExtra() {
+        return this.tipoAmbiente == TipoAmbiente.ESTERNO_COPERTO;
+    }
+
 
 
 }

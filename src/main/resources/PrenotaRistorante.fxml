@@ -177,7 +177,7 @@
          <Font size="20.0" />
       </font>
    </TextField>
-   <HBox fx:id="boxMeteo" layoutX="229.0" layoutY="184.0" prefHeight="42.0" prefWidth="673.0" spacing="4.0">
+   <HBox fx:id="boxMeteo" layoutX="229.0" layoutY="171.0" prefHeight="42.0" prefWidth="673.0" spacing="4.0">
       <children>
          <ImageView fx:id="immagineMeteo" fitHeight="37.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
             <HBox.margin>

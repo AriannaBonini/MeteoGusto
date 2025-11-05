@@ -52,18 +52,16 @@ public class Filtro {
 
 
     /* METODI PER LA LOGICA DI DOMINIO */
-    public void aggiungiData(LocalDate data) throws ValidazioneException {
+    public void validaData() throws ValidazioneException {
         if (data == null || data.isBefore(LocalDate.now())) {
             throw new ValidazioneException("La data della prenotazione non può essere nulla o nel passato.");
         }
-        this.data = data;
     }
 
-    public void aggiungiNumeroPersone(Integer numeroPersone) throws IllegalArgumentException {
+    public void validaNumeroPersone() throws IllegalArgumentException {
         if (numeroPersone == null) return;
         if (numeroPersone > 30) {
             throw new IllegalArgumentException("Il numero massimo di persone per una prenotazione è 30.");
         }
-        this.numeroPersone = numeroPersone;
     }
 }

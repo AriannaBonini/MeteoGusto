@@ -1,6 +1,7 @@
 package com.example.meteo_gusto.controller_grafico;
 
 import com.example.meteo_gusto.bean.FiltriBean;
+import com.example.meteo_gusto.bean.MeteoBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
@@ -15,12 +16,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -95,6 +100,7 @@ public class PrenotaRistoranteCG {
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
     private FiltriBean filtriBean;
     private List<PrenotazioneBean> listaRistorantiPrenotabili= new ArrayList<>();
+    private MeteoBean meteoBean;
 
     public void initialize() {
         filtroFasciaPrezzo.getItems().setAll(FasciaPrezzoRistorante.values());
@@ -158,9 +164,9 @@ public class PrenotaRistoranteCG {
 
     private void popolaListaRistoranti() {
         try {
-            prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean);
+            listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean);
 
-            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean, meteoBean);
 
             if (listaRistorantiPrenotabili == null || listaRistorantiPrenotabili.isEmpty()) {
                 GestoreScena.mostraAlertSenzaConferma(
@@ -211,8 +217,8 @@ public class PrenotaRistoranteCG {
             schedaRistorante.getChildren().add(infoRistorante1);
 
 
-            cittaRistorante.setText(ristorante.getCitta());
-            tipoCucinaRistorante.setText(ristorante.getCucina().getId());
+            cittaRistorante.setText(" • " + ristorante.getCitta());
+            tipoCucinaRistorante.setText(" • " + ristorante.getCucina().getId());
             infoRistorante2.getChildren().addAll(cittaRistorante, tipoCucinaRistorante);
             schedaRistorante.getChildren().add(infoRistorante2);
 
@@ -290,14 +296,34 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    private void clickFiltra() throws ValidazioneException, EccezioneDAO {
-        filtra.setDisable(true);
+    private void clickFiltra() {
+        try {
+            filtra.setDisable(true);
 
-        aggiornaFiltri();
+            aggiornaFiltri();
+            if(meteoBean==null) {
+                meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean);
 
-        listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
-        popolaHBox();
+            }
+            if(meteoBean!=null) {
+                mostraPrevisioniMetereologiche();
+            }
+
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
+            popolaHBox();
+
+        } catch (ValidazioneException e) {
+            logger.error("Errore di validazione: {}", e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel("Errore durante il filtraggio dei dati");
+        } catch (EccezioneDAO e) {
+            logger.error("Errore di accesso ai dati: {}", e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel("La persistenza non è al momento disponibile");
+        } catch (IOException e) {
+            logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
+        }
     }
+
 
     private void aggiornaFiltri() {
         if (filtriBean == null) {
@@ -359,6 +385,35 @@ public class PrenotaRistoranteCG {
         PauseTransition pausa = new PauseTransition(Duration.seconds(3));
         pausa.setOnFinished(event -> infoErrore.setText(testoIniziale));
         pausa.play();
+    }
+
+    private void mostraPrevisioniMetereologiche() {
+        InputStream is;
+        Image immagine;
+        if(meteoBean.getTempo().equals("Sole")) {
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Sole.png");
+        }else if(meteoBean.getTempo().equals("Pioggia")){
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Pioggia.png");
+        }else {
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Nuvoloso.png");
+
+        }
+        assert is != null;
+        immagine= new Image(is);
+        immagineMeteo.setImage(immagine);
+
+        meteo.setText( meteoBean.getTempo() + " • " + meteoBean.getTemperatura());
+        if((meteoBean.getTemperatura()>=5) && (meteoBean.getTemperatura()<=14)) {
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Freddo.png");
+        }else if((meteoBean.getTemperatura()>=26) && (meteoBean.getTemperatura()<=35)) {
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Caldo.png");
+        }else {
+            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/TemperaturaOttimale.png");
+        }
+
+        assert is != null;
+        immagine= new Image(is);
+        immagineTemperatura.setImage(immagine);
     }
 
 }

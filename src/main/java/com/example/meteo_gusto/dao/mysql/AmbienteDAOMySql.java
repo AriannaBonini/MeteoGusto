@@ -13,7 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO {
 
@@ -97,6 +99,48 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
 
         return risultati;
     }
+
+
+    @Override
+    public Ambiente cercaExtraPerAmbiente(Ambiente ambiente) throws EccezioneDAO {
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(CERCA_EXTRA_PER_AMBIENTE)) {
+
+                ps.setString(1, ambiente.getRistorante().getPartitaIVA());
+                ps.setString(2, ambiente.getTipoAmbiente().toString());
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        Set<Extra> extra = new HashSet<>();
+
+                        boolean riscaldamento = rs.getBoolean(RISCALDAMENTO);
+                        boolean raffreddamento = rs.getBoolean(RAFFREDDAMENTO);
+
+                        if (riscaldamento) {
+                            extra.add(Extra.RISCALDAMENTO);
+                        }
+                        if (raffreddamento) {
+                            extra.add(Extra.RAFFREDDAMENTO);
+                        }
+
+                        return new Ambiente(ambiente.getTipoAmbiente(), ambiente.getRistorante(), null, extra);
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO(
+                    "Errore durante la ricerca degli extra per l’ambiente " + ambiente.getTipoAmbiente() +
+                            " del ristorante: " + ambiente.getRistorante().getPartitaIVA(), e);
+        }
+
+        return null;
+    }
+
+
 
 
 

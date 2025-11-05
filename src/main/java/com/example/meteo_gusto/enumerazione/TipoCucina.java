@@ -1,14 +1,14 @@
 package com.example.meteo_gusto.enumerazione;
 
 public enum TipoCucina {
-    ITALIANA("italiana"),
-    SUSHI("sushi"),
-    FAST_FOOD("fast_food"),
-    GRECA("greca"),
-    CINESE("cinese"),
-    TURCA("turca"),
-    PIZZA("pizza"),
-    MESSICANA("messicana");
+    ITALIANA("Italiana"),
+    SUSHI("Sushi"),
+    FAST_FOOD("Fast Food"),
+    GRECA("Greca"),
+    CINESE("Cinese"),
+    TURCA("Turca"),
+    PIZZA("Pizza"),
+    MESSICANA("Messicana");
 
     private final String id;
 

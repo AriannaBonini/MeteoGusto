@@ -24,6 +24,14 @@ public class QuerySQLAmbienteDAO {
                     "FROM " + TABELLA_AMBIENTE + " " +
                     "WHERE " + RISTORANTE + " = ?";
 
+    protected static final String CERCA_EXTRA_PER_AMBIENTE = "SELECT " +
+            RISCALDAMENTO + ", " +
+            RAFFREDDAMENTO + " " +
+            "FROM " + TABELLA_AMBIENTE + " " +
+            "WHERE " + RISTORANTE + " = ? " +
+            "AND " + AMBIENTE + " = ?";
+
+
 
 
 

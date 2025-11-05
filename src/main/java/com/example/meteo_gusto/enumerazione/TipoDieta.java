@@ -1,13 +1,13 @@
 package com.example.meteo_gusto.enumerazione;
 
 public enum TipoDieta {
-    HALAL("halal"),
-    VEGANO("vegano"),
-    SENZA_LATTOSIO("senza_lattosio"),
-    PESCETARIANO("pescetariano"),
-    VEGETARIANO("vegetariano"),
-    CELIACO("celiaco"),
-    KOSHER("kosher");
+    HALAL("Halal"),
+    VEGANO("Vegano"),
+    SENZA_LATTOSIO("Senza Lattosio"),
+    PESCETARIANO("Pescetariano"),
+    VEGETARIANO("Vegetariano"),
+    CELIACO("Celiaco"),
+    KOSHER("Kosher");
 
     private final String id;
 
