@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -104,6 +105,28 @@ public class GestoreScena {
     public static void mostraAlertSenzaConferma(String titolo, String messaggio) {
         new AlertPersonalizzato().mostraAlertInfo(titolo,messaggio);
     }
+
+    public static <T> void sostituisciContenutoConParametri(AnchorPane contenitore, String percorsoFXML, Consumer<T> gestoreController) {
+        try {
+            FXMLLoader caricatore = new FXMLLoader(GestoreScena.class.getResource(percorsoFXML));
+            AnchorPane nuovoContenuto = caricatore.load();
+
+            T controller = caricatore.getController();
+            gestoreController.accept(controller);
+
+            contenitore.getChildren().setAll(nuovoContenuto);
+
+            AnchorPane.setTopAnchor(nuovoContenuto, 0.0);
+            AnchorPane.setBottomAnchor(nuovoContenuto, 0.0);
+            AnchorPane.setLeftAnchor(nuovoContenuto, 0.0);
+            AnchorPane.setRightAnchor(nuovoContenuto, 0.0);
+
+        } catch (IOException e) {
+            mostraErrore("Errore nel caricamento del contenuto: " + percorsoFXML);
+        }
+    }
+
+
 
 }
 

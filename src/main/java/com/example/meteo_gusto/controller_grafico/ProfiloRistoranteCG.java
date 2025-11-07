@@ -1,9 +1,6 @@
 package com.example.meteo_gusto.controller_grafico;
 
-import com.example.meteo_gusto.bean.FiltriBean;
-import com.example.meteo_gusto.bean.GiorniEOrariBean;
-import com.example.meteo_gusto.bean.RecensioneBean;
-import com.example.meteo_gusto.bean.RistoranteBean;
+import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.controller.RecensioneController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
@@ -11,13 +8,13 @@ import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.SupportoComponentiGUISchedaRistorante;
 import com.example.meteo_gusto.utilities.SupportoGUILogout;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -48,8 +45,6 @@ public class ProfiloRistoranteCG {
     @FXML
     private Button prenota;
     @FXML
-    private Button calendario;
-    @FXML
     private ComboBox<Integer> comboBoxRecensione;
     @FXML
     private ImageView esci;
@@ -57,9 +52,12 @@ public class ProfiloRistoranteCG {
     private ImageView prenotaRistorante;
     @FXML
     private ImageView recensisci;
+    @FXML
+    private AnchorPane contenitoreDinamico;
 
     private RistoranteBean ristoranteSelezionato;
     private FiltriBean filtriSelezionati;
+
 
     public void initialize() {
         comboBoxRecensione.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5));
@@ -109,7 +107,26 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickPrenota(ActionEvent evento){GestoreScena.cambiaScena("/RiepilogoPrenotazione.fxml", evento);}
+    public void clickPrenota() {
+        PrenotazioneBean prenotazione = popolaPrenotazione();
+
+        GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> {
+            ((RiepilogoPrenotazioneCG) controller).setPrenotazioneBean(prenotazione);
+            ((RiepilogoPrenotazioneCG) controller).setRistoranteSelezionato(ristoranteSelezionato);
+        });
+    }
+
+
+    private PrenotazioneBean popolaPrenotazione(){
+        /* Dati prenotazione */
+        PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
+        prenotazioneBean.setData(filtriSelezionati.getData());
+        prenotazioneBean.setOra(filtriSelezionati.getOra());
+        prenotazioneBean.setNumeroPersone(filtriSelezionati.getNumeroPersone());
+
+        return prenotazioneBean;
+    }
+
 
     @FXML
     public void clickMenu(){}

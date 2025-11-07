@@ -91,7 +91,7 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <Label fx:id="campoCittàRistorante" layoutX="169.0" layoutY="328.0" prefHeight="40.0" prefWidth="271.0" text="Roma">
+      <Label fx:id="campoCittaRistorante" layoutX="169.0" layoutY="328.0" prefHeight="40.0" prefWidth="271.0" text="Roma">
          <font>
             <Font size="25.0" />
          </font>

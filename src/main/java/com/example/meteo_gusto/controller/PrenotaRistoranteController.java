@@ -3,6 +3,7 @@ package com.example.meteo_gusto.controller;
 
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.bean.MeteoBean;
+import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
@@ -14,8 +15,10 @@ import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.mockapi.BoundaryMeteoMockAPI;
 import com.example.meteo_gusto.model.*;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
+import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.GiorniSettimanaHelper;
 import com.example.meteo_gusto.utilities.convertitore.ConvertitoreFiltri;
+import com.example.meteo_gusto.utilities.convertitore.ConvertitorePersona;
 import com.example.meteo_gusto.utilities.convertitore.ConvertitoreRistorante;
 
 import java.io.IOException;
@@ -27,7 +30,6 @@ public class PrenotaRistoranteController {
     private static final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
     private static final DietaDAO dietaDAO= daoFactoryFacade.getDietaDAO();
     private final List<Ristorante> ristorantiPrenotabili = new ArrayList<>();
-    private final List<Ambiente> ambientiCompatibiliConIlMeteo = new ArrayList<>();
     AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
 
     /**
@@ -180,6 +182,8 @@ public class PrenotaRistoranteController {
                 return false;
             }
 
+            ristorante.setTipoDieta(dieteRistoranteCompatibili.getTipoDieta());
+
         }
 
 
@@ -280,16 +284,23 @@ public class PrenotaRistoranteController {
                 .filter(r -> r.getPartitaIVA().equalsIgnoreCase(ristorante.getPartitaIVA()))
                 .toList();
 
+        boolean compatibile=false;
+
         for (Ristorante r : occorrenzeRistorante) {
+            List<Ambiente> ambientiDaAggiungere = new ArrayList<>();
+
             for (Ambiente ambienteRistorante : r.getAmbienteRistorante()) {
                 if (isAmbienteCompatibile(ambienteRistorante, ambientiCompatibili, r.getPartitaIVA())) {
-                    ambientiCompatibiliConIlMeteo.add(ambienteRistorante);
-                    return true;
+                    ambientiDaAggiungere.add(ambienteRistorante);
+                    compatibile = true;
                 }
             }
+
+            r.getAmbienteRistorante().addAll(ambientiDaAggiungere);
         }
 
-        return false;
+
+        return compatibile;
     }
 
     private boolean isAmbienteCompatibile(Ambiente ambienteRistorante, List<Ambiente> ambientiCompatibili, String partitaIVA) throws EccezioneDAO {
@@ -327,4 +338,6 @@ public class PrenotaRistoranteController {
         }
         return null;
     }
+
+    public PersonaBean datiUtente() {return ConvertitorePersona.personaModelInBean(Sessione.getInstance().getPersona());}
 }
