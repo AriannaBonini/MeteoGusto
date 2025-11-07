@@ -127,6 +127,26 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
         return mediaRistorante;
     }
 
+    @Override
+    public void aggiornaMediaStelle(Ristorante ristorante) throws EccezioneDAO {
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(AGGIORNA_MEDIA_STELLE_RISTORANTE)) {
+
+                ps.setBigDecimal(1, ristorante.getMediaStelle());
+                ps.setString(2, ristorante.getPartitaIVA());
+
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante l'aggiornamento della media stelle del ristorante", e);
+        }
+    }
+
+
 
 }
 

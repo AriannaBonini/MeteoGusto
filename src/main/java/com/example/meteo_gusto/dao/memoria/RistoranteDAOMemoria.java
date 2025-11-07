@@ -16,4 +16,6 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
     public List<Ristorante> filtraRistorantiPerCitta(Filtro filtro) throws EccezioneDAO { return null;}
     @Override
     public Ristorante mediaStelleRistorante(Ristorante ristorante) throws EccezioneDAO{return null;}
+    @Override
+    public void aggiornaMediaStelle(Ristorante ristorante) throws EccezioneDAO {}
 }

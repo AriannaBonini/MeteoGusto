@@ -4,7 +4,6 @@ import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.bean.GiorniEOrariBean;
 import com.example.meteo_gusto.bean.RecensioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
-import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller.RecensioneController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
@@ -20,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -59,7 +57,6 @@ public class ProfiloRistoranteCG {
     private ImageView prenotaRistorante;
     @FXML
     private ImageView recensisci;
-
 
     private RistoranteBean ristoranteSelezionato;
     private FiltriBean filtriSelezionati;
@@ -112,8 +109,6 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickCalendario(){}
-    @FXML
     public void clickPrenota(ActionEvent evento){GestoreScena.cambiaScena("/RiepilogoPrenotazione.fxml", evento);}
 
     @FXML
@@ -136,7 +131,7 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickRecensisci(MouseEvent evento) {
+    public void clickRecensisci() {
         try {
             RecensioneController recensioneController = new RecensioneController();
             RecensioneBean recensioneBean = new RecensioneBean();
@@ -144,13 +139,19 @@ public class ProfiloRistoranteCG {
             Integer numeroStelle = comboBoxRecensione.getValue();
             if (numeroStelle != null) {
                 recensioneBean.setStelle(BigDecimal.valueOf(numeroStelle));
+
+                recensioneBean.setRistorante(ristoranteSelezionato);
+                recensioneController.recensisciRistorante(recensioneBean);
+
+                ristoranteSelezionato.setMediaStelle(recensioneController.nuovaMediaRecensione(ristoranteSelezionato).getMediaStelle());
+                SupportoComponentiGUISchedaRistorante.immagineStellaRistorante(ristoranteSelezionato, hBoxStelle);
+
+                recensisci.setVisible(false);
+
+            } else {
+                GestoreScena.mostraAlertSenzaConferma("Recensione non valida", "Per favore, inserisci una valutazione compresa tra 1 e 5.");
+
             }
-
-            recensioneBean.setRistorante(ristoranteSelezionato);
-            recensioneController.recensisciRistorante(recensioneBean);
-            ristoranteSelezionato.setMediaStelle(recensioneController.nuovaMediaRecensione(ristoranteSelezionato).getMediaStelle());
-            SupportoComponentiGUISchedaRistorante.immagineStellaRistorante(ristoranteSelezionato,hBoxStelle);
-
         }catch (EccezioneDAO e) {
             GestoreScena.mostraAlertSenzaConferma("Errore", "Inserimento recensione non riuscito");
         }

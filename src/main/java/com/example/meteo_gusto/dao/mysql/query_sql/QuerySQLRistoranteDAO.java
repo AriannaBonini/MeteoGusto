@@ -61,7 +61,12 @@ public class QuerySQLRistoranteDAO {
 
     protected static final String MEDIA_STELLE_PER_RISTORANTE = "SELECT " + MEDIA_STELLE + " " +
                     "FROM " + TABELLA_RISTORANTE + " " +
-                    "WHERE " + NOME + " = ?";
+                    "WHERE " + PARTITA_IVA + " = ?";
+
+    protected static final String AGGIORNA_MEDIA_STELLE_RISTORANTE =
+            "UPDATE " + TABELLA_RISTORANTE + " SET " +
+                    MEDIA_STELLE + " = ? WHERE " + PARTITA_IVA + " = ?";
+
 
 
 

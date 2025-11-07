@@ -15,6 +15,24 @@ public class QuerySQLRecensioneDAO {
             DATA + ") " +
             "VALUES (?, ?, ?, ?)";
 
+    protected static final String VERIFICA_RECENSIONE = "SELECT COUNT(*) FROM " + TABELLA_RECENSIONE + " WHERE " +
+            UTENTE + " = ? AND " +
+            RISTORANTE + " = ?";
+
+    protected static final String AGGIORNA_RECENSIONE = "UPDATE " + TABELLA_RECENSIONE + " SET " +
+            STELLE + " = ?, " +
+            DATA + " = ? " +
+            "WHERE " + UTENTE + " = ? AND " + RISTORANTE + " = ?";
+
+    protected static final String CALCOLA_MEDIA_STELLE_RISTORANTE =
+            "SELECT AVG(" + STELLE + ") AS " + STELLE + ", " + RISTORANTE + " " +
+                    "FROM " + TABELLA_RECENSIONE + " " +
+                    "WHERE " + RISTORANTE + " = ?";
+
+
+
+
+
 
 
 }

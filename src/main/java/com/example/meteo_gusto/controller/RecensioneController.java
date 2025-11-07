@@ -12,32 +12,44 @@ import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.convertitore.ConvertitoreRecensione;
 import com.example.meteo_gusto.utilities.convertitore.ConvertitoreRistorante;
-
 import java.time.LocalDate;
 
 public class RecensioneController {
 
     private static final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+    private static final RecensioneDAO recensioneDAO= daoFactoryFacade.getRecensioneDAO();
+    private static final RistoranteDAO ristoranteDAO= daoFactoryFacade.getRistoranteDAO();
 
     public void recensisciRistorante(RecensioneBean recensioneBean) throws EccezioneDAO {
-        RecensioneDAO recensioneDAO= daoFactoryFacade.getRecensioneDAO();
 
         LocalDate dataRecensione = LocalDate.now();
         Persona utente= Sessione.getInstance().getPersona();
 
         Recensione recensione= ConvertitoreRecensione.recensioneBeanInModel(recensioneBean,utente,dataRecensione);
-        recensioneDAO.nuovaRecensione(recensione);
+        salvaRecensione(recensione);
+        aggiornaMediaRistorante(recensione);
     }
 
     public RistoranteBean nuovaMediaRecensione(RistoranteBean ristoranteBean) throws EccezioneDAO {
-        RistoranteDAO ristoranteDAO= daoFactoryFacade.getRistoranteDAO();
 
         Ristorante ristorante= ristoranteDAO.mediaStelleRistorante(ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean));
         return ConvertitoreRistorante.ristoranteModelInBean(ristorante);
 
     }
 
+    private void salvaRecensione(Recensione recensione) throws EccezioneDAO {
+        if (recensioneDAO.esisteRecensione(recensione)) {
+            recensioneDAO.aggiornaRecensione(recensione);
+        } else {
+            recensioneDAO.nuovaRecensione(recensione);
+        }
+    }
 
+
+    private void aggiornaMediaRistorante(Recensione recensione) throws EccezioneDAO {
+        Ristorante mediaRecensioniRistorante= recensioneDAO.calcolaNuovaMedia(recensione);
+        ristoranteDAO.aggiornaMediaStelle(mediaRecensioniRistorante);
+    }
 
 
 

@@ -225,7 +225,6 @@ public class PrenotaRistoranteCG {
             infoRistorante2.getChildren().addAll(cittaRistorante, tipoCucinaRistorante);
             schedaRistorante.getChildren().add(infoRistorante2);
 
-
             mediaRecensione.setText(ristorantePrenotabile.getMediaStelle()+"/5");
             infoStelle.getChildren().addAll(
                     SupportoComponentiGUISchedaRistorante.creaImmagineStella("/Foto/stellinaColorata.png"),

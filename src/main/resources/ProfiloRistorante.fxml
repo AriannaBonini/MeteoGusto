@@ -22,7 +22,7 @@
       </Label>
 
       <!-- Nome Ristorante -->
-      <Label fx:id="nomeRistorante" layoutX="234.0" layoutY="393.0" prefHeight="46.0" prefWidth="270.0" text="Mordi &amp; Fuggi" textFill="#e97627">
+      <Label fx:id="nomeRistorante" layoutX="234.0" layoutY="393.0" prefHeight="46.0" prefWidth="219.0" text="Mordi &amp; Fuggi" textFill="#e97627">
          <font>
             <Font size="30.0" />
          </font>
@@ -68,7 +68,7 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <HBox fx:id="hBoxStelle" layoutX="511.0" layoutY="403.0" prefHeight="38.0" prefWidth="171.0" spacing="5.0">
+      <HBox fx:id="hBoxStelle" layoutX="464.0" layoutY="403.0" prefHeight="38.0" prefWidth="212.0" spacing="5.0">
          <children>
       
             <!-- Stelle valutazione -->
@@ -133,7 +133,7 @@
       </ImageView>
 
       <!-- Pulsanti Menu, Calendario, Prenota -->
-      <Button fx:id="menu" layoutX="231.0" layoutY="595.0" onAction="#clickMenu" prefHeight="43.0" prefWidth="135.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Menù">
+      <Button fx:id="menu" layoutX="265.0" layoutY="586.0" onAction="#clickMenu" prefHeight="43.0" prefWidth="160.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Menù">
          <font>
             <Font size="20.0" />
          </font>
@@ -141,15 +141,7 @@
             <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
          </textFill>
       </Button>
-      <Button fx:id="calendario" layoutX="380.0" layoutY="595.0" onAction="#clickCalendario" prefHeight="43.0" prefWidth="135.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Calendario">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <textFill>
-            <Color red="1.0" green="1.0" blue="1.0" opacity="1.0" />
-         </textFill>
-      </Button>
-      <Button fx:id="prenota" layoutX="529.0" layoutY="595.0" onAction="#clickPrenota" prefHeight="43.0" prefWidth="135.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Prenota">
+      <Button fx:id="prenota" layoutX="434.0" layoutY="586.0" onAction="#clickPrenota" prefHeight="43.0" prefWidth="160.0" style="-fx-background-color: #e97627; -fx-background-radius: 8px;" text="Prenota">
          <font>
             <Font size="20.0" />
          </font>
