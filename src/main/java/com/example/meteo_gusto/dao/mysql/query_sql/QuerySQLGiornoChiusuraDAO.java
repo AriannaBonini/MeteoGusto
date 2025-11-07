@@ -12,7 +12,7 @@ public class QuerySQLGiornoChiusuraDAO {
             "VALUES (?, ?)";
 
     protected static final String CONTROLLA_GIORNO_CHIUSURA_IN_DATA =
-            "SELECT " + GIORNO + ", " + RISTORANTE + " " +
+            "SELECT " + GIORNO + " " +
                     "FROM " + TABELLA_GIORNI_CHIUSURA + " " +
                     "WHERE " + RISTORANTE + " = ?";
 

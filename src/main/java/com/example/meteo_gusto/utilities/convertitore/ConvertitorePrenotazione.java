@@ -29,22 +29,22 @@ public class ConvertitorePrenotazione {
     }
 
 
-    public static PrenotazioneBean prenotazioneModelInBean(Prenotazione prenotazioneModel) throws ValidazioneException {
+    public static PrenotazioneBean prenotazioneModelInBean(Prenotazione prenotazioneModel) throws ValidazioneException{
         if (prenotazioneModel == null) return null;
 
         PersonaBean utenteBean = ConvertitorePersona.personaModelInBean(prenotazioneModel.getUtente());
         AmbienteBean ambienteBean = ConvertitoreAmbiente.ambienteModelInBean(prenotazioneModel.getAmbiente());
 
-        PrenotazioneBean prenotazioneBean = new PrenotazioneBean();
-        prenotazioneBean.setData(prenotazioneModel.getData());
-        prenotazioneBean.setOra(prenotazioneModel.getOra());
-        prenotazioneBean.setNumeroPersone(prenotazioneModel.getNumeroPersone());
-        prenotazioneBean.setUtente(utenteBean);
-        prenotazioneBean.setAmbiente(ambienteBean);
-        prenotazioneBean.setFasciaOraria(prenotazioneModel.getFasciaOraria());
-
-        return prenotazioneBean;
+        return new PrenotazioneBean(
+                prenotazioneModel.getOra(),
+                prenotazioneModel.getData(),
+                prenotazioneModel.getNumeroPersone(),
+                utenteBean,
+                ambienteBean,
+                prenotazioneModel.getFasciaOraria()
+        );
     }
+
 
 
 }

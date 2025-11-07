@@ -1,59 +1,83 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
+import com.example.meteo_gusto.bean.AmbienteBean;
+import com.example.meteo_gusto.bean.GiorniEOrariBean;
+import com.example.meteo_gusto.bean.PosizioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
-import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.model.Persona;
+import com.example.meteo_gusto.model.Ambiente;
+import com.example.meteo_gusto.model.GiorniEOrari;
+import com.example.meteo_gusto.model.Posizione;
 import com.example.meteo_gusto.model.Ristorante;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConvertitoreRistorante {
 
     private ConvertitoreRistorante(){ /* COSTRUTTORE VUOTO */ }
 
 
-    public static RistoranteBean ristoranteModelInBean(Ristorante ristoranteModel) throws ValidazioneException {
+    public static RistoranteBean ristoranteModelInBean(Ristorante ristoranteModel)  {
         if (ristoranteModel == null) return null;
+        return costruisciRistoranteBean(ristoranteModel);
+    }
 
-        RistoranteBean ristoranteBean = new RistoranteBean();
-        ristoranteBean.setPartitaIVA(ristoranteModel.getPartitaIVA());
+    private static RistoranteBean costruisciRistoranteBean(Ristorante ristoranteModel) {
+        PosizioneBean posizioneBean = new PosizioneBean(
+                ristoranteModel.getPosizione().getIndirizzoCompleto(),
+                ristoranteModel.getPosizione().getCap(),
+                ristoranteModel.getPosizione().getCitta()
+        );
 
-        ristoranteBean.setNomeRistorante(ristoranteModel.getNomeRistorante());
-        ristoranteBean.setTelefonoRistorante(ristoranteModel.getTelefonoRistorante());
-        ristoranteBean.setCucina(ristoranteModel.getCucina());
-        ristoranteBean.setFasciaPrezzo(ristoranteModel.getFasciaPrezzo());
-        ristoranteBean.setMediaStelle(ristoranteModel.getMediaStelle());
 
-        ristoranteBean.setProprietario(ConvertitorePersona.personaModelInBean(ristoranteModel.getProprietario()));
-        ristoranteBean.setIndirizzoCompleto(ristoranteModel.getIndirizzoCompleto());
-        ristoranteBean.setCitta(ristoranteModel.getCitta());
-        ristoranteBean.setCap(ristoranteModel.getCap());
-        ristoranteBean.setInizioPranzo(ristoranteModel.getInizioPranzo());
-        ristoranteBean.setFinePranzo(ristoranteModel.getFinePranzo());
-        ristoranteBean.setInizioCena(ristoranteModel.getInizioCena());
-        ristoranteBean.setFineCena(ristoranteModel.getFineCena());
+        GiorniEOrariBean giorniEOrariBean = new GiorniEOrariBean(
+                ristoranteModel.getOrari().getInizioPranzo(),
+                ristoranteModel.getOrari().getFinePranzo(),
+                ristoranteModel.getOrari().getInizioCena(),
+                ristoranteModel.getOrari().getFineCena(),
+                ristoranteModel.getOrari().getGiorniChiusura()
+        );
+
+
+
+        List<AmbienteBean> ambienteBean = new ArrayList<>();
+        for (Ambiente ambiente : ristoranteModel.getAmbienteRistorante()) {
+            ambienteBean.add(ConvertitoreAmbiente.ambienteModelInBean(ambiente));
+        }
+
+        RistoranteBean ristoranteBean = new RistoranteBean(
+                ristoranteModel.getPartitaIVA(),
+                ristoranteModel.getNomeRistorante(),
+                ristoranteModel.getTelefonoRistorante(),
+                ristoranteModel.getCucina(),
+                ristoranteModel.getFasciaPrezzo(),
+                posizioneBean,
+                giorniEOrariBean,
+                ambienteBean,
+                ConvertitorePersona.personaModelInBean(ristoranteModel.getProprietario())
+        );
+
+
+        ristoranteBean.setTipoDieta(ristoranteModel.getTipoDieta());
 
         return ristoranteBean;
     }
 
+
     public static Ristorante ristoranteBeanInModel(RistoranteBean ristoranteBean) {
         if (ristoranteBean == null) return null;
 
-        Persona proprietarioModel = ConvertitorePersona.personaBeanInModel(ristoranteBean.getProprietario());
         Ristorante ristorante= new  Ristorante(ristoranteBean.getPartitaIVA(),
-                proprietarioModel,
                 ristoranteBean.getNomeRistorante(),
                 ristoranteBean.getTelefonoRistorante(),
                 ristoranteBean.getCucina(),
                 ristoranteBean.getFasciaPrezzo(),
-                ristoranteBean.getIndirizzoCompleto(),
-                ristoranteBean.getCitta(),
-                ristoranteBean.getCap(),
-                ristoranteBean.getMediaStelle()
+                new Posizione(ristoranteBean.getPosizione().getIndirizzoCompleto(), ristoranteBean.getPosizione().getCitta(), ristoranteBean.getPosizione().getCap()),
+                new GiorniEOrari(ristoranteBean.getGiorniEOrari().getInizioPranzo(), ristoranteBean.getGiorniEOrari().getFinePranzo(), ristoranteBean.getGiorniEOrari().getInizioCena(), ristoranteBean.getGiorniEOrari().getFineCena(),ristoranteBean.getGiorniEOrari().getGiorniChiusura())
         );
 
-        ristorante.setInizioPranzo(ristoranteBean.getInizioPranzo());
-        ristorante.setFinePranzo(ristoranteBean.getFinePranzo());
-        ristorante.setInizioCena(ristoranteBean.getInizioCena());
-        ristorante.setFineCena(ristoranteBean.getFineCena());
+        ristorante.setMediaStelle(ristoranteBean.getMediaStelle());
+        ristorante.setProprietario(ConvertitorePersona.personaBeanInModel(ristoranteBean.getProprietario()));
 
         return ristorante;
     }

@@ -59,6 +59,9 @@ public class QuerySQLRistoranteDAO {
                     "FROM " + TABELLA_RISTORANTE + " " +
                     "WHERE " + CITTA + " = ?";
 
+    protected static final String MEDIA_STELLE_PER_RISTORANTE = "SELECT " + MEDIA_STELLE + " " +
+                    "FROM " + TABELLA_RISTORANTE + " " +
+                    "WHERE " + NOME + " = ?";
 
 
 

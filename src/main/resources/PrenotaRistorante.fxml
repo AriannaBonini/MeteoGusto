@@ -215,9 +215,9 @@
                                  <Image url="@Foto/FotoPaninoteca.png" />
                               </image>
                            </ImageView>
-                           <HBox fx:id="hBoxInfoRistorante1" prefHeight="40.0" prefWidth="285.0" spacing="3.0">
+                           <HBox fx:id="hBoxInfoRistorante1" prefHeight="40.0" prefWidth="285.0" spacing="5.0">
                               <children>
-                                 <Label fx:id="campoNomeRistorante" prefHeight="18.0" prefWidth="133.0">
+                                 <Label fx:id="campoNomeRistorante" prefHeight="30.0" prefWidth="213.0">
                                     <font>
                                        <Font size="20.0" />
                                     </font>
@@ -225,7 +225,7 @@
                                        <Insets left="14.0" top="5.0" />
                                     </HBox.margin>
                                  </Label>
-                                 <HBox fx:id="hBoxInfoFasciaPrezzo" prefHeight="40.0" prefWidth="144.0">
+                                 <HBox fx:id="hBoxInfoFasciaPrezzo" prefHeight="40.0" prefWidth="144.0" spacing="1.0">
                                     <children>
                                        <ImageView fx:id="immagineDollaro" fitHeight="36.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                           <image>

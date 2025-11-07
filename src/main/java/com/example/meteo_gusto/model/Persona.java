@@ -38,7 +38,7 @@ public class Persona {
     public TipoPersona getTipoPersona() {return tipoPersona;}
 
 
-    /* METODI DI LOGICA DI DOMINIO */
+    /* METODI DI SUPPORTO */
     public boolean tipoUtente() {return tipoPersona==TipoPersona.UTENTE;}
     public boolean tipoRistoratore() {return tipoPersona==TipoPersona.RISTORATORE;}
 

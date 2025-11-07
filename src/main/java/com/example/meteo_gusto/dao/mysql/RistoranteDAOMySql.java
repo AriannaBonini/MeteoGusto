@@ -6,6 +6,8 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.model.Filtro;
+import com.example.meteo_gusto.model.GiorniEOrari;
+import com.example.meteo_gusto.model.Posizione;
 import com.example.meteo_gusto.model.Ristorante;
 import java.io.IOException;
 import java.sql.*;
@@ -29,15 +31,15 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 ps.setString(2, ristorante.getPartitaIVA());
                 ps.setString(3, ristorante.getTelefonoRistorante());
                 ps.setString(4, ristorante.getProprietario().getEmail());
-                ps.setString(5, ristorante.getVia());
-                ps.setInt(6, Integer.parseInt(ristorante.getCivico()));
-                ps.setString(7, ristorante.getCitta());
-                ps.setString(8, ristorante.getCap());
+                ps.setString(5, ristorante.getPosizione().getVia());
+                ps.setInt(6, Integer.parseInt(ristorante.getPosizione().getCivico()));
+                ps.setString(7, ristorante.getPosizione().getCitta());
+                ps.setString(8, ristorante.getPosizione().getCap());
                 ps.setString(9, ristorante.getCucina().name());
-                ps.setTime(10, Time.valueOf(ristorante.getInizioPranzo()));
-                ps.setTime(11, Time.valueOf(ristorante.getFinePranzo()));
-                ps.setTime(12, Time.valueOf(ristorante.getInizioCena()));
-                ps.setTime(13, Time.valueOf(ristorante.getFineCena()));
+                ps.setTime(10, Time.valueOf(ristorante.getOrari().getInizioPranzo()));
+                ps.setTime(11, Time.valueOf(ristorante.getOrari().getFinePranzo()));
+                ps.setTime(12, Time.valueOf(ristorante.getOrari().getInizioCena()));
+                ps.setTime(13, Time.valueOf(ristorante.getOrari().getFineCena()));
                 ps.setString(14, ristorante.getFasciaPrezzo().name());
 
                 int righeInserite = ps.executeUpdate();
@@ -64,28 +66,29 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
 
-                    Ristorante ristoranteTrovato = new Ristorante(
-                            rs.getString(PARTITA_IVA),
-                            null,
-                            rs.getString(NOME),
-                            rs.getString(TELEFONO),
-                            TipoCucina.fromId(rs.getString(CUCINA)),
-                            FasciaPrezzoRistorante.fasciaPrezzoDaId(rs.getString(FASCIA_PREZZO)),
-                            rs.getString(INDIRIZZO),
-                            rs.getString(CITTA),
-                            rs.getString(CAP),
-                            rs.getBigDecimal(MEDIA_STELLE)
-                    );
+
+                    Ristorante ristoranteTrovato = new Ristorante(rs.getString(PARTITA_IVA));
+
+                    ristoranteTrovato.setNomeRistorante(rs.getString(NOME));
+                    ristoranteTrovato.setTelefonoRistorante(rs.getString(TELEFONO));
+                    ristoranteTrovato.setCucina(TipoCucina.fromId(rs.getString(CUCINA)));
+                    ristoranteTrovato.setFasciaPrezzo(FasciaPrezzoRistorante.fasciaPrezzoDaId(rs.getString(FASCIA_PREZZO)));
+                    ristoranteTrovato.setPosizione(new Posizione(rs.getString(INDIRIZZO), rs.getString(CITTA), rs.getString(CAP)));
+                    ristoranteTrovato.setMediaStelle(rs.getBigDecimal(MEDIA_STELLE));
 
                     Time inizioPranzo = rs.getTime(INIZIO_PRANZO);
                     Time finePranzo   = rs.getTime(FINE_PRANZO);
                     Time inizioCena   = rs.getTime(INIZIO_CENA);
                     Time fineCena     = rs.getTime(FINE_CENA);
 
-                    if (inizioPranzo != null) ristoranteTrovato.setInizioPranzo(inizioPranzo.toLocalTime());
-                    if (finePranzo != null)   ristoranteTrovato.setFinePranzo(finePranzo.toLocalTime());
-                    if (inizioCena != null)   ristoranteTrovato.setInizioCena(inizioCena.toLocalTime());
-                    if (fineCena != null)     ristoranteTrovato.setFineCena(fineCena.toLocalTime());
+                    if (ristoranteTrovato.getOrari() == null) {
+                        ristoranteTrovato.setOrari(new GiorniEOrari());
+                    }
+
+                    if (inizioPranzo != null) ristoranteTrovato.getOrari().setInizioPranzo(inizioPranzo.toLocalTime());
+                    if (finePranzo != null)   ristoranteTrovato.getOrari().setFinePranzo(finePranzo.toLocalTime());
+                    if (inizioCena != null)   ristoranteTrovato.getOrari().setInizioCena(inizioCena.toLocalTime());
+                    if (fineCena != null)     ristoranteTrovato.getOrari().setFineCena(fineCena.toLocalTime());
 
                     listaRistoranti.add(ristoranteTrovato);
                 }
@@ -98,5 +101,32 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
         return listaRistoranti;
     }
 
+    @Override
+    public Ristorante mediaStelleRistorante(Ristorante ristorante) throws EccezioneDAO {
+        Ristorante mediaRistorante= new Ristorante();
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(MEDIA_STELLE_PER_RISTORANTE)) {
+
+                ps.setString(1, ristorante.getPartitaIVA());
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        mediaRistorante.setMediaStelle(rs.getBigDecimal(MEDIA_STELLE));
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero della media stelle del ristorante", e);
+        }
+
+        return mediaRistorante;
+    }
+
 
 }
+

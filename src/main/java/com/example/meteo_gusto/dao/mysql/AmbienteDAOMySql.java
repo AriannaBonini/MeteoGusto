@@ -41,7 +41,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                             && ambiente.getExtra() != null
                             && ambiente.getExtra().contains(Extra.RAFFREDDAMENTO);
 
-                    String ristoranteId = ambiente.getRistorante() != null ? ambiente.getRistorante().getPartitaIVA() : null;
+                    String ristoranteId = ambiente.getRistorante() != null ? ambiente.getRistorante() : null;
                     if (ristoranteId == null) {
                         throw new EccezioneDAO("Ristorante non valorizzato per ambiente: " + nomeAmbiente);
                     }
@@ -109,7 +109,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(CERCA_EXTRA_PER_AMBIENTE)) {
 
-                ps.setString(1, ambiente.getRistorante().getPartitaIVA());
+                ps.setString(1, ambiente.getRistorante());
                 ps.setString(2, ambiente.getTipoAmbiente().toString());
 
                 try (ResultSet rs = ps.executeQuery()) {
@@ -134,7 +134,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
         } catch (SQLException | IOException e) {
             throw new EccezioneDAO(
                     "Errore durante la ricerca degli extra per l’ambiente " + ambiente.getTipoAmbiente() +
-                            " del ristorante: " + ambiente.getRistorante().getPartitaIVA(), e);
+                            " del ristorante: " + ambiente.getRistorante(), e);
         }
 
         return null;

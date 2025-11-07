@@ -15,10 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
 import static java.time.LocalTime.parse;
 
 public class PrenotaRistoranteFormInizialeCG {
@@ -72,18 +70,23 @@ public class PrenotaRistoranteFormInizialeCG {
             FiltriBean filtriBean = creaFiltriBean();
             GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
                     (PrenotaRistoranteCG controller) -> controller.setFiltriBean(filtriBean));
-        } catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
         } catch (DateTimeParseException e) {
             mostraErroreTemporaneamenteNellaLabel("Orario non valido. Usa il formato HH:mm");
         }catch (NumberFormatException e) {
             mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
+        }catch (ValidazioneException e) {
+            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
         }
     }
 
-    private FiltriBean creaFiltriBean() throws ValidazioneException, DateTimeParseException, NumberFormatException {
-        LocalTime ora = parse(campoOra.getText(), formatoOrario);
-        return new FiltriBean(campoData.getValue(), ora, campoCitta.getText(), Integer.parseInt(campoNumeroPersone.getText()));
+    private FiltriBean creaFiltriBean() throws DateTimeParseException, NumberFormatException, ValidazioneException {
+        FiltriBean filtriBean = new FiltriBean();
+        filtriBean.setData(campoData.getValue());
+        filtriBean.setOra(parse(campoOra.getText(), formatoOrario));
+        filtriBean.setCitta(campoCitta.getText().trim());
+        filtriBean.setNumeroPersone(Integer.parseInt(campoNumeroPersone.getText()));
+
+        return filtriBean;
     }
 
 

@@ -12,7 +12,7 @@ public class RegistrazioneUtenteBean {
 
 
 
-    /* SETTER CON VALIDAZIONE */
+    /* METODI SETTER CON VALIDAZIONE */
     public void setPersona(PersonaBean persona) throws ValidazioneException {
         if (persona == null) {
             throw new ValidazioneException("I dati personali sono obbligatori per la registrazione.");
@@ -34,7 +34,7 @@ public class RegistrazioneUtenteBean {
         this.accettaTermini = accettaTermini;
     }
 
-    /* GETTER */
+    /* METODI GETTER */
     public PersonaBean getPersona() { return persona; }
     public boolean isMaggiorenne() { return maggiorenne; }
     public boolean isAccettaTermini() { return accettaTermini; }

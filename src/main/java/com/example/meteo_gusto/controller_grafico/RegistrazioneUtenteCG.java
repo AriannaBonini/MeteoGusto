@@ -52,25 +52,31 @@ public class RegistrazioneUtenteCG {
             GestoreScena.mostraAlertSenzaConferma("Successo", "La registrazione è andata a buon fine!");
             GestoreScena.cambiaScena("/Login.fxml", evento);
 
-        } catch (ValidazioneException | EccezioneDAO e) {
+        } catch (EccezioneDAO e) {
             mostraErroreTemporaneamenteNellaLabel(e.getMessage());
             logger.error("Errore registrazione: ", e);
         }
     }
 
-    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException {
-        PersonaBean personaBean= new PersonaBean(campoNome.getText().trim(),
-                campoCognome.getText().trim(),
-                campoTelefono.getText().trim(),
-                campoEmail.getText().trim(),
-                campoPassword.getText().trim(),
-                tipoPersona);
+    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() {
+        RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
+        try {
+            PersonaBean personaBean = new PersonaBean();
+            personaBean.setCognome(campoCognome.getText().trim());
+            personaBean.setNome(campoNome.getText().trim());
+            personaBean.setTelefono(campoTelefono.getText().trim());
+            personaBean.setEmail(campoEmail.getText().trim());
+            personaBean.setPassword(campoPassword.getText().trim());
+            personaBean.setTipoPersona(tipoPersona);
 
-        RegistrazioneUtenteBean registrazioneUtenteBean= new RegistrazioneUtenteBean();
-        registrazioneUtenteBean.setPersona(personaBean);
-        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
-        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
+            registrazioneUtenteBean.setPersona(personaBean);
+            registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+            registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
 
+
+        }catch (ValidazioneException e) {
+            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
+        }
         return registrazioneUtenteBean;
     }
 

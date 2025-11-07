@@ -33,20 +33,18 @@ public class RegistrazioneController {
             Persona proprietarioRistorante = ConvertitorePersona.personaBeanInModel(registrazioneRistoratoreBean.getRistorante().getProprietario());
             Ristorante ristorante = ConvertitoreRistorante.ristoranteBeanInModel(registrazioneRistoratoreBean.getRistorante());
 
-            ristorante.validaOrariPranzo();
-            ristorante.validaOrariCena();
+            controllaFasciaOrariaPranzo(ristorante.getOrari());
+            controllaFasciaOrariaCena(ristorante.getOrari());
 
             personaDAO.registraPersona(proprietarioRistorante);
             ristoranteDAO.registraRistorante(ristorante);
 
-            List<GiornoChiusura> listaGiornoChiusura = giorniChiusuraRistoranteInModel(registrazioneRistoratoreBean);
-            if (listaGiornoChiusura != null && !listaGiornoChiusura.isEmpty()) {
-                giornoChiusuraDAO.registraGiorniChiusuraRistorante(listaGiornoChiusura);
+            if (ristorante.getOrari().getGiorniChiusura() != null && !ristorante.getOrari().getGiorniChiusura().isEmpty()) {
+                giornoChiusuraDAO.registraGiorniChiusuraRistorante(ristorante);
             }
 
-            List<Dieta> listaDieta = dietaRistoranteInModel(registrazioneRistoratoreBean);
-            if (listaDieta!=null && !listaDieta.isEmpty()) {
-                dietaDAO.registraDieta(listaDieta);
+            if (ristorante.getTipoDieta()!=null && !ristorante.getTipoDieta().isEmpty()) {
+                dietaDAO.registraDieta(ristorante);
             }
 
             List<Ambiente> listaAmbiente = ambienteRistoranteInModel(registrazioneRistoratoreBean);
@@ -60,53 +58,35 @@ public class RegistrazioneController {
 
     /* ---------------- METODI PRIVATI DI SUPPORTO ---------------- */
 
-    private List<GiornoChiusura> giorniChiusuraRistoranteInModel(RegistrazioneRistoratoreBean registrazione) {
-        if (registrazione.getGiorniChiusura() == null || registrazione.getGiorniChiusura().isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        Ristorante ristoranteModel = ConvertitoreRistorante.ristoranteBeanInModel(registrazione.getRistorante());
-
-        return registrazione.getGiorniChiusura().stream()
-                .map(giorno -> new GiornoChiusura(ristoranteModel, giorno))
-                .toList();
-    }
-
-
-
-    private List<Dieta> dietaRistoranteInModel(RegistrazioneRistoratoreBean registrazione) {
-        DietaBean bean = new DietaBean();
-        bean.setRistorante(registrazione.getRistorante());
-        bean.setTipoDieta(registrazione.getDieta());
-
-        if (bean.getTipoDieta() == null || bean.getTipoDieta().isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return bean.getTipoDieta().stream()
-                .map(tipo -> {
-                    DietaBean singoloBean = new DietaBean();
-                    singoloBean.setRistorante(bean.getRistorante());
-                    singoloBean.setTipoDieta(Set.of(tipo));
-                    return ConvertitoreDieta.dietaBeanInModel(singoloBean);
-                })
-                .toList();
-    }
-
-    private List<Ambiente> ambienteRistoranteInModel(RegistrazioneRistoratoreBean registrazione) {
+    private List<Ambiente> ambienteRistoranteInModel(RegistrazioneRistoratoreBean registrazione) throws ValidazioneException {
         if (registrazione.getAmbiente() == null || registrazione.getAmbiente().isEmpty()) {
             return Collections.emptyList();
         }
-
         List<Ambiente> listaAmbiente = new ArrayList<>();
+        try {
+            for (AmbienteBean ambienteBean : registrazione.getAmbiente()) {
+                ambienteBean.setRistorante(registrazione.getRistorante().getPartitaIVA());
 
-        for (AmbienteBean ambienteBean : registrazione.getAmbiente()) {
-            ambienteBean.setRistorante(registrazione.getRistorante());
-
-            listaAmbiente.add(ConvertitoreAmbiente.ambienteBeanInModel(ambienteBean));
+                listaAmbiente.add(ConvertitoreAmbiente.ambienteBeanInModel(ambienteBean));
+            }
+        }catch (ValidazioneException e) {
+            throw new ValidazioneException("Errore durante la creazione della lista degli ambienti per la registrazione",e);
         }
 
         return listaAmbiente;
+    }
+
+
+    private void controllaFasciaOrariaPranzo(GiorniEOrari orarioRistorante) throws ValidazioneException {
+        if (orarioRistorante.getInizioPranzo() != null && orarioRistorante.getFinePranzo() != null && !orarioRistorante.getFinePranzo().isAfter(orarioRistorante.getInizioPranzo())) {
+            throw new ValidazioneException("L'orario di fine pranzo deve essere successivo a quello di inizio pranzo.");
+        }
+    }
+
+    private void controllaFasciaOrariaCena(GiorniEOrari orarioRistorante) throws ValidazioneException {
+        if (orarioRistorante.getInizioCena() != null && orarioRistorante.getFineCena() != null && ! orarioRistorante.getFineCena().isAfter(orarioRistorante.getInizioCena())) {
+            throw new ValidazioneException("L'orario di fine cena deve essere successivo a quello di inizio cena.");
+        }
     }
 
 

@@ -16,6 +16,15 @@ public class PrenotazioneBean {
 
     public PrenotazioneBean() { /* COSTRUTTORE VUOTO */ }
 
+    public PrenotazioneBean(LocalTime ora, LocalDate data, Integer numeroPersone, PersonaBean utente, AmbienteBean ambiente, FasciaOraria fasciaOraria) {
+        this.ora = ora;
+        this.data = data;
+        this.numeroPersone = numeroPersone;
+        this.utente = utente;
+        this.ambiente = ambiente;
+        this.fasciaOraria = fasciaOraria;
+    }
+
 
 
     /* METODI SETTER E GETTER */

@@ -20,7 +20,7 @@ public class RegistrazioneRistoratoreBean {
     public RegistrazioneRistoratoreBean() {   /* COSTRUTTORE VUOTO */ }
 
 
-    /* SETTER CON VALIDAZIONE */
+    /* METODI SETTER CON VALIDAZIONE */
 
     public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
     public void setDieta(Set<TipoDieta> dieta) {this.dieta = dieta;}
@@ -39,7 +39,7 @@ public class RegistrazioneRistoratoreBean {
         this.accettaTermini = true;
     }
 
-    /* GETTER */
+    /* METODI GETTER E SETTER */
 
     public Set<GiorniSettimana> getGiorniChiusura() { return giorniChiusura; }
     public Set<TipoDieta> getDieta() { return dieta; }

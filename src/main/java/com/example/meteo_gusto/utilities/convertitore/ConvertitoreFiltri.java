@@ -19,12 +19,7 @@ public class ConvertitoreFiltri {
 
     }
 
-    public static FiltriBean filtriModelInBean(Filtro filtroModel)  {
-        FiltriBean bean = new FiltriBean();
-        bean.setData(filtroModel.getData());
-        bean.setOra(filtroModel.getOra());
-        bean.setCitta(filtroModel.getCitta());
-        bean.setNumeroPersone(filtroModel.getNumeroPersone());
-        return bean;
+    public static FiltriBean filtriModelInBean(Filtro filtroModel) {
+        return new FiltriBean(filtroModel.getData(), filtroModel.getOra(), filtroModel.getCitta(),filtroModel.getNumeroPersone());
     }
 }

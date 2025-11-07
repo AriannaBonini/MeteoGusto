@@ -2,7 +2,6 @@ package com.example.meteo_gusto.controller_grafico;
 
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.bean.MeteoBean;
-import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
@@ -26,7 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
@@ -102,7 +100,7 @@ public class PrenotaRistoranteCG {
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCG.class.getName());
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
     private FiltriBean filtriBean;
-    private List<PrenotazioneBean> listaRistorantiPrenotabili= new ArrayList<>();
+    private List<RistoranteBean> listaRistorantiPrenotabili= new ArrayList<>();
     private MeteoBean meteoBean;
 
     public void initialize() {
@@ -110,12 +108,15 @@ public class PrenotaRistoranteCG {
         filtra.setDisable(true);
 
         ChangeListener<Object> listenerCerca = (obs, o, n) -> {
-            boolean abilitato = !campoCitta.getText().trim().isEmpty() &&
-                    campoData.getValue() != null &&
-                    !campoOra.getText().trim().isEmpty() &&
-                    !campoNumeroPersone.getText().trim().isEmpty();
+            boolean abilitato =
+                    campoCitta.getText() != null && !campoCitta.getText().trim().isEmpty() &&
+                            campoData.getValue() != null &&
+                            campoOra.getText() != null && !campoOra.getText().trim().isEmpty() &&
+                            campoNumeroPersone.getText() != null && !campoNumeroPersone.getText().trim().isEmpty();
+
             cerca.setDisable(!abilitato);
         };
+
 
         campoCitta.textProperty().addListener(listenerCerca);
         campoData.valueProperty().addListener(listenerCerca);
@@ -151,6 +152,7 @@ public class PrenotaRistoranteCG {
 
     public void setFiltriBean(FiltriBean filtriBean) {
         this.filtriBean = filtriBean;
+
         impostaCampiIniziali();
     }
 
@@ -193,7 +195,7 @@ public class PrenotaRistoranteCG {
         HBox rigaCorrente = creaNuovaRiga();
         int count = 0;
 
-        for (PrenotazioneBean ristorantePrenotabile : listaRistorantiPrenotabili) {
+        for (RistoranteBean ristorantePrenotabile : listaRistorantiPrenotabili) {
 
             VBox schedaRistorante = SupportoComponentiGUISchedaRistorante.creaVBoxSchedaRistorante();
             HBox infoRistorante1 = SupportoComponentiGUISchedaRistorante.creaHBoxInfoRistorante1();
@@ -203,30 +205,28 @@ public class PrenotaRistoranteCG {
             HBox fasciaPrezzo = SupportoComponentiGUISchedaRistorante.creaHBoxInfoFasciaPrezzo();
 
             Label nomeRistorante = SupportoComponentiGUISchedaRistorante.creaLabelNomeRistorante();
-            Label cittaRistorante = SupportoComponentiGUISchedaRistorante.creaLabelCittaRistorante();
-            Label tipoCucinaRistorante = SupportoComponentiGUISchedaRistorante.creaLabelTipoCucinaRistorante();
+            Label cittaRistorante = SupportoComponentiGUISchedaRistorante.creaLabelCittaETipoCucinaRistorante();
+            Label tipoCucinaRistorante = SupportoComponentiGUISchedaRistorante.creaLabelCittaETipoCucinaRistorante();
             Label mediaRecensione = SupportoComponentiGUISchedaRistorante.creaLabelMediaRecensione();
             Button scopriDiPiu = SupportoComponentiGUISchedaRistorante.creaBottoneScopriDiPiu();
 
-            RistoranteBean ristorante = ristorantePrenotabile.getAmbiente().getRistorante();
+
+            schedaRistorante.getChildren().add(SupportoComponentiGUISchedaRistorante.creaImmagineRistorante(ristorantePrenotabile));
 
 
-            schedaRistorante.getChildren().add(tipologiaRistorante(ristorante));
-
-
-            nomeRistorante.setText(ristorante.getNomeRistorante());
-            popolaInfoFasciaPrezzo(ristorante, fasciaPrezzo);
+            nomeRistorante.setText(ristorantePrenotabile.getNomeRistorante());
+            popolaInfoFasciaPrezzo(ristorantePrenotabile, fasciaPrezzo);
             infoRistorante1.getChildren().addAll(nomeRistorante, fasciaPrezzo);
             schedaRistorante.getChildren().add(infoRistorante1);
 
 
-            cittaRistorante.setText(" • " + ristorante.getCitta());
-            tipoCucinaRistorante.setText(" • " + ristorante.getCucina().getId());
+            cittaRistorante.setText(" • " + ristorantePrenotabile.getPosizione().getCitta());
+            tipoCucinaRistorante.setText(" • " + ristorantePrenotabile.getCucina().getId());
             infoRistorante2.getChildren().addAll(cittaRistorante, tipoCucinaRistorante);
             schedaRistorante.getChildren().add(infoRistorante2);
 
 
-            mediaRecensione.setText(String.valueOf(ristorante.getMediaStelle()));
+            mediaRecensione.setText(ristorantePrenotabile.getMediaStelle()+"/5");
             infoStelle.getChildren().addAll(
                     SupportoComponentiGUISchedaRistorante.creaImmagineStella("/Foto/stellinaColorata.png"),
                     mediaRecensione
@@ -237,6 +237,9 @@ public class PrenotaRistoranteCG {
 
             rigaCorrente.getChildren().add(schedaRistorante);
             count++;
+
+            scopriDiPiu.setUserData(ristorantePrenotabile);
+            scopriDiPiu.setOnAction(this::clickScopriDiPiu);
 
 
             if (count % 2 == 0) {
@@ -255,33 +258,9 @@ public class PrenotaRistoranteCG {
 
     private void popolaInfoFasciaPrezzo(RistoranteBean ristorante, HBox hBoxInfoFasciaPrezzo) {
         hBoxInfoFasciaPrezzo.getChildren().clear();
-        switch (ristorante.getFasciaPrezzo()) {
-            case FasciaPrezzoRistorante.ECONOMICO -> ripetiImmagineDollaro(1, hBoxInfoFasciaPrezzo);
-            case FasciaPrezzoRistorante.MODERATO -> ripetiImmagineDollaro(2, hBoxInfoFasciaPrezzo);
-            case FasciaPrezzoRistorante.COSTOSO -> ripetiImmagineDollaro(3, hBoxInfoFasciaPrezzo);
-            case FasciaPrezzoRistorante.LUSSO -> ripetiImmagineDollaro(4, hBoxInfoFasciaPrezzo);
-        }
+        SupportoComponentiGUISchedaRistorante.immagineFasciaPrezzoRistorante(ristorante,hBoxInfoFasciaPrezzo,true);
     }
 
-    private void ripetiImmagineDollaro(int numeroRipetizioni, HBox hBoxInfoFasciaPrezzo) {
-        for (int i = 0; i < numeroRipetizioni; i++) {
-            hBoxInfoFasciaPrezzo.getChildren().add(SupportoComponentiGUISchedaRistorante.creaImmagineDollaro("/Foto/Prezzo.png"));
-        }
-    }
-
-    private ImageView tipologiaRistorante(RistoranteBean ristorante) {
-        switch (ristorante.getCucina()) {
-            case ITALIANA -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteItaliano.png");}
-            case SUSHI -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteGiapponese.png");}
-            case FAST_FOOD -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoPaninoteca.png");}
-            case GRECA -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteGreco.png");}
-            case CINESE -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteCinese.png");}
-            case TURCA -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteTurco.png");}
-            case PIZZA -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoPizzeria.png");}
-            case MESSICANA -> {return SupportoComponentiGUISchedaRistorante.creaImmagineRistorante("/Foto/FotoRistoranteMessicano.png");}
-        }
-        return null;
-    }
 
     @FXML
     private void clickCerca()  {
@@ -294,6 +273,8 @@ public class PrenotaRistoranteCG {
             mostraErroreTemporaneamenteNellaLabel("Il campo numero persone non può essere vuoto");
         }catch (DateTimeParseException e) {
             mostraErroreTemporaneamenteNellaLabel("Oraio non valido. Usa il formato HH:mm");
+        }catch (ValidazioneException e) {
+            mostraErroreTemporaneamenteNellaLabel("I filtri inseriti non sono validi");
         }
     }
 
@@ -328,7 +309,7 @@ public class PrenotaRistoranteCG {
     }
 
 
-    private void aggiornaFiltri() {
+    private void aggiornaFiltri() throws ValidazioneException{
         if (filtriBean == null) {
             filtriBean = new FiltriBean();
         }
@@ -378,7 +359,14 @@ public class PrenotaRistoranteCG {
 
     @FXML
     public void clickScopriDiPiu(ActionEvent evento) {
-        /* CARICA INTERFACCIA SCHEDA PERSONALE RISTORATORE*/
+        Button scopriDiPiu= (Button)evento.getSource();
+        RistoranteBean ristoranteSelezionato= (RistoranteBean)scopriDiPiu.getUserData();
+
+        GestoreScena.cambiaScenaConParametri("/ProfiloRistorante.fxml", evento,
+                (ProfiloRistoranteCG controller) -> {
+                    controller.setFiltriCorrenti(filtriBean);
+                    controller.setRistoranteSelezionato(ristoranteSelezionato);
+                });
     }
 
     private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
@@ -393,32 +381,42 @@ public class PrenotaRistoranteCG {
     private void mostraPrevisioniMetereologiche() {
         InputStream is;
         Image immagine;
-        if(meteoBean.getTempo().equals("Sole")) {
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Sole.png");
-        }else if(meteoBean.getTempo().equals("Pioggia")){
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Pioggia.png");
-        }else {
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Nuvoloso.png");
 
-        }
+        LocalTime oraCorrente = LocalTime.now();
+        boolean giorno = oraCorrente.isBefore(LocalTime.of(18, 0));
+
+
+        String percorsoMeteo = switch (meteoBean.getTempo()) {
+            case "Sole" -> giorno ? "/Foto/Sole.png" : "/Foto/Luna.png";
+            case "Pioggia" -> "/Foto/Pioggia.png";
+            default -> giorno ? "/Foto/Nuvoloso.png" : "/Foto/LunaNuvoloso.png";
+        };
+
+        is = PrenotaRistoranteCG.class.getResourceAsStream(percorsoMeteo);
         assert is != null;
-        immagine= new Image(is);
+        immagine = new Image(is);
         immagineMeteo.setImage(immagine);
 
-        meteo.setText( meteoBean.getTempo() + " • " + meteoBean.getTemperatura());
-        if((meteoBean.getTemperatura()>=5) && (meteoBean.getTemperatura()<=14)) {
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Freddo.png");
-        }else if((meteoBean.getTemperatura()>=26) && (meteoBean.getTemperatura()<=35)) {
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/Caldo.png");
-        }else {
-            is = PrenotaRistoranteCG.class.getResourceAsStream("/Foto/TemperaturaOttimale.png");
+        // Testo meteo
+        meteo.setText(meteoBean.getTempo() + " • " + meteoBean.getTemperatura());
+
+        // Selezione immagine temperatura
+        String percorsoTemperatura;
+        int temperatura = meteoBean.getTemperatura();
+
+        if (temperatura >= 5 && temperatura <= 14) {
+            percorsoTemperatura = "/Foto/Freddo.png";
+        } else if (temperatura >= 26 && temperatura <= 35) {
+            percorsoTemperatura = "/Foto/Caldo.png";
+        } else {
+            percorsoTemperatura = "/Foto/TemperaturaOttimale.png";
         }
 
+        is = PrenotaRistoranteCG.class.getResourceAsStream(percorsoTemperatura);
         assert is != null;
-        immagine= new Image(is);
+        immagine = new Image(is);
         immagineTemperatura.setImage(immagine);
     }
-
 
     @FXML
     private void clickEsci(MouseEvent evento){

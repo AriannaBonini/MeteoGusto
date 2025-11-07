@@ -11,7 +11,6 @@ public class ConvertitorePersona {
 
     public static Persona personaBeanInModel(PersonaBean personaBean) {
         if (personaBean == null) return null;
-
         return new Persona(
                 personaBean.getNome(),
                 personaBean.getCognome(),
@@ -22,18 +21,9 @@ public class ConvertitorePersona {
         );
     }
 
-    public static PersonaBean personaModelInBean(Persona personaModel) throws ValidazioneException {
+    public static PersonaBean personaModelInBean(Persona personaModel) {
         if (personaModel == null) return null;
-
-        PersonaBean personaBean= new PersonaBean();
-        personaBean.setEmail(personaModel.getEmail());
-        personaBean.setNome(personaModel.getNome());
-        personaBean.setCognome(personaModel.getCognome());
-        personaBean.setTelefono(personaModel.getTelefono());
-        personaBean.setPassword(personaModel.getPassword());
-        personaBean.setTipoPersona(personaModel.getTipoPersona());
-
-        return personaBean;
+        return new PersonaBean(personaModel.getNome(),personaModel.getCognome(),personaModel.getTelefono(),personaModel.getEmail(),personaModel.getPassword(),personaModel.getTipoPersona());
     }
 
 }

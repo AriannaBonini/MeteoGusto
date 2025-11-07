@@ -13,6 +13,7 @@ public class DAOFactoryFacade {
     private DietaDAO dietaDAO;
     private AmbienteDAO ambienteDAO;
     private PrenotazioneDAO prenotazioneDAO;
+    private RecensioneDAO recensioneDAO;
 
 
     private DAOFactoryFacade() {/* Costruttore privato per impedire la creazione di istanze */}
@@ -75,6 +76,14 @@ public class DAOFactoryFacade {
             prenotazioneDAO = prenotazioneDAOFactory.getPrenotazioneDAO(tipoPersistenza);
         }
         return prenotazioneDAO;
+    }
+
+    public RecensioneDAO getRecensioneDAO() {
+        if(recensioneDAO ==null) {
+            RecensioneDAOFactory recensioneDAOFactory= new RecensioneDAOFactory();
+            recensioneDAO  = recensioneDAOFactory.getRecensioneDAO(tipoPersistenza);
+        }
+        return recensioneDAO;
     }
 
 

@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.controller_grafico;
 
 import com.example.meteo_gusto.utilities.AlertPersonalizzato;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -67,7 +66,7 @@ public class GestoreScena {
      * @param evento l'evento che ha scatenato il cambio
      * @param gestoreController funzione per configurare il controller
      */
-    public static <T> void cambiaScenaConParametri(String percorso, ActionEvent evento, Consumer<T> gestoreController) {
+    public static <T> void cambiaScenaConParametri(String percorso, Event evento, Consumer<T> gestoreController) {
 
         try {
             FXMLLoader caricatore = new FXMLLoader(GestoreScena.class.getResource(percorso));

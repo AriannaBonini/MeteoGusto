@@ -1,11 +1,12 @@
 package com.example.meteo_gusto.model;
 
 
-import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
+import com.example.meteo_gusto.enumerazione.TipoDieta;
 import java.math.BigDecimal;
-import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
 
 public class Ristorante {
     private String partitaIVA;
@@ -15,27 +16,23 @@ public class Ristorante {
     private BigDecimal mediaStelle;
     private TipoCucina cucina;
     private FasciaPrezzoRistorante fasciaPrezzo;
-    private String indirizzoCompleto;
-    private String citta;
-    private String cap;
-    private LocalTime inizioPranzo;
-    private LocalTime finePranzo;
-    private LocalTime inizioCena;
-    private LocalTime fineCena;
+    private GiorniEOrari giorniEOrari;
+    private Posizione posizione;
+    private Set<TipoDieta> tipoDieta;
+    private List<Ambiente> ambienteRistorante;
+
+    public Ristorante() { /* COSTRUTTORE VUOTO */}
 
 
     /* COSTRUTTORE CON PARAMETRI */
-    public Ristorante(String partitaIVA, Persona proprietario, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, String indirizzoCompleto, String citta, String cap,BigDecimal mediaStelle) {
+    public Ristorante(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo,Posizione posizione, GiorniEOrari giorniEOrari) {
         this.partitaIVA = partitaIVA;
-        this.proprietario = proprietario;
         this.nomeRistorante = nomeRistorante;
         this.telefonoRistorante = telefonoRistorante;
         this.cucina = cucina;
         this.fasciaPrezzo = fasciaPrezzo;
-        this.indirizzoCompleto = indirizzoCompleto;
-        this.citta = citta;
-        this.cap = cap;
-        this.mediaStelle=mediaStelle;
+        this.posizione=posizione;
+        this.giorniEOrari = giorniEOrari;
     }
 
     public Ristorante(String partitaIVA) {this.partitaIVA=partitaIVA;}
@@ -56,46 +53,12 @@ public class Ristorante {
     public void setCucina(TipoCucina cucina) {this.cucina = cucina;}
     public FasciaPrezzoRistorante getFasciaPrezzo() {return fasciaPrezzo;}
     public void setFasciaPrezzo(FasciaPrezzoRistorante fasciaPrezzo) {this.fasciaPrezzo = fasciaPrezzo;}
-    public String getIndirizzoCompleto() {return indirizzoCompleto;}
-    public void setIndirizzoCompleto(String indirizzoCompleto) {this.indirizzoCompleto = indirizzoCompleto;}
-    public String getCitta() {return citta;}
-    public void setCitta(String citta) {this.citta = citta;}
-    public String getCap() {return cap;}
-    public void setCap(String cap) {this.cap = cap;}
-    public LocalTime getInizioPranzo() {return inizioPranzo;}
-    public void setInizioPranzo(LocalTime inizioPranzo) {this.inizioPranzo = inizioPranzo;}
-    public LocalTime getFinePranzo() {return finePranzo;}
-    public void setFinePranzo(LocalTime finePranzo) {this.finePranzo = finePranzo;}
-    public LocalTime getInizioCena() {return inizioCena;}
-    public void setInizioCena(LocalTime inzioCena) {this.inizioCena = inzioCena;}
-    public LocalTime getFineCena() {return fineCena;}
-    public void setFineCena(LocalTime fineCena) {this.fineCena = fineCena;}
-
-
-    /* METODI DI SUPPORTO */
-    public String getVia() {
-        if (indirizzoCompleto == null || !indirizzoCompleto.contains(",")) return indirizzoCompleto;
-        return indirizzoCompleto.substring(0, indirizzoCompleto.indexOf(",")).trim();
-    }
-
-    public String getCivico() {
-        if (indirizzoCompleto == null || !indirizzoCompleto.contains(",")) return "";
-        return indirizzoCompleto.substring(indirizzoCompleto.indexOf(",") + 1).trim();
-    }
-
-
-    /* METODI DI LOGICA DI DOMINIO */
-    public void validaOrariPranzo() throws ValidazioneException {
-        if (inizioPranzo != null && finePranzo != null && !finePranzo.isAfter(inizioPranzo)) {
-            throw new ValidazioneException("L'orario di fine pranzo deve essere successivo a quello di inizio pranzo.");
-        }
-    }
-
-    public void validaOrariCena() throws ValidazioneException {
-        if (inizioCena != null && fineCena != null && !fineCena.isAfter(inizioCena)) {
-            throw new ValidazioneException("L'orario di fine cena deve essere successivo a quello di inizio cena.");
-        }
-    }
-
-
+    public GiorniEOrari getOrari() {return giorniEOrari;}
+    public void setOrari(GiorniEOrari giorniEOrari) {this.giorniEOrari = giorniEOrari;}
+    public Posizione getPosizione() {return posizione;}
+    public void setPosizione(Posizione posizione) {this.posizione = posizione;}
+    public Set<TipoDieta> getTipoDieta() {return tipoDieta;}
+    public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
+    public List<Ambiente> getAmbienteRistorante() {return ambienteRistorante;}
+    public void setAmbienteRistorante(List<Ambiente> ambienteRistorante) {this.ambienteRistorante = ambienteRistorante;}
 }

@@ -27,23 +27,23 @@ public class LoginCG {
     @FXML
     private void clickAccedi(ActionEvent evento) {
         try {
-            PersonaBean credenzialiPersonaBean = new PersonaBean(campoEmail.getText(),
-                    campoPassword.getText());
+            PersonaBean credenzialiPersonaBean = new PersonaBean();
+            credenzialiPersonaBean.setEmail(campoEmail.getText().trim());
+            credenzialiPersonaBean.setPassword(campoPassword.getText().trim());
 
             PersonaBean personaBean = loginController.accedi(credenzialiPersonaBean);
 
             if(personaBean==null){
                 infoErrore.setText("Credenziali Errate");
+                return;
             }
 
-            assert personaBean != null;
             if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
                 GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
             }else{
                 infoErrore.setText("Ristoratore presente");
                 // carichiamo quella del ristoratore.
             }
-
 
         }catch (ValidazioneException | EccezioneDAO e) {
             infoErrore.setText(e.getMessage());

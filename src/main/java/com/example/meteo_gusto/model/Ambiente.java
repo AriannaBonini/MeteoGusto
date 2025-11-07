@@ -8,11 +8,11 @@ public class Ambiente {
     private TipoAmbiente tipoAmbiente;
     private Integer numeroCoperti;
     private Set<Extra> extra;
-    private Ristorante ristorante;
+    private String ristorante;
     private Integer idAmbiente;
 
-    /* COSTRUTTORE SEMPLICE */
-    public Ambiente(TipoAmbiente tipoAmbiente, Ristorante ristorante, Integer numeroCoperti, Set<Extra> extra) {
+    /* COSTRUTTORE */
+    public Ambiente(TipoAmbiente tipoAmbiente, String ristorante, Integer numeroCoperti, Set<Extra> extra) {
         this.tipoAmbiente = tipoAmbiente;
         this.numeroCoperti = numeroCoperti;
         this.ristorante = ristorante;
@@ -23,11 +23,11 @@ public class Ambiente {
     public TipoAmbiente getTipoAmbiente() { return tipoAmbiente; }
     public Integer getNumeroCoperti() { return numeroCoperti; }
     public Set<Extra> getExtra() { return extra; }
-    public Ristorante getRistorante() { return ristorante; }
+    public String  getRistorante() { return ristorante; }
     public Integer getIdAmbiente() { return idAmbiente; }
     public void setTipoAmbiente(TipoAmbiente tipoAmbiente) { this.tipoAmbiente = tipoAmbiente; }
     public void setNumeroCoperti(Integer numeroCoperti) { this.numeroCoperti = numeroCoperti; }
-    public void setRistorante(Ristorante ristorante) { this.ristorante = ristorante; }
+    public void setRistorante(String ristorante) { this.ristorante = ristorante; }
     public void setIdAmbiente(Integer idAmbiente) { this.idAmbiente = idAmbiente; }
 
 
@@ -37,11 +37,5 @@ public class Ambiente {
             this.extra=extra;
         }
     }
-
-    public boolean supportaExtra() {
-        return this.tipoAmbiente == TipoAmbiente.ESTERNO_COPERTO;
-    }
-
-
 
 }

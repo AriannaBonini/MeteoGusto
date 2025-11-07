@@ -2,15 +2,14 @@ package com.example.meteo_gusto.dao.memoria;
 
 import com.example.meteo_gusto.dao.DietaDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
-import com.example.meteo_gusto.model.Dieta;
+import com.example.meteo_gusto.model.Ristorante;
 
-import java.util.List;
 
 public class DietaDAOMemoria implements DietaDAO {
 
     @Override
-    public void registraDieta(List<Dieta> dieta) throws EccezioneDAO {}
+    public void registraDieta(Ristorante ristorante) throws EccezioneDAO {}
 
     @Override
-    public Dieta controllaDieteDelRistorante(Dieta filtroDieta) throws EccezioneDAO{return null;}
+    public Ristorante controllaDieteDelRistorante(Ristorante ristorante) throws EccezioneDAO{return null;}
 }
