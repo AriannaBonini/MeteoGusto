@@ -165,5 +165,10 @@
             <Image url="@Foto/ConfermaRecensione.png" />
          </image>
       </ImageView>
+      <Label fx:id="notifichePrenotazione" layoutX="119.0" layoutY="305.0" text="1" textFill="#e97627">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

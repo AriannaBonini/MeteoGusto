@@ -1,9 +1,11 @@
 package com.example.meteo_gusto.controller_grafico;
 
 import com.example.meteo_gusto.bean.FiltriBean;
+import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.SupportoNotificheGUI;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -35,7 +39,12 @@ public class PrenotaRistoranteFormInizialeCG {
     private ImageView esci;
     @FXML
     private ImageView prenotaRistorante;
+    @FXML
+    private Label notifichePrenotazione;
+
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
+    private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteFormInizialeCG.class.getName());
+    private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
 
     public void initialize() {
 
@@ -51,6 +60,17 @@ public class PrenotaRistoranteFormInizialeCG {
                 }
             }
         });
+
+        popolaNotifiche();
+
+    }
+
+    private void popolaNotifiche() {
+        try {
+            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificaUtente().getNumeroNotifiche());
+        }catch (ValidazioneException e) {
+            logger.error("Errore durante il conteggio delle motifiche : ",e );
+        }
     }
 
 

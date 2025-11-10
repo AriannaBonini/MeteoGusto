@@ -2,14 +2,22 @@ package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.model.*;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class ConvertitoreRistorante {
 
     private ConvertitoreRistorante() { /* COSTRUTTORE VUOTO */ }
+
+    public static List<RistoranteBean> listaRistoranteModelInBean(List<Ristorante> listaRistorantiModel) {
+        if (listaRistorantiModel == null) return List.of();
+        return listaRistorantiModel.stream()
+                .filter(Objects::nonNull)
+                .map(ConvertitoreRistorante::ristoranteModelInBean)
+                .toList();
+    }
+
 
     public static RistoranteBean ristoranteModelInBean(Ristorante ristoranteModel) {
         if (ristoranteModel == null) return null;
@@ -38,15 +46,8 @@ public class ConvertitoreRistorante {
         )
                 : new GiorniEOrariBean(null, null, null, null, new HashSet<>());
 
-        List<AmbienteBean> ambienteBean = new ArrayList<>();
-        List<Ambiente> ambienti = ristoranteModel.getAmbienteRistorante();
-        if (ambienti != null) {
-            for (Ambiente ambiente : ambienti) {
-                if (ambiente != null) {
-                    ambienteBean.add(ConvertitoreAmbiente.ambienteModelInBean(ambiente));
-                }
-            }
-        }
+
+        List<AmbienteBean> ambienteBean= ConvertitoreAmbiente.listaAmbienteModelInBean(ristoranteModel.getAmbienteRistorante());
 
         Persona proprietario = ristoranteModel.getProprietario();
         PersonaBean proprietarioBean = (proprietario != null)

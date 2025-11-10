@@ -4,6 +4,9 @@ import com.example.meteo_gusto.bean.AmbienteBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,33 +47,35 @@ public class RiepilogoPrenotazioneCG {
     private Label campoDietaPrenotante;
 
 
+    private static final Logger logger = LoggerFactory.getLogger(RiepilogoPrenotazioneCG.class.getName());
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
     PrenotazioneBean prenotazione;
     RistoranteBean ristoranteSelezionato;
 
 
-    public void setPrenotazioneBean(PrenotazioneBean prenotazione) {
-        this.prenotazione=prenotazione;
+    public void setRiepilogoPrenotazione(PrenotazioneBean prenotazione, RistoranteBean ristoranteSelezionato) {
+        this.prenotazione = prenotazione;
+        this.ristoranteSelezionato = ristoranteSelezionato;
 
-        popolaCampiPrenotazione();
+        try {
+            popolaCampiPrenotazione();
+            popolaCampiRistorante();
+            popolaCampiUtente();
+        }catch (ValidazioneException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
+        }
     }
 
-    public void setRistoranteSelezionato(RistoranteBean ristoranteSelezionato) {
-        this.ristoranteSelezionato=ristoranteSelezionato;
+    private void popolaCampiUtente() throws ValidazioneException {
+        try {
+            prenotazione.setUtente(prenotaRistoranteController.datiUtente());
+            campoNomePrenotante.setText(prenotazione.getUtente().getNome());
+            campoCognomePrenotante.setText(prenotazione.getUtente().getCognome());
+            campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
 
-        popolaCampiRistorante();
-
-    }
-
-    public void clickConfermaPrenotazione(ActionEvent event) {
-    }
-
-    private void popolaCampiUtente(){
-        prenotazione.setUtente(prenotaRistoranteController.datiUtente());
-        campoNomePrenotante.setText(prenotazione.getUtente().getNome());
-        campoCognomePrenotante.setText(prenotazione.getUtente().getCognome());
-        campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
-
+        }catch (ValidazioneException e) {
+            throw new ValidazioneException(e.getMessage());
+        }
     }
 
     private void popolaCampiRistorante(){
@@ -78,12 +86,10 @@ public class RiepilogoPrenotazioneCG {
         popolaComboBoxAmbiente();
     }
 
-    private void popolaCampiPrenotazione(){
+    private void popolaCampiPrenotazione() {
         campoDataPrenotazione.setText(String.valueOf(prenotazione.getData()));
         campoOraPrenotazione.setText(String.valueOf(prenotazione.getOra()));
         campoNumeroPersone.setText(String.valueOf(prenotazione.getNumeroPersone()));
-
-        popolaCampiUtente();
     }
 
 
@@ -113,6 +119,29 @@ public class RiepilogoPrenotazioneCG {
         ObservableList<String> lista = FXCollections.observableArrayList(nomiAmbienti);
         comboBoxAmbiente.setItems(lista);
     }
+
+
+    public void clickConfermaPrenotazione(ActionEvent evento)  {
+        try {
+            AmbienteBean ambienteBean= new AmbienteBean();
+            ambienteBean.setAmbiente(TipoAmbiente.tipoAmbienteDaId(comboBoxAmbiente.getValue()));
+            ambienteBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
+
+            prenotazione.setAmbiente(ambienteBean);
+
+            if(prenotaRistoranteController.prenotaRistorante(prenotazione, ristoranteSelezionato)){
+                GestoreScena.mostraAlertSenzaConferma("Successo", "Prenotazione inserita con successo");
+            }
+
+            GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
+
+        }catch (EccezioneDAO | ValidazioneException e) {
+            GestoreScena.mostraAlertSenzaConferma("Errore", e.getMessage());
+            logger.error("Errore durante l'inserimento della prenotazione : ", e);
+        }
+    }
+
+
 
 
 

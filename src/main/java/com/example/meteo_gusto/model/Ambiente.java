@@ -24,11 +24,11 @@ public class Ambiente {
     public Integer getNumeroCoperti() { return numeroCoperti; }
     public Set<Extra> getExtra() { return extra; }
     public String  getRistorante() { return ristorante; }
-    public Integer getIdAmbiente() { return idAmbiente; }
     public void setTipoAmbiente(TipoAmbiente tipoAmbiente) { this.tipoAmbiente = tipoAmbiente; }
     public void setNumeroCoperti(Integer numeroCoperti) { this.numeroCoperti = numeroCoperti; }
     public void setRistorante(String ristorante) { this.ristorante = ristorante; }
-    public void setIdAmbiente(Integer idAmbiente) { this.idAmbiente = idAmbiente; }
+    public Integer getIdAmbiente() {return idAmbiente;}
+    public void setIdAmbiente(Integer idAmbiente) {this.idAmbiente = idAmbiente;}
 
 
     /* METODO DI LOGICA DI DOMINIO */

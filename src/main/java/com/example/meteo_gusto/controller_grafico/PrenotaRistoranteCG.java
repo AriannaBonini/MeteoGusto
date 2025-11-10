@@ -12,6 +12,7 @@ import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.SupportoComponentiGUISchedaRistorante;
 import com.example.meteo_gusto.utilities.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.SupportoNotificheGUI;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -30,7 +31,6 @@ import java.io.InputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class PrenotaRistoranteCG {
     @FXML
@@ -95,6 +95,10 @@ public class PrenotaRistoranteCG {
     private ImageView esci;
     @FXML
     private ImageView prenotaRistorante;
+    @FXML
+    private HBox boxMeteo;
+    @FXML
+    private Label notifichePrenotazione;
 
 
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCG.class.getName());
@@ -123,7 +127,9 @@ public class PrenotaRistoranteCG {
         campoOra.textProperty().addListener(listenerCerca);
         campoNumeroPersone.textProperty().addListener(listenerCerca);
 
-        ChangeListener<Object> listenerFiltra = (obs, o, n) -> controllaCampi();
+        ChangeListener<Object> listenerFiltra = (obs, o, n) -> filtra.setDisable(false);
+
+        filtroFasciaPrezzo.valueProperty().addListener(listenerFiltra);
 
         List<CheckBox> checkBoxes = List.of(
                 checkBoxHalal, checkBoxKosher, checkBoxVegano, checkBoxVegetariano,
@@ -132,22 +138,59 @@ public class PrenotaRistoranteCG {
                 checkBoxTurca, checkBoxMessicana, checkBoxFastFood, checkBoxMeteo, checkBoxPizza
         );
 
-        filtroFasciaPrezzo.valueProperty().addListener(listenerFiltra);
         checkBoxes.forEach(cb -> cb.selectedProperty().addListener(listenerFiltra));
+        popolaNotifiche();
+
     }
 
-    private void controllaCampi() {
-        boolean almenoUnFiltroAttivo = filtroFasciaPrezzo.getValue() != null ||
-                Stream.of(
-                        checkBoxHalal, checkBoxKosher, checkBoxVegano, checkBoxVegetariano,
-                        checkBoxPescetariano, checkBoxCeliaco, checkBoxSenzaLattosio,
-                        checkBoxItaliana, checkBoxSushi, checkBoxCinese, checkBoxGreca,
-                        checkBoxTurca, checkBoxMessicana, checkBoxFastFood, checkBoxMeteo, checkBoxPizza
-                ).anyMatch(CheckBox::isSelected);
+    private void popolaNotifiche() {
+        try {
+            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificaUtente().getNumeroNotifiche());
 
-        filtra.setDisable(!almenoUnFiltroAttivo);
+        }catch (ValidazioneException e) {
+            logger.error("Errore durante il conteggio delle motifiche : ",e );
+        }
     }
 
+    public void impostaFiltriSelezionati(FiltriBean filtriBean, MeteoBean meteoBean) {
+        if (filtriBean == null) return;
+
+        this.filtriBean = filtriBean;
+
+        impostaCheckBoxTipoCucina(filtriBean.getTipoCucina());
+        impostaCheckBoxTipoDieta(filtriBean.getTipoDieta());
+
+        filtroFasciaPrezzo.setValue(filtriBean.getFasciaPrezzoRistorante());
+
+        checkBoxMeteo.setSelected(filtriBean.getMeteo());
+        if (checkBoxMeteo.isSelected()) {
+            this.meteoBean = meteoBean;
+            mostraPrevisioniMetereologiche();
+        }
+
+        impostaCampiIniziali();
+    }
+
+    private void impostaCheckBoxTipoCucina(Set<TipoCucina> cucine) {
+        checkBoxItaliana.setSelected(cucine != null && cucine.contains(TipoCucina.ITALIANA));
+        checkBoxSushi.setSelected(cucine != null && cucine.contains(TipoCucina.SUSHI));
+        checkBoxCinese.setSelected(cucine != null && cucine.contains(TipoCucina.CINESE));
+        checkBoxGreca.setSelected(cucine != null && cucine.contains(TipoCucina.GRECA));
+        checkBoxTurca.setSelected(cucine != null && cucine.contains(TipoCucina.TURCA));
+        checkBoxPizza.setSelected(cucine != null && cucine.contains(TipoCucina.PIZZA));
+        checkBoxMessicana.setSelected(cucine != null && cucine.contains(TipoCucina.MESSICANA));
+        checkBoxFastFood.setSelected(cucine != null && cucine.contains(TipoCucina.FAST_FOOD));
+    }
+
+    private void impostaCheckBoxTipoDieta(Set<TipoDieta> diete) {
+        checkBoxHalal.setSelected(diete != null && diete.contains(TipoDieta.HALAL));
+        checkBoxKosher.setSelected(diete != null && diete.contains(TipoDieta.KOSHER));
+        checkBoxVegano.setSelected(diete != null && diete.contains(TipoDieta.VEGANO));
+        checkBoxVegetariano.setSelected(diete != null && diete.contains(TipoDieta.VEGETARIANO));
+        checkBoxPescetariano.setSelected(diete != null && diete.contains(TipoDieta.PESCETARIANO));
+        checkBoxCeliaco.setSelected(diete != null && diete.contains(TipoDieta.CELIACO));
+        checkBoxSenzaLattosio.setSelected(diete != null && diete.contains(TipoDieta.SENZA_LATTOSIO));
+    }
 
 
     public void setFiltriBean(FiltriBean filtriBean) {
@@ -284,15 +327,18 @@ public class PrenotaRistoranteCG {
             filtra.setDisable(true);
 
             aggiornaFiltri();
-            if(meteoBean==null) {
-                meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean);
-
-            }
-            if(meteoBean!=null) {
+            if(checkBoxMeteo.isSelected()) {
+                if(meteoBean==null) {
+                    meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean);
+                }
                 mostraPrevisioniMetereologiche();
+                listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
+
+            }else {
+                boxMeteo.setVisible(false);
+                listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,null);
             }
 
-            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
             popolaHBox();
 
         } catch (ValidazioneException e) {
@@ -363,7 +409,7 @@ public class PrenotaRistoranteCG {
 
         GestoreScena.cambiaScenaConParametri("/ProfiloRistorante.fxml", evento,
                 (ProfiloRistoranteCG controller) -> {
-                    controller.setFiltriCorrenti(filtriBean);
+                    controller.setFiltriCorrenti(filtriBean, meteoBean);
                     controller.setRistoranteSelezionato(ristoranteSelezionato);
                 });
     }
@@ -378,6 +424,7 @@ public class PrenotaRistoranteCG {
     }
 
     private void mostraPrevisioniMetereologiche() {
+        boxMeteo.setVisible(true);
         InputStream is;
         Image immagine;
 

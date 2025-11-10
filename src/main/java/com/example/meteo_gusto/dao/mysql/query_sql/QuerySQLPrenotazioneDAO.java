@@ -8,6 +8,8 @@ public class QuerySQLPrenotazioneDAO {
     protected static final String NUMERO_PERSONE= "numero_persone";
     protected static final String UTENTE = "utente_id";
     protected static final String FASCIA_ORARIA = "fascia_oraria";
+    protected static final String NOTIFICA_UTENTE = "notificaUtente";
+    protected static final String NOTIFICA_RISTORATORE = "notificaRistoratore";
     protected static final String TABELLA_PRENOTAZIONE = "prenotazione";
 
     protected static final String POSTI_DISPONIBILI = "SELECT COALESCE(SUM(" + NUMERO_PERSONE + "), 0) AS totale_persone " +
@@ -16,8 +18,32 @@ public class QuerySQLPrenotazioneDAO {
                     "AND " + FASCIA_ORARIA + " = ? " +
                     "AND " + AMBIENTE + " = ?";
 
+    protected static final String INSERISCI_PRENOTAZIONE =
+            "INSERT INTO " + TABELLA_PRENOTAZIONE + " (" +
+                    AMBIENTE + ", " +
+                    DATA + ", " +
+                    ORA + ", " +
+                    NUMERO_PERSONE + ", " +
+                    UTENTE + ", " +
+                    FASCIA_ORARIA +
+                    ") VALUES ((" +
+                    "SELECT a.id FROM ambiente a " +
+                    "JOIN ristorante r ON a.ristorante_id = r.partita_iva " +
+                    "WHERE a.ambiente = ? AND r.partita_iva = ?" +
+                    "), ?, ?, ?, ?, ?)";
 
+    protected static final String PRENOTAZIONE_ESISTENTE =
+            "SELECT COUNT(*) AS numero_prenotazioni " +
+                    "FROM " + TABELLA_PRENOTAZIONE + " " +
+                    "WHERE " + UTENTE + " = ? " +
+                    "AND " + DATA + " = ? " +
+                    "AND " + FASCIA_ORARIA + " = ?";
 
+    protected static final String CONTA_NOTIFICHE_UTENTE =
+            "SELECT COUNT(*) AS notifiche_attive " +
+                    "FROM " + TABELLA_PRENOTAZIONE + " " +
+                    "WHERE " + UTENTE + " = ? " +
+                    "AND " + NOTIFICA_UTENTE + " = TRUE";
 
 
 
