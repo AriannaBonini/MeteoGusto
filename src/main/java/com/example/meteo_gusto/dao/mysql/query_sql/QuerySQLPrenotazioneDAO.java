@@ -10,6 +10,7 @@ public class QuerySQLPrenotazioneDAO {
     protected static final String FASCIA_ORARIA = "fascia_oraria";
     protected static final String NOTIFICA_UTENTE = "notificaUtente";
     protected static final String NOTIFICA_RISTORATORE = "notificaRistoratore";
+    protected static final String NOTE_PRENOTAZIONE = "note";
     protected static final String TABELLA_PRENOTAZIONE = "prenotazione";
 
     protected static final String POSTI_DISPONIBILI = "SELECT COALESCE(SUM(" + NUMERO_PERSONE + "), 0) AS totale_persone " +
@@ -23,6 +24,7 @@ public class QuerySQLPrenotazioneDAO {
                     AMBIENTE + ", " +
                     DATA + ", " +
                     ORA + ", " +
+                    NOTE_PRENOTAZIONE + ", " +
                     NUMERO_PERSONE + ", " +
                     UTENTE + ", " +
                     FASCIA_ORARIA +
@@ -30,7 +32,7 @@ public class QuerySQLPrenotazioneDAO {
                     "SELECT a.id FROM ambiente a " +
                     "JOIN ristorante r ON a.ristorante_id = r.partita_iva " +
                     "WHERE a.ambiente = ? AND r.partita_iva = ?" +
-                    "), ?, ?, ?, ?, ?)";
+                    "), ?, ?, ?, ?, ?, ?)";
 
     protected static final String PRENOTAZIONE_ESISTENTE =
             "SELECT COUNT(*) AS numero_prenotazioni " +
@@ -44,6 +46,24 @@ public class QuerySQLPrenotazioneDAO {
                     "FROM " + TABELLA_PRENOTAZIONE + " " +
                     "WHERE " + UTENTE + " = ? " +
                     "AND " + NOTIFICA_UTENTE + " = TRUE";
+
+    protected static final String SEGNA_NOTIFICHE_COME_LETTE =
+            "UPDATE " + TABELLA_PRENOTAZIONE + " " +
+                    "SET " + NOTIFICA_UTENTE + " = FALSE " +
+                    "WHERE " + UTENTE + " = ? " +
+                    "AND " + NOTIFICA_UTENTE + " = TRUE";
+
+
+    protected static final String PRENOTAZIONI_UTENTE =
+            "SELECT " +
+                    DATA + ", " +
+                    ORA + ", " +
+                    AMBIENTE + ", " +
+                    NOTE_PRENOTAZIONE + ", " +
+                    NUMERO_PERSONE + " " +
+                    "FROM " + TABELLA_PRENOTAZIONE + " " +
+                    "WHERE " + UTENTE + " = ?";
+
 
 
 

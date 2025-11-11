@@ -5,6 +5,8 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
 
+import java.util.List;
+
 public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
     @Override
@@ -18,4 +20,8 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
     public boolean esistePrenotazione(Prenotazione prenotazione) throws EccezioneDAO {return true;}
     @Override
     public Prenotazione contaNotificheAttiveUtente(Persona utente) throws EccezioneDAO {return null;}
+    @Override
+    public void resettaNotificheUtente(Persona utente) throws EccezioneDAO {}
+    @Override
+    public List<Prenotazione> selezionaPrenotazioniUtente(Persona utente) throws EccezioneDAO {return null;}
 }

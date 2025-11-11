@@ -10,4 +10,5 @@ public interface AmbienteDAO {
     void registraDisponibilita(List<Ambiente> ambiente) throws EccezioneDAO;
     List<Ambiente> cercaAmbientiDelRistorante(Ristorante ristorante) throws EccezioneDAO;
     Ambiente cercaExtraPerAmbiente(Ambiente ambiente) throws EccezioneDAO;
+    Ambiente cercaNomeAmbienteERistorante(Ambiente ambiente) throws EccezioneDAO;
 }

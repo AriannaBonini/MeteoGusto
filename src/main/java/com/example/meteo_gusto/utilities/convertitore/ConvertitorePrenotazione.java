@@ -17,7 +17,7 @@ public class ConvertitorePrenotazione {
         Persona utenteModel = ConvertitorePersona.personaBeanInModel(prenotazioneBean.getUtente());
         Ambiente ambienteModel = ConvertitoreAmbiente.ambienteBeanInModel(prenotazioneBean.getAmbiente());
 
-        return new Prenotazione(
+        Prenotazione prenotazioneModel= new Prenotazione(
                 prenotazioneBean.getData(),
                 prenotazioneBean.getOra(),
                 prenotazioneBean.getNumeroPersone(),
@@ -25,6 +25,9 @@ public class ConvertitorePrenotazione {
                 utenteModel,
                 prenotazioneBean.getFasciaOraria()
         );
+
+        prenotazioneModel.setNote(prenotazioneBean.getNote());
+        return prenotazioneModel;
     }
 
 
@@ -44,6 +47,7 @@ public class ConvertitorePrenotazione {
         );
 
         prenotazioneBean.setNumeroNotifiche(prenotazioneModel.getNumeroNotifiche());
+        prenotazioneBean.setNote(prenotazioneModel.getNote());
         return prenotazioneBean;
     }
 

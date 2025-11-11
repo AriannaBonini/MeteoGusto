@@ -9,11 +9,11 @@ public final class SupportoNotificheGUI {
     public static void supportoNotifiche(Label notifichePrenotazione, Integer numeroNotifiche) {
         if(numeroNotifiche!=null && numeroNotifiche>0) {
 
-            notifichePrenotazione.setDisable(false);
+            notifichePrenotazione.setVisible(true);
             notifichePrenotazione.setText(String.valueOf(numeroNotifiche));
 
         }else {
-            notifichePrenotazione.setDisable(true);
+            notifichePrenotazione.setVisible(false);
         }
 
     }

@@ -14,6 +14,7 @@ public class Prenotazione {
     private Ambiente ambiente;
     private FasciaOraria fasciaOraria;
     private Integer numeroNotifiche;
+    private String note;
 
     public Prenotazione(LocalDate data, LocalTime ora, Integer numeroPersone, Ambiente ambiente, Persona utente, FasciaOraria fasciaOraria) {
         this.data=data;
@@ -42,5 +43,7 @@ public class Prenotazione {
     public void setFasciaOraria(FasciaOraria fasciaOraria) {this.fasciaOraria = fasciaOraria;}
     public Integer getNumeroNotifiche() {return numeroNotifiche;}
     public void setNumeroNotifiche(Integer numeroNotifiche) {this.numeroNotifiche = numeroNotifiche;}
+    public String getNote() {return note;}
+    public void setNote(String note) {this.note = note;}
 }
 

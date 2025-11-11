@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 public class RiepilogoPrenotazioneCG {
-
     @FXML
     private Label campoDataPrenotazione;
     @FXML
@@ -128,6 +127,7 @@ public class RiepilogoPrenotazioneCG {
             ambienteBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
 
             prenotazione.setAmbiente(ambienteBean);
+            prenotazione.setNote(campoDietaPrenotante.getText());
 
             if(prenotaRistoranteController.prenotaRistorante(prenotazione, ristoranteSelezionato)){
                 GestoreScena.mostraAlertSenzaConferma("Successo", "Prenotazione inserita con successo");

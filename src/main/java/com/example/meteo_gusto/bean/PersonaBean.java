@@ -3,6 +3,8 @@ package com.example.meteo_gusto.bean;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 
+import java.util.List;
+
 public class PersonaBean {
 
     private String nome;
@@ -11,6 +13,7 @@ public class PersonaBean {
     private String email;
     private String password;
     private TipoPersona tipoPersona;
+    private List<PrenotazioneBean> prenotazioniAttive;
 
     public PersonaBean() { /* COSTRUTTORE VUOTO */ }
 
@@ -31,6 +34,8 @@ public class PersonaBean {
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public TipoPersona getTipoPersona() { return tipoPersona; }
+    public List<PrenotazioneBean> getPrenotazioniAttive() {return prenotazioniAttive;}
+
 
     /* METODI SETTER CON VALIDAZIONE */
     public void setNome(String nome) throws ValidazioneException {
@@ -89,5 +94,8 @@ public class PersonaBean {
         }
         this.tipoPersona = tipoPersona;
     }
+
+
+    public void setPrenotazioniAttive(List<PrenotazioneBean> prenotazioniAttive) {this.prenotazioniAttive = prenotazioniAttive;}
 }
 

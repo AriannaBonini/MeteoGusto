@@ -12,6 +12,7 @@ public class Ambiente {
     private Integer idAmbiente;
 
     /* COSTRUTTORE */
+    public Ambiente() { /* COSTRUTTORE VUOTO*/ }
     public Ambiente(TipoAmbiente tipoAmbiente, String ristorante, Integer numeroCoperti, Set<Extra> extra) {
         this.tipoAmbiente = tipoAmbiente;
         this.numeroCoperti = numeroCoperti;

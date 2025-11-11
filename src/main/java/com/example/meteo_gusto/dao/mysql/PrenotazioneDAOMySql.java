@@ -3,6 +3,7 @@ package com.example.meteo_gusto.dao.mysql;
 import com.example.meteo_gusto.dao.PrenotazioneDAO;
 import com.example.meteo_gusto.dao.mysql.query_sql.QuerySQLPrenotazioneDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements PrenotazioneDAO {
 
@@ -64,9 +67,10 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                 ps.setString(2, prenotazione.getAmbiente().getRistorante());
                 ps.setDate(3, java.sql.Date.valueOf(prenotazione.getData()));
                 ps.setTime(4, java.sql.Time.valueOf(prenotazione.getOra()));
-                ps.setInt(5, prenotazione.getNumeroPersone());
-                ps.setString(6, prenotazione.getUtente().getEmail());
-                ps.setString(7, prenotazione.getFasciaOraria().getId());
+                ps.setString(5, prenotazione.getNote());
+                ps.setInt(6, prenotazione.getNumeroPersone());
+                ps.setString(7, prenotazione.getUtente().getEmail());
+                ps.setString(8, prenotazione.getFasciaOraria().getId());
 
                 int righe = ps.executeUpdate();
                 inserita = righe > 0;
@@ -132,6 +136,62 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
 
         return prenotazione;
     }
+
+    @Override
+    public void resettaNotificheUtente(Persona utente) throws EccezioneDAO {
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(SEGNA_NOTIFICHE_COME_LETTE)) {
+
+                ps.setString(1, utente.getEmail());
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante la reimpostazione delle notifiche dell'utente", e);
+        }
+    }
+
+    @Override
+    public List<Prenotazione> selezionaPrenotazioniUtente(Persona utente) throws EccezioneDAO {
+        List<Prenotazione> prenotazioni = new ArrayList<>();
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(PRENOTAZIONI_UTENTE)) {
+
+                ps.setString(1, utente.getEmail());
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Prenotazione prenotazione = new Prenotazione();
+                        prenotazione.setData(rs.getDate(DATA).toLocalDate());
+                        prenotazione.setOra(rs.getTime(ORA).toLocalTime());
+
+                        Ambiente ambiente= new Ambiente();
+                        ambiente.setIdAmbiente(rs.getInt(AMBIENTE));
+
+                        prenotazione.setAmbiente(ambiente);
+                        prenotazione.setNote(rs.getString(NOTE_PRENOTAZIONE));
+                        prenotazione.setNumeroPersone(rs.getInt(NUMERO_PERSONE));
+
+                        prenotazioni.add(prenotazione);
+                    }
+                }
+
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero delle prenotazioni dell'utente", e);
+        }
+
+        return prenotazioni;
+    }
+
+
 
 
 

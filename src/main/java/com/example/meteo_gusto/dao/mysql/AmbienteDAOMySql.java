@@ -6,6 +6,7 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.Extra;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.model.Ambiente;
+import com.example.meteo_gusto.model.Prenotazione;
 import com.example.meteo_gusto.model.Ristorante;
 import java.io.IOException;
 import java.sql.Connection;
@@ -139,6 +140,39 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
 
         return null;
     }
+
+    @Override
+    public Ambiente cercaNomeAmbienteERistorante(Ambiente ambiente) throws EccezioneDAO {
+        Ambiente ambienteTrovato= new Ambiente();
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(CERCA_NOME_AMBIENTE_E_RISTORANTE_PER_ID)) {
+
+                ps.setInt(1, ambiente.getIdAmbiente());
+
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        String tipo = rs.getString(AMBIENTE);
+                        if(tipo != null) {
+                            ambienteTrovato.setTipoAmbiente(TipoAmbiente.tipoAmbienteDaId(tipo));
+                            ambienteTrovato.setRistorante(rs.getString(RISTORANTE));
+                        }
+                    }
+
+                }
+
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante la ricerca del nome dell'ambiente per ID", e);
+        }
+
+        return ambienteTrovato;
+    }
+
 
 
 

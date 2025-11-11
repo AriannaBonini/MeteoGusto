@@ -112,7 +112,9 @@ public class PrenotaRistoranteFormInizialeCG {
 
 
     @FXML
-    private void clickListaPrenotazioni(MouseEvent evento) {/**/}
+    private void clickListaPrenotazioni(MouseEvent evento) {
+        GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml", evento);
+    }
 
     @FXML
     private void clickProfiloPersonale(MouseEvent evento) {/**/}

@@ -15,7 +15,6 @@ import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.GiorniSettimanaHelper;
 import com.example.meteo_gusto.utilities.convertitore.*;
-
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
@@ -24,6 +23,7 @@ public class PrenotaRistoranteController {
 
     private static final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
     private static final DietaDAO dietaDAO= daoFactoryFacade.getDietaDAO();
+    RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
     private final List<Ristorante> ristorantiPrenotabili = new ArrayList<>();
     private List<Ambiente> ambientiCompatibiliConIlMeteo=new ArrayList<>();
     AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
@@ -36,7 +36,6 @@ public class PrenotaRistoranteController {
         List<RistoranteBean> listaRistorantiPrenotabili = new ArrayList<>();
         ristorantiPrenotabili.clear();
 
-        RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
         GiornoChiusuraDAO giornoChiusuraDAO = daoFactoryFacade.getGiornoChiusuraDAO();
 
         Filtro filtri = ConvertitoreFiltri.filtriBeanInModel(filtriInseriti);
@@ -372,6 +371,47 @@ public class PrenotaRistoranteController {
             throw new ValidazioneException(e.getMessage());
         }
     }
+
+    public void modificaStatoNotifica() throws ValidazioneException{
+        try {
+            prenotazioneDAO.resettaNotificheUtente(Sessione.getInstance().getPersona());
+        }catch (EccezioneDAO e) {
+            throw new ValidazioneException(e.getMessage());
+        }
+    }
+
+
+    public PersonaBean prenotazioniUtente() throws ValidazioneException{
+        Persona persona= Sessione.getInstance().getPersona();
+
+        PersonaBean personaBean= ConvertitorePersona.personaModelInBean(persona);
+        List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
+        try{
+            List<Prenotazione> listaPrenotazioni=prenotazioneDAO.selezionaPrenotazioniUtente(persona);
+            for(Prenotazione prenotazione: listaPrenotazioni) {
+
+                prenotazione.setAmbiente(ambienteDAO.cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
+
+                Ristorante ristorante= ristoranteDAO.selezionaInfoRistorante(prenotazione.getAmbiente());
+
+                PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
+                prenotazioneBean.getAmbiente().setNomeRistorante(ristorante.getNomeRistorante());
+                prenotazioneBean.getAmbiente().setCittaRistorante(ristorante.getPosizione().getCitta());
+                prenotazioneBean.getAmbiente().setIndirizzoCompletoRistorante(ristorante.getPosizione().getIndirizzoCompleto());
+
+
+                listaPrenotazioniBean.add(prenotazioneBean);
+            }
+            personaBean.setPrenotazioniAttive(listaPrenotazioniBean);
+
+        }catch (EccezioneDAO e) {
+            throw new ValidazioneException(e.getMessage());
+        }
+        return personaBean;
+    }
+
+
+
 
 
 

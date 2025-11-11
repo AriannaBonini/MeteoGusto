@@ -15,6 +15,7 @@ public class PrenotazioneBean {
     private AmbienteBean ambiente;
     private FasciaOraria fasciaOraria;
     private Integer numeroNotifiche;
+    private String note;
 
     public PrenotazioneBean() { /* COSTRUTTORE VUOTO */ }
 
@@ -35,6 +36,8 @@ public class PrenotazioneBean {
     public PersonaBean getUtente() { return utente; }
     public AmbienteBean getAmbiente() { return ambiente; }
     public FasciaOraria getFasciaOraria() { return fasciaOraria; }
+    public String getNote() {return note;}
+    public Integer getNumeroNotifiche() {return numeroNotifiche;}
 
     /* SETTER CON VALIDAZIONE */
 
@@ -74,7 +77,7 @@ public class PrenotazioneBean {
     }
 
     public void setFasciaOraria(FasciaOraria fasciaOraria){ this.fasciaOraria=fasciaOraria;}
-    public Integer getNumeroNotifiche() {return numeroNotifiche;}
     public void setNumeroNotifiche(Integer numeroNotifiche) {this.numeroNotifiche = numeroNotifiche;}
+    public void setNote(String note) {this.note = note;}
 }
 
