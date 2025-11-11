@@ -9,15 +9,17 @@ public class Persona {
     private String email;
     private String password;
     private TipoPersona tipoPersona;
+    private Ristorante ristorante;
 
     /* COSTRUTTORE PER LA REGISTRAZIONE*/
-    public Persona(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona) {
+    public Persona(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona, Ristorante ristorante) {
        this.nome=nome;
        this.cognome=cognome;
        this.telefono=telefono;
        this.email=email;
        this.password=password;
        this.tipoPersona=tipoPersona;
+       this.ristorante=ristorante;
     }
 
     public Persona(String email) {
@@ -36,11 +38,20 @@ public class Persona {
     public  String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
     public TipoPersona getTipoPersona() {return tipoPersona;}
+    public Ristorante getRistorante() {return ristorante;}
 
 
     /* METODI DI SUPPORTO */
     public boolean tipoUtente() {return tipoPersona==TipoPersona.UTENTE;}
     public boolean tipoRistoratore() {return tipoPersona==TipoPersona.RISTORATORE;}
+    public void ristoranteDiProprieta(Ristorante ristorante) {
+        if (tipoPersona.equals(TipoPersona.RISTORATORE)) {
+            this.ristorante = ristorante;
+        } else {
+            this.ristorante = null;
+        }
+    }
+
 
 }
 

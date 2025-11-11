@@ -13,7 +13,26 @@
     -fx-scale-y: 2.0;
 }
 
+/* testo del campo e prompt text */
 .combo-box .text-input {
-    -fx-font-size: 20px;
+    -fx-font-size: 35px; /* <-- aumentato */
     -fx-prompt-text-fill: rgba(0, 0, 0, 0.5);
 }
+
+/* area visibile del ComboBox (campo selezionato) */
+.combo-box {
+    -fx-background-color: white;
+    -fx-text-fill: rgba(0, 0, 0, 0.5);
+    -fx-border-color: #00000042; /* bordo semitrasparente */
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+/* celle della lista a discesa */
+.combo-box .list-cell {
+    -fx-text-fill: rgba(0, 0, 0, 0.5);
+    -fx-background-color: white;
+}
+
+

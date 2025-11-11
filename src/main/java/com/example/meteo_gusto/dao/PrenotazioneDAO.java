@@ -1,6 +1,7 @@
 package com.example.meteo_gusto.dao;
 
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
 
@@ -14,4 +15,5 @@ public interface PrenotazioneDAO {
     Prenotazione contaNotificheAttiveUtente(Persona utente) throws EccezioneDAO ;
     void resettaNotificheUtente(Persona utente) throws EccezioneDAO;
     List<Prenotazione> selezionaPrenotazioniUtente(Persona utente) throws EccezioneDAO;
+    List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO;
 }

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements PrenotazioneDAO {
@@ -176,6 +177,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                         ambiente.setIdAmbiente(rs.getInt(AMBIENTE));
 
                         prenotazione.setAmbiente(ambiente);
+
                         prenotazione.setNote(rs.getString(NOTE_PRENOTAZIONE));
                         prenotazione.setNumeroPersone(rs.getInt(NUMERO_PERSONE));
 
@@ -191,10 +193,54 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
         return prenotazioni;
     }
 
+    @Override
+    public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+        List<Prenotazione> prenotazioni = new ArrayList<>();
 
+        if (ambienti == null || ambienti.isEmpty()) {
+            return prenotazioni;
+        }
 
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
 
+            String query = generaQueryPrenotazioniRistoratore(ambienti.size());
 
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(query)) {
+
+                for (int i = 0; i < ambienti.size(); i++) {
+                    ps.setInt(i + 1, ambienti.get(i).getIdAmbiente());
+                }
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Prenotazione prenotazione = new Prenotazione();
+                        prenotazione.setData(rs.getDate(DATA).toLocalDate());
+                        prenotazione.setOra(rs.getTime(ORA).toLocalTime());
+                        prenotazione.setNote(rs.getString(NOTE_PRENOTAZIONE));
+                        prenotazione.setNumeroPersone(rs.getInt(NUMERO_PERSONE));
+
+                        Ambiente ambiente = new Ambiente();
+                        ambiente.setIdAmbiente(rs.getInt(AMBIENTE));
+                        prenotazione.setAmbiente(ambiente);
+                        prenotazione.setUtente(new Persona(rs.getString(UTENTE)));
+
+                        prenotazioni.add(prenotazione);
+                    }
+                }
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero delle prenotazioni per più ambienti", e);
+        }
+
+        return prenotazioni;
+    }
+
+    private String generaQueryPrenotazioniRistoratore(int numeroAmbienti) {
+        String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
+        return PRENOTAZIONI_RISTORATORE + placeholders + ")";
+    }
 
 
 

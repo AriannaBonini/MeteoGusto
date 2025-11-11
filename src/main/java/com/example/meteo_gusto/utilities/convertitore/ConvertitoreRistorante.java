@@ -49,10 +49,6 @@ public class ConvertitoreRistorante {
 
         List<AmbienteBean> ambienteBean= ConvertitoreAmbiente.listaAmbienteModelInBean(ristoranteModel.getAmbienteRistorante());
 
-        Persona proprietario = ristoranteModel.getProprietario();
-        PersonaBean proprietarioBean = (proprietario != null)
-                ? ConvertitorePersona.personaModelInBean(proprietario)
-                : null;
 
         RistoranteBean ristoranteBean = new RistoranteBean(
                 ristoranteModel.getPartitaIVA(),
@@ -62,8 +58,7 @@ public class ConvertitoreRistorante {
                 ristoranteModel.getFasciaPrezzo(),
                 posizioneBean,
                 giorniEOrariBean,
-                ambienteBean,
-                proprietarioBean
+                ambienteBean
         );
 
         ristoranteBean.setTipoDieta(ristoranteModel.getTipoDieta());
@@ -78,14 +73,7 @@ public class ConvertitoreRistorante {
         Posizione posizione = convertPosizioneBean(ristoranteBean.getPosizione());
         GiorniEOrari orari = convertOrariBean(ristoranteBean.getGiorniEOrari());
 
-        Ristorante ristorante = costruiamoBaseRistorante(ristoranteBean, posizione, orari);
-
-        PersonaBean proprietarioBean = ristoranteBean.getProprietario();
-        if (proprietarioBean != null) {
-            ristorante.setProprietario(ConvertitorePersona.personaBeanInModel(proprietarioBean));
-        }
-
-        return ristorante;
+        return costruiamoBaseRistorante(ristoranteBean, posizione, orari);
     }
 
     private static Ristorante costruiamoBaseRistorante(RistoranteBean bean, Posizione posizione, GiorniEOrari orari) {

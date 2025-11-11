@@ -65,6 +65,20 @@ public class QuerySQLPrenotazioneDAO {
                     "WHERE " + UTENTE + " = ?";
 
 
+    protected static final String PRENOTAZIONI_RISTORATORE =
+            "SELECT " +
+                    DATA + ", " +
+                    ORA + ", " +
+                    AMBIENTE + ", " +
+                    UTENTE + ", " +
+                    NOTE_PRENOTAZIONE + ", " +
+                    NUMERO_PERSONE + " " +
+                    "FROM " + TABELLA_PRENOTAZIONE + " " +
+                    "WHERE " + AMBIENTE + " IN (";
+
+
+
+
 
 
 

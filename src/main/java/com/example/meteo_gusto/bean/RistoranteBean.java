@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class RistoranteBean {
     private String partitaIVA;
-    private PersonaBean proprietario;
     private String nomeRistorante;
     private String telefonoRistorante;
     private TipoCucina cucina;
@@ -23,7 +22,7 @@ public class RistoranteBean {
     private List<AmbienteBean> ambiente;
 
     public RistoranteBean() { /* COSTRUTTORE VUOTO */ }
-    public RistoranteBean(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, PosizioneBean posizione, GiorniEOrariBean giorniEOrari, List<AmbienteBean> ambiente, PersonaBean proprietario) {
+    public RistoranteBean(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, PosizioneBean posizione, GiorniEOrariBean giorniEOrari, List<AmbienteBean> ambiente) {
         this.partitaIVA = partitaIVA;
         this.nomeRistorante = nomeRistorante;
         this.telefonoRistorante = telefonoRistorante;
@@ -34,13 +33,11 @@ public class RistoranteBean {
         tipoDieta=new HashSet<>();
         mediaStelle= BigDecimal.valueOf(0.0);
         this.ambiente=ambiente;
-        this.proprietario=proprietario;
     }
 
 
     /* GETTER */
     public String getPartitaIVA() { return partitaIVA; }
-    public PersonaBean getProprietario() { return proprietario; }
     public String getNomeRistorante() { return nomeRistorante; }
     public String getTelefonoRistorante() { return telefonoRistorante; }
     public TipoCucina getCucina() { return cucina; }
@@ -64,12 +61,6 @@ public class RistoranteBean {
         this.partitaIVA = partitaIVA.trim();
     }
 
-    public void setProprietario(PersonaBean proprietario) throws ValidazioneException {
-        if (proprietario == null) {
-            throw new ValidazioneException("Il proprietario non può essere nullo.");
-        }
-        this.proprietario = proprietario;
-    }
 
     public void setNomeRistorante(String nomeRistorante) throws ValidazioneException {
         if (nomeRistorante == null || nomeRistorante.trim().isEmpty()) {

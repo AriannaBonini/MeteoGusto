@@ -5,14 +5,11 @@ import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Ristorante {
     private String partitaIVA;
-    private Persona proprietario;
     private String nomeRistorante;
     private String telefonoRistorante;
     private BigDecimal mediaStelle;
@@ -22,6 +19,7 @@ public class Ristorante {
     private Posizione posizione;
     private Set<TipoDieta> tipoDieta;
     private List<Ambiente> ambienteRistorante;
+    private String ristoratore;
 
     public Ristorante() { /* COSTRUTTORE VUOTO */}
 
@@ -47,8 +45,6 @@ public class Ristorante {
     public String getPartitaIVA() {return partitaIVA;}
     public String getNomeRistorante() {return nomeRistorante;}
     public String getTelefonoRistorante() {return telefonoRistorante;}
-    public Persona getProprietario() {return proprietario;}
-    public void setProprietario(Persona proprietario) {this.proprietario = proprietario;}
     public BigDecimal getMediaStelle() {return mediaStelle;}
     public void setMediaStelle(BigDecimal mediaStelle) {this.mediaStelle = mediaStelle;}
     public TipoCucina getCucina() {return cucina;}
@@ -63,6 +59,6 @@ public class Ristorante {
     public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
     public List<Ambiente> getAmbienteRistorante() {return ambienteRistorante;}
     public void setAmbienteRistorante(List<Ambiente> ambienteRistorante) {this.ambienteRistorante = ambienteRistorante;}
-
-
+    public String getRistoratore() {return ristoratore;}
+    public void setRistoratore(String ristoratore) {this.ristoratore = ristoratore;}
 }

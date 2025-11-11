@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="areapersonaleutente" prefHeight="703.0" prefWidth="1193.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.PaginaInizialeRistoratoreCG">
+
+   <!-- Immagine di sfondo -->
+   <ImageView fitHeight="702.0" fitWidth="644.0" layoutX="609.0" opacity="0.4" pickOnBounds="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+
+   <!-- Logo e icone varie -->
+   <ImageView fx:id="meteogustoRemovebgPreview1" fitHeight="137.0" fitWidth="180.0" layoutX="11.0" layoutY="31.0" preserveRatio="true">
+      <image>
+         <Image url="@Foto/LogoMeteoGusto.png" />
+      </image>
+   </ImageView>
+
+   <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
+      <image>
+         <Image url="@Foto/iconaEsciNonSelezionata.png" />
+      </image>
+   </ImageView>
+
+   <ImageView fx:id="menu" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="315.0" onMouseClicked="#clickMenu">
+      <image>
+         <Image url="@Foto/IconaMenuNonSelezionata.png" />
+      </image>
+   </ImageView>
+
+   <ImageView fx:id="calendario" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0" onMouseClicked="#clickCalendario">
+      <image>
+         <Image url="@Foto/IconaListaPrenotazioniRistoratoreNonSelezionata.png" />
+      </image>
+   </ImageView>
+
+   <ImageView fx:id="profiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickProfiloPersonale">
+      <image>
+         <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+      </image>
+   </ImageView>
+
+   <!-- Linee di separazione -->
+   <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Line endX="196.5" endY="0.0" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+
+   <!-- Copia sfondo -->
+   <ImageView fitHeight="702.0" fitWidth="644.0" layoutX="200.0" layoutY="-1.0" opacity="0.4" pickOnBounds="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+   <Label fx:id="titolo" layoutX="237.0" layoutY="140.0" text="Benvenuto su MeteoGusto" textFill="#e97627">
+      <font>
+         <Font name="System Bold" size="50.0" />
+      </font>
+   </Label>
+   <Label fx:id="sottotitolo" layoutX="237.0" layoutY="213.0" prefHeight="36.0" prefWidth="741.0" text="Tieniti pronto a ricevere i tuoi clienti, con il meteo dalla tua parte" textFill="#000000">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <StackPane fx:id="stackPane" layoutX="209.0" layoutY="326.0" prefHeight="311.0" prefWidth="1042.0">
+      <children>
+         <HBox fx:id="carosello" prefHeight="311.0" prefWidth="1035.0" spacing="10.0" StackPane.alignment="CENTER">
+            <children>
+               <VBox fx:id="vBox1" layoutX="-3.0" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+                  <children>
+                     <ImageView fx:id="immaginePiatto11" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@Foto/TagliatellePiselliEMenta.png" />
+                        </image>
+                        <VBox.margin>
+                           <Insets left="4.0" top="7.0" />
+                        </VBox.margin>
+                     </ImageView>
+                     <Label fx:id="nomePiatto11" alignment="CENTER" prefHeight="113.0" prefWidth="242.0" text="Taglietelle piselli e menta" textFill="#e97627" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="21.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                     <Label fx:id="descrizionePiatto11" prefHeight="126.0" prefWidth="243.0" text="Piatto fresco e profumato, ideale per la primavera" wrapText="true">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                  </children>
+               </VBox>
+               <VBox fx:id="vBox2" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+                  <children>
+                     <ImageView fx:id="immaginePiatto" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@Foto/InsalataDiMare.png" />
+                        </image>
+                        <VBox.margin>
+                           <Insets left="4.0" top="7.0" />
+                        </VBox.margin>
+                     </ImageView>
+                     <Label fx:id="nomePiatto" prefHeight="18.0" prefWidth="209.0" text="Insalata di Mare" textFill="#e97627">
+                        <font>
+                           <Font name="System Bold" size="23.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                     <Label fx:id="descrizionePiatto" prefHeight="126.0" prefWidth="243.0" text="Un piatto fresco e leggero, adatto per l'estate." wrapText="true">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                  </children>
+               </VBox>
+               <VBox fx:id="vBox3" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+                  <children>
+                     <ImageView fx:id="immaginePiatto1" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@Foto/RisottoAllaZucca.png" />
+                        </image>
+                        <VBox.margin>
+                           <Insets left="4.0" top="7.0" />
+                        </VBox.margin>
+                     </ImageView>
+                     <Label fx:id="nomePiatto1" prefHeight="18.0" prefWidth="209.0" text="Risotto alla zucca" textFill="#e97627">
+                        <font>
+                           <Font name="System Bold" size="23.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                     <Label fx:id="descrizionePiatto1" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e cremoso, perfetto per l'autunno" wrapText="true">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                  </children></VBox>
+               <VBox fx:id="vBox4" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+                  <children>
+                     <ImageView fx:id="immaginePiatto12" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@Foto/PolentaConSpuntatura.png" />
+                        </image>
+                        <VBox.margin>
+                           <Insets left="4.0" top="7.0" />
+                        </VBox.margin>
+                     </ImageView>
+                     <Label fx:id="nomePiatto12" prefHeight="75.0" prefWidth="246.0" text="Polenta con Spuntatura" textFill="#e97627" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="20.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                     <Label fx:id="descrizionePiatto12" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e sostanzioso, perfetto per le freddi giornate invernali" wrapText="true">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                        <padding>
+                           <Insets left="10.0" />
+                        </padding>
+                     </Label>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+      </children>
+   </StackPane>
+   <Label fx:id="suggerimento" layoutX="218.0" layoutY="277.0" prefHeight="36.0" prefWidth="741.0" text="Idee stagionali per arricchire il tuo menù !" textFill="#e97627">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+
+   <stylesheets>
+      <URL value="@scrollPane.css" />
+      <URL value="@datePicker.css" />
+      <URL value="@comboBox.css" />
+      <URL value="@stili.css" />
+   </stylesheets>
+
+</AnchorPane>

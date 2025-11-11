@@ -2,6 +2,7 @@ package com.example.meteo_gusto.dao.memoria;
 
 import com.example.meteo_gusto.dao.PrenotazioneDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
 
@@ -24,4 +25,9 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
     public void resettaNotificheUtente(Persona utente) throws EccezioneDAO {}
     @Override
     public List<Prenotazione> selezionaPrenotazioniUtente(Persona utente) throws EccezioneDAO {return null;}
+
+    @Override
+    public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {return null;}
+
+
 }

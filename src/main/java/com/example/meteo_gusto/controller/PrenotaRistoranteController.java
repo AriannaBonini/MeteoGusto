@@ -247,7 +247,6 @@ public class PrenotaRistoranteController {
         ambienteRistorante.setRistorante(partitaIVA);
         Ambiente ambienteConExtra = ambienteDAO.cercaExtraPerAmbiente(ambienteRistorante);
         Set<Extra> extraDisponibili = ambienteConExtra != null ? ambienteConExtra.getExtra() : null;
-        System.out.println("Riscaldamento e raffreddamento : " + ambienteConExtra.getExtra());
 
         return extraDisponibili != null && extraDisponibili.containsAll(extraRichiesti);
     }
@@ -408,6 +407,39 @@ public class PrenotaRistoranteController {
             throw new ValidazioneException(e.getMessage());
         }
         return personaBean;
+    }
+
+
+    public List<PrenotazioneBean> prenotazioniRistoratore() throws ValidazioneException {
+
+        PersonaDAO personaDAO= daoFactoryFacade.getPersonaDAO();
+        List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
+
+        try {
+            List<Prenotazione> listaPrenotazioni= prenotazioneDAO.selezionaPrenotazioniRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+
+            for(Prenotazione prenotazione: listaPrenotazioni)  {
+                Sessione.getInstance()
+                        .getPersona()
+                        .getRistorante()
+                        .getAmbienteRistorante()
+                        .stream()
+                        .filter(a -> a.getIdAmbiente().equals(prenotazione.getAmbiente().getIdAmbiente()))
+                        .findFirst().ifPresent(prenotazione::setAmbiente);
+
+                prenotazione.setUtente(personaDAO.informazioniUtente(prenotazione.getUtente()));
+
+                PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
+
+                listaPrenotazioniBean.add(prenotazioneBean);
+            }
+
+        }catch (EccezioneDAO e) {
+            throw new ValidazioneException(e.getMessage());
+        }
+        listaPrenotazioniBean.sort(Comparator.comparing(PrenotazioneBean::getData).reversed());
+
+        return listaPrenotazioniBean;
     }
 
 

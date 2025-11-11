@@ -50,12 +50,13 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         return new Persona(
-                                rs.getString("nome"),
-                                rs.getString("cognome"),
-                                rs.getString("telefono"),
-                                rs.getString("email"),
-                                rs.getString("password_hash"),
-                                TipoPersona.fromId(rs.getString("tipo_ruolo"))
+                                rs.getString(NOME),
+                                rs.getString(COGNOME),
+                                rs.getString(TELEFONO),
+                                rs.getString(EMAIL),
+                                rs.getString(PASSWORD),
+                                TipoPersona.fromId(rs.getString(RUOLO)),
+                                null
                         );
                     } else {
                         return null;
@@ -71,10 +72,41 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
 
 
 
+    @Override
+    public Persona informazioniUtente(Persona utente) throws EccezioneDAO {
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(OTTIENI_DATI_DA_EMAIL)) {
+
+                ps.setString(1, utente.getEmail());
 
 
+                try (ResultSet rs = ps.executeQuery()) {
 
+                    if (rs.next()) {
+                        return new Persona(
+                                rs.getString(NOME),
+                                rs.getString(COGNOME),
+                                rs.getString(TELEFONO),
+                                rs.getString(EMAIL),
+                                null,
+                                null,
+                                null
+                        );
+                    } else {
+                        return null;
+                    }
+                }
 
+            }
 
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero dei dati dell'utente tramite email", e);
+        }
+
+    }
 
 }

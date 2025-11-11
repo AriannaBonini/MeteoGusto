@@ -41,8 +41,7 @@ public class LoginCG {
             if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
                 GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
             }else{
-                infoErrore.setText("Ristoratore presente");
-                // carichiamo quella del ristoratore.
+                GestoreScena.cambiaScena("/PaginaInizialeRistoratore.fxml", evento);
             }
 
         }catch (ValidazioneException | EccezioneDAO e) {

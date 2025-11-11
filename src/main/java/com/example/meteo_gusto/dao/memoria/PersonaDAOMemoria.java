@@ -12,9 +12,9 @@ public class PersonaDAOMemoria implements PersonaDAO {
     }
 
     @Override
-    public Persona login(Persona persona) throws EccezioneDAO {
-        return new Persona(null,null,null,null,null,null);
-    }
+    public Persona login(Persona persona) throws EccezioneDAO {return null;}
+    @Override
+    public Persona informazioniUtente(Persona utente) throws EccezioneDAO {return null;}
 
 
 

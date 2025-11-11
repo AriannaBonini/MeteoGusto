@@ -14,16 +14,18 @@ public class PersonaBean {
     private String password;
     private TipoPersona tipoPersona;
     private List<PrenotazioneBean> prenotazioniAttive;
+    private RistoranteBean ristoranteBean;
 
     public PersonaBean() { /* COSTRUTTORE VUOTO */ }
 
-    public PersonaBean(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona) {
+    public PersonaBean(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona, RistoranteBean ristoranteBean) {
         this.nome = nome;
         this.cognome = cognome;
         this.telefono = telefono;
         this.email = email;
         this.password = password;
         this.tipoPersona = tipoPersona;
+        this.ristoranteBean=ristoranteBean;
     }
 
 
@@ -35,6 +37,7 @@ public class PersonaBean {
     public String getPassword() { return password; }
     public TipoPersona getTipoPersona() { return tipoPersona; }
     public List<PrenotazioneBean> getPrenotazioniAttive() {return prenotazioniAttive;}
+    public RistoranteBean getRistoranteBean() {return ristoranteBean;}
 
 
     /* METODI SETTER CON VALIDAZIONE */
@@ -93,6 +96,13 @@ public class PersonaBean {
             throw new ValidazioneException("Il tipo persona non può essere nullo");
         }
         this.tipoPersona = tipoPersona;
+    }
+
+    public void setRistoranteBean(RistoranteBean ristoranteBean) throws ValidazioneException{
+        if (ristoranteBean == null) {
+            throw new ValidazioneException("Il ristorante non può essere nullo");
+        }
+        this.ristoranteBean=ristoranteBean;
     }
 
 

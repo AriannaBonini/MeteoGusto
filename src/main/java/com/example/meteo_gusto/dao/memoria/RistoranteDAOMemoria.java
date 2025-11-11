@@ -4,6 +4,7 @@ import com.example.meteo_gusto.dao.RistoranteDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Filtro;
+import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Ristorante;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
     public void aggiornaMediaStelle(Ristorante ristorante) throws EccezioneDAO {}
     @Override
     public Ristorante selezionaInfoRistorante(Ambiente ambiente) throws EccezioneDAO {return null;}
+    @Override
+    public Ristorante selezionaRistorantePerProprietario(Persona ristoratore) throws EccezioneDAO {return null;}
 }

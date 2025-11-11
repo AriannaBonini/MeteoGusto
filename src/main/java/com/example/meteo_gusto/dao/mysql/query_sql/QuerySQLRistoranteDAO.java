@@ -77,6 +77,16 @@ public class QuerySQLRistoranteDAO {
                     "FROM " + TABELLA_RISTORANTE + " " +
                     "WHERE " + PARTITA_IVA + " = ?";
 
+    protected static final String SELEZIONA_RISTORANTE_PER_PROPRIETARIO =
+            "SELECT " +
+                    PARTITA_IVA + ", " +
+                    NOME + " " +
+                    "FROM " + TABELLA_RISTORANTE + " " +
+                    "WHERE " + PROPRIETARIO + " = ?";
+
+
+
+
 
 
 

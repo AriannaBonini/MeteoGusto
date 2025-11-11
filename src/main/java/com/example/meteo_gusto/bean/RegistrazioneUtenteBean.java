@@ -36,6 +36,4 @@ public class RegistrazioneUtenteBean {
 
     /* METODI GETTER */
     public PersonaBean getPersona() { return persona; }
-    public boolean isMaggiorenne() { return maggiorenne; }
-    public boolean isAccettaTermini() { return accettaTermini; }
 }

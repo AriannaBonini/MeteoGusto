@@ -23,15 +23,17 @@ public class RegistrazioneController {
         }
     }
 
-    public void registraRistoratore(RegistrazioneRistoratoreBean registrazioneRistoratoreBean) throws EccezioneDAO {
+    public void registraRistoratore(RegistrazioneUtenteBean registrazioneRistoratoreBean) throws EccezioneDAO {
         try {
             RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
             GiornoChiusuraDAO giornoChiusuraDAO = daoFactoryFacade.getGiornoChiusuraDAO();
             DietaDAO dietaDAO = daoFactoryFacade.getDietaDAO();
             AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
 
-            Persona proprietarioRistorante = ConvertitorePersona.personaBeanInModel(registrazioneRistoratoreBean.getRistorante().getProprietario());
-            Ristorante ristorante = ConvertitoreRistorante.ristoranteBeanInModel(registrazioneRistoratoreBean.getRistorante());
+            Persona proprietarioRistorante = ConvertitorePersona.personaBeanInModel(registrazioneRistoratoreBean.getPersona());
+            Ristorante ristorante= proprietarioRistorante.getRistorante();
+            ristorante.setRistoratore(proprietarioRistorante.getEmail());
+
 
             controllaFasciaOrariaPranzo(ristorante.getOrari());
             controllaFasciaOrariaCena(ristorante.getOrari());
@@ -47,7 +49,7 @@ public class RegistrazioneController {
                 dietaDAO.registraDieta(ristorante);
             }
 
-            List<Ambiente> listaAmbiente = ambienteRistoranteInModel(registrazioneRistoratoreBean);
+            List<Ambiente> listaAmbiente = ambienteRistoranteInModel(registrazioneRistoratoreBean.getPersona());
             ambienteDAO.registraDisponibilita(listaAmbiente);
 
         } catch (ValidazioneException | EccezioneDAO e) {
@@ -58,14 +60,14 @@ public class RegistrazioneController {
 
     /* ---------------- METODI PRIVATI DI SUPPORTO ---------------- */
 
-    private List<Ambiente> ambienteRistoranteInModel(RegistrazioneRistoratoreBean registrazione) throws ValidazioneException {
-        if (registrazione.getAmbiente() == null || registrazione.getAmbiente().isEmpty()) {
+    private List<Ambiente> ambienteRistoranteInModel(PersonaBean personaBean) throws ValidazioneException {
+        if (personaBean.getRistoranteBean().getAmbiente() == null || personaBean.getRistoranteBean().getAmbiente().isEmpty()) {
             return Collections.emptyList();
         }
         List<Ambiente> listaAmbiente = new ArrayList<>();
         try {
-            for (AmbienteBean ambienteBean : registrazione.getAmbiente()) {
-                ambienteBean.setRistorante(registrazione.getRistorante().getPartitaIVA());
+            for (AmbienteBean ambienteBean : personaBean.getRistoranteBean().getAmbiente()) {
+                ambienteBean.setRistorante(personaBean.getRistoranteBean().getPartitaIVA());
 
                 listaAmbiente.add(ConvertitoreAmbiente.ambienteBeanInModel(ambienteBean));
             }

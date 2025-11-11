@@ -6,7 +6,6 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.Extra;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.model.Ambiente;
-import com.example.meteo_gusto.model.Prenotazione;
 import com.example.meteo_gusto.model.Ristorante;
 import java.io.IOException;
 import java.sql.Connection;

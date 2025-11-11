@@ -28,7 +28,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 ps.setString(1, ristorante.getNomeRistorante());
                 ps.setString(2, ristorante.getPartitaIVA());
                 ps.setString(3, ristorante.getTelefonoRistorante());
-                ps.setString(4, ristorante.getProprietario().getEmail());
+                ps.setString(4, ristorante.getRistoratore());
                 ps.setString(5, ristorante.getPosizione().getVia());
                 ps.setInt(6, Integer.parseInt(ristorante.getPosizione().getCivico()));
                 ps.setString(7, ristorante.getPosizione().getCitta());
@@ -177,6 +177,35 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
 
         return ristorante;
     }
+
+    @Override
+    public Ristorante selezionaRistorantePerProprietario(Persona ristoratore) throws EccezioneDAO {
+        Ristorante ristorante = null;
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(SELEZIONA_RISTORANTE_PER_PROPRIETARIO)) {
+
+                ps.setString(1, ristoratore.getEmail());
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        ristorante = new Ristorante();
+                        ristorante.setPartitaIVA(rs.getString(PARTITA_IVA));
+                        ristorante.setNomeRistorante(rs.getString(NOME));
+                    }
+                }
+
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero del ristorante del ristoratore", e);
+        }
+
+        return ristorante;
+    }
+
 
 
 

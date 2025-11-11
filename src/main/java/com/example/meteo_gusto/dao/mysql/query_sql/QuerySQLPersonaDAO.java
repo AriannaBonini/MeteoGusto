@@ -19,9 +19,14 @@ public abstract class QuerySQLPersonaDAO {
             PASSWORD + ", " +
             RUOLO + ") " +
             "VALUES (?, ?, ?, ?, ?, ?)";
-    protected static final String CONTROLLA_CREDENZIALI = "SELECT " + NOME + ", " + COGNOME + ", " + TELEFONO + ", " + EMAIL + ", " + PASSWORD + ", " + RUOLO + " " +
+    protected static final String CONTROLLA_CREDENZIALI = "SELECT " + NOME + ", " + COGNOME + ", " + TELEFONO + ", " + EMAIL + ", " + PASSWORD + ", " +  RUOLO + " " +
                     "FROM " + TABELLA_PERSONA + " " +
                     "WHERE " + EMAIL + " = ? AND " + PASSWORD + " = ?";
 
+
+    protected static final String OTTIENI_DATI_DA_EMAIL =
+            "SELECT " + NOME + ", " + COGNOME + ", " + TELEFONO + ", " + EMAIL + " " +
+                    "FROM " + TABELLA_PERSONA + " " +
+                    "WHERE " + EMAIL + " = ?";
 
 }
