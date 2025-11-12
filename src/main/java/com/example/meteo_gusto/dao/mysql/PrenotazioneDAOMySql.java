@@ -64,7 +64,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(INSERISCI_PRENOTAZIONE)) {
 
-                ps.setString(1, prenotazione.getAmbiente().getTipoAmbiente().toString());
+                ps.setInt(1, prenotazione.getAmbiente().getIdAmbiente());
                 ps.setString(2, prenotazione.getAmbiente().getRistorante());
                 ps.setDate(3, java.sql.Date.valueOf(prenotazione.getData()));
                 ps.setTime(4, java.sql.Time.valueOf(prenotazione.getOra()));
@@ -144,7 +144,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
 
             try (Connection conn = gestoreConn.creaConnessione();
-                 PreparedStatement ps = conn.prepareStatement(SEGNA_NOTIFICHE_COME_LETTE)) {
+                 PreparedStatement ps = conn.prepareStatement(SEGNA_NOTIFICHE_UTENTE_COME_LETTE)) {
 
                 ps.setString(1, utente.getEmail());
                 ps.executeUpdate();
@@ -241,6 +241,80 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
         String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
         return PRENOTAZIONI_RISTORATORE + placeholders + ")";
     }
+
+    @Override
+    public Prenotazione contaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+        Prenotazione prenotazione = new Prenotazione();
+
+        if (ambienti == null || ambienti.isEmpty()) {
+            prenotazione.setNumeroNotifiche(0);
+            return prenotazione;
+        }
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            String query = generaQueryContaNotificheRistoratore(ambienti.size());
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(query)) {
+
+                for (int i = 0; i < ambienti.size(); i++) {
+                    ps.setInt(i + 1, ambienti.get(i).getIdAmbiente());
+                }
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        prenotazione.setNumeroNotifiche(rs.getInt("notifiche_attive"));
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il conteggio delle notifiche per il ristoratore", e);
+        }
+
+        return prenotazione;
+    }
+
+    private String generaQueryContaNotificheRistoratore(int numeroAmbienti) {
+        String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
+        return CONTA_NOTIFICHE_RISTORATORE_PREFIX + placeholders + ")";
+    }
+    @Override
+    public void resettaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+
+        if (ambienti == null || ambienti.isEmpty()) {
+            return;
+        }
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            String query = generaQueryResettaNotificheRistoratore(ambienti.size());
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(query)) {
+
+                for (int i = 0; i < ambienti.size(); i++) {
+                    ps.setInt(i + 1, ambienti.get(i).getIdAmbiente());
+                }
+
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante la reimpostazione delle notifiche del ristoratore", e);
+        }
+    }
+
+    private String generaQueryResettaNotificheRistoratore(int numeroAmbienti) {
+        String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
+        return SEGNA_NOTIFICHE_RISTORATORE_COME_LETTE + placeholders + ")";
+    }
+
+
+
 
 
 

@@ -28,6 +28,9 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
     @Override
     public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {return null;}
-
+    @Override
+    public Prenotazione contaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {return null;}
+    @Override
+    public void resettaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {}
 
 }

@@ -5,10 +5,7 @@ import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.Extra;
-import com.example.meteo_gusto.enumerazione.FasciaOraria;
-import com.example.meteo_gusto.enumerazione.GiorniSettimana;
-import com.example.meteo_gusto.enumerazione.TipoAmbiente;
+import com.example.meteo_gusto.enumerazione.*;
 import com.example.meteo_gusto.mockapi.BoundaryMeteoMockAPI;
 import com.example.meteo_gusto.model.*;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
@@ -21,13 +18,13 @@ import java.util.*;
 
 public class PrenotaRistoranteController {
 
-    private static final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-    private static final DietaDAO dietaDAO= daoFactoryFacade.getDietaDAO();
-    RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
+    private final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+    private final DietaDAO dietaDAO= daoFactoryFacade.getDietaDAO();
+    private final RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
     private final List<Ristorante> ristorantiPrenotabili = new ArrayList<>();
     private List<Ambiente> ambientiCompatibiliConIlMeteo=new ArrayList<>();
-    AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
-    PrenotazioneDAO prenotazioneDAO= daoFactoryFacade.getPrenotazioneDAO();
+    private final AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
+    private final PrenotazioneDAO prenotazioneDAO= daoFactoryFacade.getPrenotazioneDAO();
 
     /**
      * Cerca i ristoranti disponibili secondo i filtri inseriti dall'utente
@@ -71,6 +68,7 @@ public class PrenotaRistoranteController {
 
                 if (postiDisponibili >= filtriInseriti.getNumeroPersone()) {
                     ambientiRistoranteDisponibili.add(ambiente);
+                    System.out.println("Gli id degli ambienti sono presenti :" + ambiente.getIdAmbiente());
 
                 }
             }
@@ -349,35 +347,28 @@ public class PrenotaRistoranteController {
 
     public PersonaBean datiUtente() {return ConvertitorePersona.personaModelInBean(Sessione.getInstance().getPersona());}
 
-    public boolean prenotaRistorante(PrenotazioneBean prenotazioneBean, RistoranteBean ristoranteBean) throws EccezioneDAO{
-        Ristorante ristorante= ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean);
-        Prenotazione prenotazione= ConvertitorePrenotazione.prenotazioneBeanInModel(prenotazioneBean);
-        prenotazione.setFasciaOraria(trovaFasciaOraria(ristorante,prenotazione.getOra()));
+    public boolean prenotaRistorante(PrenotazioneBean prenotazioneBean, RistoranteBean ristoranteBean) throws EccezioneDAO {
 
-        if(prenotazioneDAO.esistePrenotazione(prenotazione)){
+        Ristorante ristorante = ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean);
+        Prenotazione prenotazione = ConvertitorePrenotazione.prenotazioneBeanInModel(prenotazioneBean);
+
+        prenotazione.setFasciaOraria(trovaFasciaOraria(ristorante, prenotazione.getOra()));
+
+        List<Ambiente> ambienti = Optional.ofNullable(ristorante.getAmbienteRistorante())
+                .orElse(Collections.emptyList());
+
+        ambienti.stream()
+                .filter(a -> Objects.equals(a.getTipoAmbiente(), prenotazione.getAmbiente().getTipoAmbiente()))
+                .findFirst()
+                .ifPresent(a -> prenotazione.getAmbiente().setIdAmbiente(a.getIdAmbiente()));
+
+        if (prenotazioneDAO.esistePrenotazione(prenotazione)) {
             throw new EccezioneDAO("Esiste già una prenotazione per la data e l'ora scelta");
         }
+
         return prenotazioneDAO.inserisciPrenotazione(prenotazione);
-
     }
 
-    public PrenotazioneBean notificaUtente() throws ValidazioneException{
-        try {
-            Prenotazione prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
-
-            return ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
-        }catch (EccezioneDAO e) {
-            throw new ValidazioneException(e.getMessage());
-        }
-    }
-
-    public void modificaStatoNotifica() throws ValidazioneException{
-        try {
-            prenotazioneDAO.resettaNotificheUtente(Sessione.getInstance().getPersona());
-        }catch (EccezioneDAO e) {
-            throw new ValidazioneException(e.getMessage());
-        }
-    }
 
 
     public PersonaBean prenotazioniUtente() throws ValidazioneException{
@@ -440,6 +431,36 @@ public class PrenotaRistoranteController {
         listaPrenotazioniBean.sort(Comparator.comparing(PrenotazioneBean::getData).reversed());
 
         return listaPrenotazioniBean;
+    }
+
+    public PrenotazioneBean notificheNuovePrenotazioni() throws ValidazioneException{
+
+        Prenotazione prenotazione;
+
+        try {
+            if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
+                prenotazione=prenotazioneDAO.contaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+            }else {
+                prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
+            }
+
+            return ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
+        }catch (EccezioneDAO e) {
+            throw new ValidazioneException(e.getMessage());
+        }
+    }
+
+
+    public void modificaStatoNotifica() throws ValidazioneException{
+        try {
+            if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
+                prenotazioneDAO.resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+            }else {
+                prenotazioneDAO.resettaNotificheUtente(Sessione.getInstance().getPersona());
+            }
+        }catch (EccezioneDAO e) {
+            throw new ValidazioneException(e.getMessage());
+        }
     }
 
 

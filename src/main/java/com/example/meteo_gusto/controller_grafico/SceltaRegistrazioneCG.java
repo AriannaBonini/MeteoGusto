@@ -1,6 +1,8 @@
 package com.example.meteo_gusto.controller_grafico;
 
 
+import com.example.meteo_gusto.controller_grafico.ristoratore.RegistrazioneRistoratoreCG;
+import com.example.meteo_gusto.controller_grafico.utente.RegistrazioneUtenteCG;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;

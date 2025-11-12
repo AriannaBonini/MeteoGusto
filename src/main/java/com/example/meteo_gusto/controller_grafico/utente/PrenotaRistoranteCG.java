@@ -1,18 +1,19 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.utente;
 
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.bean.MeteoBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.SupportoComponentiGUISchedaRistorante;
-import com.example.meteo_gusto.utilities.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUISchedaRistorante;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -145,7 +146,7 @@ public class PrenotaRistoranteCG {
 
     private void popolaNotifiche() {
         try {
-            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificaUtente().getNumeroNotifiche());
+            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche());
 
         }catch (ValidazioneException e) {
             logger.error("Errore durante il conteggio delle motifiche : ",e );
@@ -305,7 +306,7 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    private void clickCerca()  {
+    public void clickCerca()  {
         cerca.setDisable(true);
         try {
             aggiornaFiltri();
@@ -322,7 +323,7 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    private void clickFiltra() {
+    public void clickFiltra() {
         try {
             filtra.setDisable(true);
 
@@ -465,7 +466,7 @@ public class PrenotaRistoranteCG {
     }
 
     @FXML
-    private void clickEsci(MouseEvent evento){
+    public void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
 
         if (risposta) {
@@ -473,6 +474,12 @@ public class PrenotaRistoranteCG {
             GestoreScena.cambiaScena("/Login.fxml", evento);
         }
     }
+
+    @FXML
+    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+
+    @FXML
+    public void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
 
 
 }

@@ -1,9 +1,10 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.utente;
 
 import com.example.meteo_gusto.bean.AmbienteBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
@@ -124,6 +125,8 @@ public class RiepilogoPrenotazioneCG {
         try {
             AmbienteBean ambienteBean= new AmbienteBean();
             ambienteBean.setAmbiente(TipoAmbiente.tipoAmbienteDaId(comboBoxAmbiente.getValue()));
+
+
             ambienteBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
 
             prenotazione.setAmbiente(ambienteBean);
@@ -133,7 +136,7 @@ public class RiepilogoPrenotazioneCG {
                 GestoreScena.mostraAlertSenzaConferma("Successo", "Prenotazione inserita con successo");
             }
 
-            GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
+            GestoreScena.cambiaScena("/HomeUtente.fxml", evento);
 
         }catch (EccezioneDAO | ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Errore", e.getMessage());

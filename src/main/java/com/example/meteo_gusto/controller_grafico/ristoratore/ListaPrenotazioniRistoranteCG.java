@@ -1,17 +1,17 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.ristoratore;
 
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.SupportoComponentiGUIListaPrenotazioni;
-import com.example.meteo_gusto.utilities.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUIListaPrenotazioni;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,14 +82,17 @@ public class ListaPrenotazioniRistoranteCG {
     public void initialize() {
         dettagliPrenotazionePane.setVisible(false);
 
-
         noticheVisualizzate();
         popolaListaPrenotazioni();
 
     }
 
     private void noticheVisualizzate() {
-
+        try {
+            prenotaRistoranteController.modificaStatoNotifica();
+        }catch (ValidazioneException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione", "Errore durante la modifica dello stato notifica");
+        }
     }
 
 
@@ -152,16 +154,14 @@ public class ListaPrenotazioniRistoranteCG {
         }
     }
 
-
-
     @FXML
-    public void clickProfiloPersonale(MouseEvent event) {
+    public void clickHome(MouseEvent evento) {
+        GestoreScena.cambiaScena("/HomeRistoratore.fxml",evento);
     }
-
 
     @FXML
     private void clickEsci(MouseEvent evento){
-        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,calendario,"/Foto/IconaListaPrenotazioniRistoranteSelezionata.png","/Foto/IconaListaPrenotazioniRistoranteNonSelezionata.png");
+        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,calendario,"/Foto/IconaListaPrenotazioniRistoratoreSelezionata.png","/Foto/IconaListaPrenotazioniRistoratoreNonSelezionata.png");
 
         if (risposta) {
             Sessione.getInstance().logout();

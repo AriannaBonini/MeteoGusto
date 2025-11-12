@@ -72,11 +72,12 @@ public class ConvertitoreRistorante {
 
         Posizione posizione = convertPosizioneBean(ristoranteBean.getPosizione());
         GiorniEOrari orari = convertOrariBean(ristoranteBean.getGiorniEOrari());
+        List<Ambiente> ambienti= ConvertitoreAmbiente.listaAmbienteBeanInModel(ristoranteBean.getAmbiente());
 
-        return costruiamoBaseRistorante(ristoranteBean, posizione, orari);
+        return costruiamoBaseRistorante(ristoranteBean, posizione, orari,ambienti);
     }
 
-    private static Ristorante costruiamoBaseRistorante(RistoranteBean bean, Posizione posizione, GiorniEOrari orari) {
+    private static Ristorante costruiamoBaseRistorante(RistoranteBean bean, Posizione posizione, GiorniEOrari orari, List<Ambiente> ambienti) {
         Ristorante ristorante = new Ristorante(
                 bean.getPartitaIVA(),
                 bean.getNomeRistorante(),
@@ -87,6 +88,8 @@ public class ConvertitoreRistorante {
                 orari
         );
         ristorante.setMediaStelle(bean.getMediaStelle());
+        ristorante.setAmbienteRistorante(ambienti);
+
         return ristorante;
     }
 

@@ -9,7 +9,12 @@ public class QuerySQLAmbienteDAO {
     protected static final String RISTORANTE = "ristorante_id";
     protected static final String ID_AMBIENTE = "id";
     protected static final String TABELLA_AMBIENTE = "ambiente";
+
+
+    /* COSTANTI PER IL CODICE SQL */
     protected static final String SELECT= "SELECT ";
+
+
     protected static final String  REGISTRA_DISPONIBILITA= "INSERT INTO " + TABELLA_AMBIENTE + " (" +
             AMBIENTE + ", " +
             RISCALDAMENTO + ", " +
@@ -36,14 +41,6 @@ public class QuerySQLAmbienteDAO {
             SELECT + AMBIENTE + ", " + RISTORANTE + " " +
                     "FROM " + TABELLA_AMBIENTE + " " +
                     "WHERE " + ID_AMBIENTE + " = ?";
-
-
-
-
-
-
-
-
 
 
 }

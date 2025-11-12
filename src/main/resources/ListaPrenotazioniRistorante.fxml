@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.ListaPrenotazioniRistoranteCG">
+<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.ristoratore.ListaPrenotazioniRistoranteCG">
    <ImageView fitHeight="702.0" fitWidth="518.0" layoutX="735.0" opacity="0.4" pickOnBounds="true">
       <image>
          <Image url="@Foto/SfondoMeteoGusto.png" />
@@ -39,9 +39,9 @@
       <image>
          <Image url="@Foto/IconaListaPrenotazioniRistoranteSelezionata.png" />
       </image></ImageView>
-    <ImageView fx:id="ProfiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickProfiloPersonale">
+    <ImageView fx:id="home" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickHome">
       <image>
-         <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+         <Image url="@Foto/HomeNonSelezionata.png" />
       </image></ImageView>
    <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
    <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />

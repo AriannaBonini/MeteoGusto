@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@comboBox.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.ProfiloRistoranteCG">
+<AnchorPane prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@comboBox.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.utente.ProfiloRistoranteCG">
    <children>
       <!-- Torna alla lista dei ristoranti -->
       <Label fx:id="tornaIndieteoLabel" layoutX="232.0" layoutY="23.0" onMouseClicked="#clickTornaIndietro" text="Torna alla lista dei ristoranti">
@@ -121,9 +121,9 @@
             <Image url="@Foto/iconaPrenotazioniNonSelezionata.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="profiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickProfiloPersonale" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="home" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickHome" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+            <Image url="@Foto/HomeNonSelezionata.png" />
          </image>
       </ImageView>
       <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci" pickOnBounds="true" preserveRatio="true">

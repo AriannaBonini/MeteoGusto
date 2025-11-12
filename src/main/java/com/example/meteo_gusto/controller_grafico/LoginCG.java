@@ -39,9 +39,9 @@ public class LoginCG {
             }
 
             if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
-                GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);
+                GestoreScena.cambiaScena("/HomeUtente.fxml", evento);
             }else{
-                GestoreScena.cambiaScena("/PaginaInizialeRistoratore.fxml", evento);
+                GestoreScena.cambiaScena("/HomeRistoratore.fxml", evento);
             }
 
         }catch (ValidazioneException | EccezioneDAO e) {

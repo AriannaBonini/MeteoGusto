@@ -1,18 +1,18 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.utente;
 
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller.RecensioneController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.SupportoComponentiGUISchedaRistorante;
-import com.example.meteo_gusto.utilities.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUISchedaRistorante;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,10 +45,6 @@ public class ProfiloRistoranteCG {
     private Label infoCucinaDieta;
     @FXML
     private HBox hBoxDollari;
-    @FXML
-    private Button menu;
-    @FXML
-    private Button prenota;
     @FXML
     private ComboBox<Integer> comboBoxRecensione;
     @FXML
@@ -82,7 +77,7 @@ public class ProfiloRistoranteCG {
     private void popolaNotifiche() {
         try {
             PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
-            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificaUtente().getNumeroNotifiche());
+            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche());
 
         }catch (ValidazioneException e) {
             logger.error("Errore durante il conteggio delle motifiche : ",e );
@@ -91,6 +86,7 @@ public class ProfiloRistoranteCG {
 
 
     public void setRistoranteSelezionato(RistoranteBean ristoranteSelezionato) {
+
         this.ristoranteSelezionato = ristoranteSelezionato;
         popolaInfoRistorante();
     }
@@ -134,9 +130,7 @@ public class ProfiloRistoranteCG {
         try {
             PrenotazioneBean prenotazione = popolaPrenotazione();
 
-            GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> {
-                ((RiepilogoPrenotazioneCG) controller).setRiepilogoPrenotazione(prenotazione, ristoranteSelezionato);
-            });
+            GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> ((RiepilogoPrenotazioneCG) controller).setRiepilogoPrenotazione(prenotazione, ristoranteSelezionato));
         }catch (ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
         }
@@ -158,12 +152,11 @@ public class ProfiloRistoranteCG {
     public void clickMenu(){}
 
 
-    public void clickProfiloPersonale(MouseEvent event) {
-    }
-
-    public void clickListaPrenotazioni(MouseEvent event) {
-    }
-
+    @FXML
+    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+    @FXML
+    public void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
+    @FXML
     public void clickEsci(MouseEvent evento) {
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
 

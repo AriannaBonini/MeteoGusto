@@ -24,4 +24,7 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
     public Ristorante selezionaInfoRistorante(Ambiente ambiente) throws EccezioneDAO {return null;}
     @Override
     public Ristorante selezionaRistorantePerProprietario(Persona ristoratore) throws EccezioneDAO {return null;}
+
+    @Override
+    public List<Ristorante> selezionaTop4RistorantiPerMedia() throws EccezioneDAO {return null;}
 }

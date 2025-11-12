@@ -6,8 +6,8 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.model.*;
-
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
 
                     ristoranteTrovato.setNomeRistorante(rs.getString(NOME));
                     ristoranteTrovato.setTelefonoRistorante(rs.getString(TELEFONO));
-                    ristoranteTrovato.setCucina(TipoCucina.fromId(rs.getString(CUCINA)));
+                    ristoranteTrovato.setCucina(TipoCucina.tipoCucinaDaId(rs.getString(CUCINA)));
                     ristoranteTrovato.setFasciaPrezzo(FasciaPrezzoRistorante.fasciaPrezzoDaId(rs.getString(FASCIA_PREZZO)));
                     ristoranteTrovato.setPosizione(new Posizione(rs.getString(INDIRIZZO), rs.getString(CITTA), rs.getString(CAP)));
                     ristoranteTrovato.setMediaStelle(rs.getBigDecimal(MEDIA_STELLE));
@@ -206,8 +206,41 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
         return ristorante;
     }
 
+    @Override
+    public List<Ristorante> selezionaTop4RistorantiPerMedia() throws EccezioneDAO {
+        List<Ristorante> ristorantiTop = new ArrayList<>();
 
 
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(SELEZIONA_TOP4_RISTORANTI_PER_MEDIA);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Ristorante ristorante = new Ristorante();
+                    ristorante.setNomeRistorante(rs.getString(NOME));
+
+                    Posizione posizione= new Posizione();
+                    posizione.setCitta(rs.getString(CITTA));
+                    ristorante.setPosizione(posizione);
+
+                    ristorante.setCucina(TipoCucina.tipoCucinaDaId(rs.getString(CUCINA)));
+
+                    ristorante.setMediaStelle(BigDecimal.valueOf(rs.getFloat(MEDIA_STELLE)));
+
+                    ristorantiTop.add(ristorante);
+                }
+
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante il recupero dei top 4 ristoranti per media stelle", e);
+        }
+
+        return ristorantiTop;
+    }
 
 
 }

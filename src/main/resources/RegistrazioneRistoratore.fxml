@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@TabProfiloRistoratore.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.RegistrazioneRistoratoreCG">
+<AnchorPane prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@TabProfiloRistoratore.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.ristoratore.RegistrazioneRistoratoreCG">
    <Line endX="0.0" endY="701.0" layoutX="745.0" style="-fx-stroke: rgba(0, 0, 0, 0.26);" />
    <ImageView fitHeight="701.0" fitWidth="752.0" layoutX="-9.0">
       <image>

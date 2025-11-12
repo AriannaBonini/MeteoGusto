@@ -5,5 +5,8 @@ public class EccezioneDAO extends Exception {
     public EccezioneDAO(String messaggio) {
         super(messaggio);
     }
+    public EccezioneDAO(Throwable cause) {
+        super(cause);
+    }
 }
 

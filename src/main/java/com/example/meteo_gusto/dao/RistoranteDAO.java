@@ -14,4 +14,5 @@ public interface RistoranteDAO {
     void aggiornaMediaStelle(Ristorante ristorante) throws EccezioneDAO;
     Ristorante selezionaInfoRistorante(Ambiente ambiente) throws EccezioneDAO;
     Ristorante selezionaRistorantePerProprietario(Persona ristoratore) throws EccezioneDAO;
+    List<Ristorante> selezionaTop4RistorantiPerMedia() throws EccezioneDAO;
 }

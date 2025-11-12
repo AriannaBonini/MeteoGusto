@@ -21,7 +21,7 @@ public class QuerySQLRistoranteDAO {
 
 
     /* COSTANTI PER IL CODICE SQL */
-    protected static final String AND = " AND ";
+    protected static final String SELECT="SELECT ";
 
     protected static final String  REGISTRA_RISTORANTE= "INSERT INTO " + TABELLA_RISTORANTE + " (" +
                     NOME + ", " +
@@ -41,7 +41,7 @@ public class QuerySQLRistoranteDAO {
                     ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     protected static final String RICERCA_RISTORANTI_PER_CITTA =
-            "SELECT " +
+            SELECT +
                     NOME + ", " +
                     PARTITA_IVA + ", " +
                     TELEFONO + ", " +
@@ -59,7 +59,7 @@ public class QuerySQLRistoranteDAO {
                     "FROM " + TABELLA_RISTORANTE + " " +
                     "WHERE " + CITTA + " = ?";
 
-    protected static final String MEDIA_STELLE_PER_RISTORANTE = "SELECT " + MEDIA_STELLE + " " +
+    protected static final String MEDIA_STELLE_PER_RISTORANTE = SELECT + MEDIA_STELLE + " " +
                     "FROM " + TABELLA_RISTORANTE + " " +
                     "WHERE " + PARTITA_IVA + " = ?";
 
@@ -68,7 +68,7 @@ public class QuerySQLRistoranteDAO {
                     MEDIA_STELLE + " = ? WHERE " + PARTITA_IVA + " = ?";
 
     protected static final String SELEZIONA_INFO_RISTORANTE =
-            "SELECT " +
+            SELECT +
                     NOME + ", " +
                     CITTA + ", " +
                     INDIRIZZO + ", " +
@@ -78,16 +78,22 @@ public class QuerySQLRistoranteDAO {
                     "WHERE " + PARTITA_IVA + " = ?";
 
     protected static final String SELEZIONA_RISTORANTE_PER_PROPRIETARIO =
-            "SELECT " +
+            SELECT +
                     PARTITA_IVA + ", " +
                     NOME + " " +
                     "FROM " + TABELLA_RISTORANTE + " " +
                     "WHERE " + PROPRIETARIO + " = ?";
 
 
-
-
-
+    protected static final String SELEZIONA_TOP4_RISTORANTI_PER_MEDIA =
+            SELECT +
+                    NOME + ", " +
+                    CITTA + ", " +
+                    CUCINA + ", " +
+                    MEDIA_STELLE + " " +
+                    "FROM " + TABELLA_RISTORANTE + " " +
+                    "ORDER BY " + MEDIA_STELLE + " DESC " +
+                    "LIMIT 4";
 
 
 

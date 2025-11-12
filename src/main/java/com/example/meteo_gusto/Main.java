@@ -52,6 +52,7 @@ public class Main extends Application {
             if (scelta == 1) {
                 DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MYSQL);
             } else {
+                out.println("Sono in csv");
                 DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.CSV);
             }
         } else {

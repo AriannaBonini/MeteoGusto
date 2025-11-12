@@ -14,6 +14,7 @@ public class AmbienteBean {
     private String nomeRistorante;
     private String indirizzoCompletoRistorante;
     private String cittaRistorante;
+    private Integer ambienteId;
 
     public AmbienteBean() { /* COSTRUTTORE VUOTO */ }
 
@@ -62,4 +63,6 @@ public class AmbienteBean {
     public void setIndirizzoCompletoRistorante(String indirizzoCompletoRistorante) {this.indirizzoCompletoRistorante = indirizzoCompletoRistorante;}
     public String getCittaRistorante() {return cittaRistorante;}
     public void setCittaRistorante(String cittaRistorante) {this.cittaRistorante = cittaRistorante;}
+    public Integer getAmbienteId() {return ambienteId;}
+    public void setAmbienteId(Integer ambienteId) {this.ambienteId = ambienteId;}
 }

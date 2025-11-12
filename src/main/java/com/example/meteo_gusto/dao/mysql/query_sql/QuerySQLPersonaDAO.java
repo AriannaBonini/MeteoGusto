@@ -11,6 +11,8 @@ public abstract class QuerySQLPersonaDAO {
     protected static final String PASSWORD = "password_hash";
     protected static final String RUOLO = "tipo_ruolo";
     protected static final String TABELLA_PERSONA = "persona";
+
+
     protected static final String REGISTRA_UTENTE= " INSERT INTO " + TABELLA_PERSONA + " (" +
             NOME + ", " +
             COGNOME + ", " +

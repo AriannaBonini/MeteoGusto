@@ -1,4 +1,4 @@
-package com.example.meteo_gusto.utilities;
+package com.example.meteo_gusto.utilities.supporto_componenti_gui;
 
 import javafx.animation.*;
 import javafx.scene.layout.StackPane;

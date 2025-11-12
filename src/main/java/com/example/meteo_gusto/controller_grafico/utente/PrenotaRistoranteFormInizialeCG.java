@@ -1,11 +1,12 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.utente;
 
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,7 +68,7 @@ public class PrenotaRistoranteFormInizialeCG {
 
     private void popolaNotifiche() {
         try {
-            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificaUtente().getNumeroNotifiche());
+            SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche());
         }catch (ValidazioneException e) {
             logger.error("Errore durante il conteggio delle motifiche : ",e );
         }
@@ -112,12 +113,10 @@ public class PrenotaRistoranteFormInizialeCG {
 
 
     @FXML
-    private void clickListaPrenotazioni(MouseEvent evento) {
-        GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml", evento);
-    }
+    private void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml", evento);}
 
     @FXML
-    private void clickProfiloPersonale(MouseEvent evento) {/**/}
+    private void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml", evento);}
 
     private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
         String testoIniziale = "";

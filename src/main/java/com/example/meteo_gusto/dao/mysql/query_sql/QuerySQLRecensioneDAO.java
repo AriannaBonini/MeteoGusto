@@ -8,6 +8,8 @@ public class QuerySQLRecensioneDAO {
     protected static final String STELLE = "stelle";
     protected static final String DATA = "data";
     protected static final String TABELLA_RECENSIONE = "recensione";
+
+
     protected static final String REGISTRA_RECENSIONE = "INSERT INTO " + TABELLA_RECENSIONE + " (" +
             UTENTE + ", " +
             RISTORANTE + ", " +

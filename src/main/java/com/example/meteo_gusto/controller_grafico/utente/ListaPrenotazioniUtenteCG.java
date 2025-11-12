@@ -1,13 +1,14 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.utente;
 
 import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
+import com.example.meteo_gusto.controller_grafico.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.SupportoComponentiGUIListaPrenotazioni;
-import com.example.meteo_gusto.utilities.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUIListaPrenotazioni;
+import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -155,10 +156,8 @@ public class ListaPrenotazioniUtenteCG {
     }
 
 
-
-
-    public void clickProfiloPersonale(MouseEvent event) {
-    }
+    @FXML
+    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
 
     public void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);}
 
@@ -189,11 +188,13 @@ public class ListaPrenotazioniUtenteCG {
         campoDataPrenotazione.setText(prenotazione.getData().toString());
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
         campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
+
         if(prenotazione.getAmbiente().getAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
             campoAmbiente.setText("esterno coperto");
         }else {
             campoAmbiente.setText(prenotazione.getAmbiente().getAmbiente().getId());
         }
+
         campoNomeRistorante.setText(prenotazione.getAmbiente().getNomeRistorante());
         campoCittaRistorante.setText(prenotazione.getAmbiente().getCittaRistorante());
         campoIndirizzoRistorante.setText(prenotazione.getAmbiente().getIndirizzoCompletoRistorante());

@@ -22,6 +22,10 @@ public class LoginController {
             Persona credenzialiPersona= ConvertitorePersona.personaBeanInModel(credenzialiBean);
 
             Persona persona = personaDAO.login(credenzialiPersona);
+            if(persona==null) {
+                return null;
+            }
+
             if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
                 persona.ristoranteDiProprieta(ristoranteDAO.selezionaRistorantePerProprietario(persona));
                 persona.getRistorante().setAmbienteRistorante(ambienteDAO.cercaAmbientiDelRistorante(persona.getRistorante()));

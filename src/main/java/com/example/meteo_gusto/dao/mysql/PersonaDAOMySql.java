@@ -40,6 +40,7 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
     @Override
     public Persona login(Persona persona) throws EccezioneDAO {
         try {
+
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(CONTROLLA_CREDENZIALI)) {

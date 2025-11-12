@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="areapersonaleutente" prefHeight="703.0" prefWidth="1193.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.PaginaInizialeRistoratoreCG">
+<AnchorPane fx:id="areapersonaleutente" prefHeight="703.0" prefWidth="1193.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.ristoratore.HomeRistoratoreCG">
 
    <!-- Immagine di sfondo -->
    <ImageView fitHeight="702.0" fitWidth="644.0" layoutX="609.0" opacity="0.4" pickOnBounds="true">
@@ -46,9 +46,9 @@
       </image>
    </ImageView>
 
-   <ImageView fx:id="profiloUtente" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickProfiloPersonale">
+   <ImageView fx:id="home" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0">
       <image>
-         <Image url="@Foto/IconaProfiloNonSelezionata.png" />
+         <Image url="@Foto/HomeSelezionata.png" />
       </image>
    </ImageView>
 
@@ -194,6 +194,11 @@
    <Label fx:id="suggerimento" layoutX="218.0" layoutY="277.0" prefHeight="36.0" prefWidth="741.0" text="Idee stagionali per arricchire il tuo menù !" textFill="#e97627">
       <font>
          <Font size="25.0" />
+      </font>
+   </Label>
+   <Label fx:id="notifichePrenotazione" layoutX="129.0" layoutY="193.0" text="1" textFill="#e97627">
+      <font>
+         <Font name="System Bold" size="30.0" />
       </font>
    </Label>
 
