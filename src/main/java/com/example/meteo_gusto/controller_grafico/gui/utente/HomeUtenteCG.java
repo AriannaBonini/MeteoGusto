@@ -1,9 +1,9 @@
-package com.example.meteo_gusto.controller_grafico.utente;
+package com.example.meteo_gusto.controller_grafico.gui.utente;
 
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.HomeUtenteController;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
-import com.example.meteo_gusto.controller_grafico.GestoreScena;
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUISchedaRistorante;
@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.slf4j.Logger;

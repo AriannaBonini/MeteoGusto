@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="701.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@stili.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.utente.RegistrazioneUtenteCG">
+<AnchorPane prefHeight="701.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@stili.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.gui.utente.RegistrazioneUtenteCG">
 
    <!-- Immagine di sfondo a sinistra -->
    <ImageView fitHeight="701.0" fitWidth="752.0" layoutX="-9.0" layoutY="0.0">

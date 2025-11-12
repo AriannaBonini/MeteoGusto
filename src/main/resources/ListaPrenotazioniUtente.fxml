@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@scrollPane.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.utente.ListaPrenotazioniUtenteCG">
+<AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" stylesheets="@scrollPane.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.gui.utente.ListaPrenotazioniUtenteCG">
    <ImageView fitHeight="702.0" fitWidth="539.0" layoutX="714.0" opacity="0.4" pickOnBounds="true">
       <image>
          <Image url="@Foto/SfondoMeteoGusto.png" />

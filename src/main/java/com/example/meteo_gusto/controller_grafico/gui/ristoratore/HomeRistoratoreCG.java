@@ -1,7 +1,7 @@
-package com.example.meteo_gusto.controller_grafico.ristoratore;
+package com.example.meteo_gusto.controller_grafico.gui.ristoratore;
 
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
-import com.example.meteo_gusto.controller_grafico.GestoreScena;
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;

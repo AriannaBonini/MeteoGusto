@@ -1,7 +1,7 @@
 package com.example.meteo_gusto.utilities.supporto_componenti_gui;
 
-import com.example.meteo_gusto.controller_grafico.GestoreScena;
-import com.example.meteo_gusto.controller_grafico.utente.PrenotaRistoranteFormInizialeCG;
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
+import com.example.meteo_gusto.controller_grafico.gui.utente.PrenotaRistoranteFormInizialeCG;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

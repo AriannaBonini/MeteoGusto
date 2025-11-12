@@ -1,4 +1,4 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.gui;
 
 
 import com.example.meteo_gusto.bean.PersonaBean;
@@ -21,7 +21,7 @@ public class LoginCG {
     @FXML
     private Label infoErrore;
 
-    LoginController loginController= new LoginController();
+    private final LoginController loginController= new LoginController();
     private static final Logger logger = LoggerFactory.getLogger(LoginCG.class.getName());
 
     @FXML

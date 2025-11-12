@@ -1,4 +1,4 @@
-package com.example.meteo_gusto.controller_grafico;
+package com.example.meteo_gusto.controller_grafico.gui;
 
 import com.example.meteo_gusto.utilities.AlertPersonalizzato;
 import javafx.event.Event;

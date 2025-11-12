@@ -9,4 +9,5 @@ public class ValidazioneException extends Exception {
     public ValidazioneException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

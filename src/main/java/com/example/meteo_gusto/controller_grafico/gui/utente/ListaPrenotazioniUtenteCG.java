@@ -1,8 +1,9 @@
-package com.example.meteo_gusto.controller_grafico.ristoratore;
+package com.example.meteo_gusto.controller_grafico.gui.utente;
 
+import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
-import com.example.meteo_gusto.controller_grafico.GestoreScena;
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
@@ -15,22 +16,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ListaPrenotazioniRistoranteCG {
-
+public class ListaPrenotazioniUtenteCG {
     @FXML
-    private ImageView esci;
-    @FXML
-    private ImageView calendario;
-    @FXML
-    private Label nomePrenotante;
+    private Label nomeRistorante;
     @FXML
     private Label dataPrenotazione;
     @FXML
@@ -44,6 +36,12 @@ public class ListaPrenotazioniRistoranteCG {
     @FXML
     private Label campoAmbiente;
     @FXML
+    private Label campoNomeRistorante;
+    @FXML
+    private Label campoCittaRistorante;
+    @FXML
+    private Label campoIndirizzoRistorante;
+    @FXML
     private Label campoNomePrenotante;
     @FXML
     private Label campoCognomePrenotante;
@@ -52,7 +50,9 @@ public class ListaPrenotazioniRistoranteCG {
     @FXML
     private Label campoDietaPrenotante;
     @FXML
-    private AnchorPane dettagliPrenotazionePane;
+    private ImageView esci;
+    @FXML
+    private ImageView listaPrenotazioni;
     @FXML
     private VBox vBoxListaPrenotazioni;
     @FXML
@@ -64,27 +64,29 @@ public class ListaPrenotazioniRistoranteCG {
     @FXML
     private HBox hBoxOraPrenotazione;
     @FXML
-    private Button bottoneDettagli;
+    private Label titoloRistorante;
     @FXML
     private Label titoloData;
     @FXML
-    private Label titoloPrenotante;
-    @FXML
     private Label titoloOra;
+    @FXML
+    private Button bottoneDettagli;
+    @FXML
+    private AnchorPane dettagliPrenotazionePane;
 
 
-    PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
-    private static final Logger logger = LoggerFactory.getLogger(ListaPrenotazioniRistoranteCG.class.getName());
-    private List<PrenotazioneBean> listaPrenotazioniRistorante= new ArrayList<>();
+
+    private static final Logger logger = LoggerFactory.getLogger(ListaPrenotazioniUtenteCG.class.getName());
+    private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
+    private PersonaBean listaPrenotazioniUtente;
     private Button bottoneAttivo = null;
 
 
-    public void initialize() {
+    public void initialize(){
         dettagliPrenotazionePane.setVisible(false);
 
         noticheVisualizzate();
         popolaListaPrenotazioni();
-
     }
 
     private void noticheVisualizzate() {
@@ -92,31 +94,29 @@ public class ListaPrenotazioniRistoranteCG {
             prenotaRistoranteController.modificaStatoNotifica();
         }catch (ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione", "Errore durante la modifica dello stato notifica");
-            logger.error("Errore durante il caricamento delle notifiche : ", e);
         }
     }
 
 
     private void popolaListaPrenotazioni() {
         try {
-            listaPrenotazioniRistorante = prenotaRistoranteController.prenotazioniRistoratore();
-            if(listaPrenotazioniRistorante==null) {
+            listaPrenotazioniUtente = prenotaRistoranteController.prenotazioniUtente();
+            if(listaPrenotazioniUtente==null) {
                 GestoreScena.mostraAlertSenzaConferma("Informazione", "Non ci sono prenotazioni attive");
                 return;
             }
-
             popolaVBox();
 
         }catch (ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione","Errore durante il caricamento delle prenotazioni");
-            logger.error("Errore durante il caricamento delle prenotazioni del ristoratore : " , e);
+            logger.error("Errore durante il caricamento delle prenotazioni dell'utente :" , e);
         }
     }
 
     private void popolaVBox() {
         vBoxListaPrenotazioni.getChildren().clear();
 
-        for (PrenotazioneBean prenotazioneBean : listaPrenotazioniRistorante) {
+        for (PrenotazioneBean prenotazioneBean : listaPrenotazioniUtente.getPrenotazioniAttive()) {
 
 
             VBox prenotazione = SupportoComponentiGUIListaPrenotazioni.creaVBoxPrenotazione(vBoxPrenotazione);
@@ -127,21 +127,21 @@ public class ListaPrenotazioniRistoranteCG {
             HBox hBoxOra = SupportoComponentiGUIListaPrenotazioni.copiaHBox(hBoxOraPrenotazione);
 
 
-            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomePrenotante, prenotazioneBean.getUtente().getNome() + " " + prenotazioneBean.getUtente().getCognome());
+            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomeRistorante, prenotazioneBean.getAmbiente().getNomeRistorante());
             Label data = SupportoComponentiGUIListaPrenotazioni.creaLabel(dataPrenotazione, prenotazioneBean.getData().toString());
             Label ora = SupportoComponentiGUIListaPrenotazioni.creaLabel(oraPrenotazione, prenotazioneBean.getOra().toString());
 
 
-            Label campoNome = SupportoComponentiGUIListaPrenotazioni.creaLabel(titoloPrenotante, "Prenotante :");
-            Label campoOra = SupportoComponentiGUIListaPrenotazioni.creaLabel(titoloOra, "Ora :");
+            Label campoNome = SupportoComponentiGUIListaPrenotazioni.creaLabel(titoloRistorante, "Ristorante :");
             Label campoData = SupportoComponentiGUIListaPrenotazioni.creaLabel(titoloData, "Data :");
+            Label campoOra = SupportoComponentiGUIListaPrenotazioni.creaLabel(titoloOra, "Ora :");
+
 
             Button dettagliPrenotazione = SupportoComponentiGUIListaPrenotazioni.creaBottoneScopriDiPiu(bottoneDettagli);
-            HBox.setMargin(dettagliPrenotazione, new Insets(0, 0, 0, 10));
-
-
             dettagliPrenotazione.setUserData(prenotazioneBean);
             dettagliPrenotazione.setOnAction(this::clickDettagli);
+
+            HBox.setMargin(dettagliPrenotazione, new Insets(0, 0, 0, 10));
 
 
             hBoxNome.getChildren().addAll(campoNome, nome);
@@ -155,14 +155,16 @@ public class ListaPrenotazioniRistoranteCG {
         }
     }
 
-    @FXML
-    public void clickHome(MouseEvent evento) {
-        GestoreScena.cambiaScena("/HomeRistoratore.fxml",evento);
-    }
 
     @FXML
-    public void clickEsci(MouseEvent evento){
-        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,calendario,"/Foto/IconaListaPrenotazioniRistoratoreSelezionata.png","/Foto/IconaListaPrenotazioniRistoratoreNonSelezionata.png");
+    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+
+    public void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);}
+
+
+    @FXML
+    private void clickEsci(MouseEvent evento){
+        boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,listaPrenotazioni,"/Foto/IconaListaPrenotazioniSelezionata.png","/Foto/IconaPrenotazioniNonSelezionata.png");
 
         if (risposta) {
             Sessione.getInstance().logout();
@@ -170,26 +172,22 @@ public class ListaPrenotazioniRistoranteCG {
         }
     }
 
-    @FXML
     public void clickDettagli(ActionEvent evento) {
-        Button dettagliPrenotazione;
-        dettagliPrenotazione = (Button)evento.getSource();
-        PrenotazioneBean prenotazione;
-        prenotazione = (PrenotazioneBean) dettagliPrenotazione.getUserData();
+        Button dettagli=  (Button)evento.getSource();
+        PrenotazioneBean prenotazione= (PrenotazioneBean)dettagli.getUserData();
 
+        dettagliPrenotazionePane.setVisible(true);
 
         if (bottoneAttivo != null) {
             bottoneAttivo.setDisable(false);
         }
-        dettagliPrenotazionePane.setVisible(true);
 
-        dettagliPrenotazione.setDisable(true);
-        bottoneAttivo = dettagliPrenotazione;
+        dettagli.setDisable(true);
+        bottoneAttivo = dettagli;
 
         campoDataPrenotazione.setText(prenotazione.getData().toString());
-        campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
-
+        campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
 
         if(prenotazione.getAmbiente().getAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
             campoAmbiente.setText("esterno coperto");
@@ -197,16 +195,17 @@ public class ListaPrenotazioniRistoranteCG {
             campoAmbiente.setText(prenotazione.getAmbiente().getAmbiente().getId());
         }
 
-        campoNomePrenotante.setText(prenotazione.getUtente().getNome());
-        campoCognomePrenotante.setText(prenotazione.getUtente().getCognome());
-        campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
+        campoNomeRistorante.setText(prenotazione.getAmbiente().getNomeRistorante());
+        campoCittaRistorante.setText(prenotazione.getAmbiente().getCittaRistorante());
+        campoIndirizzoRistorante.setText(prenotazione.getAmbiente().getIndirizzoCompletoRistorante());
+
+        campoNomePrenotante.setText(listaPrenotazioniUtente.getNome());
+        campoCognomePrenotante.setText(listaPrenotazioniUtente.getCognome());
+        campoTelefonoPrenotante.setText(listaPrenotazioniUtente.getTelefono());
 
         campoDietaPrenotante.setText(prenotazione.getNote());
 
-        dettagliPrenotazione.setDisable(true);
+        dettagli.setDisable(true);
 
-    }
-
-    public void clickMenu(MouseEvent event) {
     }
 }

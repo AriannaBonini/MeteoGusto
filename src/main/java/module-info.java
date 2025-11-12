@@ -8,8 +8,8 @@ module com.example.meteo_gusto {
     requires org.json;
 
     opens com.example.meteo_gusto to javafx.fxml;
-    opens com.example.meteo_gusto.controller_grafico to javafx.fxml;
     exports com.example.meteo_gusto;
-    opens com.example.meteo_gusto.controller_grafico.ristoratore to javafx.fxml;
-    opens com.example.meteo_gusto.controller_grafico.utente to javafx.fxml;
+    opens com.example.meteo_gusto.controller_grafico.gui.ristoratore to javafx.fxml;
+    opens com.example.meteo_gusto.controller_grafico.gui.utente to javafx.fxml;
+    opens com.example.meteo_gusto.controller_grafico.gui to javafx.fxml;
 }

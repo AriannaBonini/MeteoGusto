@@ -2,14 +2,13 @@ package com.example.meteo_gusto;
 
 
 import java.util.Scanner;
-
+import com.example.meteo_gusto.controller_grafico.cli.LoginCliCG;
 import com.example.meteo_gusto.mockapi.MockMeteoAPI;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
 import com.example.meteo_gusto.patterns.facade.TipoPersistenza;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import com.example.meteo_gusto.controller_grafico.GestoreScena;
-
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import static java.lang.System.*;
 
 public class Main extends Application {
@@ -56,7 +55,6 @@ public class Main extends Application {
                 DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.CSV);
             }
         } else {
-            out.print("sono in memoria");
             DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MEMORIA);
         }
 
@@ -68,8 +66,7 @@ public class Main extends Application {
                 launch(args); // JavaFX
             } else {
                 out.println("\nAvvio interfaccia a riga di comando...");
-                // MeteoGustoCLI cli = new MeteoGustoCLI(scanner);
-                // cli.start();
+                new LoginCliCG().start();
             }
         } finally {
             MockMeteoAPI.stopMock();
