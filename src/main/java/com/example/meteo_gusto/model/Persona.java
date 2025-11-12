@@ -22,11 +22,12 @@ public class Persona {
        this.ristorante=ristorante;
     }
 
-    public Persona(String email) {
-        this.email=email;
-    }
+    public Persona() { /* COSTRUTTORE VUOTO */ }
 
 
+
+    /* METODI GETTER E SETTER */
+    public Persona(String email) {this.email=email;}
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
     public  String getCognome() {return cognome;}
@@ -39,6 +40,7 @@ public class Persona {
     public void setPassword(String password) {this.password = password;}
     public TipoPersona getTipoPersona() {return tipoPersona;}
     public Ristorante getRistorante() {return ristorante;}
+    public void setTipoPersona(TipoPersona tipoPersona) {this.tipoPersona = tipoPersona;}
 
 
     /* METODI DI SUPPORTO */

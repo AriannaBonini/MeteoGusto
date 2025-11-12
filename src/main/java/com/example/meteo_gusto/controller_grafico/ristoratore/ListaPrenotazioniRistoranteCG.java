@@ -92,6 +92,7 @@ public class ListaPrenotazioniRistoranteCG {
             prenotaRistoranteController.modificaStatoNotifica();
         }catch (ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione", "Errore durante la modifica dello stato notifica");
+            logger.error("Errore durante il caricamento delle notifiche : ", e);
         }
     }
 
@@ -108,7 +109,7 @@ public class ListaPrenotazioniRistoranteCG {
 
         }catch (ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione","Errore durante il caricamento delle prenotazioni");
-            logger.error("Errore durante il caricamento delle prenotazioni del ristoratore:" , e);
+            logger.error("Errore durante il caricamento delle prenotazioni del ristoratore : " , e);
         }
     }
 
@@ -160,7 +161,7 @@ public class ListaPrenotazioniRistoranteCG {
     }
 
     @FXML
-    private void clickEsci(MouseEvent evento){
+    public void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,calendario,"/Foto/IconaListaPrenotazioniRistoratoreSelezionata.png","/Foto/IconaListaPrenotazioniRistoratoreNonSelezionata.png");
 
         if (risposta) {

@@ -228,7 +228,7 @@ public class PrenotaRistoranteCG {
 
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
-            infoErrore.setText("Errore durante la ricerca dei ristoranti");
+            GestoreScena.mostraAlertSenzaConferma("Attenzione","Errore durante la ricerca dei ristoranti");
         }
     }
 

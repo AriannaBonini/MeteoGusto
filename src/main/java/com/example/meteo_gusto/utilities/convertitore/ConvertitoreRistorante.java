@@ -89,6 +89,7 @@ public class ConvertitoreRistorante {
         );
         ristorante.setMediaStelle(bean.getMediaStelle());
         ristorante.setAmbienteRistorante(ambienti);
+        ristorante.setTipoDieta(bean.getTipoDieta());
 
         return ristorante;
     }

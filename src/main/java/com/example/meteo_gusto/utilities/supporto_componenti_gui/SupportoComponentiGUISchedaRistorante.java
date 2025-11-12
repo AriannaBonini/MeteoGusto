@@ -41,8 +41,8 @@ public class SupportoComponentiGUISchedaRistorante {
 
     public static Label creaLabelMediaRecensione() {
         Label label = new Label();
-        label.setFont(new Font(20.0));
-        HBox.setMargin(label, new Insets(3, 0, 0, 0)); // top 3
+        label.setFont(new Font(15.0));
+        HBox.setMargin(label, new Insets(1, 0, 0, 0)); // top 3
         return label;
     }
 

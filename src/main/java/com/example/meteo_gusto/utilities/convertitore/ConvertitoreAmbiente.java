@@ -23,14 +23,14 @@ public class ConvertitoreAmbiente {
     public static Ambiente ambienteBeanInModel(AmbienteBean ambienteBean) {
         if (ambienteBean == null) return null;
 
-        Ambiente ambiente = new Ambiente(
+        return new Ambiente(
                 ambienteBean.getAmbiente(),
                 ambienteBean.getRistorante(),
                 ambienteBean.getNumeroCoperti(),
-                ambienteBean.getExtra());
+                ambienteBean.getExtra(),
+                ambienteBean.getAmbienteId()
+        );
 
-        ambiente.setIdAmbiente(ambienteBean.getAmbienteId());
-        return ambiente;
     }
 
 

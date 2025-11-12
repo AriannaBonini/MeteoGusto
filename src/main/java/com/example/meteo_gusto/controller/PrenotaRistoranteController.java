@@ -289,28 +289,28 @@ public class PrenotaRistoranteController {
         switch (condizione) {
             case "sole" -> {
                 if (temperaturaNormale) {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of()));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of(),null));
                 } else {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
                 }
             }
 
             case "pioggia" -> {
-                ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of()));
-                ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici));
+                ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
+                ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
             }
 
             case "nuvoloso" -> {
                 if (temperaturaNormale) {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of()));
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, Set.of()));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of(),null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, Set.of(),null));
                 } else {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of()));
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
                 }
             }
 
-            default -> ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of()));
+            default -> ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
         }
 
         return ambientiCompatibili;

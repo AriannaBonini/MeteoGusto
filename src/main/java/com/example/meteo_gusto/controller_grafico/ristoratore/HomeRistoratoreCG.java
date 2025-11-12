@@ -76,13 +76,13 @@ public class HomeRistoratoreCG {
 
         fadeCarosello.setOnFinished(e -> {
             double durataSecondi = 3.5;
-            SupportoGUIPaginaIniziale.animaSuggerimenti(vBox1, vBox2, vBox3, vBox4, durataSecondi);
+            SupportoGUIPaginaIniziale.animaSuggerimenti(durataSecondi, vBox1, vBox2, vBox3, vBox4);
         });
     }
 
 
     @FXML
-    private void clickEsci(MouseEvent evento){
+    public void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,home,"/Foto/HomeSelezionata.png","/Foto/HomeNonSelezionata.png");
 
         if (risposta) {

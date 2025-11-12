@@ -76,17 +76,14 @@
       <children>
          <HBox fx:id="carosello" prefHeight="311.0" prefWidth="1035.0" spacing="10.0" StackPane.alignment="CENTER">
             <children>
-               <VBox fx:id="vBox1" layoutX="-3.0" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+               <VBox fx:id="vBox1" layoutX="-3.0" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;" visible="false">
                   <children>
                      <ImageView fx:id="immagine1" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
-                        <image>
-                           <Image url="@Foto/TagliatellePiselliEMenta.png" />
-                        </image>
                         <VBox.margin>
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nome1" prefHeight="113.0" prefWidth="242.0" text="Taglietelle piselli e menta" textFill="#e97627" wrapText="true">
+                     <Label fx:id="nome1" prefHeight="113.0" prefWidth="242.0" textFill="#e97627" wrapText="true">
                         <font>
                            <Font name="System Bold" size="21.0" />
                         </font>
@@ -94,7 +91,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="info1" prefHeight="126.0" prefWidth="243.0" text="Roma Italiana " wrapText="true">
+                     <Label fx:id="info1" prefHeight="126.0" prefWidth="243.0" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -104,7 +101,7 @@
                      </Label>
                      <HBox prefHeight="134.0" prefWidth="249.0" spacing="2.0">
                         <children>
-                           <Label fx:id="media1" alignment="CENTER" prefHeight="55.0" prefWidth="178.0" text="Media Stelle " wrapText="true">
+                           <Label fx:id="media1" alignment="CENTER" prefHeight="55.0" prefWidth="178.0" wrapText="true">
                               <font>
                                  <Font size="20.0" />
                               </font>
@@ -116,25 +113,19 @@
                               <HBox.margin>
                                  <Insets right="44.0" top="3.0" />
                               </HBox.margin>
-                              <image>
-                                 <Image url="@Foto/stellinaColorata.png" />
-                              </image>
                            </ImageView>
                         </children>
                      </HBox>
                   </children>
                </VBox>
-               <VBox fx:id="vBox2" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+               <VBox fx:id="vBox2" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;" visible="false">
                   <children>
                      <ImageView fx:id="immagine2" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
-                        <image>
-                           <Image url="@Foto/InsalataDiMare.png" />
-                        </image>
                         <VBox.margin>
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nome2" prefHeight="18.0" prefWidth="209.0" text="Insalata di Mare" textFill="#e97627">
+                     <Label fx:id="nome2" prefHeight="18.0" prefWidth="209.0" textFill="#e97627">
                         <font>
                            <Font name="System Bold" size="23.0" />
                         </font>
@@ -142,7 +133,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="info2" prefHeight="126.0" prefWidth="243.0" text="Un piatto fresco e leggero, adatto per l'estate." wrapText="true">
+                     <Label fx:id="info2" prefHeight="126.0" prefWidth="243.0" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -152,7 +143,7 @@
                      </Label>
                      <HBox prefHeight="134.0" prefWidth="249.0" spacing="2.0">
                         <children>
-                           <Label fx:id="media2" alignment="CENTER" prefHeight="62.0" prefWidth="243.0" text="Media Stelle " wrapText="true">
+                           <Label fx:id="media2" alignment="CENTER" prefHeight="62.0" prefWidth="243.0" wrapText="true">
                               <font>
                                  <Font size="20.0" />
                               </font>
@@ -164,25 +155,19 @@
                               <HBox.margin>
                                  <Insets right="44.0" top="3.0" />
                               </HBox.margin>
-                              <image>
-                                 <Image url="@Foto/stellinaColorata.png" />
-                              </image>
                            </ImageView>
                         </children>
                      </HBox>
                   </children>
                </VBox>
-               <VBox fx:id="vBox3" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+               <VBox fx:id="vBox3" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;" visible="false">
                   <children>
                      <ImageView fx:id="immagine3" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
-                        <image>
-                           <Image url="@Foto/RisottoAllaZucca.png" />
-                        </image>
                         <VBox.margin>
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nome3" prefHeight="18.0" prefWidth="209.0" text="Risotto alla zucca" textFill="#e97627">
+                     <Label fx:id="nome3" prefHeight="18.0" prefWidth="209.0" textFill="#e97627">
                         <font>
                            <Font name="System Bold" size="23.0" />
                         </font>
@@ -190,7 +175,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="info3" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e cremoso, perfetto per l'autunno" wrapText="true">
+                     <Label fx:id="info3" prefHeight="126.0" prefWidth="243.0" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -200,7 +185,7 @@
                      </Label>
                      <HBox prefHeight="134.0" prefWidth="249.0" spacing="2.0">
                         <children>
-                           <Label fx:id="media3" alignment="CENTER" prefHeight="62.0" prefWidth="243.0" text="Media Stelle " wrapText="true">
+                           <Label fx:id="media3" alignment="CENTER" prefHeight="62.0" prefWidth="243.0" wrapText="true">
                               <font>
                                  <Font size="20.0" />
                               </font>
@@ -212,24 +197,18 @@
                               <HBox.margin>
                                  <Insets right="44.0" top="3.0" />
                               </HBox.margin>
-                              <image>
-                                 <Image url="@Foto/stellinaColorata.png" />
-                              </image>
                            </ImageView>
                         </children>
                      </HBox>
                   </children></VBox>
-               <VBox fx:id="vBox4" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
+               <VBox fx:id="vBox4" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;" visible="false">
                   <children>
                      <ImageView fx:id="immagine4" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
-                        <image>
-                           <Image url="@Foto/PolentaConSpuntatura.png" />
-                        </image>
                         <VBox.margin>
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nome4" prefHeight="75.0" prefWidth="246.0" text="Polenta con Spuntatura" textFill="#e97627" wrapText="true">
+                     <Label fx:id="nome4" prefHeight="75.0" prefWidth="246.0" textFill="#e97627" wrapText="true">
                         <font>
                            <Font name="System Bold" size="20.0" />
                         </font>
@@ -237,7 +216,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="info4" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e sostanzioso, perfetto per le freddi giornate invernali" wrapText="true">
+                     <Label fx:id="info4" prefHeight="126.0" prefWidth="243.0" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -247,7 +226,7 @@
                      </Label>
                      <HBox prefHeight="134.0" prefWidth="249.0" spacing="2.0">
                         <children>
-                           <Label fx:id="media4" alignment="CENTER" prefHeight="58.0" prefWidth="139.0" text="Media Stelle " wrapText="true">
+                           <Label fx:id="media4" alignment="CENTER" prefHeight="58.0" prefWidth="139.0" wrapText="true">
                               <font>
                                  <Font size="20.0" />
                               </font>
@@ -259,9 +238,6 @@
                               <HBox.margin>
                                  <Insets right="44.0" top="3.0" />
                               </HBox.margin>
-                              <image>
-                                 <Image url="@Foto/stellinaColorata.png" />
-                              </image>
                            </ImageView>
                         </children>
                      </HBox>

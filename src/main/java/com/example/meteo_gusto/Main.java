@@ -14,6 +14,12 @@ import static java.lang.System.*;
 
 public class Main extends Application {
 
+
+    /*
+    * 2 ci sono meno di 5 ristoranti OK
+    4. label della media stella non c'entra (accanto al pulsante scopri di più)  OK
+    * */
+
     @Override
     public void start(Stage stage)  {
         GestoreScena.cambiaScenaSenzaEvento("/Login.fxml", stage);
@@ -52,10 +58,10 @@ public class Main extends Application {
             if (scelta == 1) {
                 DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MYSQL);
             } else {
-                out.println("Sono in csv");
                 DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.CSV);
             }
         } else {
+            out.print("sono in memoria");
             DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MEMORIA);
         }
 

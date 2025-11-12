@@ -19,7 +19,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
 
     @Override
     public Prenotazione postiOccupatiPerDataEFasciaOraria(Prenotazione prenotazione) throws EccezioneDAO {
-        Prenotazione p = null;
+        Prenotazione prenotazioneTrovata= new Prenotazione();
 
         try {
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
@@ -33,14 +33,9 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        p = new Prenotazione(
-                                null,
-                                null,
-                                rs.getInt("totale_persone"),
-                                null,
-                                null,
-                                null
-                        );
+
+                        prenotazioneTrovata.setNumeroPersone(rs.getInt("totale_persone"));
+
                     }
                 }
             }
@@ -51,7 +46,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
             );
         }
 
-        return p;
+        return prenotazioneTrovata;
     }
 
     @Override

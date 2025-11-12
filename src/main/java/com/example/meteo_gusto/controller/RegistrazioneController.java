@@ -46,6 +46,7 @@ public class RegistrazioneController {
             }
 
             if (ristorante.getTipoDieta()!=null && !ristorante.getTipoDieta().isEmpty()) {
+                System.out.println("Sto per registrare la dieta " + ristorante.getTipoDieta());
                 dietaDAO.registraDieta(ristorante);
             }
 

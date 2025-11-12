@@ -51,8 +51,9 @@ public class SupportoGUIPaginaIniziale {
         timeline.play();
     }
 
-    public static void animaSuggerimenti(VBox vBox1, VBox vBox2, VBox vBox3, VBox vBox4, double durataSecondi) {
-        VBox[] schede = {vBox1, vBox2, vBox3, vBox4};
+    public static void animaSuggerimenti(double durataSecondi, VBox... schede) {
+        if (schede == null || schede.length == 0) return;
+
         int[] indexVisibile = {0};
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(durataSecondi), e -> {
@@ -76,6 +77,7 @@ public class SupportoGUIPaginaIniziale {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
 
 
 

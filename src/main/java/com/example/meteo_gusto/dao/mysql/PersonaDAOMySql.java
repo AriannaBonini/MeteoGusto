@@ -50,15 +50,16 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        return new Persona(
-                                rs.getString(NOME),
-                                rs.getString(COGNOME),
-                                rs.getString(TELEFONO),
-                                rs.getString(EMAIL),
-                                rs.getString(PASSWORD),
-                                TipoPersona.fromId(rs.getString(RUOLO)),
-                                null
-                        );
+                        Persona personaTrovata=new Persona();
+                        personaTrovata.setNome(rs.getString(NOME));
+                        personaTrovata.setCognome(rs.getString(COGNOME));
+                        personaTrovata.setTelefono(rs.getString(TELEFONO));
+                        personaTrovata.setEmail(rs.getString(EMAIL));
+                        personaTrovata.setPassword(rs.getString(PASSWORD));
+                        personaTrovata.setTipoPersona(TipoPersona.fromId(rs.getString(RUOLO)));
+
+                        return personaTrovata;
+
                     } else {
                         return null;
                     }
@@ -88,15 +89,14 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
                 try (ResultSet rs = ps.executeQuery()) {
 
                     if (rs.next()) {
-                        return new Persona(
-                                rs.getString(NOME),
-                                rs.getString(COGNOME),
-                                rs.getString(TELEFONO),
-                                rs.getString(EMAIL),
-                                null,
-                                null,
-                                null
-                        );
+                        Persona personaTrovata= new Persona();
+                        personaTrovata.setNome(rs.getString(NOME));
+                        personaTrovata.setCognome(rs.getString(COGNOME));
+                        personaTrovata.setTelefono(rs.getString(TELEFONO));
+                        personaTrovata.setEmail(rs.getString(EMAIL));
+
+                        return personaTrovata;
+
                     } else {
                         return null;
                     }

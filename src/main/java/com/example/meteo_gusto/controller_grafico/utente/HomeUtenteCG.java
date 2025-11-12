@@ -88,81 +88,114 @@ public class HomeUtenteCG {
     private List<RistoranteBean> listaRistoranti= new ArrayList<>();
 
 
-    public void initialize(){
+    public void initialize() {
         popolaNotifiche();
 
         SupportoGUIPaginaIniziale.nascondiNodi(titolo, sottotitolo, carosello, suggerimento);
 
         SupportoGUIPaginaIniziale.fadeInNode(titolo, 2, 0);
         SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 2.2);
-        SupportoGUIPaginaIniziale.fadeInNode(suggerimento,2,4.4);
+        SupportoGUIPaginaIniziale.fadeInNode(suggerimento, 2, 4.4);
 
         SupportoGUIPaginaIniziale.effettoLucine(titolo, 40, 150);
         SupportoGUIPaginaIniziale.effettoLucine(sottotitolo, 40, 150);
-        SupportoGUIPaginaIniziale.effettoLucine(suggerimento,40,150);
-
-        popolaSchedeRistoranti();
-
-        FadeTransition fadeCarosello = new FadeTransition(Duration.seconds(2), carosello);
-        fadeCarosello.setFromValue(0.0);
-        fadeCarosello.setToValue(1.0);
-        fadeCarosello.setDelay(Duration.seconds(5.0));
-        fadeCarosello.play();
+        SupportoGUIPaginaIniziale.effettoLucine(suggerimento, 40, 150);
 
         SupportoGUIPaginaIniziale.effettoLucine(stackPane, 40, 150);
-        SupportoGUIPaginaIniziale.suggerimentiOpachi(vBox1, vBox2, vBox3, vBox4);
 
-        fadeCarosello.setOnFinished(e -> {
-            double durataSecondi = 3.5;
-            SupportoGUIPaginaIniziale.animaSuggerimenti(vBox1, vBox2, vBox3, vBox4, durataSecondi);
-        });
+        popolaSchedeRistoranti();
     }
 
+
     private void popolaSchedeRistoranti() {
-        HomeUtenteController homeUtenteController= new HomeUtenteController();
+        HomeUtenteController homeUtenteController = new HomeUtenteController();
 
-        try{
-           listaRistoranti= homeUtenteController.trovaMiglioriRistoranti();
-           inserisciDatiNeiBox();
+        try {
+            listaRistoranti = homeUtenteController.trovaMiglioriRistoranti();
+            inserisciDatiNeiBox();
 
-        }catch (ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Errore","Errore durante il caricamento dei ristoranti migliori");
+
+            int numeroSchede = Math.min(4, listaRistoranti.size());
+
+
+            List<VBox> boxPopolati = new ArrayList<>();
+            if (numeroSchede > 0) boxPopolati.add(vBox1);
+            if (numeroSchede > 1) boxPopolati.add(vBox2);
+            if (numeroSchede > 2) boxPopolati.add(vBox3);
+            if (numeroSchede > 3) boxPopolati.add(vBox4);
+
+            SupportoGUIPaginaIniziale.suggerimentiOpachi(boxPopolati.toArray(new VBox[0]));
+
+            FadeTransition fadeCarosello = new FadeTransition(Duration.seconds(2), carosello);
+            fadeCarosello.setFromValue(0.0);
+            fadeCarosello.setToValue(1.0);
+            fadeCarosello.setDelay(Duration.seconds(5.0));
+            fadeCarosello.play();
+
+            fadeCarosello.setOnFinished(e -> {
+                double durataSecondi = 3.5;
+                SupportoGUIPaginaIniziale.animaSuggerimenti(
+                        durataSecondi,
+                        boxPopolati.toArray(new VBox[0])
+                );
+            });
+
+        } catch (ValidazioneException | IllegalStateException e) {
+            GestoreScena.mostraAlertSenzaConferma("Errore", "Errore durante il caricamento dei ristoranti migliori");
             logger.error("Errore durante il caricamento dei ristoranti", e);
         }
     }
 
-    private void inserisciDatiNeiBox() {
-        if (listaRistoranti == null || listaRistoranti.isEmpty()) return;
 
-
-        RistoranteBean r1 = listaRistoranti.getFirst();
-        nome1.setText(r1.getNomeRistorante());
-        info1.setText(r1.getPosizione().getCitta() + " • " + r1.getCucina());
-        immagine1.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r1));
-        media1.setText(r1.getMediaStelle().toString());
-
-        if (listaRistoranti.size() > 1) {
-            RistoranteBean r2 = listaRistoranti.get(1);
-            nome2.setText(r2.getNomeRistorante());
-            info2.setText(r2.getPosizione().getCitta() + " • " + r2.getCucina());
-            immagine2.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r2));
-            media2.setText(r2.getMediaStelle().toString());
+    private void inserisciDatiNeiBox() throws IllegalStateException{
+        if (listaRistoranti == null || listaRistoranti.isEmpty()) {
+            suggerimento.setText("Siamo in fase di aggiornamento: i ristoranti migliori arriveranno presto!");
+            return;
         }
 
-        if (listaRistoranti.size() > 2) {
-            RistoranteBean r3 = listaRistoranti.get(2);
-            nome3.setText(r3.getNomeRistorante());
-            info3.setText(r3.getPosizione().getCitta() + " • " + r3.getCucina());
-            immagine3.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r3));
-            media3.setText(r3.getMediaStelle().toString());
-        }
 
-        if (listaRistoranti.size() > 3) {
-            RistoranteBean r4 = listaRistoranti.get(3);
-            nome4.setText(r4.getNomeRistorante());
-            info4.setText(r4.getPosizione().getCitta() + " • " + r4.getCucina());
-            immagine4.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r4));
-            media4.setText(r4.getMediaStelle().toString());
+        if (listaRistoranti.size() == 1) {
+            RistoranteBean r1 = listaRistoranti.getFirst();
+            if (r1.getMediaStelle().doubleValue() == 0.0) {
+                suggerimento.setText("Prova questo ristorante e lascia la tua prima recensione!");
+            } else {
+                suggerimento.setText("Scopri il ristorante più amato dagli utenti!");
+            }
+        } else if (listaRistoranti.size() < 4) {
+            suggerimento.setText("Scopri i " + listaRistoranti.size() + " ristoranti più amati dagli utenti!");
+        } else {
+            suggerimento.setText(""); 
+        }
+        
+        for (int i = 0; i < Math.min(4, listaRistoranti.size()); i++) {
+            RistoranteBean r = listaRistoranti.get(i);
+            switch (i) {
+                case 0 -> {
+                    nome1.setText(r.getNomeRistorante());
+                    info1.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    immagine1.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
+                    media1.setText(r.getMediaStelle().toString());
+                }
+                case 1 -> {
+                    nome2.setText(r.getNomeRistorante());
+                    info2.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    immagine2.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
+                    media2.setText(r.getMediaStelle().toString());
+                }
+                case 2 -> {
+                    nome3.setText(r.getNomeRistorante());
+                    info3.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    immagine3.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
+                    media3.setText(r.getMediaStelle().toString());
+                }
+                case 3 -> {
+                    nome4.setText(r.getNomeRistorante());
+                    info4.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    immagine4.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
+                    media4.setText(r.getMediaStelle().toString());
+                }
+                default ->  throw new IllegalStateException("Indice ristorante non gestito: " + i);
+            }
         }
     }
 
@@ -173,7 +206,7 @@ public class HomeUtenteCG {
         try {
             SupportoNotificheGUI.supportoNotifiche(notifichePrenotazione, prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche());
         } catch (ValidazioneException e) {
-            logger.error("Errore durante il conteggio delle motifiche : ", e);
+            logger.error("Errore durante il conteggio delle notifiche : ", e);
         }
     }
 

@@ -79,11 +79,9 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                         int numeroCoperti = rs.getInt(NUMERO_COPERTI);
                         TipoAmbiente tipoAmbiente= TipoAmbiente.tipoAmbienteDaId(rs.getString(AMBIENTE));
 
-                        Ambiente ambiente = new Ambiente(tipoAmbiente,
-                                null,
-                                numeroCoperti,
-                                null);
-
+                        Ambiente ambiente = new Ambiente();
+                        ambiente.setTipoAmbiente(tipoAmbiente);
+                        ambiente.setNumeroCoperti(numeroCoperti);
                         ambiente.setIdAmbiente(idAmbiente);
 
 
@@ -126,7 +124,12 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                             extra.add(Extra.RAFFREDDAMENTO);
                         }
 
-                        return new Ambiente(ambiente.getTipoAmbiente(), ambiente.getRistorante(), null, extra);
+                        Ambiente ambienteDaRitornare= new Ambiente();
+                        ambienteDaRitornare.setTipoAmbiente(ambiente.getTipoAmbiente());
+                        ambienteDaRitornare.setRistorante(ambiente.getRistorante());
+                        ambienteDaRitornare.setExtra(extra);
+
+                        return ambienteDaRitornare;
                     }
                 }
             }

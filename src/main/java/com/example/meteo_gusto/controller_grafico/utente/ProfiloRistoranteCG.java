@@ -101,7 +101,16 @@ public class ProfiloRistoranteCG {
         infoTelefono.setText(" • " + ristoranteSelezionato.getTelefonoRistorante());
         mediaStelle.setText(ristoranteSelezionato.getMediaStelle()+"/5");
         GiorniEOrariBean giorniEOrariBean= ristoranteSelezionato.getGiorniEOrari();
-        infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+
+        if(giorniEOrariBean.getInizioPranzo()==null && giorniEOrariBean.getFinePranzo()==null) {
+            infoGiorniOrariPranzoCena.setText(" • Non effettua pranzo " + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+        }else if(giorniEOrariBean.getInizioCena()==null && giorniEOrariBean.getFineCena()==null) {
+            infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • Non effettua cena");
+
+        }else {
+            infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+        }
+
         infoCucinaDieta.setText(" • " + ristoranteSelezionato.getCucina().getId() + " • " + stampaDieteRistorante());
 
         fotoRistorante.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(ristoranteSelezionato));

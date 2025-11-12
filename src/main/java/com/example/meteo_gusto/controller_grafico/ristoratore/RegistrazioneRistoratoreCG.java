@@ -181,6 +181,7 @@ public class RegistrazioneRistoratoreCG {
             logger.error("Errore registrazione: ", e);
         } catch (DateTimeParseException e) {
             mostraErroreTemporaneamenteNellaLabel("Orario non valido. Usa il formato HH:mm");
+            logger.error("Errore formato orario ", e);
         }
     }
 
@@ -194,31 +195,26 @@ public class RegistrazioneRistoratoreCG {
         return extraSelezionati;
     }
 
-    private GiorniEOrariBean orariRistorante()  {
+    private GiorniEOrariBean orariRistorante() throws ValidazioneException  {
         GiorniEOrariBean giorniEOrariBean= new GiorniEOrariBean();
-        try {
 
-            if (checkBoxPranzo.isSelected()) {
-                LocalTime oraInizioPranzo = LocalTime.parse(inizioPranzo.getText().trim(), formatoOrario);
-                LocalTime oraFinePranzo = LocalTime.parse(finePranzo.getText().trim(), formatoOrario);
+        if (checkBoxPranzo.isSelected()) {
+            LocalTime oraInizioPranzo = LocalTime.parse(inizioPranzo.getText().trim(), formatoOrario);
+            LocalTime oraFinePranzo = LocalTime.parse(finePranzo.getText().trim(), formatoOrario);
 
-                giorniEOrariBean.setInizioPranzo(oraInizioPranzo);
-                giorniEOrariBean.setFinePranzo(oraFinePranzo);
-            }
-
-            if (checkBoxCena.isSelected()) {
-                LocalTime oraInizioCena = LocalTime.parse(inizioCena.getText().trim(), formatoOrario);
-                LocalTime oraFineCena = LocalTime.parse(fineCena.getText().trim(), formatoOrario);
-
-                giorniEOrariBean.setInizioCena(oraInizioCena);
-                giorniEOrariBean.setFineCena(oraFineCena);
-            }
-
-            giorniEOrariBean.setGiorniChiusura(giorniChiusura());
-
-        }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
+            giorniEOrariBean.setInizioPranzo(oraInizioPranzo);
+            giorniEOrariBean.setFinePranzo(oraFinePranzo);
         }
+
+        if (checkBoxCena.isSelected()) {
+            LocalTime oraInizioCena = LocalTime.parse(inizioCena.getText().trim(), formatoOrario);
+            LocalTime oraFineCena = LocalTime.parse(fineCena.getText().trim(), formatoOrario);
+
+            giorniEOrariBean.setInizioCena(oraInizioCena);
+            giorniEOrariBean.setFineCena(oraFineCena);
+        }
+
+        giorniEOrariBean.setGiorniChiusura(giorniChiusura());
         return giorniEOrariBean;
     }
 

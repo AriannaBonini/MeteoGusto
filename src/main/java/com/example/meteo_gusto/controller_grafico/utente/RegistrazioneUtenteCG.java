@@ -53,33 +53,29 @@ public class RegistrazioneUtenteCG {
             GestoreScena.mostraAlertSenzaConferma("Successo", "La registrazione è andata a buon fine!");
             GestoreScena.cambiaScena("/Login.fxml", evento);
 
-        } catch (EccezioneDAO e) {
+        } catch (EccezioneDAO | ValidazioneException e) {
             mostraErroreTemporaneamenteNellaLabel(e.getMessage());
             logger.error("Errore registrazione: ", e);
         }
     }
 
-    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() {
+    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException{
         RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
-        try {
-            PersonaBean personaBean = new PersonaBean();
-            personaBean.setCognome(campoCognome.getText().trim());
-            personaBean.setNome(campoNome.getText().trim());
-            personaBean.setTelefono(campoTelefono.getText().trim());
-            personaBean.setEmail(campoEmail.getText().trim());
-            personaBean.setPassword(campoPassword.getText().trim());
-            personaBean.setTipoPersona(tipoPersona);
+        PersonaBean personaBean = new PersonaBean();
+        personaBean.setCognome(campoCognome.getText().trim());
+        personaBean.setNome(campoNome.getText().trim());
+        personaBean.setTelefono(campoTelefono.getText().trim());
+        personaBean.setEmail(campoEmail.getText().trim());
+        personaBean.setPassword(campoPassword.getText().trim());
+        personaBean.setTipoPersona(tipoPersona);
 
-            registrazioneUtenteBean.setPersona(personaBean);
-            registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
-            registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
+        registrazioneUtenteBean.setPersona(personaBean);
+        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
 
-
-        }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
-        }
         return registrazioneUtenteBean;
     }
+
 
 
 
