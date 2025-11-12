@@ -15,11 +15,6 @@ import static java.lang.System.*;
 public class Main extends Application {
 
 
-    /*
-    * 2 ci sono meno di 5 ristoranti OK
-    4. label della media stella non c'entra (accanto al pulsante scopri di più)  OK
-    * */
-
     @Override
     public void start(Stage stage)  {
         GestoreScena.cambiaScenaSenzaEvento("/Login.fxml", stage);

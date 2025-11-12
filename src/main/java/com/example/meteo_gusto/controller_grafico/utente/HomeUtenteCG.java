@@ -41,8 +41,6 @@ public class HomeUtenteCG {
     @FXML
     private HBox carosello;
     @FXML
-    private StackPane stackPane;
-    @FXML
     private VBox vBox1;
     @FXML
     private VBox vBox2;
@@ -96,12 +94,11 @@ public class HomeUtenteCG {
         SupportoGUIPaginaIniziale.fadeInNode(titolo, 2, 0);
         SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 2.2);
         SupportoGUIPaginaIniziale.fadeInNode(suggerimento, 2, 4.4);
+        SupportoGUIPaginaIniziale.effettoLucine(suggerimento, 40, 150);
 
         SupportoGUIPaginaIniziale.effettoLucine(titolo, 40, 150);
         SupportoGUIPaginaIniziale.effettoLucine(sottotitolo, 40, 150);
-        SupportoGUIPaginaIniziale.effettoLucine(suggerimento, 40, 150);
 
-        SupportoGUIPaginaIniziale.effettoLucine(stackPane, 40, 150);
 
         popolaSchedeRistoranti();
     }
@@ -112,17 +109,35 @@ public class HomeUtenteCG {
 
         try {
             listaRistoranti = homeUtenteController.trovaMiglioriRistoranti();
+
+            if (listaRistoranti == null || listaRistoranti.isEmpty()) {
+                SupportoGUIPaginaIniziale.nascondiNodi(vBox1,vBox2,vBox3,vBox4);
+                suggerimento.setText("Stiamo aggiornando la nostra selezione: presto nuovi ristoranti da scoprire!");
+                return;
+            }
+
+
             inserisciDatiNeiBox();
 
 
             int numeroSchede = Math.min(4, listaRistoranti.size());
 
+            VBox[] tuttiBox = {vBox1, vBox2, vBox3, vBox4};
 
             List<VBox> boxPopolati = new ArrayList<>();
             if (numeroSchede > 0) boxPopolati.add(vBox1);
             if (numeroSchede > 1) boxPopolati.add(vBox2);
             if (numeroSchede > 2) boxPopolati.add(vBox3);
             if (numeroSchede > 3) boxPopolati.add(vBox4);
+
+
+            for (VBox box : tuttiBox) {
+                if (!boxPopolati.contains(box)) {
+                    SupportoGUIPaginaIniziale.nascondiNodi(box);
+                }else {
+                    SupportoGUIPaginaIniziale.effettoLucine(box, 40, 150);
+                }
+            }
 
             SupportoGUIPaginaIniziale.suggerimentiOpachi(boxPopolati.toArray(new VBox[0]));
 
@@ -148,24 +163,6 @@ public class HomeUtenteCG {
 
 
     private void inserisciDatiNeiBox() throws IllegalStateException{
-        if (listaRistoranti == null || listaRistoranti.isEmpty()) {
-            suggerimento.setText("Siamo in fase di aggiornamento: i ristoranti migliori arriveranno presto!");
-            return;
-        }
-
-
-        if (listaRistoranti.size() == 1) {
-            RistoranteBean r1 = listaRistoranti.getFirst();
-            if (r1.getMediaStelle().doubleValue() == 0.0) {
-                suggerimento.setText("Prova questo ristorante e lascia la tua prima recensione!");
-            } else {
-                suggerimento.setText("Scopri il ristorante più amato dagli utenti!");
-            }
-        } else if (listaRistoranti.size() < 4) {
-            suggerimento.setText("Scopri i " + listaRistoranti.size() + " ristoranti più amati dagli utenti!");
-        } else {
-            suggerimento.setText(""); 
-        }
         
         for (int i = 0; i < Math.min(4, listaRistoranti.size()); i++) {
             RistoranteBean r = listaRistoranti.get(i);
