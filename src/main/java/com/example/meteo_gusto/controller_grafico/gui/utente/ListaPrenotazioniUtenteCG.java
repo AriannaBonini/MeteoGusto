@@ -93,7 +93,7 @@ public class ListaPrenotazioniUtenteCG {
         try {
             prenotaRistoranteController.modificaStatoNotifica();
         }catch (ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione", "Errore durante la modifica dello stato notifica");
+            logger.error("Errore durante la modifica dello stato notifica :",e);
         }
     }
 
@@ -108,7 +108,6 @@ public class ListaPrenotazioniUtenteCG {
             popolaVBox();
 
         }catch (ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione","Errore durante il caricamento delle prenotazioni");
             logger.error("Errore durante il caricamento delle prenotazioni dell'utente :" , e);
         }
     }
@@ -189,10 +188,10 @@ public class ListaPrenotazioniUtenteCG {
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
         campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
 
-        if(prenotazione.getAmbiente().getAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
+        if(prenotazione.getAmbiente().getTipoAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
             campoAmbiente.setText("esterno coperto");
         }else {
-            campoAmbiente.setText(prenotazione.getAmbiente().getAmbiente().getId());
+            campoAmbiente.setText(prenotazione.getAmbiente().getTipoAmbiente().getId());
         }
 
         campoNomeRistorante.setText(prenotazione.getAmbiente().getNomeRistorante());

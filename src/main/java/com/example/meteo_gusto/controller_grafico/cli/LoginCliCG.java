@@ -3,8 +3,6 @@ package com.example.meteo_gusto.controller_grafico.cli;
 
 import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.controller.LoginController;
-import com.example.meteo_gusto.controller_grafico.cli.ristoratore.HomeRistoratoreCliCG;
-import com.example.meteo_gusto.controller_grafico.cli.utente.HomeUtenteCliCG;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
@@ -24,7 +22,7 @@ public class LoginCliCG implements InterfacciaCLI{
                 opzione = mostraMenu();
                 switch(opzione) {
                     case 1 -> login();
-                    case 2 -> registrazione();
+                    case 2 -> GestoreScenaCLI.vaiAllaSceltaRegistrazione();
                     case 3 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
                 }
@@ -59,16 +57,15 @@ public class LoginCliCG implements InterfacciaCLI{
 
         if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
             GestoreOutput.stampaMessaggio("Caricamento Home... ");
-            new HomeUtenteCliCG().start();
+            GestoreScenaCLI.viaAllaHomeUtente();
+
         }else{
+
             GestoreOutput.stampaMessaggio("Caricamento Home... ");
-            new HomeRistoratoreCliCG().start();
+            GestoreScenaCLI.vaiAllaHomeRistoratore();
         }
 
     }
-
-    private void registrazione(){}
-
 
 
 }

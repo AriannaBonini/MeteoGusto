@@ -53,15 +53,27 @@ public class GestoreOutput {
     }
 
 
-    public static void stampaSchedaRistoranteMinimal(String nome, String citta, String cucina, String mediaStelle) {
-        int larghezza = 40;
+    public static void rettangolo(String... righe) {
+        int larghezza = 0;
+        for (String riga : righe) {
+            int len = riga.replaceAll("\u001B\\[[;\\d]*m", "").length();
+            if (len > larghezza) larghezza = len;
+        }
 
-        stampaMessaggio(ANSI_BIANCO_OPACO + "+" + "-".repeat(larghezza) + "+" + ANSI_RESET);
-        stampaMessaggio("| " + ANSI_ARANCIONE + ANSI_GRASSETTO + padCentrato(nome, larghezza)  + ANSI_RESET + " |");
-        String secondoTesto = citta + " " + PUNTINO + " " + cucina;
-        stampaMessaggio("| " + ANSI_BIANCO_OPACO + padCentrato(secondoTesto, larghezza) + ANSI_RESET + " |");
-        stampaMessaggio("| " + ANSI_BIANCO_OPACO + padCentrato(mediaStelle, larghezza) + ANSI_RESET + STELLINA_GIALLA + " |");
-        stampaMessaggio(ANSI_BIANCO_OPACO + "+" + "-".repeat(larghezza) + "+" + ANSI_RESET);
+        stampaMessaggio(ANSI_BIANCO_OPACO + ANGOLO_ALTO_SX + BORDO_ORIZZONTALE.repeat(larghezza + 2) + ANGOLO_ALTO_DX + ANSI_RESET);
+
+        for (int i = 0; i < righe.length; i++) {
+            String testo = righe[i];
+            String colore = (i == 0) ? ANSI_ARANCIONE + ANSI_GRASSETTO : ANSI_BIANCO_OPACO;
+
+            stampaMessaggio(
+                    ANSI_BIANCO_OPACO + BORDO_VERTICALE + " " +
+                            colore + padCentrato(testo, larghezza) + ANSI_RESET +
+                            " " + ANSI_BIANCO_OPACO + BORDO_VERTICALE + ANSI_RESET
+            );
+        }
+
+        stampaMessaggio(ANSI_BIANCO_OPACO + ANGOLO_BASSO_SX + BORDO_ORIZZONTALE.repeat(larghezza + 2) + ANGOLO_BASSO_DX + ANSI_RESET);
     }
 
     public static String padCentrato(String testo, int larghezza) {
@@ -71,6 +83,7 @@ public class GestoreOutput {
         int spaziDestra = spazi - spaziSinistra;
         return " ".repeat(spaziSinistra) + testo + " ".repeat(spaziDestra);
     }
+
 
 
 

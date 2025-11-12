@@ -24,7 +24,7 @@ public class ConvertitoreAmbiente {
         if (ambienteBean == null) return null;
 
         return new Ambiente(
-                ambienteBean.getAmbiente(),
+                ambienteBean.getTipoAmbiente(),
                 ambienteBean.getRistorante(),
                 ambienteBean.getNumeroCoperti(),
                 ambienteBean.getExtra(),

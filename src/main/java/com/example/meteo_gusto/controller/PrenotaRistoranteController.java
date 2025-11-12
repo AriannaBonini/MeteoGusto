@@ -84,7 +84,7 @@ public class PrenotaRistoranteController {
     private void stampa(List<RistoranteBean> ristoranteBeans) {
         for(RistoranteBean ristorante: ristoranteBeans) {
             for (AmbienteBean a : ristorante.getAmbiente()) {
-                System.out.println("ristorante : " + ristorante.getNomeRistorante() + " ambienti : " + a.getAmbiente().toString());
+                System.out.println("ristorante : " + ristorante.getNomeRistorante() + " ambienti : " + a.getTipoAmbiente().toString());
             }
         }
 
@@ -462,11 +462,6 @@ public class PrenotaRistoranteController {
             throw new ValidazioneException(e.getMessage());
         }
     }
-
-
-
-
-
 
 
 }

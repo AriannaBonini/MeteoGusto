@@ -191,10 +191,10 @@ public class ListaPrenotazioniRistoranteCG {
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
 
 
-        if(prenotazione.getAmbiente().getAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
+        if(prenotazione.getAmbiente().getTipoAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
             campoAmbiente.setText("esterno coperto");
         }else {
-            campoAmbiente.setText(prenotazione.getAmbiente().getAmbiente().getId());
+            campoAmbiente.setText(prenotazione.getAmbiente().getTipoAmbiente().getId());
         }
 
         campoNomePrenotante.setText(prenotazione.getUtente().getNome());

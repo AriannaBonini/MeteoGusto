@@ -114,7 +114,7 @@ public class RiepilogoPrenotazioneCG {
         List<String> nomiAmbienti = new ArrayList<>();
 
         for (AmbienteBean ambiente : ristoranteSelezionato.getAmbiente()) {
-            nomiAmbienti.add(ambiente.getAmbiente().getId());
+            nomiAmbienti.add(ambiente.getTipoAmbiente().getId());
         }
         ObservableList<String> lista = FXCollections.observableArrayList(nomiAmbienti);
         comboBoxAmbiente.setItems(lista);

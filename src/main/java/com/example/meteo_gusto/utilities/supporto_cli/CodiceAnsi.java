@@ -15,5 +15,15 @@ public class CodiceAnsi {
     public static final String ANSI_GIALLO = "\u001B[38;2;255;223;0m"; // giallo brillante
     public static final String CAMPANELLA_GIALLA = ANSI_GIALLO + "\uD83D\uDD14" + ANSI_RESET; //campanellina
 
+    public static final String ANGOLO_ALTO_SX = "\u256D";  // ╭
+    public static final String ANGOLO_ALTO_DX = "\u256E";  // ╮
+    public static final String ANGOLO_BASSO_SX = "\u2570"; // ╰
+    public static final String ANGOLO_BASSO_DX = "\u256F"; // ╯
+    public static final String BORDO_ORIZZONTALE = "\u2500";    // ─
+    public static final String BORDO_VERTICALE = "│";
+
+
+
+
 }
 

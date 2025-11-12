@@ -155,7 +155,6 @@ public class HomeUtenteCG {
             });
 
         } catch (ValidazioneException | IllegalStateException e) {
-            GestoreScena.mostraAlertSenzaConferma("Errore", "Errore durante il caricamento dei ristoranti migliori");
             logger.error("Errore durante il caricamento dei ristoranti", e);
         }
     }

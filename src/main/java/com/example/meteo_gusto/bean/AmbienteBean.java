@@ -26,7 +26,7 @@ public class AmbienteBean {
     }
 
     /* METODI GETTER */
-    public TipoAmbiente getAmbiente() { return ambiente; }
+    public TipoAmbiente getTipoAmbiente() { return ambiente; }
     public Integer getNumeroCoperti() { return numeroCoperti; }
     public Set<Extra> getExtra() { return extra; }
     public String getRistorante() { return ristorante; }
