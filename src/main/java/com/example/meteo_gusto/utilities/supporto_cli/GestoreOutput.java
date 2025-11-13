@@ -5,6 +5,8 @@ import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 
+import java.math.BigDecimal;
+
 import static com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi.*;
 import static java.lang.System.*;
 
@@ -144,6 +146,35 @@ public class GestoreOutput {
             GestoreOutput.mostraNotifiche(numeroNotifiche);
         }
     }
+
+    public static String stampaStelleRistorante(RistoranteBean ristorante) {
+        BigDecimal mediaBD = ristorante.getMediaStelle();
+        double mediaStelle = mediaBD.doubleValue();
+
+        int stellePiene;
+        double decimale = mediaStelle - Math.floor(mediaStelle);
+
+        if (decimale >= 0.5) {
+            stellePiene = (int) Math.ceil(mediaStelle);
+        } else {
+            stellePiene = (int) Math.floor(mediaStelle);
+        }
+
+        int stelleTotali = 5;
+        StringBuilder stelle = new StringBuilder();
+
+        for (int i = 0; i < stelleTotali; i++) {
+            if (i < stellePiene) {
+                stelle.append(STELLINA_GIALLA);
+            } else {
+                stelle.append(STELLINA_VUOTA);
+            }
+        }
+
+        return stelle.toString();
+    }
+
+
 
 
 

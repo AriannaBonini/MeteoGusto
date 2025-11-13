@@ -49,7 +49,7 @@ public class PrenotaRistoranteFormInizialeCliCG implements InterfacciaCLI {
 
     @Override
     public int mostraMenu() {
-        GestoreOutput.stampaTitolo("PRENOTA RISTORANTE ! ");
+        GestoreOutput.stampaTitolo("PRENOTA RISTORANTE ");
         popolaNotifiche();
 
         GestoreOutput.mostraGraficaMenu("Compila il Form di prenotazione", "Visualizza la tua lista delle prenotazioni", "Vai alla Home","Logout");

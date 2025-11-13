@@ -24,7 +24,14 @@ public class Recensione {
     public Ristorante getRistorante() {return ristorante;}
     public void setRistorante(Ristorante ristorante) {this.ristorante = ristorante;}
     public BigDecimal getStelle() {return stelle;}
-    public void setStelle(BigDecimal stelle) {this.stelle = stelle;}
     public LocalDate getData() {return data;}
     public void setData(LocalDate data) {this.data = data;}
+
+    public void aggiungiStelle(BigDecimal stelle) throws IllegalArgumentException {
+        if (stelle == null || stelle.compareTo(BigDecimal.ONE) < 0 || stelle.compareTo(BigDecimal.valueOf(5)) > 0) {
+            throw new IllegalArgumentException("Il numero di stelle deve essere compreso tra 1 e 5.");
+        }
+        this.stelle = stelle;
+    }
+
 }

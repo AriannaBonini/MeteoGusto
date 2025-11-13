@@ -101,15 +101,10 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
         try {
             listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean);
 
-            System.out.println(filtriBean.getFasciaPrezzoRistorante());
-            System.out.println(filtriBean.getTipoDieta());
-            System.out.println(filtriBean.getTipoCucina());
 
             listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean, meteoBean);
 
-            System.out.println(filtriBean.getFasciaPrezzoRistorante());
-            System.out.println(filtriBean.getTipoDieta());
-            System.out.println(filtriBean.getTipoCucina());
+
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
             GestoreScena.mostraAlertSenzaConferma("Attenzione",e.getMessage());
@@ -183,9 +178,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
                             mostraMenu();}
             }
 
-            System.out.println(filtriBean.getFasciaPrezzoRistorante());
-            System.out.println(filtriBean.getTipoDieta());
-            System.out.println(filtriBean.getTipoCucina());
 
             popolaListaRistoranti();
             mostraListaRistoranti();
@@ -243,5 +235,12 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
     public void setFiltriBean(FiltriBean filtriBean) {
         this.filtriBean=filtriBean;
+    }
+
+
+
+    public void impostaFiltriSelezionati(FiltriBean filtriBean, MeteoBean meteoBean) {
+        this.filtriBean=filtriBean;
+        this.meteoBean=meteoBean;
     }
 }

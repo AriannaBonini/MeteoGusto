@@ -141,7 +141,7 @@ public class ProfiloRistoranteCG {
 
             GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> ((RiepilogoPrenotazioneCG) controller).setRiepilogoPrenotazione(prenotazione, ristoranteSelezionato));
         }catch (ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
+            logger.error("Errore durante la popolazione della bean prenotazione", e);
         }
     }
 

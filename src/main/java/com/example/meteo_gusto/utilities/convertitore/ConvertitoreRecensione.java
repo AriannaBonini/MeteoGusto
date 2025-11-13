@@ -20,12 +20,4 @@ public class ConvertitoreRecensione {
         );
     }
 
-    public static RecensioneBean recensioneModelInBean(Recensione recensioneModel) {
-        if (recensioneModel == null) return null;
-
-        return new RecensioneBean(
-                recensioneModel.getStelle(),
-                ConvertitoreRistorante.ristoranteModelInBean(recensioneModel.getRistorante())
-        );
-    }
 }

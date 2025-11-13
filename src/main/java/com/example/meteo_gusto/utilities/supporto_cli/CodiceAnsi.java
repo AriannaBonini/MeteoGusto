@@ -32,6 +32,8 @@ public class CodiceAnsi {
     public static final String TEMPERATURA_NORMALE = "🌡️";
     public static final String TEMPERATURA_CALDA = "🌡️🔥";
 
+    public static final String PROSSIMO_FILTRO="Prossimo filtro";
+
 
 
 

@@ -23,11 +23,10 @@ public class RecensioneBean {
         if (stelle == null) {
             throw new IllegalArgumentException("Il numero di stelle non può essere null.");
         }
-        if (stelle.scale() > 1) {
-            throw new IllegalArgumentException("Il numero di stelle può avere al massimo una cifra decimale.");
-        }
-        this.stelle = stelle;
+        this.stelle=stelle;
+
     }
+
 
 
 

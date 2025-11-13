@@ -60,7 +60,7 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
             if (recensioni != null) {
                 for (Recensione r : recensioni) {
                     if (r.getUtente().getEmail().equals(recensione.getUtente().getEmail())) {
-                        r.setStelle(recensione.getStelle());
+                        r.aggiungiStelle(recensione.getStelle());
                         r.setData(recensione.getData());
                         return;
                     }

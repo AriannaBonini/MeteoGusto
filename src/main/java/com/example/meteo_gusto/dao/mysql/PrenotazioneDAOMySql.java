@@ -60,13 +60,12 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                  PreparedStatement ps = conn.prepareStatement(INSERISCI_PRENOTAZIONE)) {
 
                 ps.setInt(1, prenotazione.getAmbiente().getIdAmbiente());
-                ps.setString(2, prenotazione.getAmbiente().getRistorante());
-                ps.setDate(3, java.sql.Date.valueOf(prenotazione.getData()));
-                ps.setTime(4, java.sql.Time.valueOf(prenotazione.getOra()));
-                ps.setString(5, prenotazione.getNote());
-                ps.setInt(6, prenotazione.getNumeroPersone());
-                ps.setString(7, prenotazione.getUtente().getEmail());
-                ps.setString(8, prenotazione.getFasciaOraria().getId());
+                ps.setDate(2, java.sql.Date.valueOf(prenotazione.getData()));
+                ps.setTime(3, java.sql.Time.valueOf(prenotazione.getOra()));
+                ps.setString(4, prenotazione.getNote());
+                ps.setInt(5, prenotazione.getNumeroPersone());
+                ps.setString(6, prenotazione.getUtente().getEmail());
+                ps.setString(7, prenotazione.getFasciaOraria().getId());
 
                 int righe = ps.executeUpdate();
                 inserita = righe > 0;

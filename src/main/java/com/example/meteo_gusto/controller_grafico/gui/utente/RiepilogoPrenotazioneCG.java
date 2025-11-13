@@ -57,16 +57,12 @@ public class RiepilogoPrenotazioneCG {
         this.prenotazione = prenotazione;
         this.ristoranteSelezionato = ristoranteSelezionato;
 
-        try {
-            popolaCampiPrenotazione();
-            popolaCampiRistorante();
-            popolaCampiUtente();
-        }catch (ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
-        }
+        popolaCampiPrenotazione();
+        popolaCampiRistorante();
+        popolaCampiUtente();
     }
 
-    private void popolaCampiUtente() throws ValidazioneException {
+    private void popolaCampiUtente(){
         try {
             prenotazione.setUtente(prenotaRistoranteController.datiUtente());
             campoNomePrenotante.setText(prenotazione.getUtente().getNome());
@@ -74,7 +70,7 @@ public class RiepilogoPrenotazioneCG {
             campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
 
         }catch (ValidazioneException e) {
-            throw new ValidazioneException(e.getMessage());
+            logger.error("Errore durante la presa dei dati dell'utente",e);
         }
     }
 
@@ -139,7 +135,6 @@ public class RiepilogoPrenotazioneCG {
             GestoreScena.cambiaScena("/HomeUtente.fxml", evento);
 
         }catch (EccezioneDAO | ValidazioneException e) {
-            GestoreScena.mostraAlertSenzaConferma("Errore", e.getMessage());
             logger.error("Errore durante l'inserimento della prenotazione : ", e);
         }
     }

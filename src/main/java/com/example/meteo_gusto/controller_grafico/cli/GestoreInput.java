@@ -4,6 +4,7 @@ package com.example.meteo_gusto.controller_grafico.cli;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
+import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
 
 import java.util.*;
@@ -44,7 +45,7 @@ public class GestoreInput {
     public static Set<TipoCucina> leggiCucineScelteDaInput() {
         Set<TipoCucina> tipologieCucineScelte=new HashSet<>();
 
-        GestoreOutput.mostraGraficaMenu("Inserire i filtri sulle tipologie di cucine","Prossimo filtro");
+        GestoreOutput.mostraGraficaMenu("Inserire i filtri sulle tipologie di cucine", CodiceAnsi.PROSSIMO_FILTRO);
         if(opzioneScelta(1,2)==2){
             return tipologieCucineScelte;
         }
@@ -59,7 +60,7 @@ public class GestoreInput {
                 GestoreOutput.mostraAvvertenza("Attenzione","Questa cucina è stata già aggiunta");
             }
 
-            GestoreOutput.mostraGraficaMenu("Inserire altre cucine" , "Prossimo filtro");
+            GestoreOutput.mostraGraficaMenu("Inserire altre cucine" , CodiceAnsi.PROSSIMO_FILTRO);
             if(opzioneScelta(1,2)==2) {
                 termina=true;
             }
@@ -72,7 +73,7 @@ public class GestoreInput {
     public static Set<TipoDieta> leggiDieteScelteDaInput() {
         Set<TipoDieta> tipologieDieteScelte =new HashSet<>();
 
-        GestoreOutput.mostraGraficaMenu("Inserire i filtri sulle tipologie di dieta","Prossimo filtro");
+        GestoreOutput.mostraGraficaMenu("Inserire i filtri sulle tipologie di dieta",CodiceAnsi.PROSSIMO_FILTRO);
         if(opzioneScelta(1,2)==2){
             return tipologieDieteScelte;
         }
@@ -89,7 +90,7 @@ public class GestoreInput {
                 GestoreOutput.mostraAvvertenza("Attenzione","Questa dieta è stata già aggiunta");
             }
 
-            GestoreOutput.mostraGraficaMenu("Inserire altre diete" , "Prossimo filtro");
+            GestoreOutput.mostraGraficaMenu("Inserire altre diete" , CodiceAnsi.PROSSIMO_FILTRO);
             if(opzioneScelta(1,2)==2) {
                 termina=true;
             }
@@ -101,7 +102,7 @@ public class GestoreInput {
 
     public static FasciaPrezzoRistorante leggiFasciaPrezzoSceltaDaInput() {
 
-        GestoreOutput.mostraGraficaMenu("Scegliere una fascia di prezzo","Prossimo filtro");
+        GestoreOutput.mostraGraficaMenu("Scegliere una fascia di prezzo",CodiceAnsi.PROSSIMO_FILTRO);
         if(opzioneScelta(1,2)==2){
             return null;
         }
