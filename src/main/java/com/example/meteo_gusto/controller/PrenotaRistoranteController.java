@@ -36,8 +36,6 @@ public class PrenotaRistoranteController {
         GiornoChiusuraDAO giornoChiusuraDAO = daoFactoryFacade.getGiornoChiusuraDAO();
 
         Filtro filtri = ConvertitoreFiltri.filtriBeanInModel(filtriInseriti);
-        filtri.validaNumeroPersone();
-        filtri.validaData();
 
         GiorniSettimana giornoPrenotazione = GiorniSettimanaHelper.dataInGiornoSettimana(filtriInseriti.getData());
 
@@ -68,7 +66,6 @@ public class PrenotaRistoranteController {
 
                 if (postiDisponibili >= filtriInseriti.getNumeroPersone()) {
                     ambientiRistoranteDisponibili.add(ambiente);
-                    System.out.println("Gli id degli ambienti sono presenti :" + ambiente.getIdAmbiente());
 
                 }
             }
@@ -81,13 +78,10 @@ public class PrenotaRistoranteController {
         return listaRistorantiPrenotabili;
     }
 
-    private void stampa(List<RistoranteBean> ristoranteBeans) {
-        for(RistoranteBean ristorante: ristoranteBeans) {
-            for (AmbienteBean a : ristorante.getAmbiente()) {
-                System.out.println("ristorante : " + ristorante.getNomeRistorante() + " ambienti : " + a.getTipoAmbiente().toString());
-            }
-        }
 
+
+    public void validaDati(FiltriBean filtriInseriti) throws ValidazioneException {
+        ConvertitoreFiltri.filtriBeanInModel(filtriInseriti);
     }
 
 
@@ -156,7 +150,7 @@ public class PrenotaRistoranteController {
 
             }
         }
-        stampa(listaRistorantiFiltrati);
+
         return listaRistorantiFiltrati;
     }
 
@@ -166,7 +160,7 @@ public class PrenotaRistoranteController {
             if (ambientiCompatibiliConIlMeteo.isEmpty()) {
                 ambientiCompatibiliConIlMeteo = generaAmbientiCompatibiliDaMeteo(previsioniMeteo);
             }
-            System.out.println("Le previsioni meteo sono selezionate");
+
             return ristoranteCompatibile(ristorante);
         }
 
@@ -214,11 +208,10 @@ public class PrenotaRistoranteController {
     private List<Ambiente> ristoranteCompatibile(Ristorante ristorante) throws EccezioneDAO {
         List<Ambiente> ambientiCompatibili = new ArrayList<>();
 
-        System.out.println("Ristorante :" + ristorante.getNomeRistorante());
+
         for (Ambiente ambienteRistorante : ristorante.getAmbienteRistorante()) {
-            System.out.println("analizziamo l'ambiente : " +ambienteRistorante.getTipoAmbiente().toString() );
             if (isAmbienteCompatibile(ambienteRistorante, ristorante.getPartitaIVA())) {
-                System.out.println("COMPATIBILE");
+
                 ambientiCompatibili.add(ambienteRistorante);
             }
         }
@@ -234,7 +227,7 @@ public class PrenotaRistoranteController {
                 .orElse(null);
 
         if (ambienteCompatibile == null) return false;
-        System.out.println("Ambiente presente negli ambienti compatibili con il meteo");
+
 
         Set<Extra> extraRichiesti = ambienteCompatibile.getExtra();
         if (extraRichiesti == null || extraRichiesti.isEmpty()) {

@@ -30,7 +30,7 @@ public class ListaPrenotazioniUtenteCliCG implements InterfacciaCLI {
             try {
                 opzione = mostraMenu();
                 switch(opzione) {
-                    case 1 -> GestoreScenaCLI.vaiAPrenotaRistorante();
+                    case 1 -> GestoreScenaCLI.vaiAPrenotaRistoranteFormIniziale();
                     case 2 -> GestoreScenaCLI.viaAllaHomeUtente();
                     case 3 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");

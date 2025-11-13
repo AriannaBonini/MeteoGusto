@@ -30,7 +30,7 @@ public class HomeUtenteCliCG implements InterfacciaCLI {
             try {
                 opzione = mostraMenu();
                 switch(opzione) {
-                    case 1 -> GestoreScenaCLI.vaiAPrenotaRistorante();
+                    case 1 -> GestoreScenaCLI.vaiAPrenotaRistoranteFormIniziale();
                     case 2 -> GestoreScenaCLI.vaiAllaListaPrenotazioniUtente();
                     case 3 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
@@ -57,11 +57,8 @@ public class HomeUtenteCliCG implements InterfacciaCLI {
     private void popolaNotifiche() {
         PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
         try {
-            Integer numeroNotifiche = prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche();
+            GestoreOutput.visualizzazioneNotifiche(prenotaRistoranteController.notificheNuovePrenotazioni().getNumeroNotifiche());
 
-            if (numeroNotifiche > 0) {
-                GestoreOutput.mostraNotifiche(numeroNotifiche);
-            }
         }catch (ValidazioneException e) {
             logger.error("Errore durante il conteggio delle notifiche : ", e);
         }

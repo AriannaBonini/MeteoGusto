@@ -89,6 +89,8 @@ public class PrenotaRistoranteFormInizialeCG {
     private void clickCerca(ActionEvent evento) {
         try {
             FiltriBean filtriBean = creaFiltriBean();
+            prenotaRistoranteController.validaDati(filtriBean);
+
             GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
                     (PrenotaRistoranteCG controller) -> controller.setFiltriBean(filtriBean));
         } catch (DateTimeParseException e) {
@@ -96,7 +98,8 @@ public class PrenotaRistoranteFormInizialeCG {
         }catch (NumberFormatException e) {
             mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
         }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel("Dati inseriti non validi");
+            logger.error("Errore di validazione dei dati inseriti", e );
         }
     }
 

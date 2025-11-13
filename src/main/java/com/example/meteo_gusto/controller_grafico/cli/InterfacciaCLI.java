@@ -4,3 +4,4 @@ public interface InterfacciaCLI {
     void start();
     int mostraMenu();
 }
+

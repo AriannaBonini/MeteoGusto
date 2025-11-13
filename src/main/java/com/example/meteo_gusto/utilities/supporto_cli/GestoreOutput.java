@@ -1,7 +1,13 @@
 package com.example.meteo_gusto.utilities.supporto_cli;
 
+import com.example.meteo_gusto.bean.RistoranteBean;
+import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
+import com.example.meteo_gusto.enumerazione.TipoCucina;
+import com.example.meteo_gusto.enumerazione.TipoDieta;
+
 import static com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi.*;
 import static java.lang.System.*;
+
 
 public class GestoreOutput {
 
@@ -83,6 +89,63 @@ public class GestoreOutput {
         int spaziDestra = spazi - spaziSinistra;
         return " ".repeat(spaziSinistra) + testo + " ".repeat(spaziDestra);
     }
+
+    public static String mostraFasciaPrezzoRistorante(RistoranteBean ristoranteBean) {
+        return switch (ristoranteBean.getFasciaPrezzo()) {
+            case FasciaPrezzoRistorante.ECONOMICO -> mostraDollariColorati(1);
+            case FasciaPrezzoRistorante.MODERATO -> mostraDollariColorati(2);
+            case FasciaPrezzoRistorante.COSTOSO -> mostraDollariColorati(3);
+            case FasciaPrezzoRistorante.LUSSO -> mostraDollariColorati(4);
+        };
+    }
+
+    private static String mostraDollariColorati(int numeroRipetizioni) {
+        return DOLLARO.repeat(Math.max(0, numeroRipetizioni));
+    }
+
+
+
+    public static void mostraTipologieCucina(TipoCucina[] tipi) {
+        GestoreOutput.stampaTitolo(" CUCINA : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<tipi.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + tipi[indice].getId());
+        }
+
+    }
+
+    public static void mostraTipologieDieta(TipoDieta[] tipi) {
+        GestoreOutput.stampaTitolo(" DIETA : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<tipi.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + tipi[indice].getId());
+        }
+
+    }
+
+    public static void mostraTipologieFasciaPrezzo(FasciaPrezzoRistorante[] tipi) {
+        GestoreOutput.stampaTitolo(" FASCIA PREZZO : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<tipi.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + tipi[indice].getId());
+        }
+
+    }
+
+
+    public static void visualizzazioneNotifiche(Integer numeroNotifiche) {
+        if (numeroNotifiche > 0) {
+            GestoreOutput.mostraNotifiche(numeroNotifiche);
+        }
+    }
+
+
 
 
 

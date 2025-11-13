@@ -228,7 +228,6 @@ public class PrenotaRistoranteCG {
 
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
-            GestoreScena.mostraAlertSenzaConferma("Attenzione","Errore durante la ricerca dei ristoranti");
         }
     }
 
@@ -344,10 +343,8 @@ public class PrenotaRistoranteCG {
 
         } catch (ValidazioneException e) {
             logger.error("Errore di validazione: {}", e.getMessage());
-            mostraErroreTemporaneamenteNellaLabel("Errore durante il filtraggio dei dati");
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
-            mostraErroreTemporaneamenteNellaLabel("La persistenza non è al momento disponibile");
         } catch (IOException e) {
             logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
             mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");

@@ -63,7 +63,7 @@ public class Main extends Application {
         try {
             if (tipoInterfaccia) {
                 out.println("\nAvvio interfaccia grafica...");
-                launch(args); // JavaFX
+                launch(args);
             } else {
                 out.println("\nAvvio interfaccia a riga di comando...");
                 new LoginCliCG().start();

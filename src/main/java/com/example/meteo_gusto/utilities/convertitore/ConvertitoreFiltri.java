@@ -1,25 +1,26 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.FiltriBean;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.model.Filtro;
 
 public class ConvertitoreFiltri {
 
     private ConvertitoreFiltri(){ /* COSTRUTTORE VUOTO */ }
 
-    public static Filtro filtriBeanInModel(FiltriBean filtroBean) {
-        return new Filtro(filtroBean.getData(),
+    public static Filtro filtriBeanInModel(FiltriBean filtroBean) throws ValidazioneException {
+        Filtro filtro= new  Filtro(
                 filtroBean.getOra(),
                 filtroBean.getCitta(),
-                filtroBean.getNumeroPersone(),
                 filtroBean.getFasciaPrezzoRistorante(),
                 filtroBean.getTipoCucina(),
                 filtroBean.getTipoDieta(),
                 filtroBean.getMeteo());
 
+        filtro.aggiungiData(filtroBean.getData());
+        filtro.aggiungiNumeroPersone(filtroBean.getNumeroPersone());
+
+        return filtro;
     }
 
-    public static FiltriBean filtriModelInBean(Filtro filtroModel) {
-        return new FiltriBean(filtroModel.getData(), filtroModel.getOra(), filtroModel.getCitta(),filtroModel.getNumeroPersone());
-    }
 }
