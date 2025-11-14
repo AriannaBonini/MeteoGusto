@@ -33,7 +33,7 @@ public class HomeRistoratoreCliCG implements InterfacciaCLI {
                 GestoreOutput.mostraAvvertenza("Errore ",e.getMessage());
             }
         }
-        GestoreScenaCLI.logout();
+        GestoreScenaCLI.login();
     }
 
     @Override

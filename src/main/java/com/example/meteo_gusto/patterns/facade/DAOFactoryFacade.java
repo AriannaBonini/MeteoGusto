@@ -15,7 +15,6 @@ public class DAOFactoryFacade {
     private PrenotazioneDAO prenotazioneDAO;
     private RecensioneDAO recensioneDAO;
 
-
     private DAOFactoryFacade() {/* Costruttore privato per impedire la creazione di istanze */}
 
     public static synchronized DAOFactoryFacade getInstance() {
@@ -85,6 +84,7 @@ public class DAOFactoryFacade {
         }
         return recensioneDAO;
     }
+
 
 
 

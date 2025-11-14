@@ -39,7 +39,7 @@ public class ListaPrenotazioniUtenteCliCG implements InterfacciaCLI {
                 GestoreOutput.mostraAvvertenza("Attenzione",e.getMessage());
             }
         }
-        GestoreScenaCLI.logout();
+        GestoreScenaCLI.login();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class DietaDAOMemoria implements DietaDAO {
             if (ristorante == null || ristorante.getPartitaIVA() == null) {
                 throw new EccezioneDAO("Ristorante o Partita IVA non valorizzata");
             }
-            System.out.println("Sono dentro il metodo della memoria");
+
 
             if (ristorante.getTipoDieta() == null) {
                 ristorante.setTipoDieta(new HashSet<>());
@@ -36,10 +36,6 @@ public class DietaDAOMemoria implements DietaDAO {
 
             dieteRistoranti.putIfAbsent(ristorante.getPartitaIVA(), new HashSet<>());
             dieteRistoranti.get(ristorante.getPartitaIVA()).addAll(diete);
-
-            // Dopo aver aggiornato la mappa
-            Set<TipoDieta> dieteRegistrate = dieteRistoranti.get(ristorante.getPartitaIVA());
-            System.out.println("Diete registrate per il ristorante " + ristorante.getPartitaIVA() + ": " + dieteRegistrate);
 
 
         } catch (Exception e) {

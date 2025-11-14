@@ -6,7 +6,9 @@ import com.example.meteo_gusto.controller_grafico.cli.ristoratore.ListaPrenotazi
 import com.example.meteo_gusto.controller_grafico.cli.utente.HomeUtenteCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.utente.ListaPrenotazioniUtenteCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.utente.PrenotaRistoranteFormInizialeCliCG;
+import com.example.meteo_gusto.controller_grafico.cli.utente.RegistrazioneUtenteCliCG;
 import com.example.meteo_gusto.sessione.Sessione;
+import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
 import java.util.function.Consumer;
 import static java.lang.System.*;
 
@@ -15,7 +17,7 @@ public class GestoreScenaCLI {
 
     private GestoreScenaCLI(){ /* COSTRUTTORE PRIVATO */ }
 
-    public static void logout() {
+    public static void login() {
         Sessione.getInstance().logout();
         new LoginCliCG().start();
     }
@@ -44,9 +46,11 @@ public class GestoreScenaCLI {
     public static void viaAllaHomeUtente() {new HomeUtenteCliCG().start();}
     public static void vaiAllaHomeRistoratore(){new HomeRistoratoreCliCG().start();}
     public static void vaiAllaSceltaRegistrazione(){new SceltaRegistrazioneCliCG().start();}
-    public static void vaiAlMenuDelRistorante(){}
-    public static void vaiAlMenu(){}
+    public static void vaiAlMenuDelRistorante(){GestoreOutput.mostraAvvertenza("Siamo spiacenti","La sezione per la visualizzazione del menù del ristorante non è al momento disponibile");}
+    public static void vaiAlMenu(){GestoreOutput.mostraAvvertenza("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
     public static void vaiAllaListaPrenotazioniRistorante() {new ListaPrenotazioniRistoratoreCliCG().start();}
+    public static void vaiAllaRegistrazioneUtente(){new RegistrazioneUtenteCliCG().start();}
+    public static void vaiAllaRegistrazioneRistoratore(){}
 
 
 }

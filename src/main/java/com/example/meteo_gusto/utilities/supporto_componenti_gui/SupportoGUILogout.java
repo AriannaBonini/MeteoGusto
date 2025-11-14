@@ -26,7 +26,7 @@ public final class SupportoGUILogout {
     }
 
     /**
-     * Esegue l’intero flusso di logout con conferma, cambio immagini e ritorno alla schermata di login.
+     * Esegue l’intero flusso di login con conferma, cambio immagini e ritorno alla schermata di login.
      */
     public static boolean gestisciLogoutCompleto(ImageView iconaEsci, ImageView iconaPrecedente, String percorsoIconaPrecedenteSelezionata, String percorsoIconaPrecedenteNonSelezionata) {
 

@@ -8,14 +8,17 @@ import static com.example.meteo_gusto.controller_grafico.cli.GestoreInput.opzion
 public class SceltaRegistrazioneCliCG implements InterfacciaCLI {
     @Override
     public void start() {
+        GestoreOutput.separatoreArancione();
+
+
         boolean esci = false;
         while(!esci) {
             int opzione;
             try {
                 opzione = mostraMenu();
                 switch(opzione) {
-                    case 1 -> registrazioneUtente();
-                    case 2 -> registrazioneRistoratore();
+                    case 1 -> GestoreScenaCLI.vaiAllaRegistrazioneUtente();
+                    case 2 -> GestoreScenaCLI.vaiAllaRegistrazioneRistoratore();
                     case 3 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
                 }
@@ -23,15 +26,14 @@ public class SceltaRegistrazioneCliCG implements InterfacciaCLI {
                 GestoreOutput.mostraAvvertenza("Attenzione",e.getMessage());
             }
         }
-        new LoginCliCG().start();
+        GestoreScenaCLI.login();
     }
 
     @Override
     public int mostraMenu() {
-        GestoreOutput.mostraGraficaMenu("COME DESIDERI REGISTRARTI ", "Utente", "Ristoratore", "Torna alla schermata iniziale");
+        GestoreOutput.stampaTitolo("REGISTRAZIONE ");
+        GestoreOutput.mostraGraficaMenu("Registrati come utente", "Registrati come ristoratore", "Torna al login");
         return opzioneScelta(1,3);
     }
 
-    private void registrazioneUtente(){}
-    private void registrazioneRistoratore(){}
 }

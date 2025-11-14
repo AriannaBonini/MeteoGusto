@@ -103,7 +103,7 @@ public class HomeRistoratoreCG {
     public void clickCalendario(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniRistorante.fxml",evento);}
 
     @FXML
-    public void clickMenu(MouseEvent event) {}
+    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
 
 
 }

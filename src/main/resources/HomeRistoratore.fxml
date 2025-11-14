@@ -78,7 +78,7 @@
             <children>
                <VBox fx:id="vBox1" layoutX="-3.0" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
                   <children>
-                     <ImageView fx:id="immaginePiatto11" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                     <ImageView fx:id="immaginePiatto1" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
                         <image>
                            <Image url="@Foto/TagliatellePiselliEMenta.png" />
                         </image>
@@ -86,7 +86,7 @@
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nomePiatto11" alignment="CENTER" prefHeight="113.0" prefWidth="242.0" text="Taglietelle piselli e menta" textFill="#e97627" wrapText="true">
+                     <Label fx:id="nomePiatto1" alignment="CENTER" prefHeight="113.0" prefWidth="242.0" text="Taglietelle piselli e menta" textFill="#e97627" wrapText="true">
                         <font>
                            <Font name="System Bold" size="21.0" />
                         </font>
@@ -94,7 +94,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="descrizionePiatto11" prefHeight="126.0" prefWidth="243.0" text="Piatto fresco e profumato, ideale per la primavera" wrapText="true">
+                     <Label fx:id="descrizionePiatto1" prefHeight="126.0" prefWidth="243.0" text="Piatto fresco e profumato, ideale per la primavera" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -106,7 +106,7 @@
                </VBox>
                <VBox fx:id="vBox2" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
                   <children>
-                     <ImageView fx:id="immaginePiatto" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                     <ImageView fx:id="immaginePiatto2" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
                         <image>
                            <Image url="@Foto/InsalataDiMare.png" />
                         </image>
@@ -114,7 +114,7 @@
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nomePiatto" prefHeight="18.0" prefWidth="209.0" text="Insalata di Mare" textFill="#e97627">
+                     <Label fx:id="nomePiatto2" prefHeight="18.0" prefWidth="209.0" text="Insalata di Mare" textFill="#e97627">
                         <font>
                            <Font name="System Bold" size="23.0" />
                         </font>
@@ -122,7 +122,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="descrizionePiatto" prefHeight="126.0" prefWidth="243.0" text="Un piatto fresco e leggero, adatto per l'estate." wrapText="true">
+                     <Label fx:id="descrizionePiatto2" prefHeight="126.0" prefWidth="243.0" text="Un piatto fresco e leggero, adatto per l'estate." wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -134,7 +134,7 @@
                </VBox>
                <VBox fx:id="vBox3" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
                   <children>
-                     <ImageView fx:id="immaginePiatto1" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                     <ImageView fx:id="immaginePiatto3" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
                         <image>
                            <Image url="@Foto/RisottoAllaZucca.png" />
                         </image>
@@ -142,7 +142,7 @@
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nomePiatto1" prefHeight="18.0" prefWidth="209.0" text="Risotto alla zucca" textFill="#e97627">
+                     <Label fx:id="nomePiatto3" prefHeight="18.0" prefWidth="209.0" text="Risotto alla zucca" textFill="#e97627">
                         <font>
                            <Font name="System Bold" size="23.0" />
                         </font>
@@ -150,7 +150,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="descrizionePiatto1" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e cremoso, perfetto per l'autunno" wrapText="true">
+                     <Label fx:id="descrizionePiatto3" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e cremoso, perfetto per l'autunno" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>
@@ -161,7 +161,7 @@
                   </children></VBox>
                <VBox fx:id="vBox4" prefHeight="250.0" prefWidth="250.0" spacing="2.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
                   <children>
-                     <ImageView fx:id="immaginePiatto12" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
+                     <ImageView fx:id="immaginePiatto4" fitHeight="158.0" fitWidth="240.0" pickOnBounds="true">
                         <image>
                            <Image url="@Foto/PolentaConSpuntatura.png" />
                         </image>
@@ -169,7 +169,7 @@
                            <Insets left="4.0" top="7.0" />
                         </VBox.margin>
                      </ImageView>
-                     <Label fx:id="nomePiatto12" prefHeight="75.0" prefWidth="246.0" text="Polenta con Spuntatura" textFill="#e97627" wrapText="true">
+                     <Label fx:id="nomePiatto4" prefHeight="75.0" prefWidth="246.0" text="Polenta con Spuntatura" textFill="#e97627" wrapText="true">
                         <font>
                            <Font name="System Bold" size="20.0" />
                         </font>
@@ -177,7 +177,7 @@
                            <Insets left="10.0" />
                         </padding>
                      </Label>
-                     <Label fx:id="descrizionePiatto12" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e sostanzioso, perfetto per le freddi giornate invernali" wrapText="true">
+                     <Label fx:id="descrizionePiatto4" prefHeight="126.0" prefWidth="243.0" text="Piatto caldo e sostanzioso, perfetto per le freddi giornate invernali" wrapText="true">
                         <font>
                            <Font size="20.0" />
                         </font>

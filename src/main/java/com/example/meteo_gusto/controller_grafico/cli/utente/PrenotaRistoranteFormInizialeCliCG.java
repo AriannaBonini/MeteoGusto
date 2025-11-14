@@ -44,7 +44,7 @@ public class PrenotaRistoranteFormInizialeCliCG implements InterfacciaCLI {
                 GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE,e.getMessage());
             }
         }
-        GestoreScenaCLI.logout();
+        GestoreScenaCLI.login();
     }
 
     @Override
