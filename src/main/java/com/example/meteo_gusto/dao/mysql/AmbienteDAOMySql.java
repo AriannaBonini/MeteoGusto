@@ -31,7 +31,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
 
                 for (Ambiente ambiente : listaAmbiente) {
 
-                    String nomeAmbiente = ambiente.getTipoAmbiente().name();
+                    String nomeAmbiente = ambiente.getTipoAmbiente().getId();
                     int numeroCoperti = ambiente.getNumeroCoperti() != null ? ambiente.getNumeroCoperti() : 0;
 
                     boolean riscaldamento = ambiente.getTipoAmbiente() == TipoAmbiente.ESTERNO_COPERTO

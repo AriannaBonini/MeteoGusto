@@ -57,8 +57,7 @@ public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
             GestoreOutput.mostraAvvertenza("Successo", "La registrazione è andata a buon fine!");
 
         } catch (EccezioneDAO | ValidazioneException e) {
-            GestoreOutput.mostraAvvertenza("Errore", e.getMessage());
-            //logger.error("Errore registrazione: ", e);
+            logger.error("Errore registrazione: ", e);
         }
     }
 
@@ -66,6 +65,7 @@ public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
         RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
         PersonaBean personaBean = new PersonaBean();
 
+        GestoreOutput.stampaTitolo("INFORMAZIONI PERSONALI");
 
         personaBean.setNome(GestoreInput.leggiStringaDaInput("Inserisci il nome :"));
         personaBean.setCognome(GestoreInput.leggiStringaDaInput("Inserisci il cognome :"));

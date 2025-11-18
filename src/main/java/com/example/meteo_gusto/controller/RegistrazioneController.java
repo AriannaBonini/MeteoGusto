@@ -4,6 +4,7 @@ import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.TipoPersona;
 import com.example.meteo_gusto.model.*;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
 import com.example.meteo_gusto.utilities.convertitore.*;
@@ -17,6 +18,7 @@ public class RegistrazioneController {
     public void registraUtente(RegistrazioneUtenteBean registrazioneUtenteBean) throws EccezioneDAO {
         try {
             Persona utente = ConvertitorePersona.personaBeanInModel(registrazioneUtenteBean.getPersona());
+            utente.setTipoPersona(TipoPersona.UTENTE);
             personaDAO.registraPersona(utente);
         } catch (EccezioneDAO e) {
             throw new EccezioneDAO("Errore durante la registrazione dell'utente", e);
@@ -31,6 +33,8 @@ public class RegistrazioneController {
             AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
 
             Persona proprietarioRistorante = ConvertitorePersona.personaBeanInModel(registrazioneRistoratoreBean.getPersona());
+            proprietarioRistorante.setTipoPersona(TipoPersona.RISTORATORE);
+
             Ristorante ristorante= proprietarioRistorante.getRistorante();
             ristorante.setRistoratore(proprietarioRistorante.getEmail());
 
@@ -46,7 +50,6 @@ public class RegistrazioneController {
             }
 
             if (ristorante.getTipoDieta()!=null && !ristorante.getTipoDieta().isEmpty()) {
-                System.out.println("Sto per registrare la dieta " + ristorante.getTipoDieta());
                 dietaDAO.registraDieta(ristorante);
             }
 

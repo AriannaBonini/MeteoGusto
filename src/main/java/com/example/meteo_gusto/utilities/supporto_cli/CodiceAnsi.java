@@ -32,7 +32,9 @@ public class CodiceAnsi {
     public static final String TEMPERATURA_NORMALE = "🌡️";
     public static final String TEMPERATURA_CALDA = "🌡️🔥";
 
-    public static final String PROSSIMO_FILTRO="Prossimo filtro";
+    public static final String PROSSIMO_FILTRO= "Prossimo filtro";
+    public static final String PROSSIMO_MODULO= "Prossimo modulo della registrazione";
+    public static final String SCELTA_NON_VALIDA= "Scelta non valida";
 
 
 

@@ -33,7 +33,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 ps.setInt(6, Integer.parseInt(ristorante.getPosizione().getCivico()));
                 ps.setString(7, ristorante.getPosizione().getCitta());
                 ps.setString(8, ristorante.getPosizione().getCap());
-                ps.setString(9, ristorante.getCucina().name());
+                ps.setString(9, ristorante.getCucina().getId());
                 ps.setTime(10, Time.valueOf(ristorante.getOrari().getInizioPranzo()));
                 ps.setTime(11, Time.valueOf(ristorante.getOrari().getFinePranzo()));
                 ps.setTime(12, Time.valueOf(ristorante.getOrari().getInizioCena()));

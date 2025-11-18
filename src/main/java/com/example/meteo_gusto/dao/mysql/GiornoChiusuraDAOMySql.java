@@ -28,7 +28,7 @@ public class GiornoChiusuraDAOMySql extends QuerySQLGiornoChiusuraDAO implements
 
             for (GiorniSettimana giorno : ristorante.getOrari().getGiorniChiusura()) {
                 ps.setString(1, ristorante.getPartitaIVA());
-                ps.setString(2, giorno.toString());
+                ps.setString(2, giorno.getId());
                 ps.addBatch();
             }
 

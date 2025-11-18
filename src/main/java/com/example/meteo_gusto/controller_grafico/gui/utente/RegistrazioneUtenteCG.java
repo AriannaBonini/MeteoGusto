@@ -6,7 +6,6 @@ import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoPersona;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,9 +37,6 @@ public class RegistrazioneUtenteCG {
 
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneUtenteCG.class.getName());
-    private TipoPersona tipoPersona;
-
-    public void setTipoRegistrazione(TipoPersona tipoPersona) { this.tipoPersona=tipoPersona;}
 
 
     @FXML
@@ -67,7 +63,6 @@ public class RegistrazioneUtenteCG {
         personaBean.setTelefono(campoTelefono.getText().trim());
         personaBean.setEmail(campoEmail.getText().trim());
         personaBean.setPassword(campoPassword.getText().trim());
-        personaBean.setTipoPersona(tipoPersona);
 
         registrazioneUtenteBean.setPersona(personaBean);
         registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());

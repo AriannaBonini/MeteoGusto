@@ -133,8 +133,8 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
     private void inserisciFiltri(){
         try {
             GestoreOutput.stampaTitolo("FILTRI");
-            filtriBean.setTipoCucina(GestoreInput.leggiCucineScelteDaInput());
-            filtriBean.setTipoDieta(GestoreInput.leggiDieteScelteDaInput());
+            filtriBean.setTipoCucina(GestoreInput.leggiCucineScelteDaInput(true));
+            filtriBean.setTipoDieta(GestoreInput.leggiDieteScelteDaInput(false));
             filtriBean.setFasciaPrezzoRistorante(GestoreInput.leggiFasciaPrezzoSceltaDaInput());
 
 

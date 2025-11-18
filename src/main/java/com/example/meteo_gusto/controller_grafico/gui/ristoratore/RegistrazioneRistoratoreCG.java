@@ -118,7 +118,6 @@ public class RegistrazioneRistoratoreCG {
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneRistoratoreCG.class.getName());
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
-    private TipoPersona tipoPersona;
 
     public void initialize() {
         comboBoxCucina.setItems(FXCollections.observableArrayList(TipoCucina.values()));
@@ -158,8 +157,6 @@ public class RegistrazioneRistoratoreCG {
         });
 
     }
-
-    public void setTipoRegistrazione(TipoPersona tipoPersona) { this.tipoPersona=tipoPersona;}
 
 
     @FXML
@@ -248,7 +245,6 @@ public class RegistrazioneRistoratoreCG {
         personaBean.setTelefono(campoTelefono.getText().trim());
         personaBean.setEmail(campoEmail.getText().trim());
         personaBean.setPassword(campoPassword.getText().trim());
-        personaBean.setTipoPersona(tipoPersona);
 
         personaBean.setRistoranteBean(datiRistorante());
 

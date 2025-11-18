@@ -3,6 +3,7 @@ package com.example.meteo_gusto.controller_grafico.cli;
 
 import com.example.meteo_gusto.controller_grafico.cli.ristoratore.HomeRistoratoreCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.ristoratore.ListaPrenotazioniRistoratoreCliCG;
+import com.example.meteo_gusto.controller_grafico.cli.ristoratore.RegistrazioneRistoratoreCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.utente.HomeUtenteCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.utente.ListaPrenotazioniUtenteCliCG;
 import com.example.meteo_gusto.controller_grafico.cli.utente.PrenotaRistoranteFormInizialeCliCG;
@@ -50,7 +51,6 @@ public class GestoreScenaCLI {
     public static void vaiAlMenu(){GestoreOutput.mostraAvvertenza("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
     public static void vaiAllaListaPrenotazioniRistorante() {new ListaPrenotazioniRistoratoreCliCG().start();}
     public static void vaiAllaRegistrazioneUtente(){new RegistrazioneUtenteCliCG().start();}
-    public static void vaiAllaRegistrazioneRistoratore(){}
-
+    public static void vaiAllaRegistrazioneRistoratore(){new RegistrazioneRistoratoreCliCG().start();}
 
 }

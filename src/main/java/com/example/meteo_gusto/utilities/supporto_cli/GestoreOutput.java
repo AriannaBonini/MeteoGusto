@@ -1,12 +1,8 @@
 package com.example.meteo_gusto.utilities.supporto_cli;
 
 import com.example.meteo_gusto.bean.RistoranteBean;
-import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
-import com.example.meteo_gusto.enumerazione.TipoCucina;
-import com.example.meteo_gusto.enumerazione.TipoDieta;
-
+import com.example.meteo_gusto.enumerazione.*;
 import java.math.BigDecimal;
-
 import static com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi.*;
 import static java.lang.System.*;
 
@@ -18,11 +14,6 @@ public class GestoreOutput {
     public static void stampaMessaggio(String messaggio){out.println(messaggio);}
     public static void stampaTitolo(String messaggio){stampaMessaggio(ANSI_ARANCIONE + ANSI_GRASSETTO + messaggio + ANSI_RESET);}
 
-    public static void pulisciPagina(){
-        for (int i = 0; i < 100; i++){
-            GestoreOutput.stampaMessaggio("\n");
-        }
-    }
 
     public static void mostraNotifiche(Integer numeroNotifiche) {
         GestoreOutput.stampaMessaggio(CAMPANELLA_GIALLA + ANSI_GIALLO + "Hai " + numeroNotifiche + " nuove prenotazioni" + ANSI_RESET);
@@ -174,11 +165,38 @@ public class GestoreOutput {
         return stelle.toString();
     }
 
+    public static void mostraGiorniSettimana(GiorniSettimana[] giorniSettimana) {
+        GestoreOutput.stampaTitolo(" GIORNI DELLA SETTIMANA : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<giorniSettimana.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + giorniSettimana[indice].getId());
+        }
 
+    }
 
+    public static void mostraAmbienti(TipoAmbiente[] ambienti) {
+        GestoreOutput.stampaTitolo(" AMBIENTI : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<ambienti.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + ambienti[indice].getId());
+        }
 
+    }
 
+    public static void mostraExtra(Extra[] extra) {
+        GestoreOutput.stampaTitolo(" EXTRA : ");
+        int indice;
+        int indiceDaMostrare;
+        for (indice=0; indice<extra.length ; indice++) {
+            indiceDaMostrare=indice+1;
+            GestoreOutput.stampaMessaggio(ANSI_ARANCIONE + indiceDaMostrare + " ) " + ANSI_RESET + extra[indice].getId());
+        }
 
+    }
 
 
 

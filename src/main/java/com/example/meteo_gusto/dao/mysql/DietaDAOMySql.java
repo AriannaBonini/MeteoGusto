@@ -30,7 +30,7 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
 
             for (TipoDieta dieta : diete) {
                 ps.setString(1, ristorante.getPartitaIVA());
-                ps.setString(2, dieta.toString());
+                ps.setString(2, dieta.getId());
                 ps.addBatch();
             }
 
