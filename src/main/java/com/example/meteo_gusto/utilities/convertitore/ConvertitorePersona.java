@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.PersonaBean;
-import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.model.Persona;
 
 public class ConvertitorePersona {

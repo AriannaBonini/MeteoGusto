@@ -1,7 +1,7 @@
 package com.example.meteo_gusto.mockapi;
 
 
-import java.util.Random;
+import java.security.SecureRandom;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import com.github.tomakehurst.wiremock.common.FileSource;
@@ -38,12 +38,15 @@ public class MockMeteoAPI {
     public static class MeteoResponseTransformer extends ResponseTransformer {
 
         private static final String[] CONDIZIONI_METEO = {"Sole", "Pioggia", "Nuvoloso"};
-        private static final Random random = new Random();
+        private static final SecureRandom random = new SecureRandom();
 
         @Override
         public Response transform(Request request, Response response, FileSource files, Parameters parameters) {
-            String condizione = CONDIZIONI_METEO[random.nextInt(CONDIZIONI_METEO.length)];
-            int temperatura = 5 + random.nextInt(31);
+            byte[] bytes = new byte[2];
+            random.nextBytes(bytes);
+
+            String condizione = CONDIZIONI_METEO[Math.abs(bytes[0] % CONDIZIONI_METEO.length)];
+            int temperatura = 5 + (Math.abs(bytes[1]) % 31);
 
             String body = String.format("{ \"temperatura\": %d, \"condizione\": \"%s\" }", temperatura, condizione);
 
