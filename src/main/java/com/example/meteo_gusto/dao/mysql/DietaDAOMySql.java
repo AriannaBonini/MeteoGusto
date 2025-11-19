@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
     @Override
@@ -42,54 +41,40 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
     }
 
     @Override
-    public Ristorante controllaDieteDelRistorante(Ristorante ristoranteDaControllare) throws EccezioneDAO {
-        if (ristoranteDaControllare == null || ristoranteDaControllare.getPartitaIVA() == null ||
-                ristoranteDaControllare.getTipoDieta() == null || ristoranteDaControllare.getTipoDieta().isEmpty()) {
+    public Ristorante controllaDieteDelRistorante(Ristorante ristorante) throws EccezioneDAO {
+        if (ristorante == null || ristorante.getPartitaIVA() == null
+                || ristorante.getTipoDieta() == null || ristorante.getTipoDieta().isEmpty()) {
             return null;
         }
 
         Set<TipoDieta> dieteValide = new HashSet<>();
+        TipoDieta[] dieteArray = ristorante.getTipoDieta().toArray(new TipoDieta[0]);
+        String placeholders = String.join(",", Collections.nCopies(dieteArray.length, "?"));
+        String query = String.format(CONTROLLA_DIETE_RISTORANTE, placeholders);
 
-        try (Connection conn = new GestoreConnessioneDB().creaConnessione()) {
+        try (Connection conn = new GestoreConnessioneDB().creaConnessione();
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
-            String placeholders = ristoranteDaControllare.getTipoDieta().stream()
-                    .map(d -> "?")
-                    .collect(Collectors.joining(", "));
+            ps.setString(1, ristorante.getPartitaIVA());
+            for (int i = 0; i < dieteArray.length; i++) {
+                ps.setString(i + 2, dieteArray[i].toString());
+            }
 
-            String query = String.format(CONTROLLA_DIETE_RISTORANTE, placeholders);
-
-            try (PreparedStatement ps = conn.prepareStatement(query)) {
-                ps.setString(1, ristoranteDaControllare.getPartitaIVA());
-
-                int index = 2;
-                for (TipoDieta tipo : ristoranteDaControllare.getTipoDieta()) {
-                    ps.setString(index++, tipo.toString());
-                }
-
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        String idDieta = rs.getString("dieta");
-                        TipoDieta tipo = TipoDieta.tipoDietaDaId(idDieta);
-                        dieteValide.add(tipo);
-                    }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dieteValide.add(TipoDieta.tipoDietaDaId(rs.getString("dieta")));
                 }
             }
 
         } catch (SQLException | IOException e) {
-            throw new EccezioneDAO("Errore durante la ricerca delle diete compatibili per il ristorante", e);
+            throw new EccezioneDAO("Errore nella ricerca delle diete compatibili", e);
         }
 
-        if (dieteValide.isEmpty()) {
-            return null;
-        }
+        if (dieteValide.isEmpty()) return null;
 
         Ristorante ristoranteValido = new Ristorante();
         ristoranteValido.setTipoDieta(dieteValide);
-
         return ristoranteValido;
     }
-
-
-
 
 }

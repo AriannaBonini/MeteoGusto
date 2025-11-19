@@ -6,14 +6,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import java.util.Random;
+import java.security.SecureRandom;
 import javafx.scene.Node;
 
 
 public class SupportoGUIPaginaIniziale {
 
     private SupportoGUIPaginaIniziale() { /* COSTRUTTORE VUOTO */ }
-    private static final Random random = new Random();
+    private static final SecureRandom random = new SecureRandom();
 
     /**
      * Fa apparire gradualmente un nodo (Label, VBox, ecc.) con fade-in.
@@ -34,9 +34,16 @@ public class SupportoGUIPaginaIniziale {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(intervalloMillis), e -> {
             if (!(nodo.getParent() instanceof StackPane stack)) return;
 
+            byte[] bytes = new byte[2];
+            random.nextBytes(bytes);
+
+            double width = nodo.getBoundsInParent().getWidth();
+            double height = nodo.getBoundsInParent().getHeight();
+
             Circle luce = new Circle(2, Color.YELLOW);
-            luce.setTranslateX(random.nextDouble() * nodo.getBoundsInParent().getWidth() - nodo.getBoundsInParent().getWidth()/2);
-            luce.setTranslateY(random.nextDouble() * nodo.getBoundsInParent().getHeight() - nodo.getBoundsInParent().getHeight()/2);
+
+            luce.setTranslateX((bytes[0] / 127.0) * (width / 2));
+            luce.setTranslateY((bytes[1] / 127.0) * (height / 2));
 
             stack.getChildren().add(luce);
 
