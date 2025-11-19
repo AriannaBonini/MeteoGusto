@@ -5,8 +5,8 @@ import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.patterns.factory.*;
 
 public class DAOFactoryFacade {
-    private static final DAOFactoryFacade istanza= new DAOFactoryFacade();
-    private TipoPersistenza tipoPersistenza;
+    private static DAOFactoryFacade istanza= null;
+    private TipoPersistenza tipoPersistenza=null;
     private PersonaDAO personaDAO;
     private RistoranteDAO ristoranteDAO;
     private GiornoChiusuraDAO giornoChiusuraDAO;
@@ -15,15 +15,21 @@ public class DAOFactoryFacade {
     private PrenotazioneDAO prenotazioneDAO;
     private RecensioneDAO recensioneDAO;
 
-    private DAOFactoryFacade() {/* Costruttore privato per impedire la creazione di istanze */}
-    public static DAOFactoryFacade getInstance() {return istanza;}
+    private DAOFactoryFacade() {}
+    public static synchronized DAOFactoryFacade getInstance() {
+        if (istanza== null) {
+            istanza = new DAOFactoryFacade();
+        }
+        return istanza;
+    }
 
     public synchronized void initTipoPersistenza(TipoPersistenza tipoPersistenza) {
         if (this.tipoPersistenza != null) {
-            throw new IllegalStateException("Tipologia di persistenza impostata");
+            throw new IllegalStateException("Tipologia di persistenza già impostata");
         }
         this.tipoPersistenza = tipoPersistenza;
     }
+
 
     public PersonaDAO getPersonaDAO() {
         if(personaDAO ==null) {

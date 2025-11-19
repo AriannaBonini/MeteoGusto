@@ -3,16 +3,16 @@ package com.example.meteo_gusto.sessione;
 import com.example.meteo_gusto.model.Persona;
 
 public class Sessione {
-    private static Sessione instance;
+    private static Sessione istanza =null;
     private Persona persona;
 
     private Sessione() {}
 
-    public static Sessione getInstance() {
-        if (instance == null) {
-            instance = new Sessione();
+    public static synchronized Sessione getInstance() {
+        if (istanza == null) {
+            istanza = new Sessione();
         }
-        return instance;
+        return istanza;
     }
     public void login(Persona persona) {this.persona = persona;}
     public Persona getPersona() {return persona;}
