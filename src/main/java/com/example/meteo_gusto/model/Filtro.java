@@ -14,8 +14,8 @@ public class Filtro {
     private LocalTime ora;
     private String citta;
     private Integer numeroPersone;
-    private FasciaPrezzoRistorante fasciaPrezzoRistorante;
-    private Set<TipoCucina> tipoCucina;
+    private final FasciaPrezzoRistorante fasciaPrezzoRistorante;
+    private final Set<TipoCucina> tipoCucina;
     private Set<TipoDieta> tipoDieta;
     private boolean meteo;
 
@@ -37,9 +37,7 @@ public class Filtro {
     public void setOra(LocalTime ora) { this.ora = ora; }
     public void setCitta(String citta) { this.citta = citta; }
     public FasciaPrezzoRistorante getFasciaPrezzoRistorante() {return fasciaPrezzoRistorante;}
-    public void setFasciaPrezzoRistorante(FasciaPrezzoRistorante fasciaPrezzoRistorante) {this.fasciaPrezzoRistorante = fasciaPrezzoRistorante;}
     public Set<TipoCucina> getTipoCucina() {return tipoCucina;}
-    public void setTipoCucina(Set<TipoCucina> tipoCucina) {this.tipoCucina = tipoCucina;}
     public Set<TipoDieta> getTipoDieta() {return tipoDieta;}
     public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
     public boolean getMeteo() {return meteo;}

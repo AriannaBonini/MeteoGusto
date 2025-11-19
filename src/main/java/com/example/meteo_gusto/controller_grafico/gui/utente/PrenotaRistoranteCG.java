@@ -6,11 +6,13 @@ import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
+import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
 import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUISchedaRistorante;
 import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
 import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
@@ -228,6 +230,8 @@ public class PrenotaRistoranteCG {
 
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
+        }catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreOutput.mostraAvvertenza("Attenzione ", e.getMessage());
         }
     }
 
@@ -348,6 +352,8 @@ public class PrenotaRistoranteCG {
         } catch (IOException e) {
             logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
             mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
+        }catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione ", e.getMessage());
         }
     }
 

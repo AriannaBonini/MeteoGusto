@@ -18,7 +18,6 @@ public class Posizione {
     }
 
     public String getIndirizzoCompleto() {return indirizzoCompleto;}
-    public void setIndirizzoCompleto(String indirizzoCompleto) {this.indirizzoCompleto = indirizzoCompleto;}
     public String getCitta() {return citta;}
     public void setCitta(String citta) {this.citta = citta;}
     public String getCap() {return cap;}

@@ -7,12 +7,12 @@ import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreInput;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
 import com.example.meteo_gusto.controller_grafico.cli.InterfacciaCLI;
-import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
@@ -107,7 +107,9 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
-            GestoreScena.mostraAlertSenzaConferma("Attenzione",e.getMessage());
+            GestoreOutput.mostraAvvertenza("Errore ",e.getMessage());
+        }catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreOutput.mostraAvvertenza("Attenzione", e.getMessage());
         }
     }
 
@@ -160,6 +162,8 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             GestoreOutput.mostraAvvertenza("Errore :","comunicazione non stabilita con il servizio meteo");
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
+        }catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreOutput.mostraAvvertenza("Attenzione ", e.getMessage());
         }
 
 

@@ -4,6 +4,7 @@ package com.example.meteo_gusto.controller;
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.*;
 import com.example.meteo_gusto.mockapi.BoundaryMeteoMockAPI;
@@ -13,7 +14,9 @@ import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.GiorniSettimanaHelper;
 import com.example.meteo_gusto.utilities.convertitore.*;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class PrenotaRistoranteController {
@@ -125,9 +128,13 @@ public class PrenotaRistoranteController {
         return FasciaOraria.CENA;
     }
 
-    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti, MeteoBean meteoBean) throws EccezioneDAO, ValidazioneException {
+    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti, MeteoBean meteoBean) throws EccezioneDAO, ValidazioneException,PrevisioniMeteoFuoriRangeException {
         if(filtriBeanInseriti==null) {
             return ConvertitoreRistorante.listaRistoranteModelInBean(ristorantiPrenotabili);
+        }
+
+        if (filtriBeanInseriti.getMeteo() && dataOltreGiorniMax(filtriBeanInseriti)) {
+            throw  new PrevisioniMeteoFuoriRangeException("La prenotazione basata sulle previsioni meteo può essere effettuata solo entro le 2 settimane dalla data odierna. Modifica la data.");
         }
 
         List<RistoranteBean> listaRistorantiFiltrati = new ArrayList<>();
@@ -153,6 +160,17 @@ public class PrenotaRistoranteController {
 
         return listaRistorantiFiltrati;
     }
+
+    private boolean dataOltreGiorniMax(FiltriBean filtriBean)  {
+
+        LocalDate dataPrenotazione= filtriBean.getData();
+        LocalDate oggi = LocalDate.now();
+
+        long giorniDiDifferenza = ChronoUnit.DAYS.between(oggi, dataPrenotazione);
+
+        return giorniDiDifferenza > 15;
+    }
+
 
     private List<Ambiente> controllaAmbientiCompatibiliMeteo(Ristorante ristorante, MeteoBean previsioniMeteo) throws EccezioneDAO {
 

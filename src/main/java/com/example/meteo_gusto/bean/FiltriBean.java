@@ -20,12 +20,6 @@ public class FiltriBean {
 
     public FiltriBean() { /* COSTRUTTORE VUOTO */ }
 
-    public FiltriBean(LocalDate data, LocalTime ora, String citta, Integer numeroPersone) {
-        this.data = data;
-        this.ora = ora;
-        this.citta = citta;
-        this.numeroPersone = numeroPersone;
-    }
 
     /* METODI GETTER E SETTER */
     public LocalDate getData() { return data; }

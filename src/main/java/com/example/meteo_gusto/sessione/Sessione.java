@@ -17,6 +17,4 @@ public class Sessione {
     public void login(Persona persona) {this.persona = persona;}
     public Persona getPersona() {return persona;}
     public void logout() {persona = null;}
-    public boolean tipoUtente() {return persona != null && persona.tipoUtente();}
-    public boolean tipoRistoratore() {return persona != null && persona.tipoRistoratore();}
 }
