@@ -56,13 +56,14 @@ public class ConvertitoreRistorante {
                 ristoranteModel.getTelefonoRistorante(),
                 ristoranteModel.getCucina(),
                 ristoranteModel.getFasciaPrezzo(),
-                posizioneBean,
                 giorniEOrariBean,
                 ambienteBean
         );
 
         ristoranteBean.setTipoDieta(ristoranteModel.getTipoDieta());
         ristoranteBean.setMediaStelle(ristoranteModel.getMediaStelle());
+        ristoranteBean.setPosizione(posizioneBean);
+
 
         return ristoranteBean;
     }

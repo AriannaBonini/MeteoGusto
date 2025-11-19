@@ -50,12 +50,12 @@ public class Main extends Application {
             scanner.nextLine();
 
             if (scelta == 1) {
-                DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MYSQL);
+                DAOFactoryFacade.getInstance().initTipoPersistenza(TipoPersistenza.MYSQL);
             } else {
-                DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.CSV);
+                DAOFactoryFacade.getInstance().initTipoPersistenza(TipoPersistenza.CSV);
             }
         } else {
-            DAOFactoryFacade.getInstance().setTipoPersistenza(TipoPersistenza.MEMORIA);
+            DAOFactoryFacade.getInstance().initTipoPersistenza(TipoPersistenza.MEMORIA);
         }
 
         MockMeteoAPI.startMock(8080);

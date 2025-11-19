@@ -22,13 +22,12 @@ public class RistoranteBean {
     private List<AmbienteBean> ambiente;
 
     public RistoranteBean() { /* COSTRUTTORE VUOTO */ }
-    public RistoranteBean(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, PosizioneBean posizione, GiorniEOrariBean giorniEOrari, List<AmbienteBean> ambiente) {
+    public RistoranteBean(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, GiorniEOrariBean giorniEOrari, List<AmbienteBean> ambiente) {
         this.partitaIVA = partitaIVA;
         this.nomeRistorante = nomeRistorante;
         this.telefonoRistorante = telefonoRistorante;
         this.cucina = cucina;
         this.fasciaPrezzo = fasciaPrezzo;
-        this.posizione = posizione;
         this.giorniEOrari = giorniEOrari;
         tipoDieta=new HashSet<>();
         mediaStelle= BigDecimal.valueOf(0.0);
@@ -96,14 +95,6 @@ public class RistoranteBean {
         this.fasciaPrezzo = fasciaPrezzo;
     }
 
-
-    public void setPosizione(PosizioneBean posizione) throws ValidazioneException {
-        if (posizione == null) {
-            throw new ValidazioneException("La posizione non può essere nulla.");
-        }
-        this.posizione = posizione;
-    }
-
     public void setGiorniEOrari(GiorniEOrariBean giorniEOrari) throws ValidazioneException {
         if (giorniEOrari == null) {
             throw new ValidazioneException("Gli orari non possono essere nulli.");
@@ -116,5 +107,8 @@ public class RistoranteBean {
             throw new ValidazioneException("Gli ambienti non possono essere nulli.");
         }
         this.ambiente = ambiente;}
+
+    public void setPosizione(PosizioneBean posizione) {this.posizione = posizione;}
+
 
 }

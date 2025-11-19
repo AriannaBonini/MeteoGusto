@@ -5,6 +5,7 @@ import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.dao.RecensioneDAO;
 import com.example.meteo_gusto.dao.RistoranteDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Recensione;
 import com.example.meteo_gusto.model.Ristorante;
@@ -30,7 +31,7 @@ public class RecensioneController {
         aggiornaMediaRistorante(recensione);
     }
 
-    public RistoranteBean nuovaMediaRecensione(RistoranteBean ristoranteBean) throws EccezioneDAO {
+    public RistoranteBean nuovaMediaRecensione(RistoranteBean ristoranteBean) throws EccezioneDAO, ValidazioneException {
 
         Ristorante ristorante= ristoranteDAO.mediaStelleRistorante(ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean));
         return ConvertitoreRistorante.ristoranteModelInBean(ristorante);
