@@ -24,11 +24,11 @@
 /* ================================================
    SCROLLBAR ORIZZONTALE — NASCOSTA COMPLETAMENTE
    ================================================ */
-.scroll-pane .scroll-bar:horizontal,
-.scroll-pane .scroll-bar:horizontal .track,
-.scroll-pane .scroll-bar:horizontal .thumb,
-.scroll-pane .scroll-bar:horizontal .increment-button,
-.scroll-pane .scroll-bar:horizontal .decrement-button {
+.hide-horizontal-scroll,
+.hide-horizontal-scroll .track,
+.hide-horizontal-scroll .thumb,
+.hide-horizontal-scroll .increment-button,
+.hide-horizontal-scroll .decrement-button {
     -fx-opacity: 0;
     -fx-background-color: transparent;
     -fx-pref-height: 0;
@@ -36,48 +36,60 @@
     -fx-min-height: 0;
 }
 
+
 /* ================================================
    SCROLLBAR VERTICALE — PERSONALIZZATA
    ================================================ */
 
 /* Scrollbar verticale trasparente */
-.scroll-pane .scroll-bar:vertical {
+.vertical-scroll,
+.vertical-scroll .track,
+.vertical-scroll .thumb,
+.vertical-scroll .increment-button,
+.vertical-scroll .decrement-button,
+.vertical-scroll .increment-arrow,
+.vertical-scroll .decrement-arrow {
+    /* valori di base */
+}
+
+/* Scroll-bar trasparente */
+.vertical-scroll {
     -fx-background-color: transparent;
 }
 
 /* Track (traccia) trasparente */
-.scroll-pane .scroll-bar:vertical .track {
+.vertical-scroll .track {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
 /* Thumb (parte mobile arancione) */
-.scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #E97627; /* Arancione */
+.vertical-scroll .thumb {
+    -fx-background-color: #E97627;
     -fx-background-radius: 5px;
 }
 
-/* Pulsanti su e giù (freccine) */
-.scroll-pane .scroll-bar:vertical .increment-button,
-.scroll-pane .scroll-bar:vertical .decrement-button {
+/* Pulsanti su e giù */
+.vertical-scroll .increment-button,
+.vertical-scroll .decrement-button {
     -fx-background-color: transparent;
     -fx-padding: 8px;
 }
 
-/* Freccine vere e proprie */
-.scroll-pane .scroll-bar:vertical .increment-arrow,
-.scroll-pane .scroll-bar:vertical .decrement-arrow {
+/* Freccine */
+.vertical-scroll .increment-arrow,
+.vertical-scroll .decrement-arrow {
     -fx-background-color: #E97627;
-    -fx-shape: "M 0 0 L 6 10 L 12 0 Z"; /* Triangolo */
+    -fx-shape: "M 0 0 L 6 10 L 12 0 Z";
     -fx-scale-x: 2.0;
     -fx-scale-y: 2.0;
 }
 
-/* Direzione freccine */
-.scroll-pane .scroll-bar:vertical .increment-arrow {
+/* Rotazione freccine */
+.vertical-scroll .increment-arrow {
     -fx-rotate: 0;
 }
 
-.scroll-pane .scroll-bar:vertical .decrement-arrow {
+.vertical-scroll .decrement-arrow {
     -fx-rotate: 180;
 }

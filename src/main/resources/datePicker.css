@@ -23,10 +23,11 @@
 }
 
 /* Quando il DatePicker è in focus */
-.date-picker:focused,
-.date-picker .text-field:focused {
+.focused-date-picker,
+.focused-date-picker .text-field {
     -fx-border-color: rgba(0, 0, 0, 0.45);
 }
+
 
 /* --- Pulsante del calendario (a destra) --- */
 .date-picker .arrow-button {

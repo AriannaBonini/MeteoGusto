@@ -5,13 +5,13 @@
     -fx-border-radius: 3px;
 }
 
-.check-box-arancione:selected .box {
+.check-box-arancione.checked .box {
     -fx-background-color: #e97627;
     -fx-border-color: #e97627;
     -fx-border-width: 2px;
     -fx-border-radius: 3px;
 }
 
-.check-box-arancione:selected .mark {
+.check-box-arancione.checked .mark {
     -fx-background-color: white;
 }
