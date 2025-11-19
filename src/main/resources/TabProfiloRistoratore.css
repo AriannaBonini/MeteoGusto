@@ -33,7 +33,7 @@
 }
 
 /* Stile per il tab selezionato */
-.tab:selected {
+.selected-tab {
     -fx-background-color: white;
     -fx-border-color: #e97627;
     -fx-border-width: 2px;
@@ -52,15 +52,17 @@
 }
 
 /* Testo del tab selezionato - ARANCIONE */
-.tab:selected .tab-label {
+.selected-tab .tab-label {
     -fx-text-fill: #e97627;
 }
 
+
 /* Rimuove la focus border */
-.tab:focused {
+.focused-tab {
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
+
 
 /* CONTENUTO DEL TAB con bordo ARANCIONE */
 .tab-content-area {

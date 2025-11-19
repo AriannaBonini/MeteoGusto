@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -23,7 +22,7 @@ public class BoundaryMeteoMockAPI {
 
     private BoundaryMeteoMockAPI() {}
 
-    public static MeteoBean getMeteoDaMockAPI() throws IOException {
+    public static MeteoBean getMeteoDaMockAPI() throws IOException, JSONException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/meteo"))
@@ -46,10 +45,7 @@ public class BoundaryMeteoMockAPI {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             logger.error("Thread interrotto durante la chiamata alla Mock API", e);
-            throw new InterruptedIOException("Thread interrotto durante la chiamata alla Mock API");
-        } catch (IOException | JSONException e) {
-            logger.error("Errore generico nella chiamata alla Mock API: {}", e.getMessage(), e);
-            throw new IOException("Errore nella chiamata alla Mock API", e);
+            throw new IOException("Thread interrotto durante la chiamata alla Mock API");
         }
     }
 }
