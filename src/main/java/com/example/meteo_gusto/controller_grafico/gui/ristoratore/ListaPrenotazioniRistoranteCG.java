@@ -207,5 +207,5 @@ public class ListaPrenotazioniRistoranteCG {
 
     }
 
-    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
+    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 }

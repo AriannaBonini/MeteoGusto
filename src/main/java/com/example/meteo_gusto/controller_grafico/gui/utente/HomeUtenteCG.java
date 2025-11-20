@@ -91,8 +91,8 @@ public class HomeUtenteCG {
         SupportoGUIPaginaIniziale.nascondiNodi(titolo, sottotitolo, carosello, suggerimento);
 
         SupportoGUIPaginaIniziale.fadeInNode(titolo, 2, 0);
-        SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 2.2);
-        SupportoGUIPaginaIniziale.fadeInNode(suggerimento, 2, 4.4);
+        SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 1.0);
+        SupportoGUIPaginaIniziale.fadeInNode(suggerimento, 2, 2.0);
         SupportoGUIPaginaIniziale.effettoLucine(suggerimento, 40, 150);
 
         SupportoGUIPaginaIniziale.effettoLucine(titolo, 40, 150);
@@ -143,11 +143,11 @@ public class HomeUtenteCG {
             FadeTransition fadeCarosello = new FadeTransition(Duration.seconds(2), carosello);
             fadeCarosello.setFromValue(0.0);
             fadeCarosello.setToValue(1.0);
-            fadeCarosello.setDelay(Duration.seconds(5.0));
+            fadeCarosello.setDelay(Duration.seconds(2.5));
             fadeCarosello.play();
 
             fadeCarosello.setOnFinished(e -> {
-                double durataSecondi = 3.5;
+                double durataSecondi = 1.5;
                 SupportoGUIPaginaIniziale.animaSuggerimenti(
                         durataSecondi,
                         boxPopolati.toArray(new VBox[0])

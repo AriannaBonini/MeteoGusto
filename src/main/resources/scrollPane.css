@@ -46,11 +46,10 @@
 
 /* ScrollPane trasparente */
 .scroll-pane {
-    -fx-background-color: transparent;
-    -fx-background: transparent;
+    -fx-background-color: #ffffff;
 }
 .scroll-pane .viewport {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffffff;
 }
 
 /* Nasconde la scrollbar orizzontale */

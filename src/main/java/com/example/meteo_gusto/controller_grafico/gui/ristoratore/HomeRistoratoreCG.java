@@ -58,24 +58,24 @@ public class HomeRistoratoreCG {
         SupportoGUIPaginaIniziale.fadeInNode(titolo, 2, 0);
         SupportoGUIPaginaIniziale.effettoLucine(titolo, 40, 150);
 
-        SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 2.2);
+        SupportoGUIPaginaIniziale.fadeInNode(sottotitolo, 2, 1.0);
         SupportoGUIPaginaIniziale.effettoLucine(sottotitolo, 40, 150);
 
-        SupportoGUIPaginaIniziale.fadeInNode(suggerimento,2,4.4);
+        SupportoGUIPaginaIniziale.fadeInNode(suggerimento,2,2.0);
         SupportoGUIPaginaIniziale.effettoLucine(suggerimento,40,150);
 
         FadeTransition fadeCarosello;
         fadeCarosello = new FadeTransition(Duration.seconds(2), carosello);
         fadeCarosello.setFromValue(0.0);
         fadeCarosello.setToValue(1.0);
-        fadeCarosello.setDelay(Duration.seconds(5.0));
+        fadeCarosello.setDelay(Duration.seconds(2.5));
         fadeCarosello.play();
 
         SupportoGUIPaginaIniziale.effettoLucine(stackPane, 40, 150);
         SupportoGUIPaginaIniziale.suggerimentiOpachi(vBox1, vBox2, vBox3, vBox4);
 
         fadeCarosello.setOnFinished(e -> {
-            double durataSecondi = 3.5;
+            double durataSecondi = 1.5;
             SupportoGUIPaginaIniziale.animaSuggerimenti(durataSecondi, vBox1, vBox2, vBox3, vBox4);
         });
     }
@@ -103,7 +103,7 @@ public class HomeRistoratoreCG {
     public void clickCalendario(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniRistorante.fxml",evento);}
 
     @FXML
-    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
+    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 
 
 }

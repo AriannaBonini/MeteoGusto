@@ -16,49 +16,9 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.gui.ristoratore.ListaPrenotazioniRistoranteCG">
-   <ImageView fitHeight="702.0" fitWidth="518.0" layoutX="735.0" opacity="0.4" pickOnBounds="true">
-      <image>
-         <Image url="@Foto/SfondoMeteoGusto.png" />
-      </image>
-   </ImageView>
-    
-    <!-- Immagini varie -->
-    <ImageView fx:id="meteogustoRemovebgPreview1" fitHeight="137.0" fitWidth="180.0" layoutX="11.0" layoutY="31.0" preserveRatio="true">
-      <image>
-         <Image url="@Foto/LogoMeteoGusto.png" />
-      </image></ImageView>
-    <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
-      <image>
-         <Image url="@Foto/iconaEsciNonSelezionata.png" />
-      </image></ImageView>
-    <ImageView fx:id="menu" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="315.0" onMouseClicked="#clickMenu">
-      <image>
-         <Image url="@Foto/IconaMenuNonSelezionata.png" />
-      </image></ImageView>
-    <ImageView fx:id="calendario" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
-      <image>
-         <Image url="@Foto/IconaListaPrenotazioniRistoranteSelezionata.png" />
-      </image></ImageView>
-    <ImageView fx:id="home" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickHome">
-      <image>
-         <Image url="@Foto/HomeNonSelezionata.png" />
-      </image></ImageView>
-   <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
-   <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
-   <Label alignment="CENTER" layoutX="199.0" layoutY="24.0" prefHeight="58.0" prefWidth="510.0" text="Il mio calendario" textFill="#e97627">
-      <font>
-         <Font size="40.0" />
-      </font>
-   </Label>
-   <Label fx:id="infoErrore" alignment="CENTER" layoutX="269.0" layoutY="509.0" prefHeight="27.0" prefWidth="869.0" textFill="#000000">
-      <font>
-         <Font size="18.0" />
-      </font>
-   </Label>
-   <Line endY="702.0" layoutX="729.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
-   <ScrollPane layoutX="204.0" layoutY="115.0" prefHeight="546.0" prefWidth="516.0">
+   <ScrollPane layoutX="204.0" layoutY="115.0" prefHeight="546.0" prefWidth="519.0" style="-fx-background-color: transparent transparent;">
       <content>
-         <VBox fx:id="vBoxListaPrenotazioni" prefHeight="554.0" prefWidth="483.0" spacing="15.0">
+         <VBox fx:id="vBoxListaPrenotazioni" prefHeight="554.0" prefWidth="474.0" spacing="15.0" style="-fx-background-color: transparent;">
             <children>
                <VBox fx:id="vBoxPrenotazione" prefHeight="148.0" prefWidth="459.0" spacing="5.0" style="-fx-border-color: rgba(0, 0, 0, 0.26); -fx-background-color: #ffffff; -fx-border-radius: 20px;">
                   <children>
@@ -145,7 +105,47 @@
          </VBox>
       </content>
    </ScrollPane>
-   <AnchorPane fx:id="dettagliPrenotazionePane" layoutX="715.0" layoutY="5.0" prefHeight="690.0" prefWidth="515.0">
+   <ImageView fitHeight="702.0" fitWidth="518.0" layoutX="735.0" opacity="0.4" pickOnBounds="true">
+      <image>
+         <Image url="@Foto/SfondoMeteoGusto.png" />
+      </image>
+   </ImageView>
+    
+    <!-- Immagini varie -->
+    <ImageView fx:id="meteogustoRemovebgPreview1" fitHeight="137.0" fitWidth="180.0" layoutX="11.0" layoutY="31.0" preserveRatio="true">
+      <image>
+         <Image url="@Foto/LogoMeteoGusto.png" />
+      </image></ImageView>
+    <ImageView fx:id="esci" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="557.0" onMouseClicked="#clickEsci">
+      <image>
+         <Image url="@Foto/iconaEsciNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="menu" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="315.0" onMouseClicked="#clickMenu">
+      <image>
+         <Image url="@Foto/IconaMenuNonSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="calendario" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="194.0">
+      <image>
+         <Image url="@Foto/IconaListaPrenotazioniRistoranteSelezionata.png" />
+      </image></ImageView>
+    <ImageView fx:id="home" fitHeight="100.0" fitWidth="100.0" layoutX="45.0" layoutY="436.0" onMouseClicked="#clickHome">
+      <image>
+         <Image url="@Foto/HomeNonSelezionata.png" />
+      </image></ImageView>
+   <Line endY="702.0" layoutX="197.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <Label alignment="CENTER" layoutX="199.0" layoutY="24.0" prefHeight="58.0" prefWidth="510.0" text="Il mio calendario" textFill="#e97627">
+      <font>
+         <Font size="40.0" />
+      </font>
+   </Label>
+   <Label fx:id="infoErrore" alignment="CENTER" layoutX="269.0" layoutY="509.0" prefHeight="27.0" prefWidth="869.0" textFill="#000000">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Line endY="702.0" layoutX="729.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
+   <AnchorPane fx:id="dettagliPrenotazionePane" layoutX="729.0" layoutY="5.0" prefHeight="690.0" prefWidth="519.0">
       <children>
          <Label alignment="CENTER" layoutX="13.0" layoutY="91.0" prefHeight="58.0" prefWidth="519.0" text="Dettagli Prenotazione" textAlignment="CENTER" textFill="#e97627">
             <font>

@@ -157,7 +157,7 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickMenu(){GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","La sezione per la creazione nel menù non è al momento disponibile");}
+    public void clickMenu(){GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 
     @FXML
     public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
