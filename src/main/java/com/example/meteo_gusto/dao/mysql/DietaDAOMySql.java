@@ -48,21 +48,18 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
         }
 
         Set<TipoDieta> dieteValide = new HashSet<>();
-        TipoDieta[] dieteArray = ristorante.getTipoDieta().toArray(new TipoDieta[0]);
-        String placeholders = String.join(",", Collections.nCopies(dieteArray.length, "?"));
-        String query = String.format(CONTROLLA_DIETE_RISTORANTE, placeholders);
 
         try (Connection conn = new GestoreConnessioneDB().creaConnessione();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+             PreparedStatement ps = conn.prepareStatement(CONTROLLA_DIETE_RISTORANTE)) {
 
             ps.setString(1, ristorante.getPartitaIVA());
-            for (int i = 0; i < dieteArray.length; i++) {
-                ps.setString(i + 2, dieteArray[i].toString());
-            }
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    dieteValide.add(TipoDieta.tipoDietaDaId(rs.getString("dieta")));
+            for (TipoDieta dieta : ristorante.getTipoDieta()) {
+                ps.setString(2, dieta.name());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        dieteValide.add(dieta);
+                    }
                 }
             }
 
@@ -76,5 +73,6 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
         ristoranteValido.setTipoDieta(dieteValide);
         return ristoranteValido;
     }
+
 
 }

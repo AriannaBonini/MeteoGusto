@@ -12,10 +12,10 @@ public class QuerySQLDietaDAO {
             "VALUES (?, ?)";
 
     protected static final String CONTROLLA_DIETE_RISTORANTE =
-            "SELECT DISTINCT " + DIETA + " " +
-                    "FROM " + TABELLA_DIETA + " " +
-                    "WHERE " + RISTORANTE + " = ? " +
-                    "AND " + DIETA + " IN (%s)";
+            "SELECT DISTINCT " + DIETA +
+                    " FROM " + TABELLA_DIETA +
+                    " WHERE " + RISTORANTE + " = ? AND " + DIETA + " = ?";
+
 
 
 }

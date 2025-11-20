@@ -1,95 +1,62 @@
-/* ================================================
-   SCROLLPANE STILE PERSONALIZZATO
-   ================================================ */
-
-/* Sfondo completamente trasparente per lo ScrollPane */
-.scroll-pane {
+/* Scrollbar verticale */
+.scroll-pane .scroll-bar:vertical {
     -fx-background-color: transparent;
+    -fx-pref-width: 25px;                /* larghezza barra */
     -fx-border-color: transparent;
-    -fx-border-width: 0;
 }
 
-/* Rende trasparente anche la viewport (contenuto interno) */
+/* Track arancione */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;       /* arancione */
+    -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
+    -fx-border-color: transparent;
+    -fx-padding: 30 0 30 0;
+}
+
+/* Thumb arancione più corto */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #e97627;       /* arancione */
+    -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
+    -fx-border-color: transparent;
+    -fx-pref-height: 40px;               /* accorcia la barra di scorrimento */
+}
+
+/* Pulsanti su e giù quadrati */
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #e97627;       /* quadrati arancioni */
+    -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
+    -fx-border-color: transparent;
+    -fx-pref-height: 20px;
+    -fx-pref-width: 25px;                /* larghi quanto la barra */
+    -fx-alignment: center;
+    -fx-max-width: 25px;
+    -fx-min-width: 25px;
+}
+
+/* Frecce bianche di default */
+.scroll-pane .scroll-bar:vertical .increment-arrow,
+.scroll-pane .scroll-bar:vertical .decrement-arrow {
+    -fx-mark-color: white;               /* colore delle frecce */
+    -fx-background-color: white;
+    -fx-scale-x: 2.5;            /* ingrandisce in larghezza */
+    -fx-scale-y: 1.0;            /* ingrandisce in altezza */
+    -fx-padding: 2;
+}
+
+/* ScrollPane trasparente */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
-/* Nasconde il corner (l’angolino grigio in basso a destra) */
-.scroll-pane > .corner {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
+/* Nasconde la scrollbar orizzontale */
+.scroll-pane .scroll-bar:horizontal {
     -fx-opacity: 0;
-}
-
-/* ================================================
-   SCROLLBAR ORIZZONTALE — NASCOSTA COMPLETAMENTE
-   ================================================ */
-.hide-horizontal-scroll,
-.hide-horizontal-scroll .track,
-.hide-horizontal-scroll .thumb,
-.hide-horizontal-scroll .increment-button,
-.hide-horizontal-scroll .decrement-button {
-    -fx-opacity: 0;
-    -fx-background-color: transparent;
-    -fx-pref-height: 0;
     -fx-max-height: 0;
+    -fx-pref-height: 0;
     -fx-min-height: 0;
-}
-
-
-/* ================================================
-   SCROLLBAR VERTICALE — PERSONALIZZATA
-   ================================================ */
-
-/* Scrollbar verticale trasparente */
-.vertical-scroll,
-.vertical-scroll .track,
-.vertical-scroll .thumb,
-.vertical-scroll .increment-button,
-.vertical-scroll .decrement-button,
-.vertical-scroll .increment-arrow,
-.vertical-scroll .decrement-arrow {
-    /* valori di base */
-}
-
-/* Scroll-bar trasparente */
-.vertical-scroll {
-    -fx-background-color: transparent;
-}
-
-/* Track (traccia) trasparente */
-.vertical-scroll .track {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-/* Thumb (parte mobile arancione) */
-.vertical-scroll .thumb {
-    -fx-background-color: #E97627;
-    -fx-background-radius: 5px;
-}
-
-/* Pulsanti su e giù */
-.vertical-scroll .increment-button,
-.vertical-scroll .decrement-button {
-    -fx-background-color: transparent;
-    -fx-padding: 8px;
-}
-
-/* Freccine */
-.vertical-scroll .increment-arrow,
-.vertical-scroll .decrement-arrow {
-    -fx-background-color: #E97627;
-    -fx-shape: "M 0 0 L 6 10 L 12 0 Z";
-    -fx-scale-x: 2.0;
-    -fx-scale-y: 2.0;
-}
-
-/* Rotazione freccine */
-.vertical-scroll .increment-arrow {
-    -fx-rotate: 0;
-}
-
-.vertical-scroll .decrement-arrow {
-    -fx-rotate: 180;
 }

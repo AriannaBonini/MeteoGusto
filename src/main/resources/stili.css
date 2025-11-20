@@ -1,17 +1,18 @@
+/* Box non selezionato */
 .check-box-arancione .box {
-    -fx-background-color: white;
-    -fx-border-color: #e97627;
+    -fx-background-color: white;       /* sfondo bianco */
+    -fx-border-color: #e97627;         /* bordo arancione */
     -fx-border-width: 2px;
     -fx-border-radius: 3px;
 }
 
-.check-box-arancione.checked .box {
-    -fx-background-color: #e97627;
-    -fx-border-color: #e97627;
-    -fx-border-width: 2px;
-    -fx-border-radius: 3px;
+/* Box selezionato */
+.check-box-arancione:selected .box {
+    -fx-background-color: white;       /* resta bianco */
+    -fx-border-color: #e97627;         /* bordo arancione */
 }
 
-.check-box-arancione.checked .mark {
-    -fx-background-color: white;
+/* Spunta arancione */
+.check-box-arancione:selected .mark {
+    -fx-mark-color: #e97627;           /* colore della spunta ✓ */
 }
