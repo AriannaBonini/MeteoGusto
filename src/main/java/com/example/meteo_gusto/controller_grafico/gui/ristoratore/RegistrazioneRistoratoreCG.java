@@ -6,6 +6,7 @@ import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.*;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoCheckBoxCss;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -128,6 +129,15 @@ public class RegistrazioneRistoratoreCG {
         campoCopertiEsterniCoperti.setDisable(true);
         checkBoxRaffreddamento.setDisable(true);
         checkBoxRiscaldamento.setDisable(true);
+
+
+        List<CheckBox> checkBoxes = List.of(
+                checkBoxHalal, checkBoxKosher, checkBoxVegano, checkBoxVegetariano,
+                checkBoxPescetariano, checkBoxCeliaco, checkBoxSenzaLattosio, checkBoxMaggiorenne, checkBoxTerminiPrivacy,
+                checkBoxLun, checkBoxMar, checkBoxMer, checkBoxGio, checkBoxVen, checkBoxSab, checkBoxDom, checkBoxEsterno, checkBoxEsternoCoperto, checkBoxInterno,
+                checkBoxRiscaldamento, checkBoxRaffreddamento, checkBoxPranzo, checkBoxCena
+        );
+        SupportoCheckBoxCss.inizializzaCheckBoxMultipli(checkBoxes);
 
 
         checkBoxInterno.selectedProperty().addListener((observable, oldValue, newValue) -> campoCopertiInterni.setDisable(!newValue));

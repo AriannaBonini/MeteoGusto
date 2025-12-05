@@ -1,3 +1,5 @@
+package test;
+
 import com.example.meteo_gusto.bean.*;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.dao.PersonaDAO;

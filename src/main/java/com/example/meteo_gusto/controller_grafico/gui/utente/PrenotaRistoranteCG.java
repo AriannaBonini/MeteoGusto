@@ -13,10 +13,7 @@ import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
-import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUISchedaRistorante;
-import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.supporto_gui.SupportoNotificheGUI;
-import com.example.meteo_gusto.utilities.supporto_gui.SupportoScrollPaneCss;
+import com.example.meteo_gusto.utilities.supporto_gui.*;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -147,6 +144,9 @@ public class PrenotaRistoranteCG {
         );
 
         checkBoxes.forEach(cb -> cb.selectedProperty().addListener(listenerFiltra));
+
+        SupportoCheckBoxCss.inizializzaCheckBoxMultipli(checkBoxes);
+
         popolaNotifiche();
 
     }

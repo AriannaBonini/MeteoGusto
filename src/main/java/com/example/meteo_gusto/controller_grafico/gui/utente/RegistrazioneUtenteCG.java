@@ -6,6 +6,7 @@ import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoCheckBoxCss;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class RegistrazioneUtenteCG {
     @FXML
@@ -38,6 +41,9 @@ public class RegistrazioneUtenteCG {
     RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneUtenteCG.class.getName());
 
+    public void initialize() {
+        SupportoCheckBoxCss.inizializzaCheckBoxMultipli(List.of(checkBoxMaggiorenne,checkBoxTerminiPrivacy));
+    }
 
     @FXML
     private void clickRegistrati(ActionEvent evento) {

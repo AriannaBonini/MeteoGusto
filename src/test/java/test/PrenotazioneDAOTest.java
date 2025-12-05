@@ -1,4 +1,4 @@
-
+package test;
 
 import com.example.meteo_gusto.dao.PersonaDAO;
 import com.example.meteo_gusto.dao.PrenotazioneDAO;

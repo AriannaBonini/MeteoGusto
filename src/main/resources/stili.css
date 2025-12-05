@@ -1,4 +1,4 @@
-/* Box non selezionato */
+/* Box (stato generale) */
 .check-box-arancione .box {
     -fx-background-color: white;       /* sfondo bianco */
     -fx-border-color: #e97627;         /* bordo arancione */
@@ -6,13 +6,7 @@
     -fx-border-radius: 3px;
 }
 
-/* Box selezionato */
-.check-box-arancione:selected .box {
-    -fx-background-color: white;       /* resta bianco */
-    -fx-border-color: #e97627;         /* bordo arancione */
-}
-
-/* Spunta arancione */
-.check-box-arancione:selected .mark {
+/* Spunta arancione (visibile solo quando il CheckBox è selezionato) */
+.check-box-arancione .mark {
     -fx-mark-color: #e97627;           /* colore della spunta ✓ */
 }
