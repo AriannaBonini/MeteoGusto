@@ -119,8 +119,14 @@ public class RiepilogoPrenotazioneCG {
 
     public void clickConfermaPrenotazione(ActionEvent evento)  {
         try {
+            String ambienteScelto= comboBoxAmbiente.getValue();
+            if(ambienteScelto==null || ambienteScelto.isEmpty()) {
+                GestoreScena.mostraAlertSenzaConferma("Attenzione", "Per procedere con la prenotazione, selezionare un tavolo.");
+                return;
+            }
+
             AmbienteBean ambienteBean= new AmbienteBean();
-            ambienteBean.setAmbiente(TipoAmbiente.tipoAmbienteDaId(comboBoxAmbiente.getValue()));
+            ambienteBean.setAmbiente(TipoAmbiente.tipoAmbienteDaId(ambienteScelto));
 
 
             ambienteBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
@@ -138,10 +144,6 @@ public class RiepilogoPrenotazioneCG {
             logger.error("Errore durante l'inserimento della prenotazione : ", e);
         }
     }
-
-
-
-
 
 
 }

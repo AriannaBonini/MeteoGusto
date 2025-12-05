@@ -1,12 +1,12 @@
 /* Scrollbar verticale */
-.scroll-pane .scroll-bar:vertical {
+.scroll-pane .scroll-bar-vertical {
     -fx-background-color: transparent;
     -fx-pref-width: 25px;                /* larghezza barra */
     -fx-border-color: transparent;
 }
 
 /* Track arancione */
-.scroll-pane .scroll-bar:vertical .track {
+.scroll-pane .scroll-bar-vertical .track {
     -fx-background-color: transparent;       /* arancione */
     -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
     -fx-border-color: transparent;
@@ -14,7 +14,7 @@
 }
 
 /* Thumb arancione più corto */
-.scroll-pane .scroll-bar:vertical .thumb {
+.scroll-pane .scroll-bar-vertical .thumb {
     -fx-background-color: #e97627;       /* arancione */
     -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
     -fx-border-color: transparent;
@@ -22,8 +22,8 @@
 }
 
 /* Pulsanti su e giù quadrati */
-.scroll-pane .scroll-bar:vertical .increment-button,
-.scroll-pane .scroll-bar:vertical .decrement-button {
+.scroll-pane .scroll-bar-vertical .increment-button,
+.scroll-pane .scroll-bar-vertical .decrement-button {
     -fx-background-color: #e97627;       /* quadrati arancioni */
     -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
     -fx-border-color: transparent;
@@ -35,8 +35,8 @@
 }
 
 /* Frecce bianche di default */
-.scroll-pane .scroll-bar:vertical .increment-arrow,
-.scroll-pane .scroll-bar:vertical .decrement-arrow {
+.scroll-pane .scroll-bar-vertical .increment-arrow,
+.scroll-pane .scroll-bar-vertical .decrement-arrow {
     -fx-mark-color: white;               /* colore delle frecce */
     -fx-background-color: white;
     -fx-scale-x: 2.5;            /* ingrandisce in larghezza */
@@ -53,7 +53,7 @@
 }
 
 /* Nasconde la scrollbar orizzontale */
-.scroll-pane .scroll-bar:horizontal {
+.scroll-pane .scroll-bar-horizontal {
     -fx-opacity: 0;
     -fx-max-height: 0;
     -fx-pref-height: 0;

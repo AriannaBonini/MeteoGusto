@@ -237,7 +237,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
     }
 
     @Override
-    public Prenotazione contaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public Prenotazione contaNotificheAttiveRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
         Prenotazione prenotazione = new Prenotazione();
 
         if (ambienti == null || ambienti.isEmpty()) {
@@ -306,10 +306,6 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
         String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
         return SEGNA_NOTIFICHE_RISTORATORE_COME_LETTE + placeholders + ")";
     }
-
-
-
-
 
 
 }

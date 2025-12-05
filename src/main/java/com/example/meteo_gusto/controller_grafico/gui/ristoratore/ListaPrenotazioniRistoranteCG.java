@@ -6,18 +6,23 @@ import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUIListaPrenotazioni;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUIListaPrenotazioni;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoScrollPaneCss;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
@@ -71,6 +76,10 @@ public class ListaPrenotazioniRistoranteCG {
     private Label titoloPrenotante;
     @FXML
     private Label titoloOra;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Label informazione;
 
 
     PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
@@ -81,6 +90,7 @@ public class ListaPrenotazioniRistoranteCG {
 
     public void initialize() {
         dettagliPrenotazionePane.setVisible(false);
+        SupportoScrollPaneCss.inizializzaScrollPane(scrollPane);
 
         noticheVisualizzate();
         popolaListaPrenotazioni();
@@ -100,8 +110,24 @@ public class ListaPrenotazioniRistoranteCG {
     private void popolaListaPrenotazioni() {
         try {
             listaPrenotazioniRistorante = prenotaRistoranteController.prenotazioniRistoratore();
-            if(listaPrenotazioniRistorante==null) {
-                GestoreScena.mostraAlertSenzaConferma("Informazione", "Non ci sono prenotazioni attive");
+            if(listaPrenotazioniRistorante==null || listaPrenotazioniRistorante.isEmpty()) {
+                scrollPane.setVisible(false);
+                informazione.setText("Non hai prenotazioni attive");
+
+
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished(event ->
+                        Platform.runLater(() ->
+                                GestoreScena.mostraAlertSenzaConferma(
+                                        "Informazione",
+                                        "Non ci sono prenotazioni attive"
+                                )
+                        )
+                );
+                delay.play();
+
+
+
                 return;
             }
 

@@ -7,16 +7,21 @@ import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUIListaPrenotazioni;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUIListaPrenotazioni;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoScrollPaneCss;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +78,10 @@ public class ListaPrenotazioniUtenteCG {
     private Button bottoneDettagli;
     @FXML
     private AnchorPane dettagliPrenotazionePane;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Label informazione;
 
 
 
@@ -84,6 +93,7 @@ public class ListaPrenotazioniUtenteCG {
 
     public void initialize(){
         dettagliPrenotazionePane.setVisible(false);
+        SupportoScrollPaneCss.inizializzaScrollPane(scrollPane);
 
         noticheVisualizzate();
         popolaListaPrenotazioni();
@@ -101,8 +111,22 @@ public class ListaPrenotazioniUtenteCG {
     private void popolaListaPrenotazioni() {
         try {
             listaPrenotazioniUtente = prenotaRistoranteController.prenotazioniUtente();
-            if(listaPrenotazioniUtente==null) {
-                GestoreScena.mostraAlertSenzaConferma("Informazione", "Non ci sono prenotazioni attive");
+            if(listaPrenotazioniUtente==null || listaPrenotazioniUtente.getPrenotazioniAttive()==null || listaPrenotazioniUtente.getPrenotazioniAttive().isEmpty()) {
+
+                informazione.setText("Non hai prenotazioni attive");
+                scrollPane.setVisible(false);
+
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished(event ->
+                        Platform.runLater(() ->
+                                GestoreScena.mostraAlertSenzaConferma(
+                                        "Informazione",
+                                        "Non ci sono prenotazioni attive"
+                                )
+                        )
+                );
+                delay.play();
+
                 return;
             }
             popolaVBox();

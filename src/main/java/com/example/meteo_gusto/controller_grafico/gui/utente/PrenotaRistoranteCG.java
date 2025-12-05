@@ -13,9 +13,10 @@ import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoComponentiGUISchedaRistorante;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUISchedaRistorante;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoScrollPaneCss;
 import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -102,6 +103,8 @@ public class PrenotaRistoranteCG {
     private HBox boxMeteo;
     @FXML
     private Label notifichePrenotazione;
+    @FXML
+    private ScrollPane scrollPane;
 
 
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCG.class.getName());
@@ -113,6 +116,8 @@ public class PrenotaRistoranteCG {
     public void initialize() {
         filtroFasciaPrezzo.getItems().setAll(FasciaPrezzoRistorante.values());
         filtra.setDisable(true);
+
+        SupportoScrollPaneCss.inizializzaScrollPane(scrollPane);
 
         ChangeListener<Object> listenerCerca = (obs, o, n) -> {
             boolean abilitato =
@@ -221,7 +226,8 @@ public class PrenotaRistoranteCG {
 
             if (listaRistorantiPrenotabili == null || listaRistorantiPrenotabili.isEmpty()) {
                 GestoreScena.mostraAlertSenzaConferma(
-                        "Nessun ristorante disponibile", "Prova a modificare i criteri di ricerca o i filtri applicati.");
+                        "Nessun ristorante disponibile", "Prova a modificare uno o più dati della prenotazione : \n   (data, ora, città, numero di persone)"
+                );
                 popolaHBox();
                 return;
             }

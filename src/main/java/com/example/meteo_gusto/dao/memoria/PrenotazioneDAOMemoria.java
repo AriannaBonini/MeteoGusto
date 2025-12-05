@@ -180,7 +180,7 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
 
     @Override
-    public Prenotazione contaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public Prenotazione contaNotificheAttiveRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
         try {
             Prenotazione risultato = new Prenotazione();
 

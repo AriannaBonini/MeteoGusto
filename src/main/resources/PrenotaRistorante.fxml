@@ -199,7 +199,7 @@
          </ImageView>
       </children>
    </HBox>
-   <ScrollPane layoutX="218.0" layoutY="226.0" prefHeight="411.0" prefWidth="713.0" style="-fx-background-color: transparent;">
+   <ScrollPane fx:id="scrollPane" layoutX="218.0" layoutY="226.0" prefHeight="411.0" prefWidth="713.0" style="-fx-background-color: transparent;">
       <content>
          <VBox fx:id="vBoxRistoranti" alignment="TOP_CENTER" prefHeight="438.0" prefWidth="686.0" spacing="20.0" style="-fx-background-color: white;">
             <children>

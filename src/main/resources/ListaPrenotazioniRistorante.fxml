@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="areapersonaleutente" prefHeight="702.0" prefWidth="1252.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meteo_gusto.controller_grafico.gui.ristoratore.ListaPrenotazioniRistoranteCG">
-   <ScrollPane layoutX="204.0" layoutY="115.0" prefHeight="546.0" prefWidth="519.0" style="-fx-background-color: transparent transparent;">
+   <ScrollPane fx:id="scrollPane" layoutX="204.0" layoutY="115.0" prefHeight="546.0" prefWidth="519.0" style="-fx-background-color: transparent transparent;">
       <content>
          <VBox fx:id="vBoxListaPrenotazioni" prefHeight="554.0" prefWidth="474.0" spacing="15.0" style="-fx-background-color: transparent;">
             <children>
@@ -32,7 +32,7 @@
                                  <Insets left="20.0" top="5.0" />
                               </padding>
                            </Label>
-                           <Label fx:id="nomePrenotante" prefHeight="42.0" prefWidth="279.0" text="Giada@mail.com" wrapText="true">
+                           <Label fx:id="nomePrenotante" prefHeight="42.0" prefWidth="279.0" wrapText="true">
                               <font>
                                  <Font size="23.0" />
                               </font>
@@ -52,7 +52,7 @@
                                  <Insets left="20.0" top="5.0" />
                               </padding>
                            </Label>
-                           <Label fx:id="dataPrenotazione" prefHeight="41.0" prefWidth="205.0" text="12/07/2026" wrapText="true">
+                           <Label fx:id="dataPrenotazione" prefHeight="41.0" prefWidth="205.0" wrapText="true">
                               <font>
                                  <Font size="23.0" />
                               </font>
@@ -72,7 +72,7 @@
                                  <Insets left="20.0" top="5.0" />
                               </padding>
                            </Label>
-                           <Label fx:id="oraPrenotazione" prefHeight="42.0" prefWidth="157.0" text="21:00" wrapText="true">
+                           <Label fx:id="oraPrenotazione" prefHeight="42.0" prefWidth="157.0" wrapText="true">
                               <font>
                                  <Font size="23.0" />
                               </font>
@@ -139,7 +139,7 @@
          <Font size="40.0" />
       </font>
    </Label>
-   <Label fx:id="infoErrore" alignment="CENTER" layoutX="269.0" layoutY="509.0" prefHeight="27.0" prefWidth="869.0" textFill="#000000">
+   <Label fx:id="informazione" alignment="CENTER" layoutX="210.0" layoutY="100.0" prefHeight="27.0" prefWidth="448.0" textFill="#00000094">
       <font>
          <Font size="18.0" />
       </font>

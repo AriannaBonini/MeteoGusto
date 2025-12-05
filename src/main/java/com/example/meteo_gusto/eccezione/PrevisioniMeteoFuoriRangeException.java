@@ -5,12 +5,8 @@ package com.example.meteo_gusto.eccezione;
  * non rientra nel range massimo consentito per le previsioni meteo.
  */
 public class PrevisioniMeteoFuoriRangeException extends Exception {
-
     public PrevisioniMeteoFuoriRangeException(String message) {
         super(message);
     }
 
-    public PrevisioniMeteoFuoriRangeException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

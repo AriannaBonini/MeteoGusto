@@ -1,4 +1,4 @@
-package com.example.meteo_gusto.utilities.supporto_componenti_gui;
+package com.example.meteo_gusto.utilities.supporto_gui;
 
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.controller_grafico.gui.utente.PrenotaRistoranteFormInizialeCG;

@@ -220,7 +220,7 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
 
 
     @Override
-    public Prenotazione contaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public Prenotazione contaNotificheAttiveRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
         Prenotazione prenotazione = new Prenotazione();
 
         if (ambienti == null || ambienti.isEmpty()) {

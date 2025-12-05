@@ -74,7 +74,7 @@ public class ListaPrenotazioniRistoratoreCliCG implements InterfacciaCLI {
     private void popolaLista() {
         try {
             listaPrenotazioniRistorante = prenotaRistoranteController.prenotazioniRistoratore();
-            if (listaPrenotazioniRistorante == null) {
+            if (listaPrenotazioniRistorante == null || listaPrenotazioniRistorante.isEmpty()) {
                 GestoreOutput.mostraAvvertenza("Informazione", "Non ci sono prenotazioni attive");
                 return;
             }

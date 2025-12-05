@@ -450,7 +450,7 @@ public class PrenotaRistoranteController {
 
         try {
             if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazione=prenotazioneDAO.contaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+                prenotazione=prenotazioneDAO.contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
             }else {
                 prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
             }

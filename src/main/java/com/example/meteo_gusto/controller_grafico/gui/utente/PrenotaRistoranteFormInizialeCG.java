@@ -5,8 +5,8 @@ import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoGUILogout;
-import com.example.meteo_gusto.utilities.supporto_componenti_gui.SupportoNotificheGUI;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
+import com.example.meteo_gusto.utilities.supporto_gui.SupportoNotificheGUI;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -98,7 +98,7 @@ public class PrenotaRistoranteFormInizialeCG {
         }catch (NumberFormatException e) {
             mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
         }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel("Dati inseriti non validi");
+            mostraErroreTemporaneamenteNellaLabel("Dati mancanti o non validi");
             logger.error("Errore di validazione dei dati inseriti", e );
         }
     }

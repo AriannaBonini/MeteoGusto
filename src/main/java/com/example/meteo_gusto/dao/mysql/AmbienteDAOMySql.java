@@ -175,10 +175,4 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
         return ambienteTrovato;
     }
 
-
-
-
-
-
-
 }
