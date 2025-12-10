@@ -14,6 +14,7 @@ import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.GiorniSettimanaHelper;
 import com.example.meteo_gusto.utilities.convertitore.*;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -128,13 +129,9 @@ public class PrenotaRistoranteController {
         return FasciaOraria.CENA;
     }
 
-    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti, MeteoBean meteoBean) throws EccezioneDAO, ValidazioneException,PrevisioniMeteoFuoriRangeException {
+    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti, MeteoBean meteoBean) throws EccezioneDAO, ValidazioneException {
         if(filtriBeanInseriti==null) {
             return ConvertitoreRistorante.listaRistoranteModelInBean(ristorantiPrenotabili);
-        }
-
-        if (filtriBeanInseriti.getMeteo() && dataOltreGiorniMax(filtriBeanInseriti)) {
-            throw  new PrevisioniMeteoFuoriRangeException("La prenotazione basata sulle previsioni meteo può essere effettuata solo entro le 2 settimane dalla data odierna. Modifica la data.");
         }
 
         List<RistoranteBean> listaRistorantiFiltrati = new ArrayList<>();
@@ -143,7 +140,7 @@ public class PrenotaRistoranteController {
         for (Ristorante ristorante : ristorantiPrenotabili) {
             if (rispettaFiltri(ristorante, filtriModel)) {
 
-                List<Ambiente> ambientiCompatibili= controllaAmbientiCompatibiliMeteo(ristorante, meteoBean);
+                List<Ambiente> ambientiCompatibili = controllaAmbientiCompatibiliMeteo(ristorante, meteoBean, filtriModel.getMeteo());
 
                 if(!ambientiCompatibili.isEmpty()) {
 
@@ -161,21 +158,25 @@ public class PrenotaRistoranteController {
         return listaRistorantiFiltrati;
     }
 
-    private boolean dataOltreGiorniMax(FiltriBean filtriBean)  {
-
-        LocalDate dataPrenotazione= filtriBean.getData();
+    private void verificaDataMeteo(FiltriBean filtriBean) throws PrevisioniMeteoFuoriRangeException {
+        LocalDate dataPrenotazione = filtriBean.getData();
         LocalDate oggi = LocalDate.now();
 
         long giorniDiDifferenza = ChronoUnit.DAYS.between(oggi, dataPrenotazione);
 
-        return giorniDiDifferenza > 15;
+        if (giorniDiDifferenza > 15) {
+            throw new PrevisioniMeteoFuoriRangeException(
+                    "Previsioni meteo non disponibili: la data selezionata supera i 15 giorni"
+            );
+        }
     }
 
 
-    private List<Ambiente> controllaAmbientiCompatibiliMeteo(Ristorante ristorante, MeteoBean previsioniMeteo) throws EccezioneDAO {
 
-        if (previsioniMeteo != null) {
-            if (ambientiCompatibiliConIlMeteo.isEmpty()) {
+    private List<Ambiente> controllaAmbientiCompatibiliMeteo(Ristorante ristorante, MeteoBean previsioniMeteo, boolean meteo) throws EccezioneDAO {
+
+        if (meteo) {
+            if (previsioniMeteo!=null && ambientiCompatibiliConIlMeteo.isEmpty()) {
                 ambientiCompatibiliConIlMeteo = generaAmbientiCompatibiliDaMeteo(previsioniMeteo);
             }
 
@@ -345,15 +346,33 @@ public class PrenotaRistoranteController {
 
 
 
-    public MeteoBean previsioneMetereologiche(FiltriBean filtri) throws IOException {
+    public MeteoBean previsioneMetereologiche(FiltriBean filtri, MeteoBean meteoBean) throws IOException, PrevisioniMeteoFuoriRangeException {
         try {
-            if(filtri.getMeteo()) {
-                return BoundaryMeteoMockAPI.getMeteoDaMockAPI();
+            verificaDataMeteo(filtri);
+
+            if(meteoBean==null) {
+                MeteoBean meteo= BoundaryMeteoMockAPI.getMeteoDaMockAPI();
+                ambientiCompatibiliConIlMeteo=generaAmbientiCompatibiliDaMeteo(meteo);
+                return meteo;
             }
+            return meteoBean;
+
         } catch (IOException e) {
             throw new IOException("Errore di comunicazione con il servizio meteo: " + e.getMessage());
         }
-        return null;
+    }
+
+    public boolean meteoDaModificare(FiltriBean filtriBean, FiltriBean nuoviFiltri) {
+        if(!filtriBean.getOra().equals(nuoviFiltri.getOra())) {
+            long differenzaOre = Math.abs(Duration.between(filtriBean.getOra(), nuoviFiltri.getOra()).toHours());
+
+            if(differenzaOre >= 3) {
+                return true;
+            }
+        }
+
+        return !filtriBean.getData().equals(nuoviFiltri.getData()) || !filtriBean.getCitta().equals(nuoviFiltri.getCitta());
+
     }
 
     public PersonaBean datiUtente() {return ConvertitorePersona.personaModelInBean(Sessione.getInstance().getPersona());}

@@ -108,8 +108,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
         } catch (EccezioneDAO | ValidazioneException e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
             GestoreOutput.mostraAvvertenza("Errore ",e.getMessage());
-        }catch (PrevisioniMeteoFuoriRangeException e) {
-            GestoreOutput.mostraAvvertenza("Attenzione", e.getMessage());
         }
     }
 
@@ -145,7 +143,7 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             if (opzioneScelta(1, 2) == 1) {
                 filtriBean.setMeteo(true);
                 if (meteoBean == null) {
-                    meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean);
+                    meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean,meteoBean);
                 }
                 listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
 

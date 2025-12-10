@@ -24,7 +24,7 @@
          <Image url="@Foto/SfondoMeteoGusto.png" />
       </image>
    </ImageView>
-   <Label layoutX="974.0" layoutY="144.0" text="Cucina:">
+   <Label layoutX="974.0" layoutY="131.0" text="Cucina:">
       <font>
          <Font size="25.0" />
       </font>
@@ -55,12 +55,12 @@
    <Line endX="196.49998474121094" endY="-1.52587890625E-5" layoutY="178.0" startX="0.0" stroke="rgba(0, 0, 0, 0.26)" />
    <Line endY="702.0" layoutX="948.0" startY="0.0" stroke="rgba(0, 0, 0, 0.26)" />
    <DatePicker fx:id="campoData" layoutX="426.0" layoutY="109.0" prefHeight="46.0" prefWidth="169.0" />
-   <CheckBox fx:id="checkBoxSushi" layoutX="1109.0" layoutY="187.0" style="&#10;   " styleClass="check-box-arancione" text="Sushi ">
+   <CheckBox fx:id="checkBoxSushi" layoutX="1109.0" layoutY="174.0" style="&#10;   " styleClass="check-box-arancione" text="Sushi ">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxItaliana" layoutX="996.0" layoutY="187.0" style="&#10;   " styleClass="check-box-arancione" text="Italiana">
+   <CheckBox fx:id="checkBoxItaliana" layoutX="996.0" layoutY="174.0" style="&#10;   " styleClass="check-box-arancione" text="Italiana">
       <font>
          <Font size="15.0" />
       </font>
@@ -91,80 +91,80 @@
          <Font size="30.0" />
       </font>
    </Label>
-   <ComboBox fx:id="filtroFasciaPrezzo" layoutX="978.0" layoutY="72.0" prefHeight="46.0" prefWidth="227.0" promptText="Scegli la fascia prezzo" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;" styleClass="combo-box" />
-   <CheckBox fx:id="checkBoxGreca" layoutX="1109.0" layoutY="224.0" style="&#10;   " styleClass="check-box-arancione" text="Greca">
+   <ComboBox fx:id="filtroFasciaPrezzo" layoutX="978.0" layoutY="59.0" prefHeight="46.0" prefWidth="227.0" promptText="Scegli la fascia prezzo" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-border-color: rgba(0, 0, 0, 0.26); -fx-border-radius: 8px; -fx-border-width: 1px;" styleClass="combo-box" />
+   <CheckBox fx:id="checkBoxGreca" layoutX="1109.0" layoutY="211.0" style="&#10;   " styleClass="check-box-arancione" text="Greca">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxCinese" layoutX="996.0" layoutY="224.0" style="&#10;   " styleClass="check-box-arancione" text="Cinese ">
+   <CheckBox fx:id="checkBoxCinese" layoutX="996.0" layoutY="211.0" style="&#10;   " styleClass="check-box-arancione" text="Cinese ">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxPizza" layoutX="1109.0" layoutY="260.0" style="&#10;   " styleClass="check-box-arancione" text="Pizza">
+   <CheckBox fx:id="checkBoxPizza" layoutX="1109.0" layoutY="247.0" style="&#10;   " styleClass="check-box-arancione" text="Pizza">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxTurca" layoutX="996.0" layoutY="260.0" style="&#10;   " styleClass="check-box-arancione" text="Turca">
+   <CheckBox fx:id="checkBoxTurca" layoutX="996.0" layoutY="247.0" style="&#10;   " styleClass="check-box-arancione" text="Turca">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxFastFood" layoutX="1109.0" layoutY="297.0" style="&#10;   " styleClass="check-box-arancione" text="Fast Food">
+   <CheckBox fx:id="checkBoxFastFood" layoutX="1109.0" layoutY="284.0" style="&#10;   " styleClass="check-box-arancione" text="Fast Food">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxMessicana" layoutX="996.0" layoutY="297.0" style="&#10;   " styleClass="check-box-arancione" text="Messicana">
+   <CheckBox fx:id="checkBoxMessicana" layoutX="996.0" layoutY="284.0" style="&#10;   " styleClass="check-box-arancione" text="Messicana">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <Label layoutX="974.0" layoutY="348.0" text="Dieta: ">
+   <Label layoutX="974.0" layoutY="335.0" text="Dieta: ">
       <font>
          <Font size="25.0" />
       </font>
    </Label>
-   <CheckBox fx:id="checkBoxHalal" layoutX="1109.0" layoutY="391.0" style="&#10;   " styleClass="check-box-arancione" text="Halal">
+   <CheckBox fx:id="checkBoxHalal" layoutX="1109.0" layoutY="378.0" style="&#10;   " styleClass="check-box-arancione" text="Halal">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxKosher" layoutX="996.0" layoutY="391.0" style="&#10;   " styleClass="check-box-arancione" text="Kosher">
+   <CheckBox fx:id="checkBoxKosher" layoutX="996.0" layoutY="378.0" style="&#10;   " styleClass="check-box-arancione" text="Kosher">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxSenzaLattosio" layoutX="1109.0" layoutY="428.0" style="&#10;   " styleClass="check-box-arancione" text="Senza lattosio">
+   <CheckBox fx:id="checkBoxSenzaLattosio" layoutX="1109.0" layoutY="415.0" style="&#10;   " styleClass="check-box-arancione" text="Senza lattosio">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxVegano" layoutX="996.0" layoutY="428.0" style="&#10;   " styleClass="check-box-arancione" text="Vegano">
+   <CheckBox fx:id="checkBoxVegano" layoutX="996.0" layoutY="415.0" style="&#10;   " styleClass="check-box-arancione" text="Vegano">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxCeliaco" layoutX="1109.0" layoutY="464.0" style="&#10;   " styleClass="check-box-arancione" text="Celiaco">
+   <CheckBox fx:id="checkBoxCeliaco" layoutX="1109.0" layoutY="451.0" style="&#10;   " styleClass="check-box-arancione" text="Celiaco">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxVegetariano" layoutX="996.0" layoutY="464.0" style="&#10;   " styleClass="check-box-arancione" text="Vegetariano">
+   <CheckBox fx:id="checkBoxVegetariano" layoutX="996.0" layoutY="451.0" style="&#10;   " styleClass="check-box-arancione" text="Vegetariano">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxPescetariano" layoutX="996.0" layoutY="501.0" style="&#10;   " styleClass="check-box-arancione" text="Pescetariano">
+   <CheckBox fx:id="checkBoxPescetariano" layoutX="996.0" layoutY="488.0" style="&#10;   " styleClass="check-box-arancione" text="Pescetariano">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="checkBoxMeteo" layoutX="974.0" layoutY="561.0" prefHeight="31.0" prefWidth="260.0" style="&#10;   " styleClass="check-box-arancione" text="Solo ristoranti adatti al meteo">
+   <CheckBox fx:id="meteoAttivo" layoutX="996.0" layoutY="582.0" prefHeight="31.0" prefWidth="96.0" style="&#10;   " styleClass="check-box-arancione" text="Attivo">
       <font>
-         <Font size="17.0" />
+         <Font size="15.0" />
       </font>
    </CheckBox>
    <Label alignment="CENTER" layoutX="199.0" layoutY="24.0" prefHeight="74.0" prefWidth="747.0" text="Prenota Ristorante " textFill="#e97627">
@@ -332,6 +332,21 @@
          <Font name="System Bold" size="30.0" />
       </font>
    </Label>
+   <Label layoutX="974.0" layoutY="539.0" prefHeight="36.0" prefWidth="195.0" text="Filtro meteo : ">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <CheckBox fx:id="meteoNonAttivo" layoutX="1109.0" layoutY="582.0" prefHeight="31.0" prefWidth="123.0" style="&#10;   " styleClass="check-box-arancione" text="Non attivo">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </CheckBox>
+   <ImageView fx:id="tooltipMeteo" fitHeight="25.0" fitWidth="27.0" layoutX="1133.0" layoutY="546.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@Foto/tooltip.png" />
+      </image>
+   </ImageView>
    <stylesheets>
       <URL value="@comboBox.css" />
       <URL value="@stili.css" />
