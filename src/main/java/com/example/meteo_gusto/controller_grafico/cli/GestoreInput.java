@@ -120,7 +120,7 @@ public class GestoreInput {
 
     public static FasciaPrezzoRistorante leggiFasciaPrezzoSceltaDaInput() {
 
-        GestoreOutput.mostraGraficaMenu("Scegliere una fascia di prezzo");
+        GestoreOutput.mostraGraficaMenu("Scegliere una fascia di prezzo","Prossimo filtro");
         if(opzioneScelta(1,2)==2){
             return null;
         }

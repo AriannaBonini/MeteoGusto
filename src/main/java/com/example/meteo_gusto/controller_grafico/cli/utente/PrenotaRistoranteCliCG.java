@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
@@ -29,7 +31,7 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
 
     private FiltriBean filtriBean= new FiltriBean();
-    private MeteoBean meteoBean;
+    private MeteoBean meteoBean=null;
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCliCG.class.getName());
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
     private List<RistoranteBean> listaRistorantiPrenotabili= new ArrayList<>();
@@ -57,7 +59,9 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
                     default -> throw new ValidazioneException("Scelta non valida");
                 }
             } catch (ValidazioneException e) {
-                GestoreOutput.mostraAvvertenza("Errore ",e.getMessage());
+                GestoreOutput.mostraAvvertenza("Errore:",e.getMessage());
+            } catch (EccezioneDAO e) {
+                GestoreOutput.mostraAvvertenza("Errore",e.getMessage());
             }
         }
         GestoreScenaCLI.login();
@@ -99,22 +103,36 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
     private void popolaListaRistoranti() {
         try {
-            listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean);
 
+            if(meteoBean==null) {
+                previsioniMeteo();
+            }
 
-            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean, meteoBean);
+            listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean,meteoBean);
 
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
-        } catch (EccezioneDAO | ValidazioneException e) {
+        } catch (EccezioneDAO e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
             GestoreOutput.mostraAvvertenza("Errore ",e.getMessage());
+        } catch (IOException e) {
+            GestoreOutput.mostraAvvertenza("Errore ","Il servizio meteo non è disponibile");
+        } catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreOutput.mostraAvvertenza("Avvertenza ", e.getMessage());
         }
     }
 
+    private void previsioniMeteo() throws PrevisioniMeteoFuoriRangeException, IOException {
+        meteoBean= prenotaRistoranteController.previsioneMetereologiche(filtriBean);
+    }
+
+
 
     private void mostraListaRistoranti() {
+        mostraPrevisioniMetereologiche();
+
         if (listaRistorantiPrenotabili == null || listaRistorantiPrenotabili.isEmpty()) {
-            GestoreOutput.mostraAvvertenza("Nessun ristorante disponibile", "Prova a modificare i criteri di ricerca o i filtri applicati.");
+            GestoreOutput.mostraAvvertenza("Nessun ristorante disponibile", "Prova a modificare i dati della prenotazione o i filtri applicati.");
             return;
         }
 
@@ -130,67 +148,69 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
         }
     }
 
-    private void inserisciFiltri(){
+    private void inserisciFiltri() throws EccezioneDAO {
         try {
             GestoreOutput.stampaTitolo("FILTRI");
             filtriBean.setTipoCucina(GestoreInput.leggiCucineScelteDaInput(true));
             filtriBean.setTipoDieta(GestoreInput.leggiDieteScelteDaInput(false));
             filtriBean.setFasciaPrezzoRistorante(GestoreInput.leggiFasciaPrezzoSceltaDaInput());
 
-
-            GestoreOutput.stampaTitolo("Vuoi applicare il filtro del meteo ?");
-            GestoreOutput.mostraGraficaMenu("Si", "No");
-            if (opzioneScelta(1, 2) == 1) {
-                filtriBean.setMeteo(true);
-                if (meteoBean == null) {
-                    meteoBean = prenotaRistoranteController.previsioneMetereologiche(filtriBean,meteoBean);
-                }
-                listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
-
-            }else {
-                filtriBean.setMeteo(false);
-                listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,null);
-            }
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
 
-        }catch (ValidazioneException e) {
-            logger.error("Errore : ", e);
-        } catch (IOException e) {
-            logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
-            GestoreOutput.mostraAvvertenza("Errore :","comunicazione non stabilita con il servizio meteo");
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
-        }catch (PrevisioniMeteoFuoriRangeException e) {
-            GestoreOutput.mostraAvvertenza("Attenzione ", e.getMessage());
         }
-
 
     }
 
-    private void modificaCampiFormIniziale() {
+    private void modificaCampiFormIniziale() throws ValidazioneException{
         GestoreOutput.stampaTitolo("Quale campo vuoi modificare ?");
         GestoreOutput.mostraGraficaMenu("Data", "Ora", "Città", "Numero Persone");
+
+        FiltriBean filtriPrecedenti = new FiltriBean();
+        filtriPrecedenti.setData(filtriBean.getData());
+        filtriPrecedenti.setOra(filtriBean.getOra());
+        filtriPrecedenti.setCitta(filtriBean.getCitta());
+        filtriPrecedenti.setNumeroPersone(filtriBean.getNumeroPersone());
+
         try {
             switch (opzioneScelta(1, 4)) {
-                case 1 -> filtriBean.setData(LocalDate.parse(GestoreInput.leggiStringaDaInput("Inserisci data (G/M/AAAA) :"),formatoData));
-                case 2 -> filtriBean.setOra(LocalTime.from(parse(GestoreInput.leggiStringaDaInput("Inserisci un orario (HH:mm) :"),formatoOrario)));
+                case 1 ->
+                        filtriBean.setData(LocalDate.parse(GestoreInput.leggiStringaDaInput("Inserisci data (G/M/AAAA) :"), formatoData));
+                case 2 ->
+                        filtriBean.setOra(LocalTime.from(parse(GestoreInput.leggiStringaDaInput("Inserisci un orario (HH:mm) :"), formatoOrario)));
                 case 3 -> filtriBean.setCitta(GestoreInput.leggiStringaDaInput("Inserisci una città :"));
-                case 4 -> filtriBean.setNumeroPersone(Integer.parseInt(GestoreInput.leggiStringaDaInput("Inserisci il numero di persone :")));
-                default -> { GestoreOutput.stampaMessaggio("La tua scelta non è tra quelle indicate");
-                            mostraMenu();}
+                case 4 ->
+                        filtriBean.setNumeroPersone(Integer.parseInt(GestoreInput.leggiStringaDaInput("Inserisci il numero di persone :")));
+                default -> {
+                    GestoreOutput.stampaMessaggio("La tua scelta non è tra quelle indicate");
+                    mostraMenu();
+                }
+            }
+
+            GestoreOutput.mostraAvvertenza("Successo","Campo modificato con successo");
+
+            prenotaRistoranteController.validaDati(filtriBean);
+
+            if (prenotaRistoranteController.meteoDaModificare(filtriPrecedenti, filtriBean)) {
+                previsioniMeteo();
             }
 
 
             popolaListaRistoranti();
-            mostraListaRistoranti();
 
-        }catch (ValidazioneException e) {
-            GestoreOutput.mostraAvvertenza("Attenzione",e.getMessage());
+        } catch (ValidazioneException e) {
+            GestoreOutput.mostraAvvertenza("Attenzione", e.getMessage());
+        } catch (IOException e) {
+            GestoreOutput.mostraAvvertenza("Errore", "Il servizio meteo non è disponibile");
+        } catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione ", e.getMessage());
         }
     }
 
-    private void mostraPrevisioniMetereologiche() {
 
+    private void mostraPrevisioniMetereologiche() {
         String meteo;
         String iconaTempo;
         String iconaTemperatura;

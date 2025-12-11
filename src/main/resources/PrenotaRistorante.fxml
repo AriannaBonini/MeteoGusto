@@ -162,11 +162,6 @@
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <CheckBox fx:id="meteoAttivo" layoutX="996.0" layoutY="582.0" prefHeight="31.0" prefWidth="96.0" style="&#10;   " styleClass="check-box-arancione" text="Attivo">
-      <font>
-         <Font size="15.0" />
-      </font>
-   </CheckBox>
    <Label alignment="CENTER" layoutX="199.0" layoutY="24.0" prefHeight="74.0" prefWidth="747.0" text="Prenota Ristorante " textFill="#e97627">
       <font>
          <Font size="50.0" />
@@ -332,21 +327,11 @@
          <Font name="System Bold" size="30.0" />
       </font>
    </Label>
-   <Label layoutX="974.0" layoutY="539.0" prefHeight="36.0" prefWidth="195.0" text="Filtro meteo : ">
-      <font>
-         <Font size="25.0" />
-      </font>
-   </Label>
-   <CheckBox fx:id="meteoNonAttivo" layoutX="1109.0" layoutY="582.0" prefHeight="31.0" prefWidth="123.0" style="&#10;   " styleClass="check-box-arancione" text="Non attivo">
+   <CheckBox fx:id="checkBoxMeteo" layoutX="974.0" layoutY="551.0" prefHeight="25.0" prefWidth="254.0" style="&#10;   " styleClass="check-box-arancione" text="Filtro meteo : attivo">
       <font>
          <Font size="15.0" />
       </font>
    </CheckBox>
-   <ImageView fx:id="tooltipMeteo" fitHeight="25.0" fitWidth="27.0" layoutX="1133.0" layoutY="546.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@Foto/tooltip.png" />
-      </image>
-   </ImageView>
    <stylesheets>
       <URL value="@comboBox.css" />
       <URL value="@stili.css" />

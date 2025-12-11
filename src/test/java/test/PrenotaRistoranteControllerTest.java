@@ -5,6 +5,7 @@ import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.dao.PersonaDAO;
 import com.example.meteo_gusto.dao.PrenotazioneDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrenotazioneEsistenteException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaOraria;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
@@ -68,7 +69,7 @@ class PrenotaRistoranteControllerTest {
     }
 
     @Test
-    void prenotaRistorante_successo() throws EccezioneDAO {
+    void prenotaRistorante_successo() throws EccezioneDAO, PrenotazioneEsistenteException {
         PrenotazioneBean prenotazioneBean = new PrenotazioneBean(LocalTime.parse("12:30"), LocalDate.parse("2026-07-20"),
                 4, personaBean, ambienteBean, FasciaOraria.PRANZO);
         boolean result = prenotaRistoranteController.prenotaRistorante(prenotazioneBean, ristoranteBean);

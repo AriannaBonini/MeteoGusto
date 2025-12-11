@@ -6,6 +6,7 @@ import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrenotazioneEsistenteException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
@@ -17,7 +18,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -135,13 +135,19 @@ public class RiepilogoPrenotazioneCG {
             prenotazione.setNote(campoDietaPrenotante.getText());
 
             if(prenotaRistoranteController.prenotaRistorante(prenotazione, ristoranteSelezionato)){
-                GestoreScena.mostraAlertSenzaConferma("Successo", "Prenotazione inserita con successo");
+                boolean risposta = GestoreScena.mostraAlertConConfermaTornaAllaHome("Successo", "Prenotazione inserita con successo");
+
+                if(risposta) {
+                    GestoreScena.cambiaScena("/HomeUtente.fxml", evento);
+                }
             }
 
-            GestoreScena.cambiaScena("/HomeUtente.fxml", evento);
-
-        }catch (EccezioneDAO | ValidazioneException e) {
-            logger.error("Errore durante l'inserimento della prenotazione : ", e);
+        }catch (EccezioneDAO e) {
+            logger.error("Errore durante la registrazione della nuova prenotazione ",e );
+        }catch (ValidazioneException e) {
+            logger.error("Errore durante l'assegnazione dell'ambiete nella prenotazione ",e);
+        } catch (PrenotazioneEsistenteException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione",e.getMessage());
         }
     }
 

@@ -17,6 +17,7 @@ import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -85,15 +86,11 @@ public class PrenotaRistoranteCG {
     @FXML
     private CheckBox checkBoxFastFood;
     @FXML
+    private CheckBox checkBoxMeteo;
+    @FXML
     private HBox hBoxRigaRistoranti;
     @FXML
     private VBox vBoxRistoranti;
-    @FXML
-    private CheckBox meteoAttivo;
-    @FXML
-    private CheckBox meteoNonAttivo;
-    @FXML
-    private ImageView tooltipMeteo;
     @FXML
     private Label infoErrore;
     @FXML
@@ -111,63 +108,80 @@ public class PrenotaRistoranteCG {
     private FiltriBean filtriBean;
     private List<RistoranteBean> listaRistorantiPrenotabili= new ArrayList<>();
     private MeteoBean meteoBean;
-    private boolean meteoVisibile=true;
 
     public void initialize() {
-        Tooltip tooltip = new Tooltip("Le previsioni meteo vengono mostrate anche se il filtro del meteo non è attivo");
-        Tooltip.install(tooltipMeteo, tooltip);
-
         filtroFasciaPrezzo.getItems().setAll(FasciaPrezzoRistorante.values());
         filtra.setDisable(true);
 
+
         SupportoScrollPaneCss.inizializzaScrollPane(scrollPane);
 
-        ChangeListener<Object> listenerCerca = (obs, o, n) -> {
+        ChangeListener<Object> listenerCerca = (obs, oldVal, newVal) -> {
             boolean abilitato =
-                    campoCitta.getText() != null && !campoCitta.getText().trim().isEmpty() &&
+                    !campoCitta.getText().isBlank() &&
                             campoData.getValue() != null &&
-                            campoOra.getText() != null && !campoOra.getText().trim().isEmpty() &&
-                            campoNumeroPersone.getText() != null && !campoNumeroPersone.getText().trim().isEmpty();
-
+                            !campoOra.getText().isBlank() &&
+                            !campoNumeroPersone.getText().isBlank();
             cerca.setDisable(!abilitato);
         };
 
 
-        campoCitta.textProperty().addListener(listenerCerca);
-        campoData.valueProperty().addListener(listenerCerca);
-        campoOra.textProperty().addListener(listenerCerca);
-        campoNumeroPersone.textProperty().addListener(listenerCerca);
+        List.of(campoCitta, campoData, campoOra, campoNumeroPersone)
+                .forEach(c -> {
+                    if (c instanceof TextField tf) tf.textProperty().addListener(listenerCerca);
+                    if (c instanceof DatePicker dp) dp.valueProperty().addListener(listenerCerca);
+                });
 
         ChangeListener<Object> listenerFiltra = (obs, o, n) -> filtra.setDisable(false);
 
-        filtroFasciaPrezzo.valueProperty().addListener(listenerFiltra);
 
         List<CheckBox> checkBoxes = List.of(
                 checkBoxHalal, checkBoxKosher, checkBoxVegano, checkBoxVegetariano,
                 checkBoxPescetariano, checkBoxCeliaco, checkBoxSenzaLattosio,
                 checkBoxItaliana, checkBoxSushi, checkBoxCinese, checkBoxGreca,
-                checkBoxTurca, checkBoxMessicana, checkBoxFastFood, meteoAttivo, meteoNonAttivo, checkBoxPizza
+                checkBoxTurca, checkBoxMessicana, checkBoxFastFood, checkBoxMeteo, checkBoxPizza
         );
 
+
+        filtroFasciaPrezzo.valueProperty().addListener(listenerFiltra);
         checkBoxes.forEach(cb -> cb.selectedProperty().addListener(listenerFiltra));
 
         SupportoCheckBoxCss.inizializzaCheckBoxMultipli(checkBoxes);
-
         impostaDatePicker();
-        popolaNotifiche();
+        inizializzaCheckBoxMeteo();
 
+        popolaNotifiche();
     }
 
-    public void impostaDatePicker() {
+
+    public void inizializzaCheckBoxMeteo() {
+        checkBoxMeteo.setSelected(true);
+
+        Tooltip tooltip = new Tooltip("Il filtro meteo non può essere disattivato");
+        tooltip.setStyle("-fx-background-color: white; -fx-text-fill: #e97627; -fx-font-weight: bold;");
+
+        checkBoxMeteo.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            checkBoxMeteo.setSelected(true);
+
+            Bounds bounds = checkBoxMeteo.localToScreen(checkBoxMeteo.getBoundsInLocal());
+            tooltip.show(checkBoxMeteo, bounds.getMinX(), bounds.getMaxY());
+            event.consume();
+        });
+
+        checkBoxMeteo.addEventHandler(MouseEvent.MOUSE_EXITED, event -> tooltip.hide());
+    }
+
+
+
+    private void impostaDatePicker() {
         LocalDate oggi = LocalDate.now();
-        LocalDate dataMassima = oggi.plusMonths(2)
-                .withDayOfMonth(oggi.plusMonths(2).lengthOfMonth());
+        LocalDate maxData = oggi.plusDays(15);
 
         campoData.setDayCellFactory(dp -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item.isBefore(oggi) || item.isAfter(dataMassima)) {
+                if (item.isBefore(oggi) || item.isAfter(maxData)) {
                     setDisable(true);
                     setStyle("-fx-background-color: #EEEEEE;");
                 }
@@ -187,26 +201,17 @@ public class PrenotaRistoranteCG {
         }
     }
 
-    public void impostaFiltriSelezionati(FiltriBean filtriBean, MeteoBean meteoBean) {
+    public void impostaFiltriSelezionati(FiltriBean filtriBean,MeteoBean meteoBean) {
         if (filtriBean == null) return;
 
         this.filtriBean = filtriBean;
+        this.meteoBean=meteoBean;
 
         impostaCheckBoxTipoCucina(filtriBean.getTipoCucina());
         impostaCheckBoxTipoDieta(filtriBean.getTipoDieta());
 
         filtroFasciaPrezzo.setValue(filtriBean.getFasciaPrezzoRistorante());
-
-        if(filtriBean.getMeteo()) {
-            meteoAttivo.setSelected(true);
-            meteoNonAttivo.setSelected(false);
-
-            this.meteoBean=meteoBean;
-            mostraPrevisioniMetereologiche();
-        } else {
-            meteoAttivo.setSelected(false);
-            meteoNonAttivo.setSelected(true);
-        }
+        filtra.setDisable(true);
 
         impostaCampiIniziali();
     }
@@ -252,21 +257,36 @@ public class PrenotaRistoranteCG {
 
     private void popolaListaRistoranti() {
         try {
-            listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean);
+            if(meteoBean==null) {
+                previsioniMeteo();
+            }
 
-            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean, meteoBean);
+            mostraPrevisioniMetereologiche();
+
+            listaRistorantiPrenotabili= prenotaRistoranteController.cercaRistorantiDisponibili(filtriBean,meteoBean);
+
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
             if (listaRistorantiPrenotabili == null || listaRistorantiPrenotabili.isEmpty()) {
                 GestoreScena.mostraAlertSenzaConferma(
-                        "Nessun ristorante disponibile", "Prova a modificare uno o più dati della prenotazione : \n   (data, ora, città, numero di persone)"
+                        "Nessun ristorante disponibile", "Prova a modificare i dati della prenotazione o i filtri applicati: \n  "
                 );
             }
 
             popolaHBox();
 
-        } catch (EccezioneDAO | ValidazioneException e) {
+        } catch (EccezioneDAO e) {
             logger.error("Errore durante la ricerca dei ristoranti filtrati: ", e);
+        }catch (IOException e) {
+            logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
+            mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
+        } catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreScena.mostraAlertSenzaConferma("Avvertenza ", e.getMessage());
         }
+    }
+
+    private void previsioniMeteo() throws PrevisioniMeteoFuoriRangeException, IOException {
+        meteoBean= prenotaRistoranteController.previsioneMetereologiche(filtriBean);
     }
 
 
@@ -312,8 +332,6 @@ public class PrenotaRistoranteCG {
                     mediaRecensione
             );
 
-            bottoneAttivo(scopriDiPiu);
-
             infoRistorante3.getChildren().addAll(infoStelle, scopriDiPiu);
             schedaRistorante.getChildren().add(infoRistorante3);
 
@@ -335,27 +353,6 @@ public class PrenotaRistoranteCG {
             vBoxRistoranti.getChildren().add(rigaCorrente);
         }
 
-        controllaCampiMeteoCompilati();
-    }
-
-    private void bottoneAttivo(Button bottone) {
-        if(!meteoVisibile) {
-            bottone.setDisable(true);
-        }
-        if(meteoBean==null) {
-            bottone.setDisable(meteoAttivo.isSelected() || !meteoNonAttivo.isSelected());
-        }
-    }
-
-    private boolean controllaCampiMeteoCompilati() {
-        if(!meteoAttivo.isSelected() && !meteoNonAttivo.isSelected()) {
-            mostraErroreTemporaneamenteNellaLabel("La compilazione del filtro meteo è necessaria per poter proseguire");
-            return false;
-        }else if (meteoNonAttivo.isSelected() && meteoAttivo.isSelected()){
-            mostraErroreTemporaneamenteNellaLabel("Selezionare una sola scelta per il filtro meteo");
-            return false;
-        }
-        return true;
     }
 
     private HBox creaNuovaRiga() {return SupportoComponentiGUISchedaRistorante.creaHBoxRigaRistoranti(hBoxRigaRistoranti);}
@@ -385,7 +382,6 @@ public class PrenotaRistoranteCG {
             mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
         } catch (PrevisioniMeteoFuoriRangeException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione ", e.getMessage());
-            gestisciEccezione();
         }
     }
 
@@ -398,15 +394,18 @@ public class PrenotaRistoranteCG {
         nuoviFiltri.setData(campoData.getValue());
         nuoviFiltri.setCitta(campoCitta.getText());
         nuoviFiltri.setOra(LocalTime.parse(campoOra.getText()));
+        nuoviFiltri.setNumeroPersone(Integer.parseInt(campoNumeroPersone.getText()));
+
+        prenotaRistoranteController.validaDati(nuoviFiltri);
 
         if(prenotaRistoranteController.meteoDaModificare(filtriBean,nuoviFiltri)) {
-            meteoBean=null;
+            previsioniMeteo();
         }
 
-        filtriBean.setData(campoData.getValue());
-        filtriBean.setOra(LocalTime.parse(campoOra.getText()));
-        filtriBean.setCitta(campoCitta.getText());
-        filtriBean.setNumeroPersone(Integer.parseInt(campoNumeroPersone.getText()));
+        filtriBean.setData(nuoviFiltri.getData());
+        filtriBean.setOra(nuoviFiltri.getOra());
+        filtriBean.setCitta(nuoviFiltri.getCitta());
+        filtriBean.setNumeroPersone(nuoviFiltri.getNumeroPersone());
 
         aggiornaFiltri();
 
@@ -420,68 +419,23 @@ public class PrenotaRistoranteCG {
 
             aggiornaFiltri();
 
-            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean,meteoBean);
+            listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
             popolaHBox();
 
-        } catch (ValidazioneException e) {
-            logger.error("Errore di validazione: {}", e.getMessage());
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
-        } catch (IOException e) {
-            logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
-            mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
-        }catch (PrevisioniMeteoFuoriRangeException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione ", e.getMessage());
-            gestisciEccezione();
         }
     }
 
-    private void gestisciEccezione() {
-        boxMeteoVisibile(false);
-        meteoBean=null;
-        if(!meteoAttivo.isSelected() && meteoNonAttivo.isSelected()) {
-            popolaListaRistoranti();
-        }else {
-            popolaHBox();
-        }
-    }
-
-    private void aggiornaFiltri() throws IOException, PrevisioniMeteoFuoriRangeException {
+    private void aggiornaFiltri()  {
         if (filtriBean == null) {
             filtriBean = new FiltriBean();
         }
 
-        if(!controllaCampiMeteoCompilati()) {
-            filtriBean.setFasciaPrezzoRistorante(null);
-            filtriBean.setTipoCucina(null);
-            filtriBean.setTipoDieta(null);
-            filtriBean.setMeteo(false);
-            if(meteoBean==null) {
-                mostraPrevisioniMetereologiche();
-            }else {
-                boxMeteoVisibile(false);
-                meteoVisibile=false;
-            }
-
-            return;
-        }
-
         filtriBean.setFasciaPrezzoRistorante(filtroFasciaPrezzo.getValue());
-        filtriBean.setMeteo(meteoAttivo.isSelected());
         filtriBean.setTipoCucina(filtriTipoCucinaSelezionati());
         filtriBean.setTipoDieta(filtriTipoDietaSelezionati());
-
-
-        meteoBean= prenotaRistoranteController.previsioneMetereologiche(filtriBean,meteoBean);
-        mostraPrevisioniMetereologiche();
-
-    }
-
-    private void boxMeteoVisibile(boolean scelta) {
-        meteo.setVisible(scelta);
-        immagineMeteo.setVisible(scelta);
-        immagineTemperatura.setVisible(scelta);
 
     }
 
@@ -541,13 +495,11 @@ public class PrenotaRistoranteCG {
 
     private void mostraPrevisioniMetereologiche() {
         if(meteoBean==null) {
-            boxMeteoVisibile(false);
+            meteo.setVisible(false);
+            immagineMeteo.setVisible(false);
+            immagineTemperatura.setVisible(false);
             return;
         }
-
-        boxMeteoVisibile(true);
-        meteoVisibile=true;
-
 
         InputStream is;
         Image immagine;

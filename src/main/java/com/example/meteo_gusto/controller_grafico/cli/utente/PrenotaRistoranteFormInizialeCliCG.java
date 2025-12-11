@@ -5,6 +5,7 @@ import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreInput;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
 import com.example.meteo_gusto.controller_grafico.cli.InterfacciaCLI;
+import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
@@ -92,6 +93,8 @@ public class PrenotaRistoranteFormInizialeCliCG implements InterfacciaCLI {
             GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE, "Orario o data non valida. Usa il formato HH:mm e GG/MM/AAAA");
         } catch (NumberFormatException e) {
             GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE, "Numero persone non valido. Riempire il campo");
+        } catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE,e.getMessage());
         }
     }
 

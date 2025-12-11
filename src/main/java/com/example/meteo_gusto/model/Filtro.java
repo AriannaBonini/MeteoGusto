@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.model;
 
 
-import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
 import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
@@ -42,23 +41,7 @@ public class Filtro {
     public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
     public boolean getMeteo() {return meteo;}
     public void setMeteo(boolean meteo) {this.meteo = meteo;}
-
-
-    /* METODI PER LA LOGICA DI DOMINIO */
-    public void aggiungiData(LocalDate data) throws ValidazioneException {
-        if (data == null || data.isBefore(LocalDate.now())) {
-            throw new ValidazioneException("La data della prenotazione deve essere presente e non nel passato.");
-        }
-        this.data=data;
-    }
-
-
-    public void aggiungiNumeroPersone(Integer numeroPersone) throws IllegalArgumentException {
-        if (numeroPersone == null || numeroPersone <= 0 || numeroPersone > 30) {
-            throw new IllegalArgumentException("Il numero di persone deve essere compreso tra 1 e 30.");
-        }
-        this.numeroPersone=numeroPersone;
-    }
-
+    public void setNumeroPersone(Integer numeroPersone) {this.numeroPersone = numeroPersone;}
+    public void setData(LocalDate data) {this.data = data;}
 
 }

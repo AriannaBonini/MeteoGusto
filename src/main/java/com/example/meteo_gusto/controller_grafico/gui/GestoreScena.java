@@ -102,6 +102,10 @@ public class GestoreScena {
         return new AlertPersonalizzato().mostraAlertConferma(titolo,messaggio);
     }
 
+    public static boolean mostraAlertConConfermaTornaAllaHome(String titolo, String messaggio) {
+        return new AlertPersonalizzato().mostraAlertConfermaTornaAllaHome(titolo,messaggio);
+    }
+
     public static void mostraAlertSenzaConferma(String titolo, String messaggio) {
         new AlertPersonalizzato().mostraAlertInfo(titolo,messaggio);
     }

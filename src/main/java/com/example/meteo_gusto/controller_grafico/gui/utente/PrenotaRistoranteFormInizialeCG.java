@@ -3,6 +3,7 @@ package com.example.meteo_gusto.controller_grafico.gui.utente;
 import com.example.meteo_gusto.bean.FiltriBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
+import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
@@ -55,7 +56,9 @@ public class PrenotaRistoranteFormInizialeCG {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
 
-                if (date.isBefore(LocalDate.now())) {
+                LocalDate oggi = LocalDate.now();
+
+                if (date.isBefore(oggi)) {
                     setDisable(true);
                     setStyle("-fx-background-color: rgba(0,0,0,0.58);");
                 }
@@ -98,8 +101,10 @@ public class PrenotaRistoranteFormInizialeCG {
         }catch (NumberFormatException e) {
             mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
         }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel("Dati mancanti o non validi");
+            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
             logger.error("Errore di validazione dei dati inseriti", e );
+        } catch (PrevisioniMeteoFuoriRangeException e) {
+            GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
         }
     }
 

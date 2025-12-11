@@ -7,6 +7,7 @@ import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
 import com.example.meteo_gusto.controller_grafico.cli.InterfacciaCLI;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.PrenotazioneEsistenteException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
@@ -75,6 +76,8 @@ public class RiepilogoPrenotazioneCliCG implements InterfacciaCLI {
             logger.error("Errore durante l'assegnazione dell'ambiete nella prenotazione ",e);
         } catch (EccezioneDAO e) {
             logger.error("Errore durante la registrazione della nuova prenotazione ",e );
+        } catch (PrenotazioneEsistenteException e) {
+            GestoreOutput.mostraAvvertenza("Attenzione",e.getMessage());
         }
 
     }

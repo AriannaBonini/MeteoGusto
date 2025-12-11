@@ -1,6 +1,7 @@
 package com.example.meteo_gusto.utilities;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -42,6 +43,31 @@ public class AlertPersonalizzato {
         mostraStage(stage, root);
         return risposta;
     }
+
+    /**
+     * Alert con bottone "Torna alla Home".
+     * L'utente può cliccare il bottone per tornare subito alla Home,
+     * altrimenti dopo 5 secondi il reindirizzamento avverrà automaticamente.
+     */
+    public boolean mostraAlertConfermaTornaAllaHome(String titolo, String messaggio) {
+        Stage stage = creaStageBase();
+        BorderPane root = creaRootBase();
+
+        root.setTop(creaHeader(titolo));
+        root.setCenter(creaMessaggio(messaggio, true));
+        root.setBottom(creaBottoneTornaAllaHome(stage));
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished(e -> {
+            risposta = true;
+            stage.close();
+        });
+        delay.play();
+
+        mostraStage(stage, root);
+        return risposta;
+    }
+
 
     /**
      * Alert informativo che si chiude automaticamente dopo tot secondi
@@ -103,6 +129,19 @@ public class AlertPersonalizzato {
         bottoniBox.setPadding(new Insets(0, 0, 20, 0));
         return bottoniBox;
     }
+
+    private HBox creaBottoneTornaAllaHome(Stage stage) {
+        Button bottone = creaBottone("Torna alla home", stage, true);
+
+        bottone.setPrefSize(200,35);
+
+        HBox bottoniBox = new HBox(bottone);
+        bottoniBox.setAlignment(Pos.CENTER);
+        bottoniBox.setPadding(new Insets(0, 20, 20, 0));
+
+        return bottoniBox;
+    }
+
 
     private void configuraAutoChiusura(BorderPane root, Stage stage) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(SECONDI_AUTO_CHIUSURA), e -> stage.close()));
