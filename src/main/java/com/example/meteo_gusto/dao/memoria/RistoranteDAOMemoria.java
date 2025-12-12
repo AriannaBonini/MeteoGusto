@@ -125,7 +125,7 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
         ristorante.setNomeRistorante(ristoranteMemoria.getNomeRistorante());
 
         Posizione posizione = new Posizione();
-        posizione.concatenaIndirizzoCompleto(
+        posizione.setIndirizzoCompleto(
                 ristoranteMemoria.getPosizione().getVia(),
                 ristoranteMemoria.getPosizione().getCivico()
         );

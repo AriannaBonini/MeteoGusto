@@ -11,25 +11,19 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
-import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.PrevisioniMeteoFuoriRangeException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
-import static java.time.LocalDate.parse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 import static com.example.meteo_gusto.controller_grafico.cli.GestoreInput.opzioneScelta;
 
 public class PrenotaRistoranteCliCG implements InterfacciaCLI {
-
-
     private FiltriBean filtriBean= new FiltriBean();
     private MeteoBean meteoBean=null;
     private static final Logger logger = LoggerFactory.getLogger(PrenotaRistoranteCliCG.class.getName());
@@ -61,7 +55,7 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             } catch (ValidazioneException e) {
                 GestoreOutput.mostraAvvertenza("Errore:",e.getMessage());
             } catch (EccezioneDAO e) {
-                GestoreOutput.mostraAvvertenza("Errore",e.getMessage());
+                GestoreOutput.mostraAvvertenza("Errore : ",e.getMessage());
             }
         }
         GestoreScenaCLI.login();
@@ -72,10 +66,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
         GestoreOutput.stampaTitolo("PRENOTA RISTORANTE ");
 
         popolaNotifiche();
-
-        if(meteoBean!=null && filtriBean.getMeteo()) {
-            mostraPrevisioniMetereologiche();
-        }
 
         mostraInfoScelte();
         mostraListaRistoranti();
@@ -99,7 +89,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             logger.error("Errore durante il conteggio delle notifiche : ", e);
         }
     }
-
 
     private void popolaListaRistoranti() {
         try {
@@ -125,7 +114,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
     private void previsioniMeteo() throws PrevisioniMeteoFuoriRangeException, IOException {
         meteoBean= prenotaRistoranteController.previsioneMetereologiche(filtriBean);
     }
-
 
 
     private void mostraListaRistoranti() {
@@ -157,7 +145,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
             listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
-
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
         }
@@ -176,39 +163,39 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
         try {
             switch (opzioneScelta(1, 4)) {
-                case 1 ->
-                        filtriBean.setData(LocalDate.parse(GestoreInput.leggiStringaDaInput("Inserisci data (G/M/AAAA) :"), formatoData));
-                case 2 ->
-                        filtriBean.setOra(LocalTime.from(parse(GestoreInput.leggiStringaDaInput("Inserisci un orario (HH:mm) :"), formatoOrario)));
+                case 1 -> filtriBean.setData(LocalDate.parse(GestoreInput.leggiStringaDaInput("Inserisci data (G/M/AAAA) :"), formatoData));
+                case 2 -> filtriBean.setOra(LocalTime.parse(GestoreInput.leggiStringaDaInput("Inserisci un orario (HH:mm) :"), formatoOrario));
                 case 3 -> filtriBean.setCitta(GestoreInput.leggiStringaDaInput("Inserisci una città :"));
-                case 4 ->
-                        filtriBean.setNumeroPersone(Integer.parseInt(GestoreInput.leggiStringaDaInput("Inserisci il numero di persone :")));
+                case 4 -> filtriBean.setNumeroPersone(Integer.parseInt(GestoreInput.leggiStringaDaInput("Inserisci il numero di persone :")));
                 default -> {
                     GestoreOutput.stampaMessaggio("La tua scelta non è tra quelle indicate");
                     mostraMenu();
                 }
             }
 
-            GestoreOutput.mostraAvvertenza("Successo","Campo modificato con successo");
-
             prenotaRistoranteController.validaDati(filtriBean);
 
-            if (prenotaRistoranteController.meteoDaModificare(filtriPrecedenti, filtriBean)) {
-                previsioniMeteo();
-            }
+            GestoreOutput.mostraAvvertenza("Successo","Campo modificato con successo");
 
+            if (prenotaRistoranteController.meteoDaModificare(filtriPrecedenti, filtriBean)) {
+                meteoBean=null;
+            }
 
             popolaListaRistoranti();
 
         } catch (ValidazioneException e) {
             GestoreOutput.mostraAvvertenza("Attenzione", e.getMessage());
-        } catch (IOException e) {
-            GestoreOutput.mostraAvvertenza("Errore", "Il servizio meteo non è disponibile");
+            modificaNonApportata();
         } catch (PrevisioniMeteoFuoriRangeException e) {
-            GestoreScena.mostraAlertSenzaConferma("Attenzione ", e.getMessage());
+            GestoreOutput.mostraAvvertenza("Attenzione ", e.getMessage());
+            modificaNonApportata();
+        }catch (DateTimeParseException e) {
+            GestoreOutput.mostraAvvertenza("Errore", "Formato non valido.");
+            modificaNonApportata();
         }
     }
 
+    private void modificaNonApportata(){ GestoreOutput.stampaMessaggio("La modifica non verrà apportata");}
 
     private void mostraPrevisioniMetereologiche() {
         String meteo;
@@ -238,8 +225,6 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
 
     }
 
-
-
     private void scopriDiPiu(){
         GestoreOutput.stampaMessaggio("Questa è la lista dei ristoranti filtrati in base alle tue preferenze");
         mostraListaRistoranti();
@@ -254,12 +239,9 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
                 });
     }
 
-
     public void setFiltriBean(FiltriBean filtriBean) {
         this.filtriBean=filtriBean;
     }
-
-
 
     public void impostaFiltriSelezionati(FiltriBean filtriBean, MeteoBean meteoBean) {
         this.filtriBean=filtriBean;

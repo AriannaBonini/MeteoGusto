@@ -88,8 +88,8 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
         GestoreOutput.stampaMessaggio(orari(ristoranteSelezionato.getGiorniEOrari()));
         GestoreOutput.stampaMessaggio(ristoranteSelezionato.getCucina() + CodiceAnsi.PUNTINO + stampaDieteRistorante());
 
-        GestoreOutput.stampaMessaggio("Vuoi lasciare una recensione oppure andare al menù? ");
-        GestoreOutput.mostraGraficaMenu("Lasciare una recensione","Andare al menù");
+        GestoreOutput.stampaMessaggio("Come vuoi procedere ? ");
+        GestoreOutput.mostraGraficaMenu("Lasciare una recensione","Menù principale");
         if(opzioneScelta(1,2)==2) {
             return;
         }

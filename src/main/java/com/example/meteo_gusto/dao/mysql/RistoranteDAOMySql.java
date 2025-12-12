@@ -162,7 +162,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                         ristorante.setNomeRistorante(rs.getString(NOME));
 
                         Posizione posizione= new Posizione();
-                        posizione.concatenaIndirizzoCompleto(rs.getString(INDIRIZZO), rs.getString(CIVICO));
+                        posizione.setIndirizzoCompleto(rs.getString(INDIRIZZO), rs.getString(CIVICO));
                         posizione.setCitta(rs.getString(CITTA));
                         posizione.setCap(rs.getString(CAP));
 

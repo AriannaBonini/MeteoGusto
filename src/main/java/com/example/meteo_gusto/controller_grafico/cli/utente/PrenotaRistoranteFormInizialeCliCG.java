@@ -106,6 +106,4 @@ public class PrenotaRistoranteFormInizialeCliCG implements InterfacciaCLI {
         );
     }
 
-
-
 }

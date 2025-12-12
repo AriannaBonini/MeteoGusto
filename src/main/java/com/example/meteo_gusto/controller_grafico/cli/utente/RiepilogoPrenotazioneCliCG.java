@@ -53,7 +53,7 @@ public class RiepilogoPrenotazioneCliCG implements InterfacciaCLI {
         popolaCampiUtente();
 
 
-        GestoreOutput.mostraGraficaMenu("Prenota");
+        GestoreOutput.mostraGraficaMenu("Prenota","Torna indietro");
         return opzioneScelta(1,2);
     }
 

@@ -11,7 +11,6 @@ public class Ambiente {
     private String ristorante;
     private Integer idAmbiente;
 
-    /* COSTRUTTORE */
     public Ambiente() { /* COSTRUTTORE VUOTO*/ }
     public Ambiente(TipoAmbiente tipoAmbiente, String ristorante, Integer numeroCoperti, Set<Extra> extra, Integer idAmbiente) {
         this.tipoAmbiente = tipoAmbiente;
@@ -32,10 +31,6 @@ public class Ambiente {
     public void setIdAmbiente(Integer idAmbiente) {this.idAmbiente = idAmbiente;}
     public void setNumeroCoperti(Integer numeroCoperti) {this.numeroCoperti = numeroCoperti;}
     public void setExtra(Set<Extra> extra) {this.extra = extra;}
-
-
-
-    /* METODO DI LOGICA DI DOMINIO */
     private void aggiungiExtra(Set<Extra> extra) {
         if (tipoAmbiente == TipoAmbiente.ESTERNO_COPERTO) {
             this.extra=extra;

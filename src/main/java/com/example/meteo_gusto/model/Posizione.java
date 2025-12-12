@@ -23,8 +23,6 @@ public class Posizione {
     public String getCap() {return cap;}
     public void setCap(String cap) {this.cap = cap;}
 
-
-    /* METODI DI SUPPORTO */
     public String getVia() {
         if (indirizzoCompleto == null || !indirizzoCompleto.contains(",")) return indirizzoCompleto;
         return indirizzoCompleto.substring(0, indirizzoCompleto.indexOf(",")).trim();
@@ -35,7 +33,7 @@ public class Posizione {
         return indirizzoCompleto.substring(indirizzoCompleto.indexOf(",") + 1).trim();
     }
 
-    public void concatenaIndirizzoCompleto(String via, String civico) {
+    public void setIndirizzoCompleto(String via, String civico) {
         if (via == null || via.isBlank()) {
             this.indirizzoCompleto = "";
         } else if (civico == null || civico.isBlank()) {
@@ -44,8 +42,4 @@ public class Posizione {
             this.indirizzoCompleto = via.trim() + ", " + civico.trim();
         }
     }
-
-
-
-
 }

@@ -42,8 +42,6 @@ public class Persona {
     public Ristorante getRistorante() {return ristorante;}
     public void setTipoPersona(TipoPersona tipoPersona) {this.tipoPersona = tipoPersona;}
 
-
-    /* METODI DI SUPPORTO */
     public void ristoranteDiProprieta(Ristorante ristorante) {
         if (tipoPersona.equals(TipoPersona.RISTORATORE)) {
             this.ristorante = ristorante;
