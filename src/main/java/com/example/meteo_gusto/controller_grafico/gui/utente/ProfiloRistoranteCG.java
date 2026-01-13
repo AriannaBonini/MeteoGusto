@@ -188,8 +188,6 @@ public class ProfiloRistoranteCG {
     private List<String> aggiungiAmbienti() {
         List<String> ambienti=new ArrayList<>();
 
-        System.out.println(ristoranteSelezionato.getAmbiente());
-
         for(AmbienteBean ambienteBean: ristoranteSelezionato.getAmbiente()) {
             ambienti.add(ambienteBean.getTipoAmbiente());
         }
