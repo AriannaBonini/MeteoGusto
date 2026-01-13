@@ -1,46 +1,47 @@
 package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.FasciaOraria;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class PrenotazioneBean {
 
-    private LocalTime ora;
     private LocalDate data;
+    private LocalTime ora;
     private Integer numeroPersone;
-    private PersonaBean utente;
-    private AmbienteBean ambiente;
-    private FasciaOraria fasciaOraria;
     private Integer numeroNotifiche;
     private String note;
-
-    public PrenotazioneBean() { /* COSTRUTTORE VUOTO */ }
-
-    public PrenotazioneBean(LocalTime ora, LocalDate data, Integer numeroPersone, PersonaBean utente, AmbienteBean ambiente, FasciaOraria fasciaOraria) {
-        this.ora = ora;
-        this.data = data;
-        this.numeroPersone = numeroPersone;
-        this.utente = utente;
-        this.ambiente = ambiente;
-        this.fasciaOraria = fasciaOraria;
-    }
+    private RistoranteBean ristorante;
+    private List<String> ambiente;
+    private String nomePrenotante;
+    private String cognomePrenotante;
+    private String telefonoPrenotante;
 
 
-    /* METODI GETTER */
+    public PrenotazioneBean() {/* COSTRUTTORE VUOTO */ }
+
+
+    /* METODI GETTER E SETTER */
     public LocalTime getOra() { return ora; }
     public LocalDate getData() { return data; }
     public Integer getNumeroPersone() { return numeroPersone; }
-    public PersonaBean getUtente() { return utente; }
-    public AmbienteBean getAmbiente() { return ambiente; }
-    public FasciaOraria getFasciaOraria() { return fasciaOraria; }
+    public List<String> getAmbiente() { return ambiente; }
     public String getNote() {return note;}
     public Integer getNumeroNotifiche() {return numeroNotifiche;}
+    public void setNumeroNotifiche(Integer numeroNotifiche) {this.numeroNotifiche = numeroNotifiche;}
+    public void setNote(String note) {this.note = note;}
+    public RistoranteBean getRistorante() {return ristorante;}
+    public void setRistorante(RistoranteBean ristorante) {this.ristorante = ristorante;}
+    public String getNomePrenotante() {return nomePrenotante;}
+    public void setNomePrenotante(String nomePrenotante) {this.nomePrenotante = nomePrenotante;}
+    public String getCognomePrenotante() {return cognomePrenotante;}
+    public void setCognomePrenotante(String cognomePrenotante) {this.cognomePrenotante = cognomePrenotante;}
+    public String getTelefonoPrenotante() {return telefonoPrenotante;}
+    public void setTelefonoPrenotante(String telefonoPrenotante) {this.telefonoPrenotante = telefonoPrenotante;}
+
 
     /* SETTER CON VALIDAZIONE */
-
     public void setOra(LocalTime ora) throws ValidazioneException {
         if (ora == null) {
             throw new ValidazioneException("L'orario della prenotazione è obbligatorio.");
@@ -62,22 +63,12 @@ public class PrenotazioneBean {
         this.numeroPersone = numeroPersone;
     }
 
-    public void setUtente(PersonaBean utente) throws ValidazioneException {
-        if (utente == null) {
-            throw new ValidazioneException("L'utente associato alla prenotazione è obbligatorio.");
-        }
-        this.utente = utente;
-    }
-
-    public void setAmbiente(AmbienteBean ambiente) throws ValidazioneException {
+    public void setAmbiente(List<String> ambiente) throws ValidazioneException {
         if (ambiente == null) {
             throw new ValidazioneException("L'ambiente selezionato è obbligatorio.");
         }
         this.ambiente = ambiente;
     }
 
-    public void setFasciaOraria(FasciaOraria fasciaOraria){ this.fasciaOraria=fasciaOraria;}
-    public void setNumeroNotifiche(Integer numeroNotifiche) {this.numeroNotifiche = numeroNotifiche;}
-    public void setNote(String note) {this.note = note;}
 }
 

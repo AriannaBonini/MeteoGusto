@@ -33,6 +33,6 @@ public class GiorniEOrari {
     public void setInizioCena(LocalTime inzioCena) {this.inizioCena = inzioCena;}
     public LocalTime getFineCena() {return fineCena;}
     public void setFineCena(LocalTime fineCena) {this.fineCena = fineCena;}
-    public Set<GiorniSettimana> getGiorniChiusura() {return giorniChiusura;}
+    public Set<GiorniSettimana> giorniChiusura() {return giorniChiusura;}
     public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
 }

@@ -1,5 +1,6 @@
 package com.example.meteo_gusto.enumerazione;
 
+
 public enum TipoCucina {
     ITALIANA("Italiana"),
     SUSHI("Sushi"),
@@ -17,6 +18,10 @@ public enum TipoCucina {
     }
     public String getId() {return id;}
     public static TipoCucina tipoCucinaDaId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+
         for (TipoCucina tipo : values()) {
             if (tipo.getId().equalsIgnoreCase(id)) {
                 return tipo;

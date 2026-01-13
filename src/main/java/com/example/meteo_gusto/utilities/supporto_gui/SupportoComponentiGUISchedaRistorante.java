@@ -2,6 +2,7 @@ package com.example.meteo_gusto.utilities.supporto_gui;
 
 import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
+import com.example.meteo_gusto.enumerazione.TipoCucina;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -198,21 +199,21 @@ public class SupportoComponentiGUISchedaRistorante {
 
 
     public static Image immagineCucinaRistorante(RistoranteBean ristorantebean) {
-        String percorso = switch (ristorantebean.getCucina()) {
-            case ITALIANA -> "/Foto/FotoRistoranteItaliano.png";
-            case SUSHI -> "/Foto/FotoRistoranteGiapponese.png";
-            case FAST_FOOD -> "/Foto/FotoPaninoteca.png";
-            case GRECA -> "/Foto/FotoRistoranteGreco.png";
-            case CINESE -> "/Foto/FotoRistoranteCinese.png";
-            case TURCA -> "/Foto/FotoRistoranteTurco.png";
-            case PIZZA -> "/Foto/FotoPizzeria.png";
-            case MESSICANA -> "/Foto/FotoRistoranteMessicano.png";
+        String percorso = switch (TipoCucina.tipoCucinaDaId(ristorantebean.getCucina())) {
+            case TipoCucina.ITALIANA -> "/Foto/FotoRistoranteItaliano.png";
+            case TipoCucina.SUSHI -> "/Foto/FotoRistoranteGiapponese.png";
+            case TipoCucina.FAST_FOOD -> "/Foto/FotoPaninoteca.png";
+            case TipoCucina.GRECA -> "/Foto/FotoRistoranteGreco.png";
+            case TipoCucina.CINESE -> "/Foto/FotoRistoranteCinese.png";
+            case TipoCucina.TURCA -> "/Foto/FotoRistoranteTurco.png";
+            case TipoCucina.PIZZA -> "/Foto/FotoPizzeria.png";
+            case TipoCucina.MESSICANA -> "/Foto/FotoRistoranteMessicano.png";
         };
         return new Image(Objects.requireNonNull(SupportoComponentiGUISchedaRistorante.class.getResourceAsStream(percorso)));
     }
 
     public static void immagineFasciaPrezzoRistorante(RistoranteBean ristorante, HBox hBoxInfoFasciaPrezzo, boolean dimensioneGrande) {
-        switch (ristorante.getFasciaPrezzo()) {
+        switch (FasciaPrezzoRistorante.fasciaPrezzoDaId(ristorante.getFasciaPrezzo())) {
             case FasciaPrezzoRistorante.ECONOMICO -> ripetiImmagineDollaro(1, hBoxInfoFasciaPrezzo,dimensioneGrande);
             case FasciaPrezzoRistorante.MODERATO -> ripetiImmagineDollaro(2, hBoxInfoFasciaPrezzo,dimensioneGrande);
             case FasciaPrezzoRistorante.COSTOSO -> ripetiImmagineDollaro(3, hBoxInfoFasciaPrezzo,dimensioneGrande);

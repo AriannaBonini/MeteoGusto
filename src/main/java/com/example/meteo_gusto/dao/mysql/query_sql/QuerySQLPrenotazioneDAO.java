@@ -71,12 +71,11 @@ public class QuerySQLPrenotazioneDAO {
             "SELECT " +
                     DATA + ", " +
                     ORA + ", " +
-                    AMBIENTE + ", " +
                     UTENTE + ", " +
                     NOTE_PRENOTAZIONE + ", " +
                     NUMERO_PERSONE + " " +
                     FROM + TABELLA_PRENOTAZIONE + " " +
-                    "WHERE " + AMBIENTE + IN;
+                    "WHERE " + AMBIENTE + " = ?";
 
     protected static final String CONTA_NOTIFICHE_RISTORATORE_PREFIX =
             "SELECT COUNT(*) AS notifiche_attive " +

@@ -31,13 +31,13 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
 
                 for (Ambiente ambiente : listaAmbiente) {
 
-                    String nomeAmbiente = ambiente.getTipoAmbiente().getId();
-                    int numeroCoperti = ambiente.getNumeroCoperti() != null ? ambiente.getNumeroCoperti() : 0;
+                    String nomeAmbiente = ambiente.categoriaAmbiente().getId();
+                    int numeroCoperti = ambiente.numeroCoperti() != null ? ambiente.numeroCoperti() : 0;
 
-                    boolean riscaldamento = ambiente.getTipoAmbiente() == TipoAmbiente.ESTERNO_COPERTO
+                    boolean riscaldamento = ambiente.categoriaAmbiente() == TipoAmbiente.ESTERNO_COPERTO
                             && ambiente.getExtra() != null
                             && ambiente.getExtra().contains(Extra.RISCALDAMENTO);
-                    boolean raffreddamento = ambiente.getTipoAmbiente() == TipoAmbiente.ESTERNO_COPERTO
+                    boolean raffreddamento = ambiente.categoriaAmbiente() == TipoAmbiente.ESTERNO_COPERTO
                             && ambiente.getExtra() != null
                             && ambiente.getExtra().contains(Extra.RAFFREDDAMENTO);
 
@@ -80,8 +80,8 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                         TipoAmbiente tipoAmbiente= TipoAmbiente.tipoAmbienteDaId(rs.getString(AMBIENTE));
 
                         Ambiente ambiente = new Ambiente();
-                        ambiente.setTipoAmbiente(tipoAmbiente);
-                        ambiente.setNumeroCoperti(numeroCoperti);
+                        ambiente.setCategoria(tipoAmbiente);
+                        ambiente.setCoperti(numeroCoperti);
                         ambiente.setIdAmbiente(idAmbiente);
 
 
@@ -108,7 +108,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                  PreparedStatement ps = conn.prepareStatement(CERCA_EXTRA_PER_AMBIENTE)) {
 
                 ps.setString(1, ambiente.getRistorante());
-                ps.setString(2, ambiente.getTipoAmbiente().toString());
+                ps.setString(2, ambiente.categoriaAmbiente().toString());
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
@@ -125,7 +125,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                         }
 
                         Ambiente ambienteDaRitornare= new Ambiente();
-                        ambienteDaRitornare.setTipoAmbiente(ambiente.getTipoAmbiente());
+                        ambienteDaRitornare.setCategoria(ambiente.categoriaAmbiente());
                         ambienteDaRitornare.setRistorante(ambiente.getRistorante());
                         ambienteDaRitornare.setExtra(extra);
 
@@ -136,7 +136,7 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
 
         } catch (SQLException | IOException e) {
             throw new EccezioneDAO(
-                    "Errore durante la ricerca degli extra per l’ambiente " + ambiente.getTipoAmbiente() +
+                    "Errore durante la ricerca degli extra per l’ambiente " + ambiente.categoriaAmbiente() +
                             " del ristorante: " + ambiente.getRistorante(), e);
         }
 
@@ -160,9 +160,39 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
                     if (rs.next()) {
                         String tipo = rs.getString(AMBIENTE);
                         if(tipo != null) {
-                            ambienteTrovato.setTipoAmbiente(TipoAmbiente.tipoAmbienteDaId(tipo));
+                            ambienteTrovato.setCategoria(TipoAmbiente.tipoAmbienteDaId(tipo));
                             ambienteTrovato.setRistorante(rs.getString(RISTORANTE));
                         }
+                    }
+
+                }
+
+            }
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO("Errore durante la ricerca del nome dell'ambiente per ID", e);
+        }
+
+        return ambienteTrovato;
+    }
+
+
+    @Override
+    public Ambiente cercaIdAmbiente(Ambiente ambiente) throws EccezioneDAO {
+        Ambiente ambienteTrovato= new Ambiente();
+
+        try {
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(CERCA_ID)) {
+
+                ps.setString(1, ambiente.categoriaAmbiente().getId());
+                ps.setString(2,ambiente.getRistorante());
+
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        ambienteTrovato.setIdAmbiente(rs.getInt(ID_AMBIENTE));
                     }
 
                 }

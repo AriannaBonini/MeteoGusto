@@ -22,6 +22,30 @@ public class Persona {
        this.ristorante=ristorante;
     }
 
+
+    /* Costruttore per creare un oggetto Persona di tipo utente */
+    public Persona(String nome, String cognome, String telefono, String email, String password) {
+        this.nome=nome;
+        this.cognome=cognome;
+        this.telefono=telefono;
+        this.email=email;
+        this.password=password;
+        this.tipoPersona=TipoPersona.UTENTE;
+        this.ristorante=null;
+    }
+
+    /* Costruttore per creare un oggetto Persona di tipo ristoratore */
+    public Persona(String nome, String cognome, String telefono, String email, String password, Ristorante ristorante) {
+        this.nome=nome;
+        this.cognome=cognome;
+        this.telefono=telefono;
+        this.email=email;
+        this.password=password;
+        this.tipoPersona=TipoPersona.RISTORATORE;
+        this.ristorante=ristorante;
+    }
+
+
     public Persona() { /* COSTRUTTORE VUOTO */ }
 
 
@@ -32,7 +56,7 @@ public class Persona {
     public void setNome(String nome) {this.nome = nome;}
     public  String getCognome() {return cognome;}
     public void setCognome(String cognome) {this.cognome = cognome;}
-    public  String getTelefono() {return telefono;}
+    public  String numeroTelefonico() {return telefono;}
     public  void setTelefono(String telefono) {this.telefono = telefono;}
     public  String getEmail() {return email;}
     public void setEmail(String email) {this.email = email;}

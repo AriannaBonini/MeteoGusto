@@ -27,7 +27,7 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
         } catch (Exception e) {
             throw new EccezioneDAO(
                     "Errore durante la registrazione del ristorante in memoria: "
-                            + (ristorante != null ? ristorante.getNomeRistorante() : "null"),
+                            + (ristorante != null ? ristorante.getNome() : "null"),
                     e
             );
         }
@@ -41,8 +41,8 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
             }
 
             return ristorantiInMemoriaMap.values().stream()
-                    .filter(r -> r.getPosizione() != null
-                            && filtro.getCitta().equalsIgnoreCase(r.getPosizione().getCitta()))
+                    .filter(r -> r.posizioneRistorante() != null
+                            && filtro.getCitta().equalsIgnoreCase(r.posizioneRistorante().getCitta()))
                     .toList();
 
         } catch (Exception e) {
@@ -122,15 +122,15 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
     /** Crea un nuovo Ristorante a partire da uno in memoria, copiando solo nome e posizione */
     private Ristorante creaRistoranteConPosizione(Ristorante ristoranteMemoria) {
         Ristorante ristorante = new Ristorante();
-        ristorante.setNomeRistorante(ristoranteMemoria.getNomeRistorante());
+        ristorante.setNome(ristoranteMemoria.getNome());
 
         Posizione posizione = new Posizione();
-        posizione.setIndirizzoCompleto(
-                ristoranteMemoria.getPosizione().getVia(),
-                ristoranteMemoria.getPosizione().getCivico()
+        posizione.indirizzoCompleto(
+                ristoranteMemoria.posizioneRistorante().via(),
+                ristoranteMemoria.posizioneRistorante().numeroCivico()
         );
-        posizione.setCitta(ristoranteMemoria.getPosizione().getCitta());
-        posizione.setCap(ristoranteMemoria.getPosizione().getCap());
+        posizione.setCitta(ristoranteMemoria.posizioneRistorante().getCitta());
+        posizione.setCap(ristoranteMemoria.posizioneRistorante().getCap());
 
         ristorante.setPosizione(posizione);
         return ristorante;
@@ -152,7 +152,7 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
 
                         Ristorante copia = new Ristorante();
                         copia.setPartitaIVA(r.getPartitaIVA());
-                        copia.setNomeRistorante(r.getNomeRistorante());
+                        copia.setNome(r.getNome());
                         return copia;
                     })
                     .orElse(null);
@@ -173,11 +173,11 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
                     .map(r -> {
 
                         Ristorante copia = new Ristorante();
-                        copia.setNomeRistorante(r.getNomeRistorante());
+                        copia.setNome(r.getNome());
 
                         Posizione posizione = new Posizione();
-                        if (r.getPosizione() != null) {
-                            posizione.setCitta(r.getPosizione().getCitta());
+                        if (r.posizioneRistorante() != null) {
+                            posizione.setCitta(r.posizioneRistorante().getCitta());
                         }
                         copia.setPosizione(posizione);
 
@@ -192,5 +192,24 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
             throw new EccezioneDAO("Errore durante il recupero dei top 4 ristoranti per media stelle in memoria", e);
         }
     }
+
+    @Override
+    public Ristorante dettagliRistorante(Ristorante ristorante) throws EccezioneDAO {
+
+        if (ristorante == null || ristorante.getPartitaIVA() == null) {
+            throw new EccezioneDAO("Partita IVA non valida");
+        }
+
+        Ristorante r = ristorantiInMemoriaMap.get(ristorante.getPartitaIVA());
+
+        if (r == null) {
+            throw new EccezioneDAO(
+                    RISTORANTE_NON_TROVATO_IN_MEMORIA + ristorante.getPartitaIVA()
+            );
+        }
+
+        return r;
+    }
+
 
 }

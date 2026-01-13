@@ -1,21 +1,18 @@
 package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
-import com.example.meteo_gusto.enumerazione.TipoCucina;
-import com.example.meteo_gusto.enumerazione.TipoDieta;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 
 public class FiltriBean {
     private LocalDate data;
     private LocalTime ora;
     private String citta;
     private Integer numeroPersone;
-    private FasciaPrezzoRistorante fasciaPrezzoRistorante;
-    private Set<TipoCucina> tipoCucina;
-    private Set<TipoDieta> tipoDieta;
+    private String fasciaPrezzo;
+    private List<String> cucine;
+    private List<String> diete;
     private boolean meteo;
 
     public FiltriBean() { /* COSTRUTTORE VUOTO */ }
@@ -26,17 +23,18 @@ public class FiltriBean {
     public LocalTime getOra() { return ora; }
     public String getCitta() { return citta; }
     public Integer getNumeroPersone() { return numeroPersone; }
-    public FasciaPrezzoRistorante getFasciaPrezzoRistorante() { return fasciaPrezzoRistorante; }
-    public Set<TipoCucina> getTipoCucina() { return tipoCucina; }
-    public Set<TipoDieta> getTipoDieta() { return tipoDieta; }
+    public List<String> getCucine() { return cucine; }
+    public void setCucine(List<String> cucine) {this.cucine = cucine;}
+    public String getFasciaPrezzo() { return fasciaPrezzo; }
+    public void setFasciaPrezzo(String fasciaPrezzo) {this.fasciaPrezzo = fasciaPrezzo;}
     public boolean getMeteo() { return meteo; }
-    public void setFasciaPrezzoRistorante(FasciaPrezzoRistorante fasciaPrezzoRistorante) {this.fasciaPrezzoRistorante = fasciaPrezzoRistorante;}
-    public void setTipoCucina(Set<TipoCucina> tipoCucina) {this.tipoCucina = tipoCucina;}
-    public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
     public void setMeteo(boolean meteo) {this.meteo = meteo;}
+    public List<String> getDiete() { return diete; }
+    public void setDiete(List<String> diete) {this.diete = diete;}
 
 
-    /* METODI SETTER CON VALIDAZIONE */
+
+    /* METODI SETTER CON VALIDAZIONE SINTATTICA */
     public void setData(LocalDate data) throws ValidazioneException {
         if (data == null) {
             throw new ValidazioneException("Data non valida. Usa il formato GG/MM/AAAA");

@@ -19,7 +19,7 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
             throw new EccezioneDAO("Ristorante o Partita IVA non valorizzata");
         }
 
-        Set<TipoDieta> diete = ristorante.getTipoDieta();
+        Set<TipoDieta> diete = ristorante.getDiete();
         if (diete == null || diete.isEmpty()) {
             return;
         }
@@ -43,7 +43,7 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
     @Override
     public Ristorante controllaDieteDelRistorante(Ristorante ristorante) throws EccezioneDAO {
         if (ristorante == null || ristorante.getPartitaIVA() == null
-                || ristorante.getTipoDieta() == null || ristorante.getTipoDieta().isEmpty()) {
+                || ristorante.getDiete() == null || ristorante.getDiete().isEmpty()) {
             return null;
         }
 
@@ -54,7 +54,7 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
 
             ps.setString(1, ristorante.getPartitaIVA());
 
-            for (TipoDieta dieta : ristorante.getTipoDieta()) {
+            for (TipoDieta dieta : ristorante.getDiete()) {
                 ps.setString(2, dieta.name());
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
@@ -70,7 +70,7 @@ public class DietaDAOMySql extends QuerySQLDietaDAO implements DietaDAO {
         if (dieteValide.isEmpty()) return null;
 
         Ristorante ristoranteValido = new Ristorante();
-        ristoranteValido.setTipoDieta(dieteValide);
+        ristoranteValido.setDiete(dieteValide);
         return ristoranteValido;
     }
 

@@ -1,10 +1,8 @@
 package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.GiorniSettimana;
-
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 
 public class GiorniEOrariBean {
 
@@ -12,11 +10,11 @@ public class GiorniEOrariBean {
     private LocalTime finePranzo;
     private LocalTime inizioCena;
     private LocalTime fineCena;
-    private Set<GiorniSettimana> giorniChiusura;
+    private List<String> giorniChiusura;
 
     public GiorniEOrariBean() { /* COSTRUTTORE VUOTO */ }
 
-    public GiorniEOrariBean(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena, Set<GiorniSettimana> giorniChiusura) {
+    public GiorniEOrariBean(LocalTime inizioPranzo, LocalTime finePranzo, LocalTime inizioCena, LocalTime fineCena, List<String> giorniChiusura) {
         this.inizioPranzo = inizioPranzo;
         this.finePranzo = finePranzo;
         this.inizioCena = inizioCena;
@@ -29,8 +27,9 @@ public class GiorniEOrariBean {
     public LocalTime getFinePranzo() { return finePranzo; }
     public LocalTime getInizioCena() { return inizioCena; }
     public LocalTime getFineCena() { return fineCena; }
-    public Set<GiorniSettimana> getGiorniChiusura() { return giorniChiusura;}
-    public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
+    public List<String> getGiorniChiusura() { return giorniChiusura;}
+    public void setGiorniChiusura(List<String> giorniChiusura) {this.giorniChiusura = giorniChiusura;}
+
 
     /* METODI SETTER CON VALIDAZIONE */
     public void setInizioPranzo(LocalTime inizioPranzo) throws ValidazioneException {

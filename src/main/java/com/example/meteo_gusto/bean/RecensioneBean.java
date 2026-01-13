@@ -4,18 +4,13 @@ import java.math.BigDecimal;
 
 public class RecensioneBean {
     private BigDecimal stelle;
-    private RistoranteBean ristorante;
+    private String ristorante;
 
     public RecensioneBean() { /* COSTRUTTORE VUOTO */ }
 
-    public RecensioneBean(BigDecimal stelle, RistoranteBean ristorante) {
-        setStelle(stelle);
-        setRistorante(ristorante);
-    }
-
     /* METODI GETTER */
     public BigDecimal getStelle() {return stelle;}
-    public RistoranteBean getRistorante() {return ristorante;}
+    public String getRistorante() {return ristorante;}
 
 
     /* METODI SETTER */
@@ -27,10 +22,7 @@ public class RecensioneBean {
 
     }
 
-
-
-
-    public void setRistorante(RistoranteBean ristorante) {
+    public void setRistorante(String ristorante) {
         if (ristorante == null) {
             throw new IllegalArgumentException("Il ristorante associato alla recensione non può essere null.");
         }

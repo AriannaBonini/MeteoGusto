@@ -5,9 +5,7 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
@@ -22,7 +20,7 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
     public Prenotazione postiOccupatiPerDataEFasciaOraria(Prenotazione prenotazione) throws EccezioneDAO {
         try {
             if (prenotazione == null || prenotazione.getAmbiente() == null || prenotazione.getAmbiente().getIdAmbiente() == null
-                    || prenotazione.getData() == null || prenotazione.getFasciaOraria() == null) {
+                    || prenotazione.dataPrenotazione() == null || prenotazione.getFasciaOraria() == null) {
                 throw new EccezioneDAO("Prenotazione o dati necessari non valorizzati");
             }
 
@@ -32,9 +30,9 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
             int totalePersone = 0;
             if (prenotazioni != null) {
                 for (Prenotazione p : prenotazioni) {
-                    if (p.getData().equals(prenotazione.getData())
+                    if (p.dataPrenotazione().equals(prenotazione.dataPrenotazione())
                             && p.getFasciaOraria().equals(prenotazione.getFasciaOraria())) {
-                        totalePersone += p.getNumeroPersone() != null ? p.getNumeroPersone() : 0;
+                        totalePersone += p.numeroPersone() != null ? p.numeroPersone() : 0;
                     }
                 }
             }
@@ -57,7 +55,7 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
             listaPrenotazioni.add(prenotazione);
 
-            notificheUtenteMap.merge(prenotazione.getUtente().getEmail(), 1, Integer::sum);
+            notificheUtenteMap.merge(prenotazione.prenotante(), 1, Integer::sum);
             notificheRistoratoreMap.merge(prenotazione.getAmbiente().getIdAmbiente(), 1, Integer::sum);
 
             return true;
@@ -81,8 +79,8 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
             }
 
             return listaPrenotazioni.stream()
-                    .anyMatch(p -> p.getUtente().getEmail().equals(prenotazione.getUtente().getEmail())
-                            && p.getData().equals(prenotazione.getData())
+                    .anyMatch(p -> p.prenotante().equals(prenotazione.prenotante())
+                            && p.dataPrenotazione().equals(prenotazione.dataPrenotazione())
                             && p.getFasciaOraria().equals(prenotazione.getFasciaOraria()));
 
         } catch (Exception e) {
@@ -94,9 +92,8 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
         if (prenotazione == null
                 || prenotazione.getAmbiente() == null
                 || prenotazione.getAmbiente().getIdAmbiente() == null
-                || prenotazione.getUtente() == null
-                || prenotazione.getUtente().getEmail() == null
-                || prenotazione.getData() == null
+                || prenotazione.prenotante() == null
+                || prenotazione.dataPrenotazione() == null
                 || prenotazione.getFasciaOraria() == null) {
             throw new EccezioneDAO("Dati della prenotazione non valorizzati correttamente");
         }
@@ -147,7 +144,7 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
             return prenotazioniPerAmbienteMap.values().stream()
                     .flatMap(List::stream)
-                    .filter(p -> p.getUtente() != null && utente.getEmail().equals(p.getUtente().getEmail()))
+                    .filter(p -> p.prenotante() != null && utente.getEmail().equals(p.prenotante()))
                     .toList();
 
         } catch (Exception e) {
@@ -157,19 +154,14 @@ public class PrenotazioneDAOMemoria implements PrenotazioneDAO {
 
 
     @Override
-    public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public List<Prenotazione> selezionaPrenotazioniRistoratore(Ambiente ambiente) throws EccezioneDAO {
         try {
-            if (ambienti == null || ambienti.isEmpty()) {
+            if (ambiente == null) {
                 return List.of();
             }
 
-            Set<Integer> idAmbienti = ambienti.stream()
-                    .filter(a -> a != null && a.getIdAmbiente() != null)
-                    .map(Ambiente::getIdAmbiente)
-                    .collect(Collectors.toSet());
-
             return prenotazioniPerAmbienteMap.entrySet().stream()
-                    .filter(e -> idAmbienti.contains(e.getKey()))
+                    .filter(e -> ambiente.getIdAmbiente().equals(e.getKey()))
                     .flatMap(e -> e.getValue().stream())
                     .toList();
 

@@ -20,7 +20,7 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
 
                 ps.setString(1, utente.getNome());
                 ps.setString(2, utente.getCognome());
-                ps.setString(3, utente.getTelefono());
+                ps.setString(3, utente.numeroTelefonico());
                 ps.setString(4, utente.getEmail());
                 ps.setString(5, utente.getPassword());
                 ps.setString(6, utente.getTipoPersona().getId());
@@ -93,7 +93,6 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
                         personaTrovata.setNome(rs.getString(NOME));
                         personaTrovata.setCognome(rs.getString(COGNOME));
                         personaTrovata.setTelefono(rs.getString(TELEFONO));
-                        personaTrovata.setEmail(rs.getString(EMAIL));
 
                         return personaTrovata;
 

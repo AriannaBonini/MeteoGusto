@@ -172,7 +172,7 @@ public class RegistrazioneRistoratoreCG {
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            RegistrazioneUtenteBean registrazioneRistoratoreBean= new RegistrazioneUtenteBean();
+            RegistrazionePersonaBean registrazioneRistoratoreBean= new RegistrazionePersonaBean();
 
             registrazioneRistoratoreBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
             registrazioneRistoratoreBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
@@ -229,19 +229,17 @@ public class RegistrazioneRistoratoreCG {
         RistoranteBean ristoranteBean = new RistoranteBean();
 
         ristoranteBean.setPartitaIVA(campoPartitaIva.getText().trim());
-        ristoranteBean.setNomeRistorante(campoNomeRistorante.getText());
-        ristoranteBean.setTelefonoRistorante(campoTelefonoRistorante.getText());
-        ristoranteBean.setCucina(comboBoxCucina.getValue());
-        ristoranteBean.setFasciaPrezzo(comboBoxPrezzo.getValue());
+        ristoranteBean.setNome(campoNomeRistorante.getText());
+        ristoranteBean.setTelefono(campoTelefonoRistorante.getText());
+        ristoranteBean.setCucina(comboBoxCucina.getValue().getId());
+        ristoranteBean.setFasciaPrezzo(comboBoxPrezzo.getValue().getId());
 
-        PosizioneBean posizioneBean = new PosizioneBean();
-        posizioneBean.setIndirizzoCompleto(campoIndirizzo.getText());
-        posizioneBean.setCap(campoCap.getText());
-        posizioneBean.setCitta(campoCitta.getText());
-        ristoranteBean.setPosizione(posizioneBean);
+        ristoranteBean.setIndirizzoCompleto(campoIndirizzo.getText());
+        ristoranteBean.setCap(campoCap.getText());
+        ristoranteBean.setCitta(campoCitta.getText());
 
-        ristoranteBean.setGiorniEOrari(orariRistorante());
-        ristoranteBean.setTipoDieta(dietaOffertaDalRistorante());
+        ristoranteBean.setOrariApertura(orariRistorante());
+        ristoranteBean.setDiete(dietaOffertaDalRistorante());
         ristoranteBean.setAmbiente(ambientiDelRistorante());
 
         return ristoranteBean;
@@ -271,30 +269,30 @@ public class RegistrazioneRistoratoreCG {
         pausa.play();
     }
 
-    private Set<GiorniSettimana> giorniChiusura() {
-        Set<GiorniSettimana> giorniSelezionati = new HashSet<>();
+    private List<String> giorniChiusura() {
+        List<String> giorniSelezionati = new ArrayList<>();
 
-        if (checkBoxLun.isSelected()) giorniSelezionati.add(GiorniSettimana.LUNEDI);
-        if (checkBoxMar.isSelected()) giorniSelezionati.add(GiorniSettimana.MARTEDI);
-        if (checkBoxMer.isSelected()) giorniSelezionati.add(GiorniSettimana.MERCOLEDI);
-        if (checkBoxGio.isSelected()) giorniSelezionati.add(GiorniSettimana.GIOVEDI);
-        if (checkBoxVen.isSelected()) giorniSelezionati.add(GiorniSettimana.VENERDI);
-        if (checkBoxSab.isSelected()) giorniSelezionati.add(GiorniSettimana.SABATO);
-        if (checkBoxDom.isSelected()) giorniSelezionati.add(GiorniSettimana.DOMENICA);
+        if (checkBoxLun.isSelected()) giorniSelezionati.add(GiorniSettimana.LUNEDI.getId());
+        if (checkBoxMar.isSelected()) giorniSelezionati.add(GiorniSettimana.MARTEDI.getId());
+        if (checkBoxMer.isSelected()) giorniSelezionati.add(GiorniSettimana.MERCOLEDI.getId());
+        if (checkBoxGio.isSelected()) giorniSelezionati.add(GiorniSettimana.GIOVEDI.getId());
+        if (checkBoxVen.isSelected()) giorniSelezionati.add(GiorniSettimana.VENERDI.getId());
+        if (checkBoxSab.isSelected()) giorniSelezionati.add(GiorniSettimana.SABATO.getId());
+        if (checkBoxDom.isSelected()) giorniSelezionati.add(GiorniSettimana.DOMENICA.getId());
 
         return giorniSelezionati;
     }
 
-    private Set<TipoDieta> dietaOffertaDalRistorante() {
-        Set<TipoDieta> dietaSelezionata = new HashSet<>();
+    private List<String> dietaOffertaDalRistorante() {
+        List<String> dietaSelezionata = new ArrayList<>();
 
-        if (checkBoxHalal.isSelected()) dietaSelezionata.add(TipoDieta.HALAL);
-        if (checkBoxKosher.isSelected()) dietaSelezionata.add(TipoDieta.KOSHER);
-        if (checkBoxVegano.isSelected()) dietaSelezionata.add(TipoDieta.VEGANO);
-        if (checkBoxVegetariano.isSelected()) dietaSelezionata.add(TipoDieta.VEGETARIANO);
-        if (checkBoxCeliaco.isSelected()) dietaSelezionata.add(TipoDieta.CELIACO);
-        if (checkBoxPescetariano.isSelected()) dietaSelezionata.add(TipoDieta.PESCETARIANO);
-        if (checkBoxSenzaLattosio.isSelected()) dietaSelezionata.add(TipoDieta.SENZA_LATTOSIO);
+        if (checkBoxHalal.isSelected()) dietaSelezionata.add(TipoDieta.HALAL.getId());
+        if (checkBoxKosher.isSelected()) dietaSelezionata.add(TipoDieta.KOSHER.getId());
+        if (checkBoxVegano.isSelected()) dietaSelezionata.add(TipoDieta.VEGANO.getId());
+        if (checkBoxVegetariano.isSelected()) dietaSelezionata.add(TipoDieta.VEGETARIANO.getId());
+        if (checkBoxCeliaco.isSelected()) dietaSelezionata.add(TipoDieta.CELIACO.getId());
+        if (checkBoxPescetariano.isSelected()) dietaSelezionata.add(TipoDieta.PESCETARIANO.getId());
+        if (checkBoxSenzaLattosio.isSelected()) dietaSelezionata.add(TipoDieta.SENZA_LATTOSIO.getId());
 
         return dietaSelezionata;
     }
@@ -306,7 +304,7 @@ public class RegistrazioneRistoratoreCG {
             String testo = campoCopertiInterni.getText();
             Integer coperti = parseCoperti(testo);
             AmbienteBean ambiente = new AmbienteBean();
-            ambiente.setAmbiente(TipoAmbiente.INTERNO);
+            ambiente.setAmbiente(TipoAmbiente.INTERNO.getId());
             ambiente.setNumeroCoperti(coperti);
 
             listaAmbientiRistorante.add(ambiente);
@@ -316,7 +314,7 @@ public class RegistrazioneRistoratoreCG {
             String testo = campoCopertiEsterni.getText();
             Integer coperti = parseCoperti(testo);
             AmbienteBean ambiente = new AmbienteBean();
-            ambiente.setAmbiente(TipoAmbiente.ESTERNO);
+            ambiente.setAmbiente(TipoAmbiente.ESTERNO.getId());
             ambiente.setNumeroCoperti(coperti);
 
             listaAmbientiRistorante.add(ambiente);
@@ -326,7 +324,7 @@ public class RegistrazioneRistoratoreCG {
             String testo = campoCopertiEsterniCoperti.getText();
             Integer coperti = parseCoperti(testo);
             AmbienteBean ambiente = new AmbienteBean();
-            ambiente.setAmbiente(TipoAmbiente.ESTERNO_COPERTO);
+            ambiente.setAmbiente(TipoAmbiente.ESTERNO_COPERTO.getId());
             ambiente.setNumeroCoperti(coperti);
             ambiente.setExtra(extraDelRistorante());
 

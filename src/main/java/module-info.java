@@ -7,6 +7,7 @@ module com.example.meteo_gusto {
     requires java.net.http;
     requires org.json;
 
+
     opens com.example.meteo_gusto to javafx.fxml;
     exports com.example.meteo_gusto;
     exports com.example.meteo_gusto.eccezione;

@@ -15,4 +15,5 @@ public interface RistoranteDAO {
     Ristorante selezionaInfoRistorante(Ambiente ambiente) throws EccezioneDAO;
     Ristorante selezionaRistorantePerProprietario(Persona ristoratore) throws EccezioneDAO;
     List<Ristorante> selezionaTop4RistorantiPerMedia() throws EccezioneDAO;
+    Ristorante dettagliRistorante(Ristorante ristorante) throws EccezioneDAO;
 }

@@ -207,34 +207,35 @@ public class PrenotaRistoranteCG {
         this.filtriBean = filtriBean;
         this.meteoBean=meteoBean;
 
-        impostaCheckBoxTipoCucina(filtriBean.getTipoCucina());
-        impostaCheckBoxTipoDieta(filtriBean.getTipoDieta());
 
-        filtroFasciaPrezzo.setValue(filtriBean.getFasciaPrezzoRistorante());
+        impostaCheckBoxTipoCucina(filtriBean.getCucine());
+        impostaCheckBoxTipoDieta(filtriBean.getDiete());
+
+        filtroFasciaPrezzo.setValue(FasciaPrezzoRistorante.fasciaPrezzoDaId(filtriBean.getFasciaPrezzo()));
         filtra.setDisable(true);
 
         impostaCampiIniziali();
     }
 
-    private void impostaCheckBoxTipoCucina(Set<TipoCucina> cucine) {
-        checkBoxItaliana.setSelected(cucine != null && cucine.contains(TipoCucina.ITALIANA));
-        checkBoxSushi.setSelected(cucine != null && cucine.contains(TipoCucina.SUSHI));
-        checkBoxCinese.setSelected(cucine != null && cucine.contains(TipoCucina.CINESE));
-        checkBoxGreca.setSelected(cucine != null && cucine.contains(TipoCucina.GRECA));
-        checkBoxTurca.setSelected(cucine != null && cucine.contains(TipoCucina.TURCA));
-        checkBoxPizza.setSelected(cucine != null && cucine.contains(TipoCucina.PIZZA));
-        checkBoxMessicana.setSelected(cucine != null && cucine.contains(TipoCucina.MESSICANA));
-        checkBoxFastFood.setSelected(cucine != null && cucine.contains(TipoCucina.FAST_FOOD));
+    private void impostaCheckBoxTipoCucina(List<String> cucine) {
+        checkBoxItaliana.setSelected(cucine != null && cucine.contains(TipoCucina.ITALIANA.getId()));
+        checkBoxSushi.setSelected(cucine != null && cucine.contains(TipoCucina.SUSHI.getId()));
+        checkBoxCinese.setSelected(cucine != null && cucine.contains(TipoCucina.CINESE.getId()));
+        checkBoxGreca.setSelected(cucine != null && cucine.contains(TipoCucina.GRECA.getId()));
+        checkBoxTurca.setSelected(cucine != null && cucine.contains(TipoCucina.TURCA.getId()));
+        checkBoxPizza.setSelected(cucine != null && cucine.contains(TipoCucina.PIZZA.getId()));
+        checkBoxMessicana.setSelected(cucine != null && cucine.contains(TipoCucina.MESSICANA.getId()));
+        checkBoxFastFood.setSelected(cucine != null && cucine.contains(TipoCucina.FAST_FOOD.getId()));
     }
 
-    private void impostaCheckBoxTipoDieta(Set<TipoDieta> diete) {
-        checkBoxHalal.setSelected(diete != null && diete.contains(TipoDieta.HALAL));
-        checkBoxKosher.setSelected(diete != null && diete.contains(TipoDieta.KOSHER));
-        checkBoxVegano.setSelected(diete != null && diete.contains(TipoDieta.VEGANO));
-        checkBoxVegetariano.setSelected(diete != null && diete.contains(TipoDieta.VEGETARIANO));
-        checkBoxPescetariano.setSelected(diete != null && diete.contains(TipoDieta.PESCETARIANO));
-        checkBoxCeliaco.setSelected(diete != null && diete.contains(TipoDieta.CELIACO));
-        checkBoxSenzaLattosio.setSelected(diete != null && diete.contains(TipoDieta.SENZA_LATTOSIO));
+    private void impostaCheckBoxTipoDieta(List<String> diete) {
+        checkBoxHalal.setSelected(diete != null && diete.contains(TipoDieta.HALAL.getId()));
+        checkBoxKosher.setSelected(diete != null && diete.contains(TipoDieta.KOSHER.getId()));
+        checkBoxVegano.setSelected(diete != null && diete.contains(TipoDieta.VEGANO.getId()));
+        checkBoxVegetariano.setSelected(diete != null && diete.contains(TipoDieta.VEGETARIANO.getId()));
+        checkBoxPescetariano.setSelected(diete != null && diete.contains(TipoDieta.PESCETARIANO.getId()));
+        checkBoxCeliaco.setSelected(diete != null && diete.contains(TipoDieta.CELIACO.getId()));
+        checkBoxSenzaLattosio.setSelected(diete != null && diete.contains(TipoDieta.SENZA_LATTOSIO.getId()));
     }
 
 
@@ -280,7 +281,7 @@ public class PrenotaRistoranteCG {
         }catch (IOException e) {
             logger.error("Errore di comunicazione con il servizio meteo: {}", e.getMessage());
             mostraErroreTemporaneamenteNellaLabel("Il servizio meteo non è disponibile");
-        } catch (PrevisioniMeteoFuoriRangeException e) {
+        } catch (PrevisioniMeteoFuoriRangeException | ValidazioneException e) {
             GestoreScena.mostraAlertSenzaConferma("Avvertenza ", e.getMessage());
         }
     }
@@ -315,14 +316,14 @@ public class PrenotaRistoranteCG {
             schedaRistorante.getChildren().add(SupportoComponentiGUISchedaRistorante.creaImmagineRistorante(ristorantePrenotabile));
 
 
-            nomeRistorante.setText(ristorantePrenotabile.getNomeRistorante());
+            nomeRistorante.setText(ristorantePrenotabile.getNome());
             popolaInfoFasciaPrezzo(ristorantePrenotabile, fasciaPrezzo);
             infoRistorante1.getChildren().addAll(nomeRistorante, fasciaPrezzo);
             schedaRistorante.getChildren().add(infoRistorante1);
 
 
-            cittaRistorante.setText(" • " + ristorantePrenotabile.getPosizione().getCitta());
-            tipoCucinaRistorante.setText(" • " + ristorantePrenotabile.getCucina().getId());
+            cittaRistorante.setText(" • " + ristorantePrenotabile.getCitta());
+            tipoCucinaRistorante.setText(" • " + ristorantePrenotabile.getCucina());
             infoRistorante2.getChildren().addAll(cittaRistorante, tipoCucinaRistorante);
             schedaRistorante.getChildren().add(infoRistorante2);
 
@@ -425,49 +426,53 @@ public class PrenotaRistoranteCG {
 
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
+        } catch (ValidazioneException e) {
+            logger.error(e.getMessage());
         }
     }
 
-    private void aggiornaFiltri()  {
+    private void aggiornaFiltri() {
         if (filtriBean == null) {
             filtriBean = new FiltriBean();
         }
 
-        filtriBean.setFasciaPrezzoRistorante(filtroFasciaPrezzo.getValue());
-        filtriBean.setTipoCucina(filtriTipoCucinaSelezionati());
-        filtriBean.setTipoDieta(filtriTipoDietaSelezionati());
+        FasciaPrezzoRistorante fasciaSelezionata = filtroFasciaPrezzo != null ? filtroFasciaPrezzo.getValue() : null;
+        filtriBean.setFasciaPrezzo(fasciaSelezionata != null ? fasciaSelezionata.toString() : null);
 
+        filtriBean.setCucine(filtriTipoCucinaSelezionati());
+
+        filtriBean.setDiete(filtriTipoDietaSelezionati());
     }
 
 
 
-    private Set<TipoCucina> filtriTipoCucinaSelezionati() {
-        Set<TipoCucina> tipoCucina= new HashSet<>();
+    private List<String> filtriTipoCucinaSelezionati() {
+        List<String> tipoCucina= new ArrayList<>();
 
-        if (checkBoxItaliana.isSelected()) tipoCucina.add(TipoCucina.ITALIANA);
-        if (checkBoxSushi.isSelected()) tipoCucina.add(TipoCucina.SUSHI);
-        if (checkBoxCinese.isSelected()) tipoCucina.add(TipoCucina.CINESE);
-        if (checkBoxGreca.isSelected()) tipoCucina.add(TipoCucina.GRECA);
-        if (checkBoxTurca.isSelected()) tipoCucina.add(TipoCucina.TURCA);
-        if (checkBoxPizza.isSelected()) tipoCucina.add(TipoCucina.PIZZA);
-        if (checkBoxMessicana.isSelected()) tipoCucina.add(TipoCucina.MESSICANA);
-        if (checkBoxFastFood.isSelected()) tipoCucina.add(TipoCucina.FAST_FOOD);
+        if (checkBoxItaliana.isSelected()) tipoCucina.add(TipoCucina.ITALIANA.getId());
+        if (checkBoxSushi.isSelected()) tipoCucina.add(TipoCucina.SUSHI.getId());
+        if (checkBoxCinese.isSelected()) tipoCucina.add(TipoCucina.CINESE.getId());
+        if (checkBoxGreca.isSelected()) tipoCucina.add(TipoCucina.GRECA.getId());
+        if (checkBoxTurca.isSelected()) tipoCucina.add(TipoCucina.TURCA.getId());
+        if (checkBoxPizza.isSelected()) tipoCucina.add(TipoCucina.PIZZA.getId());
+        if (checkBoxMessicana.isSelected()) tipoCucina.add(TipoCucina.MESSICANA.getId());
+        if (checkBoxFastFood.isSelected()) tipoCucina.add((TipoCucina.FAST_FOOD.getId()));
 
-        return tipoCucina;
+        return tipoCucina.isEmpty() ? Collections.emptyList() : tipoCucina;
     }
 
-    private Set<TipoDieta> filtriTipoDietaSelezionati() {
-        Set<TipoDieta> tipoDieta = new HashSet<>();
+    private List<String> filtriTipoDietaSelezionati() {
+        List<String> tipoDieta = new ArrayList<>();
 
-        if (checkBoxKosher.isSelected()) tipoDieta.add(TipoDieta.KOSHER);
-        if (checkBoxHalal.isSelected()) tipoDieta.add(TipoDieta.HALAL);
-        if (checkBoxVegano.isSelected()) tipoDieta.add(TipoDieta.VEGANO);
-        if (checkBoxSenzaLattosio.isSelected()) tipoDieta.add(TipoDieta.SENZA_LATTOSIO);
-        if (checkBoxVegetariano.isSelected()) tipoDieta.add(TipoDieta.VEGETARIANO);
-        if (checkBoxCeliaco.isSelected()) tipoDieta.add(TipoDieta.CELIACO);
-        if (checkBoxPescetariano.isSelected()) tipoDieta.add(TipoDieta.PESCETARIANO);
+        if (checkBoxKosher.isSelected()) tipoDieta.add(TipoDieta.KOSHER.getId());
+        if (checkBoxHalal.isSelected()) tipoDieta.add(TipoDieta.HALAL.getId());
+        if (checkBoxVegano.isSelected()) tipoDieta.add(TipoDieta.VEGANO.getId());
+        if (checkBoxSenzaLattosio.isSelected()) tipoDieta.add(TipoDieta.SENZA_LATTOSIO.getId());
+        if (checkBoxVegetariano.isSelected()) tipoDieta.add(TipoDieta.VEGETARIANO.getId());
+        if (checkBoxCeliaco.isSelected()) tipoDieta.add(TipoDieta.CELIACO.getId());
+        if (checkBoxPescetariano.isSelected()) tipoDieta.add(TipoDieta.PESCETARIANO.getId());
 
-        return tipoDieta;
+        return tipoDieta.isEmpty() ? Collections.emptyList() : tipoDieta;
     }
 
 

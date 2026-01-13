@@ -22,8 +22,8 @@ public class RecensioneDAOMySql extends QuerySQLRecensioneDAO implements Recensi
                  PreparedStatement ps = conn.prepareStatement(REGISTRA_RECENSIONE)) {
 
 
-                ps.setString(1, recensione.getUtente().getEmail());
-                ps.setString(2, recensione.getRistorante().getPartitaIVA());
+                ps.setString(1, recensione.getUtente());
+                ps.setString(2, recensione.getRistorante());
                 ps.setBigDecimal(3, recensione.getStelle());
                 ps.setDate(4, java.sql.Date.valueOf(recensione.getData()));
 
@@ -40,8 +40,8 @@ public class RecensioneDAOMySql extends QuerySQLRecensioneDAO implements Recensi
         try (Connection conn = new GestoreConnessioneDB().creaConnessione();
              PreparedStatement ps = conn.prepareStatement(VERIFICA_RECENSIONE)) {
 
-            ps.setString(1, recensione.getUtente().getEmail());
-            ps.setString(2, recensione.getRistorante().getPartitaIVA());
+            ps.setString(1, recensione.getUtente());
+            ps.setString(2, recensione.getRistorante());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -64,8 +64,8 @@ public class RecensioneDAOMySql extends QuerySQLRecensioneDAO implements Recensi
 
             ps.setBigDecimal(1, recensione.getStelle());
             ps.setDate(2, java.sql.Date.valueOf(recensione.getData()));
-            ps.setString(3, recensione.getUtente().getEmail());
-            ps.setString(4, recensione.getRistorante().getPartitaIVA());
+            ps.setString(3, recensione.getUtente());
+            ps.setString(4, recensione.getRistorante());
 
             ps.executeUpdate();
 
@@ -84,7 +84,7 @@ public class RecensioneDAOMySql extends QuerySQLRecensioneDAO implements Recensi
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(CALCOLA_MEDIA_STELLE_RISTORANTE)) {
 
-                ps.setString(1, recensione.getRistorante().getPartitaIVA());
+                ps.setString(1, recensione.getRistorante());
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {

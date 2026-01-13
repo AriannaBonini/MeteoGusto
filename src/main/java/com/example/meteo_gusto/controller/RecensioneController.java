@@ -11,7 +11,7 @@ import com.example.meteo_gusto.model.Ristorante;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.convertitore.ConvertitoreRecensione;
-import com.example.meteo_gusto.utilities.convertitore.ConvertitoreRistorante;
+
 import java.time.LocalDate;
 
 public class RecensioneController {
@@ -25,15 +25,18 @@ public class RecensioneController {
         LocalDate dataRecensione = LocalDate.now();
         Persona utente= Sessione.getInstance().getPersona();
 
-        Recensione recensione= ConvertitoreRecensione.recensioneBeanInModel(recensioneBean,utente,dataRecensione);
+        Recensione recensione= ConvertitoreRecensione.recensioneInModel(recensioneBean,utente,dataRecensione);
         salvaRecensione(recensione);
         aggiornaMediaRistorante(recensione);
     }
 
     public RistoranteBean nuovaMediaRecensione(RistoranteBean ristoranteBean) throws EccezioneDAO {
+        Ristorante ristorante= ristoranteDAO.mediaStelleRistorante(new Ristorante(ristoranteBean.getPartitaIVA()));
 
-        Ristorante ristorante= ristoranteDAO.mediaStelleRistorante(ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean));
-        return ConvertitoreRistorante.ristoranteModelInBean(ristorante);
+        RistoranteBean ristoranteBeanMediaStelle= new RistoranteBean();
+        ristoranteBeanMediaStelle.setMediaStelle(ristorante.getMediaStelle());
+
+        return ristoranteBeanMediaStelle;
 
     }
 

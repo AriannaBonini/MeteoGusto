@@ -10,29 +10,33 @@ import java.util.Set;
 
 public class Ristorante {
     private String partitaIVA;
-    private String nomeRistorante;
-    private String telefonoRistorante;
+    private String nome;
+    private String telefono;
     private BigDecimal mediaStelle;
     private TipoCucina cucina;
     private FasciaPrezzoRistorante fasciaPrezzo;
-    private GiorniEOrari giorniEOrari;
+    private GiorniEOrari orariApertura;
     private Posizione posizione;
-    private Set<TipoDieta> tipoDieta;
-    private List<Ambiente> ambienteRistorante;
+    private Set<TipoDieta> diete;
+    private List<Ambiente> ambienti;
     private String ristoratore;
 
     public Ristorante() { /* COSTRUTTORE VUOTO */}
 
 
     /* COSTRUTTORE CON PARAMETRI */
-    public Ristorante(String partitaIVA, String nomeRistorante, String telefonoRistorante, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo,Posizione posizione, GiorniEOrari giorniEOrari) {
+
+    /* Costruttore per creare un oggetto Ristorante con i dati della registrazione */
+    public Ristorante(String partitaIVA, String nome, String telefono, TipoCucina cucina, FasciaPrezzoRistorante fasciaPrezzo, Posizione posizione, GiorniEOrari orariApertura) {
         this.partitaIVA = partitaIVA;
-        this.nomeRistorante = nomeRistorante;
-        this.telefonoRistorante = telefonoRistorante;
+        this.nome = nome;
+        this.telefono = telefono;
         this.cucina = cucina;
         this.fasciaPrezzo = fasciaPrezzo;
         this.posizione=posizione;
-        this.giorniEOrari = giorniEOrari;
+        this.orariApertura = orariApertura;
+        this.mediaStelle = BigDecimal.ZERO;
+
     }
 
     public Ristorante(String partitaIVA) {this.partitaIVA=partitaIVA;}
@@ -40,25 +44,25 @@ public class Ristorante {
 
     /* METODI GETTER E SETTER */
     public void setPartitaIVA(String partitaIVA) {this.partitaIVA = partitaIVA;}
-    public void setNomeRistorante(String nomeRistorante) {this.nomeRistorante = nomeRistorante;}
-    public void setTelefonoRistorante(String telefonoRistorante) {this.telefonoRistorante = telefonoRistorante;}
+    public void setNome(String nome) {this.nome = nome;}
+    public void setTelefono(String telefono) {this.telefono = telefono;}
     public String getPartitaIVA() {return partitaIVA;}
-    public String getNomeRistorante() {return nomeRistorante;}
-    public String getTelefonoRistorante() {return telefonoRistorante;}
+    public String getNome() {return nome;}
+    public String getTelefono() {return telefono;}
     public BigDecimal getMediaStelle() {return mediaStelle;}
     public void setMediaStelle(BigDecimal mediaStelle) {this.mediaStelle = mediaStelle;}
     public TipoCucina getCucina() {return cucina;}
     public void setCucina(TipoCucina cucina) {this.cucina = cucina;}
-    public FasciaPrezzoRistorante getFasciaPrezzo() {return fasciaPrezzo;}
+    public FasciaPrezzoRistorante fasciaPrezzoRistorante() {return fasciaPrezzo;}
     public void setFasciaPrezzo(FasciaPrezzoRistorante fasciaPrezzo) {this.fasciaPrezzo = fasciaPrezzo;}
-    public GiorniEOrari getOrari() {return giorniEOrari;}
-    public void setOrari(GiorniEOrari giorniEOrari) {this.giorniEOrari = giorniEOrari;}
-    public Posizione getPosizione() {return posizione;}
+    public GiorniEOrari orariApertura() {return orariApertura;}
+    public void setOrariApertura(GiorniEOrari orariApertura) {this.orariApertura = orariApertura;}
+    public Posizione posizioneRistorante() {return posizione;}
     public void setPosizione(Posizione posizione) {this.posizione = posizione;}
-    public Set<TipoDieta> getTipoDieta() {return tipoDieta;}
-    public void setTipoDieta(Set<TipoDieta> tipoDieta) {this.tipoDieta = tipoDieta;}
-    public List<Ambiente> getAmbienteRistorante() {return ambienteRistorante;}
-    public void setAmbienteRistorante(List<Ambiente> ambienteRistorante) {this.ambienteRistorante = ambienteRistorante;}
+    public Set<TipoDieta> getDiete() {return diete;}
+    public void setDiete(Set<TipoDieta> diete) {this.diete = diete;}
+    public List<Ambiente> ambientiRistorante() {return ambienti;}
+    public void setAmbienti(List<Ambiente> ambienti) {this.ambienti = ambienti;}
     public String getRistoratore() {return ristoratore;}
     public void setRistoratore(String ristoratore) {this.ristoratore = ristoratore;}
 }

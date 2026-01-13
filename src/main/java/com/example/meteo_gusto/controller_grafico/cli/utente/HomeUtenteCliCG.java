@@ -85,7 +85,7 @@ public class HomeUtenteCliCG implements InterfacciaCLI {
 
     private void mostraRistoranti() {
         for(RistoranteBean ristoranteBean : listaRistoranti) {
-            GestoreOutput.rettangolo(ristoranteBean.getNomeRistorante(), ristoranteBean.getPosizione().getCitta(),ristoranteBean.getCucina().toString(),ristoranteBean.getMediaStelle().toString());
+            GestoreOutput.rettangolo(ristoranteBean.getNome(), ristoranteBean.getCitta(),ristoranteBean.getCucina(),ristoranteBean.getMediaStelle().toString());
         }
     }
 }

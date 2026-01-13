@@ -44,11 +44,7 @@ public class QuerySQLRistoranteDAO {
             SELECT +
                     NOME + ", " +
                     PARTITA_IVA + ", " +
-                    TELEFONO + ", " +
-                    INDIRIZZO + ", " +
-                    CIVICO + ", " +
                     CITTA + ", " +
-                    CAP + ", " +
                     CUCINA + ", " +
                     FASCIA_PREZZO + ", " +
                     MEDIA_STELLE + ", " +
@@ -95,6 +91,17 @@ public class QuerySQLRistoranteDAO {
                     "ORDER BY " + MEDIA_STELLE + " DESC " +
                     "LIMIT 4";
 
-
+    protected static final String DETTAGLI_RISTORANTE =
+            SELECT +
+                    TELEFONO + ", " +
+                    INDIRIZZO + ", " +
+                    CIVICO + ", " +
+                    CAP + ", " +
+                    INIZIO_PRANZO + ", " +
+                    FINE_PRANZO + ", " +
+                    INIZIO_CENA + ", " +
+                    FINE_CENA + " " +
+                    "FROM " + TABELLA_RISTORANTE + " " +
+                    "WHERE " + PARTITA_IVA + " = ?";
 
 }

@@ -5,6 +5,7 @@ import com.example.meteo_gusto.dao.AmbienteDAO;
 import com.example.meteo_gusto.dao.PersonaDAO;
 import com.example.meteo_gusto.dao.RistoranteDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.patterns.facade.DAOFactoryFacade;
@@ -17,9 +18,9 @@ public class LoginController {
     private static final RistoranteDAO ristoranteDAO= daoFactoryFacade.getRistoranteDAO();
     private static final AmbienteDAO ambienteDAO= daoFactoryFacade.getAmbienteDAO();
 
-    public PersonaBean accedi(PersonaBean credenzialiBean) throws EccezioneDAO {
+    public PersonaBean accedi(PersonaBean credenzialiBean) throws EccezioneDAO, ValidazioneException {
         try {
-            Persona credenzialiPersona= ConvertitorePersona.personaBeanInModel(credenzialiBean);
+            Persona credenzialiPersona= ConvertitorePersona.loginInModel(credenzialiBean);
 
             Persona persona = personaDAO.login(credenzialiPersona);
             if(persona==null) {
@@ -28,20 +29,19 @@ public class LoginController {
 
             if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
                 persona.ristoranteDiProprieta(ristoranteDAO.selezionaRistorantePerProprietario(persona));
-                persona.getRistorante().setAmbienteRistorante(ambienteDAO.cercaAmbientiDelRistorante(persona.getRistorante()));
-
-
+                persona.getRistorante().setAmbienti(ambienteDAO.cercaAmbientiDelRistorante(persona.getRistorante()));
             }
 
             Sessione.getInstance().login(persona);
 
-            return ConvertitorePersona.personaModelInBean(persona);
+            PersonaBean personaBean= new PersonaBean();
+            personaBean.setTipoPersona(persona.getTipoPersona());
+
+            return personaBean;
 
         } catch (EccezioneDAO e) {
             throw new EccezioneDAO("Errore durante il login dell'utente", e);
         }
     }
-
-
 
 }

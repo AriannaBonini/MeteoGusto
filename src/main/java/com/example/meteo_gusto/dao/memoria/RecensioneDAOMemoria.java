@@ -4,7 +4,6 @@ import com.example.meteo_gusto.dao.RecensioneDAO;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.Recensione;
 import com.example.meteo_gusto.model.Ristorante;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -19,13 +18,13 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
     @Override
     public void nuovaRecensione(Recensione recensione) throws EccezioneDAO {
         try {
-            if (recensione == null || recensione.getRistorante() == null || recensione.getRistorante().getPartitaIVA() == null) {
+            if (recensione == null || recensione.getRistorante() == null) {
                 throw new EccezioneDAO("Recensione o ristorante non valorizzato");
             }
 
 
             recensioniPerRistoranteMap
-                    .computeIfAbsent(recensione.getRistorante().getPartitaIVA(), k -> new ArrayList<>())
+                    .computeIfAbsent(recensione.getRistorante(), k -> new ArrayList<>())
                     .add(recensione);
 
         } catch (Exception e) {
@@ -38,13 +37,13 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
         try {
             controllaRecensioneValida(recensione);
 
-            List<Recensione> recensioni = recensioniPerRistoranteMap.get(recensione.getRistorante().getPartitaIVA());
+            List<Recensione> recensioni = recensioniPerRistoranteMap.get(recensione.getRistorante());
             if (recensioni == null || recensioni.isEmpty()) {
                 return false;
             }
 
             return recensioni.stream()
-                    .anyMatch(r -> r.getUtente().getEmail().equals(recensione.getUtente().getEmail()));
+                    .anyMatch(r -> r.getUtente().equals(recensione.getUtente()));
 
         } catch (Exception e) {
             throw new EccezioneDAO("Errore durante la verifica dell'esistenza della recensione in memoria", e);
@@ -56,10 +55,10 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
         try {
             controllaRecensioneValida(recensione);
 
-            List<Recensione> recensioni = recensioniPerRistoranteMap.get(recensione.getRistorante().getPartitaIVA());
+            List<Recensione> recensioni = recensioniPerRistoranteMap.get(recensione.getRistorante());
             if (recensioni != null) {
                 for (Recensione r : recensioni) {
-                    if (r.getUtente().getEmail().equals(recensione.getUtente().getEmail())) {
+                    if (r.getUtente().equals(recensione.getUtente())) {
                         r.aggiungiStelle(recensione.getStelle());
                         r.setData(recensione.getData());
                         return;
@@ -75,8 +74,7 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
     }
 
     private void controllaRecensioneValida(Recensione recensione) throws EccezioneDAO {
-        if (recensione == null || recensione.getRistorante() == null || recensione.getRistorante().getPartitaIVA() == null
-                || recensione.getUtente() == null || recensione.getUtente().getEmail() == null) {
+        if (recensione == null || recensione.getRistorante() == null || recensione.getUtente() == null) {
             throw new EccezioneDAO("Recensione, ristorante o utente non valorizzato");
         }
     }
@@ -88,11 +86,11 @@ public class RecensioneDAOMemoria implements RecensioneDAO {
         Ristorante ristoranteConMedia = new Ristorante();
 
         try {
-            if (recensione == null || recensione.getRistorante() == null || recensione.getRistorante().getPartitaIVA() == null) {
+            if (recensione == null || recensione.getRistorante() == null) {
                 throw new EccezioneDAO("Recensione o ristorante non valorizzato");
             }
 
-            String pIva = recensione.getRistorante().getPartitaIVA();
+            String pIva = recensione.getRistorante();
             List<Recensione> recensioni = recensioniPerRistoranteMap.get(pIva);
 
             if (recensioni == null || recensioni.isEmpty()) {

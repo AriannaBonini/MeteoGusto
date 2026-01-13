@@ -6,7 +6,6 @@ import com.example.meteo_gusto.controller.RecensioneController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUISchedaRistorante;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
@@ -22,8 +21,9 @@ import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ProfiloRistoranteCG {
 
@@ -70,6 +70,7 @@ public class ProfiloRistoranteCG {
         recensisci.setVisible(false);
 
         comboBoxRecensione.valueProperty().addListener((obs, oldVal, newVal) -> recensisci.setVisible(newVal != null));
+
         popolaNotifiche();
     }
 
@@ -96,36 +97,45 @@ public class ProfiloRistoranteCG {
     }
 
     private void popolaInfoRistorante() {
-        nomeRistorante.setText(ristoranteSelezionato.getNomeRistorante());
-        infoIndirizzoCivicoCittaCAP.setText(" • " + ristoranteSelezionato.getPosizione().getIndirizzoCompleto() + " • " + ristoranteSelezionato.getPosizione().getCitta() + " • " + ristoranteSelezionato.getPosizione().getCap());
-        infoTelefono.setText(" • " + ristoranteSelezionato.getTelefonoRistorante());
-        mediaStelle.setText(ristoranteSelezionato.getMediaStelle()+"/5");
-        GiorniEOrariBean giorniEOrariBean= ristoranteSelezionato.getGiorniEOrari();
 
-        if(giorniEOrariBean.getInizioPranzo()==null && giorniEOrariBean.getFinePranzo()==null) {
-            infoGiorniOrariPranzoCena.setText(" • Non effettua pranzo " + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
-        }else if(giorniEOrariBean.getInizioCena()==null && giorniEOrariBean.getFineCena()==null) {
-            infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • Non effettua cena");
+        try {
+            ristoranteSelezionato = new PrenotaRistoranteController().dettagliRistorante(ristoranteSelezionato);
 
-        }else {
-            infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+            nomeRistorante.setText(ristoranteSelezionato.getNome());
+            infoIndirizzoCivicoCittaCAP.setText(" • " + ristoranteSelezionato.getIndirizzoCompleto() + " • " + ristoranteSelezionato.getCitta() + " • " + ristoranteSelezionato.getCap());
+            infoTelefono.setText(" • Tel : " + ristoranteSelezionato.getTelefono());
+            mediaStelle.setText(ristoranteSelezionato.getMediaStelle() + "/5");
+            GiorniEOrariBean giorniEOrariBean = ristoranteSelezionato.getOrariApertura();
+
+            if (giorniEOrariBean.getInizioPranzo() == null && giorniEOrariBean.getFinePranzo() == null) {
+                infoGiorniOrariPranzoCena.setText(" • Non effettua pranzo " + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+            } else if (giorniEOrariBean.getInizioCena() == null && giorniEOrariBean.getFineCena() == null) {
+                infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • Non effettua cena");
+
+            } else {
+                infoGiorniOrariPranzoCena.setText(" • " + giorniEOrariBean.getInizioPranzo() + " - " + giorniEOrariBean.getFinePranzo() + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
+            }
+
+            infoCucinaDieta.setText(" • " + ristoranteSelezionato.getCucina() + " • " + stampaDieteRistorante());
+
+            fotoRistorante.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(ristoranteSelezionato));
+            SupportoComponentiGUISchedaRistorante.immagineFasciaPrezzoRistorante(ristoranteSelezionato, hBoxDollari, false);
+            SupportoComponentiGUISchedaRistorante.immagineStellaRistorante(ristoranteSelezionato, hBoxStelle);
+
+        }catch (EccezioneDAO e) {
+            logger.error("Errore durante la ricerca dei dati ", e);
+        }catch (ValidazioneException e) {
+            logger.error("Errore durante la conversione dei dati", e);
         }
-
-        infoCucinaDieta.setText(" • " + ristoranteSelezionato.getCucina().getId() + " • " + stampaDieteRistorante());
-
-        fotoRistorante.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(ristoranteSelezionato));
-        SupportoComponentiGUISchedaRistorante.immagineFasciaPrezzoRistorante(ristoranteSelezionato,hBoxDollari, false);
-        SupportoComponentiGUISchedaRistorante.immagineStellaRistorante(ristoranteSelezionato,hBoxStelle);
-
     }
     private String stampaDieteRistorante() {
-        Set<TipoDieta> diete = ristoranteSelezionato.getTipoDieta();
+        List<String> diete = ristoranteSelezionato.getDiete();
         if (diete == null || diete.isEmpty()) {
             return "Nessuna dieta disponibile";
         }
-        return diete.stream()
-                .map(TipoDieta::getId)
-                .collect(Collectors.joining(" • "));
+
+        return String.join(" • ", diete);
+
     }
 
     @FXML
@@ -139,7 +149,7 @@ public class ProfiloRistoranteCG {
         try {
             PrenotazioneBean prenotazione = popolaPrenotazione();
 
-            GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> ((RiepilogoPrenotazioneCG) controller).setRiepilogoPrenotazione(prenotazione, ristoranteSelezionato));
+            GestoreScena.sostituisciContenutoConParametri(contenitoreDinamico, "/RiepilogoPrenotazione.fxml", controller -> ((RiepilogoPrenotazioneCG) controller).setRiepilogoPrenotazione(prenotazione));
         }catch (ValidazioneException e) {
             logger.error("Errore durante la popolazione della bean prenotazione", e);
         }
@@ -147,13 +157,43 @@ public class ProfiloRistoranteCG {
 
 
     private PrenotazioneBean popolaPrenotazione() throws ValidazioneException {
-        /* Dati prenotazione */
         PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
         prenotazioneBean.setData(filtriSelezionati.getData());
         prenotazioneBean.setOra(filtriSelezionati.getOra());
         prenotazioneBean.setNumeroPersone(filtriSelezionati.getNumeroPersone());
 
+
+        List<String> diete = ristoranteSelezionato.getDiete();
+        if (diete == null) {
+            diete = Collections.emptyList();
+        }
+        prenotazioneBean.setNote(String.join(", ", diete));
+
+
+
+        RistoranteBean ristoranteBean= new RistoranteBean();
+        ristoranteBean.setNome(ristoranteSelezionato.getNome());
+        ristoranteBean.setPartitaIVA(ristoranteSelezionato.getPartitaIVA());
+        ristoranteBean.setCap(ristoranteSelezionato.getCap());
+        ristoranteBean.setIndirizzoCompleto(ristoranteSelezionato.getIndirizzoCompleto());
+        ristoranteBean.setCitta(ristoranteSelezionato.getCitta());
+
+        prenotazioneBean.setRistorante(ristoranteBean);
+
+        prenotazioneBean.setAmbiente(aggiungiAmbienti());
+
         return prenotazioneBean;
+    }
+
+    private List<String> aggiungiAmbienti() {
+        List<String> ambienti=new ArrayList<>();
+
+        System.out.println(ristoranteSelezionato.getAmbiente());
+
+        for(AmbienteBean ambienteBean: ristoranteSelezionato.getAmbiente()) {
+            ambienti.add(ambienteBean.getTipoAmbiente());
+        }
+        return ambienti;
     }
 
     @FXML
@@ -183,10 +223,12 @@ public class ProfiloRistoranteCG {
             if (numeroStelle != null) {
                 recensioneBean.setStelle(BigDecimal.valueOf(numeroStelle));
 
-                recensioneBean.setRistorante(ristoranteSelezionato);
+                recensioneBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
                 recensioneController.recensisciRistorante(recensioneBean);
 
-                ristoranteSelezionato.setMediaStelle(recensioneController.nuovaMediaRecensione(ristoranteSelezionato).getMediaStelle());
+                RistoranteBean ristoranteBean= recensioneController.nuovaMediaRecensione(ristoranteSelezionato);
+                ristoranteSelezionato.setMediaStelle(ristoranteBean.getMediaStelle());
+
                 SupportoComponentiGUISchedaRistorante.immagineStellaRistorante(ristoranteSelezionato, hBoxStelle);
 
                 recensisci.setVisible(false);

@@ -34,13 +34,13 @@ public class PrenotaRistoranteController {
     /**
      * Cerca i ristoranti disponibili secondo i dati della prenotazione inseriti dall'utente ed applica le previsioni meteo
      */
-    public List<RistoranteBean> cercaRistorantiDisponibili(FiltriBean filtriInseriti, MeteoBean meteoBean) throws EccezioneDAO {
+    public List<RistoranteBean> cercaRistorantiDisponibili(FiltriBean filtriInseriti, MeteoBean meteoBean) throws EccezioneDAO, ValidazioneException {
         List<RistoranteBean> listaRistorantiPrenotabili = new ArrayList<>();
         ristorantiPrenotabili.clear();
 
         GiornoChiusuraDAO giornoChiusuraDAO = daoFactoryFacade.getGiornoChiusuraDAO();
 
-        Filtro filtri = ConvertitoreFiltri.filtriBeanInModel(filtriInseriti);
+        Filtro filtri = ConvertitoreFiltri.datiPrenotazioneInModel(filtriInseriti);
 
         GiorniSettimana giornoPrenotazione = GiorniSettimanaHelper.dataInGiornoSettimana(filtriInseriti.getData());
 
@@ -64,11 +64,11 @@ public class PrenotaRistoranteController {
                         filtriInseriti.getNumeroPersone(),
                         ambiente,
                         null,
-                        trovaFasciaOraria(ristorante, filtriInseriti.getOra())
+                        trovaFasciaOraria(filtriInseriti.getOra())
                 );
 
-                int postiDisponibili = ambiente.getNumeroCoperti() -
-                        prenotazioneDAO.postiOccupatiPerDataEFasciaOraria(prenotazione).getNumeroPersone();
+                int postiDisponibili = ambiente.numeroCoperti() -
+                        prenotazioneDAO.postiOccupatiPerDataEFasciaOraria(prenotazione).numeroPersone();
 
 
                 if (postiDisponibili >= filtriInseriti.getNumeroPersone()) {
@@ -79,9 +79,9 @@ public class PrenotaRistoranteController {
             if(!ambientiRistoranteDisponibili.isEmpty()) {
                 ambientiRistoranteDisponibili= controllaAmbientiCompatibiliMeteo(ambientiRistoranteDisponibili,meteoBean);
                 if(!ambientiRistoranteDisponibili.isEmpty()) {
-                    ristorante.setAmbienteRistorante(ambientiRistoranteDisponibili);
+                    ristorante.setAmbienti(ambientiRistoranteDisponibili);
                     ristorantiPrenotabili.add(ristorante);
-                    listaRistorantiPrenotabili.add(ConvertitoreRistorante.ristoranteModelInBean(ristorante));
+                    listaRistorantiPrenotabili.add(ConvertitoreRistorante.cardRistoranteInBean(ristorante));
                 }
             }
         }
@@ -115,15 +115,15 @@ public class PrenotaRistoranteController {
      */
     private boolean orarioDiPrenotazioneValido(Ristorante ristorante, LocalTime oraPrenotazione) {
 
-        boolean pranzoValido = ristorante.getOrari().getInizioPranzo() != null &&
-                ristorante.getOrari().getFinePranzo() != null &&
-                !oraPrenotazione.isBefore(ristorante.getOrari().getInizioPranzo()) &&
-                !oraPrenotazione.isAfter(ristorante.getOrari().getFinePranzo());
-        boolean cenaValida = ristorante.getOrari().getInizioCena() != null &&
+        boolean pranzoValido = ristorante.orariApertura().getInizioPranzo() != null &&
+                ristorante.orariApertura().getFinePranzo() != null &&
+                !oraPrenotazione.isBefore(ristorante.orariApertura().getInizioPranzo()) &&
+                !oraPrenotazione.isAfter(ristorante.orariApertura().getFinePranzo());
+        boolean cenaValida = ristorante.orariApertura().getInizioCena() != null &&
 
-                ristorante.getOrari().getFineCena() != null &&
-                !oraPrenotazione.isBefore(ristorante.getOrari().getInizioCena()) && //
-                !oraPrenotazione.isAfter(ristorante.getOrari().getFineCena());
+                ristorante.orariApertura().getFineCena() != null &&
+                !oraPrenotazione.isBefore(ristorante.orariApertura().getInizioCena()) && //
+                !oraPrenotazione.isAfter(ristorante.orariApertura().getFineCena());
 
         return pranzoValido || cenaValida;
     }
@@ -132,18 +132,15 @@ public class PrenotaRistoranteController {
      * Controlla se il giorno della prenotazione è valido rispetto ai giorni di chiusura del ristorante
      */
     private boolean giornoDiPrenotazioneValido(GiorniEOrari giorniEOrari, GiorniSettimana giornoPrenotazione) {
-        return !giorniEOrari.getGiorniChiusura().contains(giornoPrenotazione);
+        return !giorniEOrari.giorniChiusura().contains(giornoPrenotazione);
     }
 
 
     /**
      * Determina la fascia oraria della prenotazione in base all'orario
      */
-    private FasciaOraria trovaFasciaOraria(Ristorante ristorante, LocalTime oraPrenotazione) {
-        if (ristorante.getOrari().getInizioPranzo() != null && ristorante.getOrari().getFinePranzo() != null &&
-                !oraPrenotazione.isBefore(ristorante.getOrari().getInizioPranzo()) &&
-                !oraPrenotazione.isAfter(ristorante.getOrari().getFinePranzo())) {
-
+    private FasciaOraria trovaFasciaOraria(LocalTime oraPrenotazione) {
+        if (oraPrenotazione.isBefore(LocalTime.of(18,0))) {
             return FasciaOraria.PRANZO;
         }
 
@@ -151,18 +148,18 @@ public class PrenotaRistoranteController {
     }
 
 
-    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti) throws EccezioneDAO {
+    public List<RistoranteBean> filtraRistorantiDisponibili(FiltriBean filtriBeanInseriti) throws EccezioneDAO, ValidazioneException {
         if(filtriBeanInseriti==null) {
-            return ConvertitoreRistorante.listaRistoranteModelInBean(ristorantiPrenotabili);
+            return ConvertitoreRistorante.cardRistorantiInBean(ristorantiPrenotabili);
         }
 
         List<RistoranteBean> listaRistorantiFiltrati = new ArrayList<>();
-        Filtro filtriModel = ConvertitoreFiltri.filtriBeanInModel(filtriBeanInseriti);
+        Filtro filtriRistorante = ConvertitoreFiltri.filtriCucinaEPrezzoInModel(filtriBeanInseriti);
 
         for (Ristorante ristorante : ristorantiPrenotabili) {
-            if (rispettaFiltri(ristorante, filtriModel)) {
+            if (rispettaFiltri(ristorante, filtriRistorante)) {
 
-                RistoranteBean ristoranteBean= ConvertitoreRistorante.ristoranteModelInBean(ristorante);
+                RistoranteBean ristoranteBean= ConvertitoreRistorante.cardRistoranteInBean(ristorante);
                 listaRistorantiFiltrati.add(ristoranteBean);
 
             }
@@ -196,32 +193,31 @@ public class PrenotaRistoranteController {
 
     private boolean rispettaFiltri(Ristorante ristorante, Filtro filtri) throws EccezioneDAO {
 
-        if (filtri.getFasciaPrezzoRistorante() != null &&
-                !filtri.getFasciaPrezzoRistorante().equals(ristorante.getFasciaPrezzo())) {
+        if (filtri.getFasciaPrezzo() != null &&
+                !filtri.getFasciaPrezzo().equals(ristorante.fasciaPrezzoRistorante())) {
             return false;
         }
 
 
-        if (filtri.getTipoCucina() != null &&
-                !filtri.getTipoCucina().isEmpty() &&
-                !filtri.getTipoCucina().contains(ristorante.getCucina())) {
+        if (filtri.getCucine() != null &&
+                !filtri.getCucine().isEmpty() &&
+                !filtri.getCucine().contains(ristorante.getCucina())) {
             return false;
         }
 
 
 
-        if (filtri.getTipoDieta() != null && !filtri.getTipoDieta().isEmpty()) {
+        if (filtri.getDiete() != null && !filtri.getDiete().isEmpty()) {
 
             Ristorante ristoranteDaControllare= new Ristorante(ristorante.getPartitaIVA());
-            ristoranteDaControllare.setTipoDieta(filtri.getTipoDieta());
+            ristoranteDaControllare.setDiete(filtri.getDiete());
             Ristorante dieteRistoranteCompatibili = dietaDAO.controllaDieteDelRistorante(ristoranteDaControllare);
 
-
-            if (dieteRistoranteCompatibili==null || dieteRistoranteCompatibili.getTipoDieta() == null || dieteRistoranteCompatibili.getTipoDieta().isEmpty()) {
+            if (dieteRistoranteCompatibili==null || dieteRistoranteCompatibili.getDiete() == null || dieteRistoranteCompatibili.getDiete().isEmpty()) {
                 return false;
             }
 
-            ristorante.setTipoDieta(dieteRistoranteCompatibili.getTipoDieta());
+            ristorante.setDiete(dieteRistoranteCompatibili.getDiete());
 
         }
 
@@ -242,10 +238,10 @@ public class PrenotaRistoranteController {
     }
 
     private boolean isAmbienteCompatibile(Ambiente ambienteRistorante) throws EccezioneDAO {
-        TipoAmbiente tipo = ambienteRistorante.getTipoAmbiente();
+        TipoAmbiente tipo = ambienteRistorante.categoriaAmbiente();
 
         Ambiente ambienteCompatibile = ambientiCompatibiliConIlMeteo.stream()
-                .filter(a -> a.getTipoAmbiente() == tipo)
+                .filter(a -> a.categoriaAmbiente() == tipo)
                 .findFirst()
                 .orElse(null);
 
@@ -303,28 +299,28 @@ public class PrenotaRistoranteController {
         switch (condizione) {
             case "sole" -> {
                 if (temperaturaNormale) {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of(),null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO,Set.of()));
                 } else {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO,extraClimatici));
                 }
             }
 
             case "pioggia" -> {
-                ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
-                ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
+                ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO,Set.of()));
+                ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, extraClimatici));
             }
 
             case "nuvoloso" -> {
                 if (temperaturaNormale) {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO, null, null, Set.of(),null));
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, Set.of(),null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO,Set.of()));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, Set.of()));
                 } else {
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
-                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, null, null, extraClimatici,null));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, Set.of()));
+                    ambientiCompatibili.add(new Ambiente(TipoAmbiente.ESTERNO_COPERTO, extraClimatici));
                 }
             }
 
-            default -> ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, null, null, Set.of(),null));
+            default -> ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, Set.of()));
         }
 
         return ambientiCompatibili;
@@ -374,22 +370,43 @@ public class PrenotaRistoranteController {
 
     }
 
-    public PersonaBean datiUtente() {return ConvertitorePersona.personaModelInBean(Sessione.getInstance().getPersona());}
+    public RistoranteBean dettagliRistorante(RistoranteBean ristoranteBean) throws EccezioneDAO, ValidazioneException {
+        Ristorante ristorante= ConvertitoreRistorante.cardRistoranteInModel(ristoranteBean);
 
-    public boolean prenotaRistorante(PrenotazioneBean prenotazioneBean, RistoranteBean ristoranteBean) throws EccezioneDAO, PrenotazioneEsistenteException {
+        Ristorante dettagliRistorante= ristoranteDAO.dettagliRistorante(ristorante);
 
-        Ristorante ristorante = ConvertitoreRistorante.ristoranteBeanInModel(ristoranteBean);
-        Prenotazione prenotazione = ConvertitorePrenotazione.prenotazioneBeanInModel(prenotazioneBean);
+        ristorante.setTelefono(dettagliRistorante.getTelefono());
+        ristorante.posizioneRistorante().setCap(dettagliRistorante.posizioneRistorante().getCap());
+        ristorante.posizioneRistorante().indirizzoCompleto(dettagliRistorante.posizioneRistorante().via(),dettagliRistorante.posizioneRistorante().numeroCivico());
 
-        prenotazione.setFasciaOraria(trovaFasciaOraria(ristorante, prenotazione.getOra()));
+        GiorniEOrari aperturaRistorante= new GiorniEOrari();
+        ristorante.setOrariApertura(aperturaRistorante);
 
-        List<Ambiente> ambienti = Optional.ofNullable(ristorante.getAmbienteRistorante())
-                .orElse(Collections.emptyList());
+        ristorante.orariApertura().setInizioPranzo(dettagliRistorante.orariApertura().getInizioPranzo());
+        ristorante.orariApertura().setFinePranzo(dettagliRistorante.orariApertura().getFinePranzo());
+        ristorante.orariApertura().setInizioCena(dettagliRistorante.orariApertura().getInizioCena());
+        ristorante.orariApertura().setFineCena(dettagliRistorante.orariApertura().getFineCena());
 
-        ambienti.stream()
-                .filter(a -> Objects.equals(a.getTipoAmbiente(), prenotazione.getAmbiente().getTipoAmbiente()))
-                .findFirst()
-                .ifPresent(a -> prenotazione.getAmbiente().setIdAmbiente(a.getIdAmbiente()));
+        return ConvertitoreRistorante.profiloRistoranteInBean(ristorante);
+    }
+
+
+    public PersonaBean datiUtente() throws ValidazioneException {return ConvertitorePersona.dettagliUtentePrenotazioneInBean(Sessione.getInstance().getPersona());}
+
+    public boolean prenotaRistorante(PrenotazioneBean prenotazioneBean) throws EccezioneDAO, PrenotazioneEsistenteException {
+
+        Prenotazione prenotazione = ConvertitorePrenotazione.nuovaPrenotazioneInModel(prenotazioneBean);
+        prenotazione.setPrenotante(Sessione.getInstance().getPersona().getEmail());
+        prenotazione.setFasciaOraria(trovaFasciaOraria(prenotazione.oraPrenotazione()));
+
+
+        Ambiente ambiente= new Ambiente();
+        ambiente.setRistorante(prenotazioneBean.getRistorante().getPartitaIVA());
+        ambiente.setCategoria(prenotazione.getAmbiente().categoriaAmbiente());
+        Ambiente a= ambienteDAO.cercaIdAmbiente(ambiente);
+
+        ambiente.setIdAmbiente(a.getIdAmbiente());
+        prenotazione.aggiungiAmbiente(ambiente);
 
         if (prenotazioneDAO.esistePrenotazione(prenotazione)) {
             throw new PrenotazioneEsistenteException("Esiste già una prenotazione per la data e l'ora scelta");
@@ -403,24 +420,29 @@ public class PrenotaRistoranteController {
     public PersonaBean prenotazioniUtente() throws ValidazioneException{
         Persona persona= Sessione.getInstance().getPersona();
 
-        PersonaBean personaBean= ConvertitorePersona.personaModelInBean(persona);
+        PersonaBean personaBean= ConvertitorePersona.dettagliUtentePrenotazioneInBean(persona);
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
         try{
             List<Prenotazione> listaPrenotazioni=prenotazioneDAO.selezionaPrenotazioniUtente(persona);
             for(Prenotazione prenotazione: listaPrenotazioni) {
 
-                prenotazione.setAmbiente(ambienteDAO.cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
+                prenotazione.aggiungiAmbiente(ambienteDAO.cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
 
                 Ristorante ristorante= ristoranteDAO.selezionaInfoRistorante(prenotazione.getAmbiente());
 
-                PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
-                prenotazioneBean.getAmbiente().setNomeRistorante(ristorante.getNomeRistorante());
-                prenotazioneBean.getAmbiente().setCittaRistorante(ristorante.getPosizione().getCitta());
-                prenotazioneBean.getAmbiente().setIndirizzoCompletoRistorante(ristorante.getPosizione().getIndirizzoCompleto());
+                PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.datiPrenotazioneInBean(prenotazione);
+
+                RistoranteBean ristoranteBean= new RistoranteBean();
+                ristoranteBean.setNome(ristorante.getNome());
+                ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
+                ristoranteBean.setIndirizzoCompleto(ristorante.posizioneRistorante().getIndirizzoCompleto());
+
+                prenotazioneBean.setRistorante(ristoranteBean);
 
 
                 listaPrenotazioniBean.add(prenotazioneBean);
             }
+
             personaBean.setPrenotazioniAttive(listaPrenotazioniBean);
 
         }catch (EccezioneDAO e) {
@@ -436,28 +458,32 @@ public class PrenotaRistoranteController {
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
 
         try {
-            List<Prenotazione> listaPrenotazioni= prenotazioneDAO.selezionaPrenotazioniRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+            List<Ambiente> ambientiRistorante= Sessione.getInstance().getPersona().getRistorante().ambientiRistorante();
 
-            for(Prenotazione prenotazione: listaPrenotazioni)  {
-                Sessione.getInstance()
-                        .getPersona()
-                        .getRistorante()
-                        .getAmbienteRistorante()
-                        .stream()
-                        .filter(a -> a.getIdAmbiente().equals(prenotazione.getAmbiente().getIdAmbiente()))
-                        .findFirst().ifPresent(prenotazione::setAmbiente);
+            for(Ambiente ambiente: ambientiRistorante) {
 
-                prenotazione.setUtente(personaDAO.informazioniUtente(prenotazione.getUtente()));
+                ambiente.aggiungiPrenotazioniAttive(prenotazioneDAO.selezionaPrenotazioniRistoratore(ambiente));
 
-                PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
+                for (Prenotazione prenotazione : ambiente.prenotazioniAttive()) {
 
-                listaPrenotazioniBean.add(prenotazioneBean);
+                    Persona prenotante = personaDAO.informazioniUtente(new Persona(prenotazione.prenotante()));
+                    prenotazione.aggiungiAmbiente(ambiente);
+
+                    PrenotazioneBean prenotazioneBean = ConvertitorePrenotazione.datiPrenotazioneInBean(prenotazione);
+                    prenotazioneBean.setNomePrenotante(prenotante.getNome());
+                    prenotazioneBean.setCognomePrenotante(prenotante.getCognome());
+                    prenotazioneBean.setTelefonoPrenotante(prenotante.numeroTelefonico());
+
+                    listaPrenotazioniBean.add(prenotazioneBean);
+
+                }
             }
 
         }catch (EccezioneDAO e) {
             throw new ValidazioneException(e.getMessage());
         }
         listaPrenotazioniBean.sort(Comparator.comparing(PrenotazioneBean::getData).reversed());
+
 
         return listaPrenotazioniBean;
     }
@@ -468,12 +494,15 @@ public class PrenotaRistoranteController {
 
         try {
             if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazione=prenotazioneDAO.contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+                prenotazione=prenotazioneDAO.contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
             }else {
                 prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
             }
 
-            return ConvertitorePrenotazione.prenotazioneModelInBean(prenotazione);
+            PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
+            prenotazioneBean.setNumeroNotifiche(prenotazione.getNumeroNotifiche());
+
+            return prenotazioneBean;
         }catch (EccezioneDAO e) {
             throw new ValidazioneException(e.getMessage());
         }
@@ -483,7 +512,7 @@ public class PrenotaRistoranteController {
     public void modificaStatoNotifica() throws ValidazioneException{
         try {
             if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazioneDAO.resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().getAmbienteRistorante());
+                prenotazioneDAO.resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
             }else {
                 prenotazioneDAO.resettaNotificheUtente(Sessione.getInstance().getPersona());
             }

@@ -69,13 +69,13 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
         }
     }
 
-    private RegistrazioneUtenteBean prendiDatiRegistrazione() throws ValidazioneException{
+    private RegistrazionePersonaBean prendiDatiRegistrazione() throws ValidazioneException{
 
         GestoreOutput.stampaTitolo("INFORMAZIONI PERSONALI");
 
         PersonaBean personaBean= new PersonaBean();
 
-        RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
+        RegistrazionePersonaBean registrazionePersonaBean = new RegistrazionePersonaBean();
 
 
         personaBean.setTipoPersona(TipoPersona.UTENTE);
@@ -104,9 +104,9 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
         datiRistorante();
 
         personaBean.setRistoranteBean(ristoranteBean);
-        registrazioneUtenteBean.setPersona(personaBean);
+        registrazionePersonaBean.setPersona(personaBean);
 
-        return registrazioneUtenteBean;
+        return registrazionePersonaBean;
     }
 
     private void prossimoPasso() throws ValidazioneException {
@@ -122,21 +122,19 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
 
 
     private void datiRistorante() throws ValidazioneException {
-        PosizioneBean posizioneBean= new PosizioneBean();
         GiorniEOrariBean giorniEOrariBean= new GiorniEOrariBean();
 
         GestoreOutput.stampaTitolo("INFORMAZIONI RISTORANTE");
 
         ristoranteBean.setPartitaIVA(GestoreInput.leggiStringaDaInput("Inserisci la partita IVA :"));
-        ristoranteBean.setNomeRistorante(GestoreInput.leggiStringaDaInput("Inserisci il nome :"));
+        ristoranteBean.setNome(GestoreInput.leggiStringaDaInput("Inserisci il nome :"));
 
-        posizioneBean.setIndirizzoCompleto(GestoreInput.leggiStringaDaInput("Inserisci l'indirizzo completo (via, civico) : "));
-        posizioneBean.setCitta(GestoreInput.leggiStringaDaInput("Inserisci la città : "));
-        posizioneBean.setCap(GestoreInput.leggiStringaDaInput("Inserisci il cap : "));
+        ristoranteBean.setIndirizzoCompleto(GestoreInput.leggiStringaDaInput("Inserisci l'indirizzo completo (via, civico) : "));
+        ristoranteBean.setCitta(GestoreInput.leggiStringaDaInput("Inserisci la città : "));
+        ristoranteBean.setCap(GestoreInput.leggiStringaDaInput("Inserisci il cap : "));
 
-        ristoranteBean.setTelefonoRistorante(GestoreInput.leggiStringaDaInput("Inserisci il telefono :"));
+        ristoranteBean.setTelefono(GestoreInput.leggiStringaDaInput("Inserisci il telefono :"));
         ristoranteBean.setFasciaPrezzo(GestoreInput.leggiFasciaPrezzoSceltaDaInput());
-        ristoranteBean.setPosizione(posizioneBean);
 
         giorniEOrariBean.setGiorniChiusura(GestoreInput.giorniChiusuraScelteDaInput());
         GestoreOutput.stampaMessaggio("Il tuo ristorante effettua :  1) Pranzo   2) Cena   3) Entrambi");
@@ -148,7 +146,7 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
 
         }
 
-        ristoranteBean.setGiorniEOrari(giorniEOrariBean);
+        ristoranteBean.setOrariApertura(giorniEOrariBean);
 
 
 
@@ -171,7 +169,7 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
         for(TipoAmbiente tipoAmbiente : ambienti) {
             AmbienteBean ambienteBean= new AmbienteBean();
             ambienteBean.setNumeroCoperti(Integer.parseInt(GestoreInput.leggiStringaDaInput("Inserisci il numero di coperti per l'ambiente " + tipoAmbiente.getId())));
-            ambienteBean.setAmbiente(tipoAmbiente);
+            ambienteBean.setAmbiente(tipoAmbiente.getId());
 
         if(tipoAmbiente.equals(TipoAmbiente.ESTERNO_COPERTO)) {
                 ambienteBean.setExtra(GestoreInput.leggiExtraSceltiDaInput());
@@ -184,8 +182,8 @@ public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
     private void datiCucina(RistoranteBean ristoranteBean) throws ValidazioneException {
         GestoreOutput.stampaTitolo("INFORMAZIONI CUCINA ");
 
-        ristoranteBean.setCucina(GestoreInput.leggiCucineScelteDaInput(false).iterator().next());
-        ristoranteBean.setTipoDieta(GestoreInput.leggiDieteScelteDaInput(true));
+        ristoranteBean.setCucina(GestoreInput.leggiCucineScelteDaInput(false).getFirst());
+        ristoranteBean.setDiete(GestoreInput.leggiDieteScelteDaInput(true));
     }
 
     private void inserisciPranzoCena(GiorniEOrariBean giorniEOrariBean) throws ValidazioneException{

@@ -15,7 +15,7 @@ public interface PrenotazioneDAO {
     Prenotazione contaNotificheAttiveUtente(Persona utente) throws EccezioneDAO ;
     void resettaNotificheUtente(Persona utente) throws EccezioneDAO;
     List<Prenotazione> selezionaPrenotazioniUtente(Persona utente) throws EccezioneDAO;
-    List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO;
+    List<Prenotazione> selezionaPrenotazioniRistoratore(Ambiente ambiente) throws EccezioneDAO;
     Prenotazione contaNotificheAttiveRistoratore(List<Ambiente> ambienti) throws EccezioneDAO;
     void resettaNotificheRistoratore(List<Ambiente> ambienti) throws EccezioneDAO;
 }

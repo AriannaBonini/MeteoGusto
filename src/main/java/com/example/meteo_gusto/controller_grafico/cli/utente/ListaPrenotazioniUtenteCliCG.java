@@ -1,8 +1,9 @@
 package com.example.meteo_gusto.controller_grafico.cli.utente;
 
-import com.example.meteo_gusto.bean.AmbienteBean;
+
 import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
+import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
 import com.example.meteo_gusto.controller_grafico.cli.InterfacciaCLI;
@@ -84,7 +85,7 @@ public class ListaPrenotazioniUtenteCliCG implements InterfacciaCLI {
     private void mostraListaPrenotazioni() {
         int indice=1;
         for(PrenotazioneBean prenotazioneBean : listaPrenotazioniUtente.getPrenotazioniAttive()) {
-            GestoreOutput.rettangolo("Numero Prenotazione : " + indice, "Ristorante : " + prenotazioneBean.getAmbiente().getNomeRistorante(), "Data : " + prenotazioneBean.getData().toString(), "Ora : " + prenotazioneBean.getOra().toString());
+            GestoreOutput.rettangolo("Numero Prenotazione : " + indice, "Ristorante : " + prenotazioneBean.getRistorante().getNome(), "Data : " + prenotazioneBean.getData().toString(), "Ora : " + prenotazioneBean.getOra().toString());
             indice++;
         }
 
@@ -106,11 +107,11 @@ public class ListaPrenotazioniUtenteCliCG implements InterfacciaCLI {
         GestoreOutput.stampaTitolo("DETTAGLI");
 
         GestoreOutput.rettangolo("Dati Prenotazione ", prenotazioneBean.getData().toString(),prenotazioneBean.getOra().toString(),
-                prenotazioneBean.getNumeroPersone().toString() + " persone ", "Ambiente : " + prenotazioneBean.getAmbiente().getTipoAmbiente().toString());
+                prenotazioneBean.getNumeroPersone().toString() + " persone ", "Ambiente : " + prenotazioneBean.getAmbiente().getFirst());
 
-        AmbienteBean ambienteBean= prenotazioneBean.getAmbiente();
+        RistoranteBean ristoranteBean= prenotazioneBean.getRistorante();
 
-        GestoreOutput.rettangolo("Dati Ristorante",ambienteBean.getNomeRistorante(),ambienteBean.getCittaRistorante(),ambienteBean.getIndirizzoCompletoRistorante());
+        GestoreOutput.rettangolo("Dati Ristorante",ristoranteBean.getNome(), ristoranteBean.getCitta(), ristoranteBean.getIndirizzoCompleto());
 
         GestoreOutput.rettangolo("Dati Prenotante ", listaPrenotazioniUtente.getNome(), listaPrenotazioniUtente.getCognome(), listaPrenotazioniUtente.getTelefono(), prenotazioneBean.getNote());
 

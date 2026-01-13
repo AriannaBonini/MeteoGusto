@@ -37,13 +37,13 @@ class PrenotazioneDAOTest {
     void setUp() throws EccezioneDAO {
         Ambiente ambiente= new Ambiente();
         ambiente.setIdAmbiente(1);
-        Prenotazione prenotazione1=new Prenotazione(LocalDate.parse("2026-07-20"), LocalTime.parse("20:00"), 4,ambiente,persona, FasciaOraria.CENA);
+        Prenotazione prenotazione1=new Prenotazione(LocalDate.parse("2026-07-20"), LocalTime.parse("20:00"), 4,ambiente,persona.getEmail(), FasciaOraria.CENA);
 
         ambiente.setIdAmbiente(2);
-        Prenotazione prenotazione2=new Prenotazione(LocalDate.parse("2026-07-10"), LocalTime.parse("13:00"), 4,ambiente,persona, FasciaOraria.PRANZO);
+        Prenotazione prenotazione2=new Prenotazione(LocalDate.parse("2026-07-10"), LocalTime.parse("13:00"), 4,ambiente,persona.getEmail(), FasciaOraria.PRANZO);
 
         ambiente.setIdAmbiente(2);
-        Prenotazione prenotazione3=new Prenotazione(LocalDate.parse("2026-06-21"), LocalTime.parse("21:30"), 4,ambiente,persona, FasciaOraria.CENA);
+        Prenotazione prenotazione3=new Prenotazione(LocalDate.parse("2026-06-21"), LocalTime.parse("21:30"), 4,ambiente,persona.getEmail(), FasciaOraria.CENA);
 
         prenotazioneDAO.inserisciPrenotazione(prenotazione1);
         prenotazioneDAO.inserisciPrenotazione(prenotazione2);

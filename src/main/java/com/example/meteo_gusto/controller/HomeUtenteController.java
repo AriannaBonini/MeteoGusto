@@ -14,7 +14,8 @@ public class HomeUtenteController {
 
     public List<RistoranteBean> trovaMiglioriRistoranti() throws ValidazioneException{
         try {
-            return ConvertitoreRistorante.listaRistoranteModelInBean(ristoranteDAO.selezionaTop4RistorantiPerMedia());
+
+            return ConvertitoreRistorante.miglioriQuattroRistorantiInBean(ristoranteDAO.selezionaTop4RistorantiPerMedia());
         }catch (EccezioneDAO e) {
             throw new ValidazioneException("Errore durante la ricerca dei migliori ristoranti : " , e);
         }

@@ -16,6 +16,10 @@ public enum TipoDieta {
     }
     public String getId() {return id;}
     public static TipoDieta tipoDietaDaId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+
         for (TipoDieta tipo : values()) {
             if (tipo.getId().equalsIgnoreCase(id)) {
                 return tipo;

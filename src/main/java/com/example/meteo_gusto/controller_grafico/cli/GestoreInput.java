@@ -40,8 +40,8 @@ public class GestoreInput {
         return input.nextLine();
     }
 
-    public static Set<TipoCucina> leggiCucineScelteDaInput(boolean sceltaMultipla) {
-        Set<TipoCucina> tipologieCucineScelte = new HashSet<>();
+    public static List<String> leggiCucineScelteDaInput(boolean sceltaMultipla) {
+        List<String> tipologieCucineScelte = new ArrayList<>();
         TipoCucina[] tipi = TipoCucina.values();
 
         if(sceltaMultipla) {
@@ -57,7 +57,7 @@ public class GestoreInput {
 
             GestoreOutput.mostraTipologieCucina(tipi);
             GestoreOutput.stampaMessaggio("Inserisci il numero della cucina: ");
-            tipologieCucineScelte.add(tipi[opzioneScelta(1, tipi.length) - 1]);
+            tipologieCucineScelte.add((tipi[opzioneScelta(1, tipi.length) - 1]).getId());
             return tipologieCucineScelte;
         }
 
@@ -68,8 +68,10 @@ public class GestoreInput {
             GestoreOutput.stampaMessaggio("Inserisci il numero della cucina: ");
 
             TipoCucina scelta = tipi[opzioneScelta(1, tipi.length) - 1];
-            if (!tipologieCucineScelte.add(scelta)) {
+            if (tipologieCucineScelte.contains(scelta.getId())) {
                 GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE, "Questa cucina è già stata aggiunta");
+            }else {
+                tipologieCucineScelte.add(scelta.getId());
             }
 
             GestoreOutput.mostraGraficaMenu("Vuoi inserire un'altra cucina?", CodiceAnsi.PROSSIMO_FILTRO);
@@ -82,8 +84,8 @@ public class GestoreInput {
     }
 
 
-    public static Set<TipoDieta> leggiDieteScelteDaInput(boolean registrazione) {
-        Set<TipoDieta> tipologieDieteScelte =new HashSet<>();
+    public static List<String> leggiDieteScelteDaInput(boolean registrazione) {
+        List<String> tipologieDieteScelte =new ArrayList<>();
 
         if(!registrazione) {
             GestoreOutput.mostraGraficaMenu("Inserire i filtri sulle tipologie di dieta", CodiceAnsi.PROSSIMO_FILTRO);
@@ -104,8 +106,12 @@ public class GestoreInput {
             GestoreOutput.mostraTipologieDieta(tipi);
 
             GestoreOutput.stampaMessaggio("Inserisci il numero della dieta : ");
-            if(!tipologieDieteScelte.add(tipi[opzioneScelta(1, tipi.length)-1])) {
+            TipoDieta scelta=tipi[opzioneScelta(1, tipi.length)-1];
+
+            if(tipologieDieteScelte.contains(scelta.toString())) {
                 GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE,"Questa dieta è stata già aggiunta");
+            }else {
+                tipologieDieteScelte.add(scelta.toString());
             }
 
             GestoreOutput.mostraGraficaMenu("Inserire altre diete" , CodiceAnsi.PROSSIMO_FILTRO);
@@ -118,7 +124,7 @@ public class GestoreInput {
         return tipologieDieteScelte;
     }
 
-    public static FasciaPrezzoRistorante leggiFasciaPrezzoSceltaDaInput() {
+    public static String leggiFasciaPrezzoSceltaDaInput() {
 
         GestoreOutput.mostraGraficaMenu("Scegliere una fascia di prezzo","Prossimo filtro");
         if(opzioneScelta(1,2)==2){
@@ -129,11 +135,11 @@ public class GestoreInput {
         GestoreOutput.mostraTipologieFasciaPrezzo(tipi);
 
         GestoreOutput.stampaMessaggio("Inserisci il numero della fascia prezzo: ");
-        return (tipi[opzioneScelta(1, tipi.length)-1]);
+        return (tipi[opzioneScelta(1, tipi.length)-1]).toString();
     }
 
-    public static Set<GiorniSettimana> giorniChiusuraScelteDaInput() {
-        Set<GiorniSettimana> giorniChiusura =new HashSet<>();
+    public static List<String> giorniChiusuraScelteDaInput() {
+        List<String> giorniChiusura =new ArrayList<>();
 
         GestoreOutput.mostraGraficaMenu("Scegliere i giorni di chiusura",CodiceAnsi.PROSSIMO_MODULO);
         if(opzioneScelta(1,2)==2){
@@ -148,8 +154,11 @@ public class GestoreInput {
             GestoreOutput.mostraGiorniSettimana(giorni);
 
             GestoreOutput.stampaMessaggio("Inserisci il numero del giorno : ");
-            if(!giorniChiusura.add(giorni[opzioneScelta(1, giorni.length)-1])) {
+            GiorniSettimana scelta=giorni[opzioneScelta(1, giorni.length)-1];
+            if(giorniChiusura.contains(scelta.getId())) {
                 GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE,"Questa giorno è stata già aggiunto");
+            }else {
+                giorniChiusura.add(scelta.getId());
             }
 
             GestoreOutput.mostraGraficaMenu("Inserire altri giorni di chiusura" , CodiceAnsi.PROSSIMO_MODULO);

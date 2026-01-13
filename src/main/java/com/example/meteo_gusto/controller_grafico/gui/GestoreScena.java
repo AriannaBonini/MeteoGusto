@@ -12,7 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class GestoreScena {
+public class
+GestoreScena {
 
     private GestoreScena(){}
 

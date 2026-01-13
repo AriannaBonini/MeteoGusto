@@ -27,7 +27,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(POSTI_DISPONIBILI)) {
 
-                ps.setDate(1, java.sql.Date.valueOf(prenotazione.getData()));
+                ps.setDate(1, java.sql.Date.valueOf(prenotazione.dataPrenotazione()));
                 ps.setString(2, prenotazione.getFasciaOraria().getId());
                 ps.setInt(3, prenotazione.getAmbiente().getIdAmbiente());
 
@@ -60,11 +60,11 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                  PreparedStatement ps = conn.prepareStatement(INSERISCI_PRENOTAZIONE)) {
 
                 ps.setInt(1, prenotazione.getAmbiente().getIdAmbiente());
-                ps.setDate(2, java.sql.Date.valueOf(prenotazione.getData()));
-                ps.setTime(3, java.sql.Time.valueOf(prenotazione.getOra()));
+                ps.setDate(2, java.sql.Date.valueOf(prenotazione.dataPrenotazione()));
+                ps.setTime(3, java.sql.Time.valueOf(prenotazione.oraPrenotazione()));
                 ps.setString(4, prenotazione.getNote());
-                ps.setInt(5, prenotazione.getNumeroPersone());
-                ps.setString(6, prenotazione.getUtente().getEmail());
+                ps.setInt(5, prenotazione.numeroPersone());
+                ps.setString(6, prenotazione.prenotante());
                 ps.setString(7, prenotazione.getFasciaOraria().getId());
 
                 int righe = ps.executeUpdate();
@@ -88,8 +88,8 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(PRENOTAZIONE_ESISTENTE)) {
 
-                ps.setString(1, prenotazione.getUtente().getEmail());
-                ps.setDate(2, java.sql.Date.valueOf(prenotazione.getData()));
+                ps.setString(1, prenotazione.prenotante());
+                ps.setDate(2, java.sql.Date.valueOf(prenotazione.dataPrenotazione()));
                 ps.setString(3, prenotazione.getFasciaOraria().toString());
 
                 try (ResultSet rs = ps.executeQuery()) {
@@ -170,7 +170,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                         Ambiente ambiente= new Ambiente();
                         ambiente.setIdAmbiente(rs.getInt(AMBIENTE));
 
-                        prenotazione.setAmbiente(ambiente);
+                        prenotazione.aggiungiAmbiente(ambiente);
 
                         prenotazione.setNote(rs.getString(NOTE_PRENOTAZIONE));
                         prenotazione.setNumeroPersone(rs.getInt(NUMERO_PERSONE));
@@ -188,24 +188,20 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
     }
 
     @Override
-    public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public List<Prenotazione> selezionaPrenotazioniRistoratore(Ambiente ambiente) throws EccezioneDAO {
         List<Prenotazione> prenotazioni = new ArrayList<>();
 
-        if (ambienti == null || ambienti.isEmpty()) {
+        if (ambiente == null) {
             return prenotazioni;
         }
 
         try {
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
 
-            String query = generaQueryPrenotazioniRistoratore(ambienti.size());
-
             try (Connection conn = gestoreConn.creaConnessione();
-                 PreparedStatement ps = conn.prepareStatement(query)) {
+                 PreparedStatement ps = conn.prepareStatement(PRENOTAZIONI_RISTORATORE)) {
 
-                for (int i = 0; i < ambienti.size(); i++) {
-                    ps.setInt(i + 1, ambienti.get(i).getIdAmbiente());
-                }
+                ps.setInt(1, ambiente.getIdAmbiente());
 
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
@@ -215,10 +211,7 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
                         prenotazione.setNote(rs.getString(NOTE_PRENOTAZIONE));
                         prenotazione.setNumeroPersone(rs.getInt(NUMERO_PERSONE));
 
-                        Ambiente ambiente = new Ambiente();
-                        ambiente.setIdAmbiente(rs.getInt(AMBIENTE));
-                        prenotazione.setAmbiente(ambiente);
-                        prenotazione.setUtente(new Persona(rs.getString(UTENTE)));
+                        prenotazione.setPrenotante(rs.getString(UTENTE));
 
                         prenotazioni.add(prenotazione);
                     }
@@ -229,11 +222,6 @@ public class PrenotazioneDAOMySql extends QuerySQLPrenotazioneDAO implements Pre
         }
 
         return prenotazioni;
-    }
-
-    private String generaQueryPrenotazioniRistoratore(int numeroAmbienti) {
-        String placeholders = String.join(",", Collections.nCopies(numeroAmbienti, "?"));
-        return PRENOTAZIONI_RISTORATORE + placeholders + ")";
     }
 
     @Override

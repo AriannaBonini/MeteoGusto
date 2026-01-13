@@ -2,13 +2,13 @@ package com.example.meteo_gusto.bean;
 
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 
-public class RegistrazioneUtenteBean {
+public class RegistrazionePersonaBean {
 
     private PersonaBean persona;
     private boolean maggiorenne;
     private boolean accettaTermini;
 
-    public RegistrazioneUtenteBean() {  /* COSTRUTTORE VUOTO */ }
+    public RegistrazionePersonaBean() {  /* COSTRUTTORE VUOTO */ }
 
 
 

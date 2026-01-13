@@ -26,7 +26,7 @@ class LoginControllerTest {
         daoFactoryFacade.initTipoPersistenza(TipoPersistenza.MEMORIA);
         PersonaDAO personaDAO = DAOFactoryFacade.getInstance().getPersonaDAO();
 
-        Persona persona = new Persona("Mario", "Verdi", "32087451258", "MarioRossi@gmail.com", "TestLogin", TipoPersona.UTENTE, null);
+        Persona persona = new Persona("Mario", "Verdi", "32087451258", "MarioRossi@gmail.com", "TestLogin");
         personaDAO.registraPersona(persona);
     }
 
@@ -43,7 +43,7 @@ class LoginControllerTest {
 
         PersonaBean risultato = controller.accedi(credenziali);
         assertNotNull(risultato);
-        assertEquals("MarioRossi@gmail.com", risultato.getEmail());
+        assertEquals(TipoPersona.UTENTE.getId(), risultato.getTipoPersona().getId());
     }
 
     @Test

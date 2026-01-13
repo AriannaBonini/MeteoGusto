@@ -25,30 +25,30 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(REGISTRA_RISTORANTE)) {
 
-                ps.setString(1, ristorante.getNomeRistorante());
+                ps.setString(1, ristorante.getNome());
                 ps.setString(2, ristorante.getPartitaIVA());
-                ps.setString(3, ristorante.getTelefonoRistorante());
+                ps.setString(3, ristorante.getTelefono());
                 ps.setString(4, ristorante.getRistoratore());
-                ps.setString(5, ristorante.getPosizione().getVia());
-                ps.setInt(6, Integer.parseInt(ristorante.getPosizione().getCivico()));
-                ps.setString(7, ristorante.getPosizione().getCitta());
-                ps.setString(8, ristorante.getPosizione().getCap());
+                ps.setString(5, ristorante.posizioneRistorante().via());
+                ps.setInt(6, Integer.parseInt(ristorante.posizioneRistorante().numeroCivico()));
+                ps.setString(7, ristorante.posizioneRistorante().getCitta());
+                ps.setString(8, ristorante.posizioneRistorante().getCap());
                 ps.setString(9, ristorante.getCucina().getId());
-                ps.setTime(10, Time.valueOf(ristorante.getOrari().getInizioPranzo()));
-                ps.setTime(11, Time.valueOf(ristorante.getOrari().getFinePranzo()));
-                ps.setTime(12, Time.valueOf(ristorante.getOrari().getInizioCena()));
-                ps.setTime(13, Time.valueOf(ristorante.getOrari().getFineCena()));
-                ps.setString(14, ristorante.getFasciaPrezzo().name());
+                ps.setTime(10, Time.valueOf(ristorante.orariApertura().getInizioPranzo()));
+                ps.setTime(11, Time.valueOf(ristorante.orariApertura().getFinePranzo()));
+                ps.setTime(12, Time.valueOf(ristorante.orariApertura().getInizioCena()));
+                ps.setTime(13, Time.valueOf(ristorante.orariApertura().getFineCena()));
+                ps.setString(14, ristorante.fasciaPrezzoRistorante().name());
 
                 int righeInserite = ps.executeUpdate();
                 if (righeInserite == 0) {
-                    throw new EccezioneDAO("Nessuna riga inserita per il ristorante: " + ristorante.getNomeRistorante());
+                    throw new EccezioneDAO("Nessuna riga inserita per il ristorante: " + ristorante.getNome());
                 }
 
             }
 
         } catch (SQLException | IOException e) {
-            throw new EccezioneDAO("Errore durante la registrazione del ristorante: " + ristorante.getNomeRistorante(), e);
+            throw new EccezioneDAO("Errore durante la registrazione del ristorante: " + ristorante.getNome(), e);
         }
     }
 
@@ -67,11 +67,13 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
 
                     Ristorante ristoranteTrovato = new Ristorante(rs.getString(PARTITA_IVA));
 
-                    ristoranteTrovato.setNomeRistorante(rs.getString(NOME));
-                    ristoranteTrovato.setTelefonoRistorante(rs.getString(TELEFONO));
+                    ristoranteTrovato.setNome(rs.getString(NOME));
                     ristoranteTrovato.setCucina(TipoCucina.tipoCucinaDaId(rs.getString(CUCINA)));
                     ristoranteTrovato.setFasciaPrezzo(FasciaPrezzoRistorante.fasciaPrezzoDaId(rs.getString(FASCIA_PREZZO)));
-                    ristoranteTrovato.setPosizione(new Posizione(rs.getString(INDIRIZZO), rs.getString(CITTA), rs.getString(CAP)));
+
+                    ristoranteTrovato.setPosizione(new Posizione());
+                    ristoranteTrovato.posizioneRistorante().setCitta(rs.getString(CITTA));
+
                     ristoranteTrovato.setMediaStelle(rs.getBigDecimal(MEDIA_STELLE));
 
                     Time inizioPranzo = rs.getTime(INIZIO_PRANZO);
@@ -79,14 +81,14 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                     Time inizioCena   = rs.getTime(INIZIO_CENA);
                     Time fineCena     = rs.getTime(FINE_CENA);
 
-                    if (ristoranteTrovato.getOrari() == null) {
-                        ristoranteTrovato.setOrari(new GiorniEOrari());
+                    if (ristoranteTrovato.orariApertura() == null) {
+                        ristoranteTrovato.setOrariApertura(new GiorniEOrari());
                     }
 
-                    if (inizioPranzo != null) ristoranteTrovato.getOrari().setInizioPranzo(inizioPranzo.toLocalTime());
-                    if (finePranzo != null)   ristoranteTrovato.getOrari().setFinePranzo(finePranzo.toLocalTime());
-                    if (inizioCena != null)   ristoranteTrovato.getOrari().setInizioCena(inizioCena.toLocalTime());
-                    if (fineCena != null)     ristoranteTrovato.getOrari().setFineCena(fineCena.toLocalTime());
+                    if (inizioPranzo != null) ristoranteTrovato.orariApertura().setInizioPranzo(inizioPranzo.toLocalTime());
+                    if (finePranzo != null)   ristoranteTrovato.orariApertura().setFinePranzo(finePranzo.toLocalTime());
+                    if (inizioCena != null)   ristoranteTrovato.orariApertura().setInizioCena(inizioCena.toLocalTime());
+                    if (fineCena != null)     ristoranteTrovato.orariApertura().setFineCena(fineCena.toLocalTime());
 
                     listaRistoranti.add(ristoranteTrovato);
                 }
@@ -159,10 +161,10 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         ristorante = new Ristorante();
-                        ristorante.setNomeRistorante(rs.getString(NOME));
+                        ristorante.setNome(rs.getString(NOME));
 
                         Posizione posizione= new Posizione();
-                        posizione.setIndirizzoCompleto(rs.getString(INDIRIZZO), rs.getString(CIVICO));
+                        posizione.indirizzoCompleto(rs.getString(INDIRIZZO), rs.getString(CIVICO));
                         posizione.setCitta(rs.getString(CITTA));
                         posizione.setCap(rs.getString(CAP));
 
@@ -194,7 +196,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                     if (rs.next()) {
                         ristorante = new Ristorante();
                         ristorante.setPartitaIVA(rs.getString(PARTITA_IVA));
-                        ristorante.setNomeRistorante(rs.getString(NOME));
+                        ristorante.setNome(rs.getString(NOME));
                     }
                 }
 
@@ -221,7 +223,7 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 while (rs.next()) {
 
                     Ristorante ristorante = new Ristorante();
-                    ristorante.setNomeRistorante(rs.getString(NOME));
+                    ristorante.setNome(rs.getString(NOME));
 
                     Posizione posizione= new Posizione();
                     posizione.setCitta(rs.getString(CITTA));
@@ -241,6 +243,66 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
 
         return ristorantiTop;
     }
+
+
+    @Override
+    public Ristorante dettagliRistorante(Ristorante ristorante) throws EccezioneDAO {
+
+        try {
+
+            GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
+
+            try (Connection conn = gestoreConn.creaConnessione();
+                 PreparedStatement ps = conn.prepareStatement(DETTAGLI_RISTORANTE)) {
+
+                ps.setString(1, ristorante.getPartitaIVA());
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    if (rs.next()) {
+
+                        Ristorante r = new Ristorante();
+                        r.setTelefono(rs.getString(TELEFONO));
+
+                        Posizione posizione = new Posizione();
+                        posizione.indirizzoCompleto(
+                                rs.getString(INDIRIZZO),
+                                rs.getString(CIVICO)
+                        );
+                        posizione.setCap(rs.getString(CAP));
+                        r.setPosizione(posizione);
+
+                        GiorniEOrari giorniEOrari = new GiorniEOrari();
+
+                        Time inizioPranzo = rs.getTime(INIZIO_PRANZO);
+                        Time finePranzo   = rs.getTime(FINE_PRANZO);
+                        Time inizioCena   = rs.getTime(INIZIO_CENA);
+                        Time fineCena     = rs.getTime(FINE_CENA);
+
+                        if (inizioPranzo != null) giorniEOrari.setInizioPranzo(inizioPranzo.toLocalTime());
+                        if (finePranzo != null)   giorniEOrari.setFinePranzo(finePranzo.toLocalTime());
+                        if (inizioCena != null)   giorniEOrari.setInizioCena(inizioCena.toLocalTime());
+                        if (fineCena != null)     giorniEOrari.setFineCena(fineCena.toLocalTime());
+
+                        r.setOrariApertura(giorniEOrari);
+
+                        return r;
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new EccezioneDAO(
+                    "Errore durante il recupero dei dettagli del ristorante",
+                    e
+            );
+        }
+
+        return null;
+    }
+
+
+
 
 
 }

@@ -7,14 +7,13 @@ import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
 import com.example.meteo_gusto.controller_grafico.cli.InterfacciaCLI;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoDieta;
 import com.example.meteo_gusto.utilities.supporto_cli.CodiceAnsi;
 import com.example.meteo_gusto.utilities.supporto_cli.GestoreOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 import static com.example.meteo_gusto.controller_grafico.cli.GestoreInput.opzioneScelta;
 
 public class ProfiloRistoranteCliCG implements InterfacciaCLI {
@@ -46,7 +45,7 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
                     case 6 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
                 }
-            } catch (ValidazioneException e) {
+            } catch (ValidazioneException | EccezioneDAO e) {
                 GestoreOutput.mostraAvvertenza(CodiceAnsi.ATTENZIONE,e.getMessage());
             }
         }
@@ -54,7 +53,7 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
     }
 
     @Override
-    public int mostraMenu() {
+    public int mostraMenu() throws ValidazioneException, EccezioneDAO {
         GestoreOutput.stampaTitolo("PROFILO DEL RISTORANTE  ");
         popolaNotifiche();
         popolaProfiloRistorante();
@@ -81,11 +80,13 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
         }
     }
 
-    private void popolaProfiloRistorante(){
-        GestoreOutput.stampaTitolo(ristoranteSelezionato.getNomeRistorante() + CodiceAnsi.ANSI_RESET + GestoreOutput.stampaStelleRistorante(ristoranteSelezionato));
-        GestoreOutput.stampaMessaggio(CodiceAnsi.PUNTINO + ristoranteSelezionato.getPosizione().getIndirizzoCompleto() + CodiceAnsi.PUNTINO + ristoranteSelezionato.getPosizione().getCitta() + CodiceAnsi.PUNTINO + ristoranteSelezionato.getPosizione().getCap());
-        GestoreOutput.stampaMessaggio("Tel : "+ ristoranteSelezionato.getTelefonoRistorante() + GestoreOutput.mostraFasciaPrezzoRistorante(ristoranteSelezionato));
-        GestoreOutput.stampaMessaggio(orari(ristoranteSelezionato.getGiorniEOrari()));
+    private void popolaProfiloRistorante() throws ValidazioneException, EccezioneDAO {
+        ristoranteSelezionato= prenotaRistoranteController.dettagliRistorante(ristoranteSelezionato);
+
+        GestoreOutput.stampaTitolo(ristoranteSelezionato.getNome() + CodiceAnsi.ANSI_RESET + GestoreOutput.stampaStelleRistorante(ristoranteSelezionato));
+        GestoreOutput.stampaMessaggio(CodiceAnsi.PUNTINO + ristoranteSelezionato.getIndirizzoCompleto() + CodiceAnsi.PUNTINO + ristoranteSelezionato.getCitta() + CodiceAnsi.PUNTINO + ristoranteSelezionato.getCap());
+        GestoreOutput.stampaMessaggio("Tel : "+ ristoranteSelezionato.getTelefono() + GestoreOutput.mostraFasciaPrezzoRistorante(ristoranteSelezionato));
+        GestoreOutput.stampaMessaggio(orari(ristoranteSelezionato.getOrariApertura()));
         GestoreOutput.stampaMessaggio(ristoranteSelezionato.getCucina() + CodiceAnsi.PUNTINO + stampaDieteRistorante());
 
         GestoreOutput.stampaMessaggio("Come vuoi procedere ? ");
@@ -100,18 +101,16 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
     }
 
     private String stampaDieteRistorante() {
-        Set<TipoDieta> diete = ristoranteSelezionato.getTipoDieta();
+        List<String> diete = ristoranteSelezionato.getDiete();
         if (diete == null || diete.isEmpty()) {
             return "Nessuna dieta disponibile";
         }
-        return diete.stream()
-                .map(TipoDieta::getId)
-                .collect(Collectors.joining(" • "));
+        return String.join(" • ", diete);
     }
 
 
     private void recensisciRistorante() {
-        GestoreOutput.stampaTitolo("RECENISCI RISTORANTE " + ristoranteSelezionato.getNomeRistorante());
+        GestoreOutput.stampaTitolo("RECENISCI RISTORANTE " + ristoranteSelezionato.getNome());
         RecensioneController recensioneController= new RecensioneController();
         RecensioneBean recensioneBean= new RecensioneBean();
 
@@ -121,7 +120,7 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
             int numeroStelle=opzioneScelta(1,5);
 
             recensioneBean.setStelle(BigDecimal.valueOf(numeroStelle));
-            recensioneBean.setRistorante(ristoranteSelezionato);
+            recensioneBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
             recensioneController.recensisciRistorante(recensioneBean);
             ristoranteSelezionato.setMediaStelle(recensioneController.nuovaMediaRecensione(ristoranteSelezionato).getMediaStelle());
 
@@ -157,20 +156,43 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
             PrenotazioneBean prenotazione = popolaPrenotazione();
 
             GestoreScenaCLI.cambiaVistaConParametri(RiepilogoPrenotazioneCliCG.class,
-                    vista -> vista.setRiepilogoPrenotazione(prenotazione, ristoranteSelezionato));
+                    vista -> vista.setRiepilogoPrenotazione(prenotazione));
         }catch (ValidazioneException e) {
             logger.error("Attenzione", e);
         }
     }
 
 
-    private PrenotazioneBean popolaPrenotazione() throws ValidazioneException{
+    private PrenotazioneBean popolaPrenotazione() throws ValidazioneException {
+        RistoranteBean ristoranteBean= new RistoranteBean();
+        ristoranteBean.setNome(ristoranteSelezionato.getNome());
+        ristoranteBean.setPartitaIVA(ristoranteSelezionato.getPartitaIVA());
+        ristoranteBean.setCap(ristoranteSelezionato.getCap());
+        ristoranteBean.setIndirizzoCompleto(ristoranteSelezionato.getIndirizzoCompleto());
+        ristoranteBean.setCitta(ristoranteSelezionato.getCitta());
+
         PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
         prenotazioneBean.setData(filtriSelezionati.getData());
         prenotazioneBean.setOra(filtriSelezionati.getOra());
         prenotazioneBean.setNumeroPersone(filtriSelezionati.getNumeroPersone());
+        prenotazioneBean.setNote(String.join(", ", ristoranteSelezionato.getDiete()));
+
+
+
+        prenotazioneBean.setRistorante(ristoranteBean);
+
+        prenotazioneBean.setAmbiente(aggiungiAmbienti());
 
         return prenotazioneBean;
+    }
+
+    private List<String> aggiungiAmbienti() {
+        List<String> ambienti=new ArrayList<>();
+
+        for(AmbienteBean ambienteBean: ristoranteSelezionato.getAmbiente()) {
+            ambienti.add(ambienteBean.getTipoAmbiente());
+        }
+        return ambienti;
     }
 
 }

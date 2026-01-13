@@ -6,10 +6,12 @@ import com.example.meteo_gusto.controller.LoginController;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoPersona;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +36,7 @@ public class LoginCG {
             PersonaBean personaBean = loginController.accedi(credenzialiPersonaBean);
 
             if(personaBean==null){
-                infoErrore.setText("Credenziali Errate");
+                mostraErroreTemporaneamenteNellaLabel();
                 return;
             }
 
@@ -51,7 +53,17 @@ public class LoginCG {
 
     }
 
-     @FXML
+    private void mostraErroreTemporaneamenteNellaLabel() {
+        String testoIniziale = "";
+        infoErrore.setText("Credenziali errate");
+
+        PauseTransition pausa = new PauseTransition(Duration.seconds(3));
+        pausa.setOnFinished(event -> infoErrore.setText(testoIniziale));
+        pausa.play();
+    }
+
+
+    @FXML
     private void clickRegistrati(ActionEvent evento) { GestoreScena.cambiaScena("/SceltaTipoRegistrazione.fxml", evento); }
 
     @FXML

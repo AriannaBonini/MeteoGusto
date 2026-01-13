@@ -23,17 +23,17 @@ public class Posizione {
     public String getCap() {return cap;}
     public void setCap(String cap) {this.cap = cap;}
 
-    public String getVia() {
+    public String via() {
         if (indirizzoCompleto == null || !indirizzoCompleto.contains(",")) return indirizzoCompleto;
         return indirizzoCompleto.substring(0, indirizzoCompleto.indexOf(",")).trim();
     }
 
-    public String getCivico() {
+    public String numeroCivico() {
         if (indirizzoCompleto == null || !indirizzoCompleto.contains(",")) return "";
         return indirizzoCompleto.substring(indirizzoCompleto.indexOf(",") + 1).trim();
     }
 
-    public void setIndirizzoCompleto(String via, String civico) {
+    public void indirizzoCompleto(String via, String civico) {
         if (via == null || via.isBlank()) {
             this.indirizzoCompleto = "";
         } else if (civico == null || civico.isBlank()) {

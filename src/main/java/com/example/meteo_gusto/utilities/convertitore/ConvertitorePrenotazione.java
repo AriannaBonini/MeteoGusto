@@ -1,56 +1,48 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
-import com.example.meteo_gusto.bean.AmbienteBean;
-import com.example.meteo_gusto.bean.PersonaBean;
+
 import com.example.meteo_gusto.bean.PrenotazioneBean;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.model.Ambiente;
-import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
+
+import java.util.Collections;
 
 public class ConvertitorePrenotazione {
 
     private ConvertitorePrenotazione(){ /* COSTRUTTORE VUOTO */ }
 
-    public static Prenotazione prenotazioneBeanInModel(PrenotazioneBean prenotazioneBean) {
-        if (prenotazioneBean == null) return null;
 
-        Persona utenteModel = ConvertitorePersona.personaBeanInModel(prenotazioneBean.getUtente());
-        Ambiente ambienteModel = ConvertitoreAmbiente.ambienteBeanInModel(prenotazioneBean.getAmbiente());
+    /**
+     * Attributi gestiti da questo convertitore : data, ora, numero persone, tipo ambiente, note
+     */
+    public static Prenotazione nuovaPrenotazioneInModel(PrenotazioneBean prenotazioneBean) {
+        Ambiente ambiente = new Ambiente();
+        ambiente.setCategoria(TipoAmbiente.tipoAmbienteDaId(prenotazioneBean.getAmbiente().getFirst()));
 
-        Prenotazione prenotazioneModel= new Prenotazione(
+        return new Prenotazione(
                 prenotazioneBean.getData(),
                 prenotazioneBean.getOra(),
                 prenotazioneBean.getNumeroPersone(),
-                ambienteModel,
-                utenteModel,
-                prenotazioneBean.getFasciaOraria()
-        );
-
-        prenotazioneModel.setNote(prenotazioneBean.getNote());
-        return prenotazioneModel;
+                ambiente,
+                prenotazioneBean.getNote());
     }
 
+    /**
+     * Attributi gestiti da questo convertitore : data, ora, numero persone, tipo ambiente, note
+     */
+    public static PrenotazioneBean datiPrenotazioneInBean(Prenotazione prenotazione) throws ValidazioneException {
+        PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
 
-    public static PrenotazioneBean prenotazioneModelInBean(Prenotazione prenotazioneModel) {
-        if (prenotazioneModel == null) return null;
+        prenotazioneBean.setData(prenotazione.dataPrenotazione());
+        prenotazioneBean.setOra(prenotazione.oraPrenotazione());
+        prenotazioneBean.setNumeroPersone(prenotazione.numeroPersone());
+        prenotazioneBean.setNote(prenotazione.getNote());
+        prenotazioneBean.setAmbiente(Collections.singletonList(prenotazione.getAmbiente().categoriaAmbiente().getId()));
 
-        PersonaBean utenteBean = ConvertitorePersona.personaModelInBean(prenotazioneModel.getUtente());
-        AmbienteBean ambienteBean = ConvertitoreAmbiente.ambienteModelInBean(prenotazioneModel.getAmbiente());
-
-        PrenotazioneBean prenotazioneBean= new PrenotazioneBean(
-                prenotazioneModel.getOra(),
-                prenotazioneModel.getData(),
-                prenotazioneModel.getNumeroPersone(),
-                utenteBean,
-                ambienteBean,
-                prenotazioneModel.getFasciaOraria()
-        );
-
-        prenotazioneBean.setNumeroNotifiche(prenotazioneModel.getNumeroNotifiche());
-        prenotazioneBean.setNote(prenotazioneModel.getNote());
         return prenotazioneBean;
     }
-
 
 
 }

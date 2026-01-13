@@ -15,6 +15,11 @@ public enum GiorniSettimana {
     GiorniSettimana(String id) {this.id = id;}
     public String getId() {return id;}
     public static GiorniSettimana giorniSettimanaDaId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+
+
         for (GiorniSettimana giorni : values()) {
             if (giorni.getId().equalsIgnoreCase(id)) {
                 return giorni;

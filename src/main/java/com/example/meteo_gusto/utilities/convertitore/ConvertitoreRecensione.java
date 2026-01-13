@@ -9,15 +9,19 @@ public class ConvertitoreRecensione {
 
     private ConvertitoreRecensione() { /* COSTRUTTORE VUOTO */ }
 
-    public static Recensione recensioneBeanInModel(RecensioneBean recensioneBean, Persona utente, LocalDate data) {
+    /**
+     * Attributi gestiti da questo convertitore : email, partita iva, data, stelle
+     */
+    public static Recensione recensioneInModel(RecensioneBean recensioneBean, Persona utente, LocalDate data) {
         if (recensioneBean == null || utente == null || data == null) return null;
 
         return new Recensione(
-                utente,
-                ConvertitoreRistorante.ristoranteBeanInModel(recensioneBean.getRistorante()),
+                utente.getEmail(),
+                recensioneBean.getRistorante(),
                 recensioneBean.getStelle(),
                 data
         );
     }
+
 
 }

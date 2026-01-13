@@ -1,60 +1,34 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.AmbienteBean;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.model.Ambiente;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class ConvertitoreAmbiente {
 
     private ConvertitoreAmbiente(){ /* COSTRUTTORE VUOTO */ }
 
-
-    public static List<Ambiente> listaAmbienteBeanInModel(List<AmbienteBean> listaAmbienteBean) {
-        if (listaAmbienteBean == null) return new ArrayList<>();
-        return listaAmbienteBean.stream()
-                .filter(Objects::nonNull)
-                .map(ConvertitoreAmbiente::ambienteBeanInModel)
-                .toList();
-    }
-
-
-    public static Ambiente ambienteBeanInModel(AmbienteBean ambienteBean) {
-        if (ambienteBean == null) return null;
-
+    /**
+     * Attributi gestiti da questo convertitore : ambiente, numero coperti, extra, partita iva
+     */
+    public static Ambiente registrazioneAmbienteInModel(AmbienteBean ambienteBean) {
         return new Ambiente(
-                ambienteBean.getTipoAmbiente(),
+                TipoAmbiente.tipoAmbienteDaId(ambienteBean.getTipoAmbiente()),
                 ambienteBean.getRistorante(),
-                ambienteBean.getNumeroCoperti(),
-                ambienteBean.getExtra(),
-                ambienteBean.getAmbienteId()
+                ambienteBean.getNumeroCoperti()
         );
 
     }
 
-
-
-    public static List<AmbienteBean> listaAmbienteModelInBean(List<Ambiente> listaAmbienteModel) {
-        if (listaAmbienteModel == null) return new ArrayList<>();
-        return listaAmbienteModel.stream()
-                .filter(Objects::nonNull)
-                .map(ConvertitoreAmbiente::ambienteModelInBean)
-                .toList();
-    }
-
-
-    public static AmbienteBean ambienteModelInBean(Ambiente ambienteModel) throws NumberFormatException{
-        if (ambienteModel == null) return null;
-
-        AmbienteBean ambienteBean= new AmbienteBean(
-                ambienteModel.getTipoAmbiente(),
-                ambienteModel.getNumeroCoperti(),
-                ambienteModel.getExtra(),
-                ambienteModel.getRistorante());
-
-        ambienteBean.setAmbienteId(ambienteModel.getIdAmbiente());
-        return ambienteBean;
+    /**
+     * Attributi gestiti da questo convertitore : ambiente, numero coperti, extra, partita iva
+     */
+    public static Ambiente registrazioneAmbienteSpecialeInModel(AmbienteBean ambienteBean) {
+        return new Ambiente(
+                ambienteBean.getRistorante(),
+                ambienteBean.getNumeroCoperti(),
+                ambienteBean.getExtra()
+        );
     }
 
 }

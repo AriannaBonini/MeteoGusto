@@ -89,7 +89,7 @@ public class ListaPrenotazioniRistoratoreCliCG implements InterfacciaCLI {
     private void mostraListaPrenotazioni() {
         int indice=1;
         for(PrenotazioneBean prenotazioneBean : listaPrenotazioniRistorante) {
-            GestoreOutput.rettangolo("Numero Prenotazione : " + indice, "Prenotante : " + prenotazioneBean.getUtente().getNome() + " " + prenotazioneBean.getUtente().getCognome(), "Data : " + prenotazioneBean.getData().toString(), "Ora : " + prenotazioneBean.getOra().toString());
+            GestoreOutput.rettangolo("Numero Prenotazione : " + indice, "Prenotante : " + prenotazioneBean.getNomePrenotante() + " " + prenotazioneBean.getCognomePrenotante(), "Data : " + prenotazioneBean.getData().toString(), "Ora : " + prenotazioneBean.getOra().toString());
             indice++;
         }
 
@@ -111,10 +111,10 @@ public class ListaPrenotazioniRistoratoreCliCG implements InterfacciaCLI {
         GestoreOutput.stampaTitolo("DETTAGLI");
 
         GestoreOutput.rettangolo("Dati Prenotazione ", prenotazioneBean.getData().toString(),prenotazioneBean.getOra().toString(),
-                prenotazioneBean.getNumeroPersone().toString() + " persone", "Ambiente : " + prenotazioneBean.getAmbiente().getTipoAmbiente().toString());
+                prenotazioneBean.getNumeroPersone().toString() + " persone", "Ambiente : " + prenotazioneBean.getAmbiente().getFirst());
 
 
-        GestoreOutput.rettangolo("Dati Prenotante ", prenotazioneBean.getUtente().getNome(), prenotazioneBean.getUtente().getCognome(), prenotazioneBean.getUtente().getTelefono(), prenotazioneBean.getNote());
+        GestoreOutput.rettangolo("Dati Prenotante ", prenotazioneBean.getNomePrenotante(), prenotazioneBean.getCognomePrenotante(), prenotazioneBean.getTelefonoPrenotante(), formattaDiete(prenotazioneBean));
 
         GestoreOutput.mostraGraficaMenu("Tornare alla lista delle prenotazioni","tornare al manù");
         if(opzioneScelta(1,2)==2) {
@@ -124,4 +124,5 @@ public class ListaPrenotazioniRistoratoreCliCG implements InterfacciaCLI {
         mostraListaPrenotazioni();
     }
 
+    private String formattaDiete(PrenotazioneBean prenotazioneBean){return String.join(", ", prenotazioneBean.getNote());}
 }

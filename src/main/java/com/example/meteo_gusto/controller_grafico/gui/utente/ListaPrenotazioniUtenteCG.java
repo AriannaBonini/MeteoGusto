@@ -5,7 +5,6 @@ import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUIListaPrenotazioni;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
@@ -150,7 +149,7 @@ public class ListaPrenotazioniUtenteCG {
             HBox hBoxOra = SupportoComponentiGUIListaPrenotazioni.copiaHBox(hBoxOraPrenotazione);
 
 
-            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomeRistorante, prenotazioneBean.getAmbiente().getNomeRistorante());
+            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomeRistorante, prenotazioneBean.getRistorante().getNome());
             Label data = SupportoComponentiGUIListaPrenotazioni.creaLabel(dataPrenotazione, prenotazioneBean.getData().toString());
             Label ora = SupportoComponentiGUIListaPrenotazioni.creaLabel(oraPrenotazione, prenotazioneBean.getOra().toString());
 
@@ -212,15 +211,11 @@ public class ListaPrenotazioniUtenteCG {
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
         campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
 
-        if(prenotazione.getAmbiente().getTipoAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
-            campoAmbiente.setText("esterno coperto");
-        }else {
-            campoAmbiente.setText(prenotazione.getAmbiente().getTipoAmbiente().getId());
-        }
+        campoAmbiente.setText(prenotazione.getAmbiente().getFirst());
 
-        campoNomeRistorante.setText(prenotazione.getAmbiente().getNomeRistorante());
-        campoCittaRistorante.setText(prenotazione.getAmbiente().getCittaRistorante());
-        campoIndirizzoRistorante.setText(prenotazione.getAmbiente().getIndirizzoCompletoRistorante());
+        campoNomeRistorante.setText(prenotazione.getRistorante().getNome());
+        campoCittaRistorante.setText(prenotazione.getRistorante().getCitta());
+        campoIndirizzoRistorante.setText(prenotazione.getRistorante().getIndirizzoCompleto());
 
         campoNomePrenotante.setText(listaPrenotazioniUtente.getNome());
         campoCognomePrenotante.setText(listaPrenotazioniUtente.getCognome());

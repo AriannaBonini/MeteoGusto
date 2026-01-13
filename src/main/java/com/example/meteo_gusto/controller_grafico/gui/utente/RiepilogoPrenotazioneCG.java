@@ -1,15 +1,13 @@
 package com.example.meteo_gusto.controller_grafico.gui.utente;
 
-import com.example.meteo_gusto.bean.AmbienteBean;
+
+import com.example.meteo_gusto.bean.PersonaBean;
 import com.example.meteo_gusto.bean.PrenotazioneBean;
-import com.example.meteo_gusto.bean.RistoranteBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.PrenotazioneEsistenteException;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoAmbiente;
-import com.example.meteo_gusto.enumerazione.TipoDieta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,9 +16,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.Collections;
+
 
 public class RiepilogoPrenotazioneCG {
     @FXML
@@ -50,12 +47,10 @@ public class RiepilogoPrenotazioneCG {
     private static final Logger logger = LoggerFactory.getLogger(RiepilogoPrenotazioneCG.class.getName());
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
     PrenotazioneBean prenotazione;
-    RistoranteBean ristoranteSelezionato;
 
 
-    public void setRiepilogoPrenotazione(PrenotazioneBean prenotazione, RistoranteBean ristoranteSelezionato) {
+    public void setRiepilogoPrenotazione(PrenotazioneBean prenotazione) {
         this.prenotazione = prenotazione;
-        this.ristoranteSelezionato = ristoranteSelezionato;
 
         popolaCampiPrenotazione();
         popolaCampiRistorante();
@@ -64,10 +59,11 @@ public class RiepilogoPrenotazioneCG {
 
     private void popolaCampiUtente(){
         try {
-            prenotazione.setUtente(prenotaRistoranteController.datiUtente());
-            campoNomePrenotante.setText(prenotazione.getUtente().getNome());
-            campoCognomePrenotante.setText(prenotazione.getUtente().getCognome());
-            campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
+            PersonaBean personaBean= prenotaRistoranteController.datiUtente();
+
+            campoNomePrenotante.setText(personaBean.getNome());
+            campoCognomePrenotante.setText(personaBean.getCognome());
+            campoTelefonoPrenotante.setText(personaBean.getTelefono());
 
         }catch (ValidazioneException e) {
             logger.error("Errore durante la presa dei dati dell'utente",e);
@@ -75,9 +71,9 @@ public class RiepilogoPrenotazioneCG {
     }
 
     private void popolaCampiRistorante(){
-        campoNomeRistorante.setText(ristoranteSelezionato.getNomeRistorante());
-        campoCittaRistorante.setText(ristoranteSelezionato.getPosizione().getCitta());
-        campoIndirizzoRistorante.setText(ristoranteSelezionato.getPosizione().getIndirizzoCompleto() + ", " + ristoranteSelezionato.getPosizione().getCap());
+        campoNomeRistorante.setText(prenotazione.getRistorante().getNome());
+        campoCittaRistorante.setText(prenotazione.getRistorante().getCitta());
+        campoIndirizzoRistorante.setText(prenotazione.getRistorante().getIndirizzoCompleto() + ", " + prenotazione.getRistorante().getCap());
         popolaCampoDieta();
         popolaComboBoxAmbiente();
     }
@@ -90,29 +86,19 @@ public class RiepilogoPrenotazioneCG {
 
 
     private void popolaCampoDieta() {
-        StringBuilder listaDiete = new StringBuilder();
 
-        Set<TipoDieta> diete = ristoranteSelezionato.getTipoDieta();
+        String dieteSelezionate = prenotazione.getNote();
 
-        if (diete == null || diete.isEmpty()) {
-            listaDiete = new StringBuilder("Assenti");
+        if (dieteSelezionate == null || dieteSelezionate.isEmpty()) {
+            campoDietaPrenotante.setText("Assenti");
         } else {
-            for (TipoDieta tipoDieta : diete) {
-                listaDiete.append(tipoDieta.getId()).append(", ");
-            }
-            listaDiete = new StringBuilder(listaDiete.substring(0, listaDiete.length() - 2));
+            campoDietaPrenotante.setText(String.join(", ", prenotazione.getNote()));
         }
 
-        campoDietaPrenotante.setText(listaDiete.toString());
     }
 
     private void popolaComboBoxAmbiente() {
-        List<String> nomiAmbienti = new ArrayList<>();
-
-        for (AmbienteBean ambiente : ristoranteSelezionato.getAmbiente()) {
-            nomiAmbienti.add(ambiente.getTipoAmbiente().getId());
-        }
-        ObservableList<String> lista = FXCollections.observableArrayList(nomiAmbienti);
+        ObservableList<String> lista = FXCollections.observableArrayList(prenotazione.getAmbiente());
         comboBoxAmbiente.setItems(lista);
     }
 
@@ -125,16 +111,10 @@ public class RiepilogoPrenotazioneCG {
                 return;
             }
 
-            AmbienteBean ambienteBean= new AmbienteBean();
-            ambienteBean.setAmbiente(TipoAmbiente.tipoAmbienteDaId(ambienteScelto));
-
-
-            ambienteBean.setRistorante(ristoranteSelezionato.getPartitaIVA());
-
-            prenotazione.setAmbiente(ambienteBean);
+            prenotazione.setAmbiente(Collections.singletonList(ambienteScelto));
             prenotazione.setNote(campoDietaPrenotante.getText());
 
-            if(prenotaRistoranteController.prenotaRistorante(prenotazione, ristoranteSelezionato)){
+            if(prenotaRistoranteController.prenotaRistorante(prenotazione)){
                 boolean risposta = GestoreScena.mostraAlertConConfermaTornaAllaHome("Successo", "Prenotazione inserita con successo");
 
                 if(risposta) {
@@ -150,6 +130,5 @@ public class RiepilogoPrenotazioneCG {
             GestoreScena.mostraAlertSenzaConferma("Attenzione",e.getMessage());
         }
     }
-
 
 }

@@ -14,6 +14,10 @@ public enum FasciaPrezzoRistorante {
     public String getId() {return id;}
 
     public static FasciaPrezzoRistorante fasciaPrezzoDaId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+
         for (FasciaPrezzoRistorante tipo : values()) {
             if (tipo.getId().equalsIgnoreCase(id)) {
                 return tipo;

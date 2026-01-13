@@ -24,7 +24,7 @@ public class GiornoChiusuraDAOMemoria implements GiornoChiusuraDAO {
                 throw new EccezioneDAO("Ristorante o Partita IVA non valorizzata");
             }
 
-            Set<GiorniSettimana> giorni = ristorante.getOrari().getGiorniChiusura();
+            Set<GiorniSettimana> giorni = ristorante.orariApertura().giorniChiusura();
             if (giorni == null || giorni.isEmpty()) {
                 return;
             }

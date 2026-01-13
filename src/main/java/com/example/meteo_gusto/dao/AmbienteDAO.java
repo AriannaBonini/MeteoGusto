@@ -11,4 +11,5 @@ public interface AmbienteDAO {
     List<Ambiente> cercaAmbientiDelRistorante(Ristorante ristorante) throws EccezioneDAO;
     Ambiente cercaExtraPerAmbiente(Ambiente ambiente) throws EccezioneDAO;
     Ambiente cercaNomeAmbienteERistorante(Ambiente ambiente) throws EccezioneDAO;
+    Ambiente cercaIdAmbiente(Ambiente ambiente) throws EccezioneDAO;
 }

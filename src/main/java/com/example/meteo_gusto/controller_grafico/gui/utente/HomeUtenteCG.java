@@ -166,26 +166,26 @@ public class HomeUtenteCG {
             RistoranteBean r = listaRistoranti.get(i);
             switch (i) {
                 case 0 -> {
-                    nome1.setText(r.getNomeRistorante());
-                    info1.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    nome1.setText(r.getNome());
+                    info1.setText(r.getCitta() + " • " + r.getCucina());
                     immagine1.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
                     media1.setText(r.getMediaStelle().toString());
                 }
                 case 1 -> {
-                    nome2.setText(r.getNomeRistorante());
-                    info2.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    nome2.setText(r.getNome());
+                    info2.setText(r.getCitta() + " • " + r.getCucina());
                     immagine2.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
                     media2.setText(r.getMediaStelle().toString());
                 }
                 case 2 -> {
-                    nome3.setText(r.getNomeRistorante());
-                    info3.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    nome3.setText(r.getNome());
+                    info3.setText(r.getCitta() + " • " + r.getCucina());
                     immagine3.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
                     media3.setText(r.getMediaStelle().toString());
                 }
                 case 3 -> {
-                    nome4.setText(r.getNomeRistorante());
-                    info4.setText(r.getPosizione().getCitta() + " • " + r.getCucina());
+                    nome4.setText(r.getNome());
+                    info4.setText(r.getCitta() + " • " + r.getCucina());
                     immagine4.setImage(SupportoComponentiGUISchedaRistorante.immagineCucinaRistorante(r));
                     media4.setText(r.getMediaStelle().toString());
                 }

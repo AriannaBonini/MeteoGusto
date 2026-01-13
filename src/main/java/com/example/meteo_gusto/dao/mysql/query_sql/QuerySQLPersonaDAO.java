@@ -27,7 +27,7 @@ public abstract class QuerySQLPersonaDAO {
 
 
     protected static final String OTTIENI_DATI_DA_EMAIL =
-            "SELECT " + NOME + ", " + COGNOME + ", " + TELEFONO + ", " + EMAIL + " " +
+            "SELECT " + NOME + ", " + COGNOME + ", " + TELEFONO + " " +
                     "FROM " + TABELLA_PERSONA + " " +
                     "WHERE " + EMAIL + " = ?";
 

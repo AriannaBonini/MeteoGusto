@@ -1,7 +1,7 @@
 package com.example.meteo_gusto.controller_grafico.gui.utente;
 
 import com.example.meteo_gusto.bean.PersonaBean;
-import com.example.meteo_gusto.bean.RegistrazioneUtenteBean;
+import com.example.meteo_gusto.bean.RegistrazionePersonaBean;
 import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
@@ -48,9 +48,9 @@ public class RegistrazioneUtenteCG {
     @FXML
     private void clickRegistrati(ActionEvent evento) {
         try {
-            RegistrazioneUtenteBean registrazioneUtenteBean = creaRegistrazioneUtenteBean();
+            RegistrazionePersonaBean registrazionePersonaBean = creaRegistrazioneUtenteBean();
 
-            registrazioneController.registraUtente(registrazioneUtenteBean);
+            registrazioneController.registraUtente(registrazionePersonaBean);
 
             GestoreScena.mostraAlertSenzaConferma("Successo", "La registrazione è andata a buon fine!");
             GestoreScena.cambiaScena("/Login.fxml", evento);
@@ -61,8 +61,8 @@ public class RegistrazioneUtenteCG {
         }
     }
 
-    private RegistrazioneUtenteBean creaRegistrazioneUtenteBean() throws ValidazioneException{
-        RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
+    private RegistrazionePersonaBean creaRegistrazioneUtenteBean() throws ValidazioneException{
+        RegistrazionePersonaBean registrazionePersonaBean = new RegistrazionePersonaBean();
         PersonaBean personaBean = new PersonaBean();
         personaBean.setCognome(campoCognome.getText().trim());
         personaBean.setNome(campoNome.getText().trim());
@@ -70,11 +70,11 @@ public class RegistrazioneUtenteCG {
         personaBean.setEmail(campoEmail.getText().trim());
         personaBean.setPassword(campoPassword.getText().trim());
 
-        registrazioneUtenteBean.setPersona(personaBean);
-        registrazioneUtenteBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
-        registrazioneUtenteBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
+        registrazionePersonaBean.setPersona(personaBean);
+        registrazionePersonaBean.setMaggiorenne(checkBoxMaggiorenne.isSelected());
+        registrazionePersonaBean.setAccettaTermini(checkBoxTerminiPrivacy.isSelected());
 
-        return registrazioneUtenteBean;
+        return registrazionePersonaBean;
     }
 
 

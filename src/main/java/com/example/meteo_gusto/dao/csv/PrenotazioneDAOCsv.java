@@ -5,14 +5,12 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.Ambiente;
 import com.example.meteo_gusto.model.Persona;
 import com.example.meteo_gusto.model.Prenotazione;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import static com.example.meteo_gusto.dao.csv.SupportoCSV.generaNuovoId;
 
 public class PrenotazioneDAOCsv implements PrenotazioneDAO {
@@ -36,7 +34,7 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
                 String ambienteColonna = colonne[1];
                 String numeroPersoneColonna = colonne[4];
 
-                if (dataColonna.equals(prenotazione.getData().toString()) &&
+                if (dataColonna.equals(prenotazione.dataPrenotazione().toString()) &&
                         fasciaColonna.equals(prenotazione.getFasciaOraria().getId()) &&
                         Integer.parseInt(ambienteColonna) == prenotazione.getAmbiente().getIdAmbiente()) {
 
@@ -61,10 +59,10 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
 
             String sb = nuovoId + ";" +
                     prenotazione.getAmbiente().getIdAmbiente() + ";" +
-                    prenotazione.getData() + ";" +
-                    prenotazione.getOra() + ";" +
-                    prenotazione.getNumeroPersone() + ";" +
-                    prenotazione.getUtente().getEmail() + ";" +
+                    prenotazione.dataPrenotazione() + ";" +
+                    prenotazione.oraPrenotazione() + ";" +
+                    prenotazione.numeroPersone() + ";" +
+                    prenotazione.prenotante() + ";" +
                     prenotazione.getFasciaOraria().getId() + ";" +
                     "TRUE" + ";" +
                     "TRUE" + ";" +
@@ -87,8 +85,8 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
             for (int i = 0; i < righe.size(); i++) {
                 String[] colonne = righe.get(i);
 
-                if (i != 0 && colonne[5].equals(prenotazione.getUtente().getEmail())
-                        && colonne[2].equals(prenotazione.getData().toString())
+                if (i != 0 && colonne[5].equals(prenotazione.prenotante())
+                        && colonne[2].equals(prenotazione.dataPrenotazione().toString())
                         && colonne[6].equals(prenotazione.getFasciaOraria().getId())) {
                     return true; 
                 }
@@ -162,7 +160,7 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
 
         Ambiente ambiente = new Ambiente();
         ambiente.setIdAmbiente(Integer.parseInt(colonne[1]));
-        prenotazione.setAmbiente(ambiente);
+        prenotazione.aggiungiAmbiente(ambiente);
 
         prenotazione.setNote(colonne[9]);
         prenotazione.setNumeroPersone(Integer.parseInt(colonne[4]));
@@ -171,26 +169,22 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
 
 
     @Override
-    public List<Prenotazione> selezionaPrenotazioniRistoratore(List<Ambiente> ambienti) throws EccezioneDAO {
+    public List<Prenotazione> selezionaPrenotazioniRistoratore(Ambiente ambiente) throws EccezioneDAO {
         List<Prenotazione> prenotazioni = new ArrayList<>();
 
-        if (ambienti == null || ambienti.isEmpty()) {
+        if (ambiente == null) {
             return prenotazioni;
         }
 
         try {
             List<String[]> righe = SupportoCSV.leggiCSV(PRENOTAZIONE_CSV);
 
-            Set<Integer> idAmbienti = ambienti.stream()
-                    .map(Ambiente::getIdAmbiente)
-                    .collect(Collectors.toSet());
-
             for (int i = 0; i < righe.size(); i++) {
                 String[] colonne = righe.get(i);
                 if (i == 0 && colonne[0].equalsIgnoreCase("c1")) continue;
 
                 int idAmbiente = Integer.parseInt(colonne[1]);
-                if (idAmbiente != -1 && idAmbienti.contains(idAmbiente)) {
+                if (idAmbiente != -1 && ambiente.getIdAmbiente().equals(idAmbiente)) {
                     Prenotazione prenotazione = getPrenotazione(colonne, idAmbiente);
                     prenotazioni.add(prenotazione);
                 }
@@ -211,10 +205,10 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
 
         Ambiente ambiente = new Ambiente();
         ambiente.setIdAmbiente(idAmbiente);
-        prenotazione.setAmbiente(ambiente);
+        prenotazione.aggiungiAmbiente(ambiente);
 
         Persona utente = new Persona(colonne[5]);
-        prenotazione.setUtente(utente);
+        prenotazione.setPrenotante(utente.getEmail());
         return prenotazione;
     }
 

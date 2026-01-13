@@ -108,6 +108,8 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             GestoreOutput.mostraAvvertenza("Errore ","Il servizio meteo non è disponibile");
         } catch (PrevisioniMeteoFuoriRangeException e) {
             GestoreOutput.mostraAvvertenza("Avvertenza ", e.getMessage());
+        } catch (ValidazioneException e) {
+            GestoreOutput.mostraAvvertenza("Errore:",e.getMessage());
         }
     }
 
@@ -130,8 +132,8 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
             indiceDaMostrare=indice+1;
             RistoranteBean ristoranteBean=listaRistorantiPrenotabili.get(indice);
 
-            GestoreOutput.rettangolo("Ristorante numero : " + indiceDaMostrare, ristoranteBean.getNomeRistorante() + GestoreOutput.mostraFasciaPrezzoRistorante(ristoranteBean),
-                    ristoranteBean.getPosizione().getCitta() + "  "  + CodiceAnsi.PUNTINO + "  "+ ristoranteBean.getCucina().getId(),
+            GestoreOutput.rettangolo("Ristorante numero : " + indiceDaMostrare, ristoranteBean.getNome() + GestoreOutput.mostraFasciaPrezzoRistorante(ristoranteBean),
+                    ristoranteBean.getCitta() + "  "  + CodiceAnsi.PUNTINO + "  "+ ristoranteBean.getCucina(),
                     ristoranteBean.getMediaStelle()+"/5" + CodiceAnsi.STELLINA_GIALLA);
         }
     }
@@ -139,14 +141,16 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
     private void inserisciFiltri() throws EccezioneDAO {
         try {
             GestoreOutput.stampaTitolo("FILTRI");
-            filtriBean.setTipoCucina(GestoreInput.leggiCucineScelteDaInput(true));
-            filtriBean.setTipoDieta(GestoreInput.leggiDieteScelteDaInput(false));
-            filtriBean.setFasciaPrezzoRistorante(GestoreInput.leggiFasciaPrezzoSceltaDaInput());
+            filtriBean.setCucine(GestoreInput.leggiCucineScelteDaInput(true));
+            filtriBean.setDiete(GestoreInput.leggiDieteScelteDaInput(false));
+            filtriBean.setFasciaPrezzo(GestoreInput.leggiFasciaPrezzoSceltaDaInput());
 
             listaRistorantiPrenotabili = prenotaRistoranteController.filtraRistorantiDisponibili(filtriBean);
 
         } catch (EccezioneDAO e) {
             logger.error("Errore di accesso ai dati: {}", e.getMessage());
+        } catch (ValidazioneException e) {
+            logger.error(e.getMessage());
         }
 
     }

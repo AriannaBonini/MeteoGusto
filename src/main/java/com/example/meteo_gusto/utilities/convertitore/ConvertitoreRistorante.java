@@ -1,120 +1,185 @@
 package com.example.meteo_gusto.utilities.convertitore;
 
 import com.example.meteo_gusto.bean.*;
+import com.example.meteo_gusto.eccezione.ValidazioneException;
+import com.example.meteo_gusto.enumerazione.FasciaPrezzoRistorante;
+import com.example.meteo_gusto.enumerazione.TipoAmbiente;
+import com.example.meteo_gusto.enumerazione.TipoCucina;
 import com.example.meteo_gusto.model.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import static com.example.meteo_gusto.utilities.convertitore.ConvertitoreEnum.*;
 
 public class ConvertitoreRistorante {
 
     private ConvertitoreRistorante() { /* COSTRUTTORE VUOTO */ }
 
-    public static List<RistoranteBean> listaRistoranteModelInBean(List<Ristorante> listaRistorantiModel) {
-        if (listaRistorantiModel == null) return List.of();
-        return listaRistorantiModel.stream()
-                .filter(Objects::nonNull)
-                .map(ConvertitoreRistorante::ristoranteModelInBean)
-                .toList();
+    /**
+     * Attributi gestiti da questo convertitore : nome, città, cucina, media stelle
+     */
+    public static List<RistoranteBean> miglioriQuattroRistorantiInBean(List<Ristorante> listaRistoranti) throws ValidazioneException {
+        List<RistoranteBean> listaRistorantiBean= new ArrayList<>();
+
+        for(Ristorante ristorante: listaRistoranti) {
+            RistoranteBean ristoranteBean= new RistoranteBean();
+
+            ristoranteBean.setNome(ristorante.getNome());
+            ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
+            ristoranteBean.setCucina(ristorante.getCucina().getId());
+            ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
+
+            listaRistorantiBean.add(ristoranteBean);
+        }
+        return listaRistorantiBean;
+    }
+
+    /**
+     * Attributi gestiti da questo convertitore : nome, città, cucina, media stelle, fascia prezzo
+     */
+    public static List<RistoranteBean> cardRistorantiInBean(List<Ristorante> listaRistoranti) throws ValidazioneException {
+        List<RistoranteBean> listaRistorantiBean= new ArrayList<>();
+
+        for(Ristorante ristorante: listaRistoranti) {
+            RistoranteBean ristoranteBean= cardRistoranteInBean(ristorante);
+
+            listaRistorantiBean.add(ristoranteBean);
+        }
+        return listaRistorantiBean;
     }
 
 
-    public static RistoranteBean ristoranteModelInBean(Ristorante ristoranteModel) {
-        if (ristoranteModel == null) return null;
-        return costruisciRistoranteBean(ristoranteModel);
-    }
 
-    private static RistoranteBean costruisciRistoranteBean(Ristorante ristoranteModel) {
+    /**
+     * Attributi gestiti da questo convertitore : nome, città, cucina, media stelle, fascia prezzo, diete, ambienti
+     */
+    public static RistoranteBean cardRistoranteInBean(Ristorante ristorante) throws ValidazioneException {
+        RistoranteBean ristoranteBean= new RistoranteBean();
 
-        Posizione posizione = ristoranteModel.getPosizione();
-        PosizioneBean posizioneBean = (posizione != null)
-                ? new PosizioneBean(
-                posizione.getIndirizzoCompleto(),
-                posizione.getCap(),
-                posizione.getCitta()
-        )
-                : new PosizioneBean("Indirizzo non disponibile", "", "");
+        ristoranteBean.setPartitaIVA(ristorante.getPartitaIVA());
+        ristoranteBean.setNome(ristorante.getNome());
+        ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
+        ristoranteBean.setCucina(ristorante.getCucina().getId());
+        ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
+        ristoranteBean.setFasciaPrezzo(ristorante.fasciaPrezzoRistorante().getId());
+        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.getDiete()));
 
-        GiorniEOrari orari = ristoranteModel.getOrari();
-        GiorniEOrariBean giorniEOrariBean = (orari != null)
-                ? new GiorniEOrariBean(
-                orari.getInizioPranzo(),
-                orari.getFinePranzo(),
-                orari.getInizioCena(),
-                orari.getFineCena(),
-                orari.getGiorniChiusura()
-        )
-                : new GiorniEOrariBean(null, null, null, null, new HashSet<>());
-
-
-        List<AmbienteBean> ambienteBean= ConvertitoreAmbiente.listaAmbienteModelInBean(ristoranteModel.getAmbienteRistorante());
-
-
-        RistoranteBean ristoranteBean = new RistoranteBean(
-                ristoranteModel.getPartitaIVA(),
-                ristoranteModel.getNomeRistorante(),
-                ristoranteModel.getTelefonoRistorante(),
-                ristoranteModel.getCucina(),
-                ristoranteModel.getFasciaPrezzo(),
-                giorniEOrariBean,
-                ambienteBean
-        );
-
-        ristoranteBean.setTipoDieta(ristoranteModel.getTipoDieta());
-        ristoranteBean.setMediaStelle(ristoranteModel.getMediaStelle());
-        ristoranteBean.setPosizione(posizioneBean);
-
+        ristoranteBean.setAmbiente(ambienteInBean(ristorante));
 
         return ristoranteBean;
+
     }
 
-    public static Ristorante ristoranteBeanInModel(RistoranteBean ristoranteBean) {
-        if (ristoranteBean == null) return null;
+    public static List<AmbienteBean> ambienteInBean(Ristorante ristorante) throws ValidazioneException {
+        List<AmbienteBean> ambientiRistorante= new ArrayList<>();
 
-        Posizione posizione = convertPosizioneBean(ristoranteBean.getPosizione());
-        GiorniEOrari orari = convertOrariBean(ristoranteBean.getGiorniEOrari());
-        List<Ambiente> ambienti= ConvertitoreAmbiente.listaAmbienteBeanInModel(ristoranteBean.getAmbiente());
+        for(Ambiente ambiente: ristorante.ambientiRistorante())  {
+            AmbienteBean ambienteRistorante= new AmbienteBean();
+            ambienteRistorante.setAmbiente(ambiente.categoriaAmbiente().getId());
 
-        return costruiamoBaseRistorante(ristoranteBean, posizione, orari,ambienti);
+            ambientiRistorante.add(ambienteRistorante);
+        }
+        return ambientiRistorante;
     }
 
-    private static Ristorante costruiamoBaseRistorante(RistoranteBean bean, Posizione posizione, GiorniEOrari orari, List<Ambiente> ambienti) {
-        Ristorante ristorante = new Ristorante(
-                bean.getPartitaIVA(),
-                bean.getNomeRistorante(),
-                bean.getTelefonoRistorante(),
-                bean.getCucina(),
-                bean.getFasciaPrezzo(),
-                posizione,
-                orari
-        );
-        ristorante.setMediaStelle(bean.getMediaStelle());
-        ristorante.setAmbienteRistorante(ambienti);
-        ristorante.setTipoDieta(bean.getTipoDieta());
+
+
+
+    /**
+     * Attributi gestiti da questo convertitore : nome, città, cucina, media stelle, fascia prezzo, diete, ambienti
+     */
+    public static Ristorante cardRistoranteInModel(RistoranteBean ristoranteBean) {
+        Ristorante ristorante= new Ristorante();
+
+        ristorante.setPartitaIVA(ristoranteBean.getPartitaIVA());
+        ristorante.setNome(ristoranteBean.getNome());
+        ristorante.setCucina(TipoCucina.tipoCucinaDaId(ristoranteBean.getCucina()));
+        ristorante.setMediaStelle(ristoranteBean.getMediaStelle());
+        ristorante.setFasciaPrezzo(FasciaPrezzoRistorante.fasciaPrezzoDaId(ristoranteBean.getFasciaPrezzo()));
+        ristorante.setDiete(dieteDaStringAEnum(ristoranteBean.getDiete()));
+
+        Posizione posizioneRistorante= new Posizione();
+        posizioneRistorante.setCitta(ristoranteBean.getCitta());
+
+        ristorante.setPosizione(posizioneRistorante);
+
+        List<Ambiente> ambientiRistorante= new ArrayList<>();
+
+        for(AmbienteBean ambienteBean: ristoranteBean.getAmbiente())  {
+            Ambiente ambienteRistorante= new Ambiente();
+            ambienteRistorante.setCategoria(TipoAmbiente.tipoAmbienteDaId(ambienteBean.getTipoAmbiente()));
+
+            ambientiRistorante.add(ambienteRistorante);
+        }
+
+        ristorante.setAmbienti(ambientiRistorante);
 
         return ristorante;
+
     }
 
-    private static Posizione convertPosizioneBean(PosizioneBean posizioneBean) {
-        return (posizioneBean != null)
-                ? new Posizione(
-                posizioneBean.getIndirizzoCompleto(),
-                posizioneBean.getCitta(),
-                posizioneBean.getCap()
-        )
-                : new Posizione("Indirizzo non disponibile", "", "");
+    /**
+     * Attributi gestiti da questo convertitore : nome, cucina, media stelle, fascia prezzo, città,
+     * indirizzo completo, cap, telefono, orari di inizio e fine pranzo e cena, diete, ambienti
+     */
+    public static RistoranteBean profiloRistoranteInBean(Ristorante ristorante) throws ValidazioneException {
+        RistoranteBean ristoranteBean = new RistoranteBean();
+
+        ristoranteBean.setPartitaIVA(ristorante.getPartitaIVA());
+        ristoranteBean.setNome(ristorante.getNome());
+        ristoranteBean.setCucina((ristorante.getCucina()).getId());
+        ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
+        ristoranteBean.setFasciaPrezzo((ristorante.fasciaPrezzoRistorante()).getId());
+        ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
+        ristoranteBean.setIndirizzoCompleto(ristorante.posizioneRistorante().getIndirizzoCompleto());
+        ristoranteBean.setCap(ristorante.posizioneRistorante().getCap());
+        ristoranteBean.setTelefono(ristorante.getTelefono());
+        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.getDiete()));
+
+        GiorniEOrariBean giorniEOrariBean= new GiorniEOrariBean();
+        giorniEOrariBean.setInizioPranzo(ristorante.orariApertura().getInizioPranzo());
+        giorniEOrariBean.setFinePranzo(ristorante.orariApertura().getFinePranzo());
+        giorniEOrariBean.setInizioCena(ristorante.orariApertura().getInizioCena());
+        giorniEOrariBean.setFineCena(ristorante.orariApertura().getFineCena());
+
+        ristoranteBean.setOrariApertura(giorniEOrariBean);
+        ristoranteBean.setAmbiente(ambienteInBean(ristorante));
+
+        return ristoranteBean;
+
     }
 
-    private static GiorniEOrari convertOrariBean(GiorniEOrariBean orariBean) {
-        return (orariBean != null)
-                ? new GiorniEOrari(
-                orariBean.getInizioPranzo(),
-                orariBean.getFinePranzo(),
-                orariBean.getInizioCena(),
-                orariBean.getFineCena(),
-                orariBean.getGiorniChiusura()
-        )
-                : new GiorniEOrari(null, null, null, null, new HashSet<>());
+
+    /**
+     * Attributi gestiti da questo convertitore : partita iva, nome, indirizzo, città, cap, telefono,
+     * fascia prezzo, giorni chisura, cucina, dieta, ora pranzo (inizio e fine), ora cena (inizio e fine),
+     */
+
+    public static Ristorante registrazioneRistoranteInModel(RistoranteBean ristoranteBean) {
+
+        GiorniEOrari aperturaRistorante= new GiorniEOrari(
+                ristoranteBean.getOrariApertura().getInizioPranzo(),
+                ristoranteBean.getOrariApertura().getFinePranzo(),
+                ristoranteBean.getOrariApertura().getInizioCena(),
+                ristoranteBean.getOrariApertura().getFineCena(),
+                giorniSettimanaDaStringAEnum(ristoranteBean.getOrariApertura().getGiorniChiusura())
+        );
+
+        Posizione posizioneRistorante= new Posizione(
+                ristoranteBean.getIndirizzoCompleto(),
+                ristoranteBean.getCitta(),
+                ristoranteBean.getCap());
+
+        Ristorante ristorante= new Ristorante(
+                ristoranteBean.getPartitaIVA(),
+                ristoranteBean.getNome(),
+                ristoranteBean.getTelefono(),
+                TipoCucina.tipoCucinaDaId(ristoranteBean.getCucina()),
+                FasciaPrezzoRistorante.fasciaPrezzoDaId(ristoranteBean.getFasciaPrezzo()),
+                posizioneRistorante,
+                aperturaRistorante);
+
+        ristorante.setDiete(dieteDaStringAEnum(ristoranteBean.getDiete()));
+        return ristorante;
+
     }
 
 }

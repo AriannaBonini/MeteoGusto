@@ -1,5 +1,7 @@
 package com.example.meteo_gusto.dao.mysql.query_sql;
 
+
+
 public class QuerySQLAmbienteDAO {
     protected QuerySQLAmbienteDAO() {/* Costruttore vuoto */}
     protected static final String AMBIENTE = "ambiente";
@@ -41,6 +43,12 @@ public class QuerySQLAmbienteDAO {
             SELECT + AMBIENTE + ", " + RISTORANTE + " " +
                     "FROM " + TABELLA_AMBIENTE + " " +
                     "WHERE " + ID_AMBIENTE + " = ?";
+
+    protected static final String CERCA_ID =
+            SELECT + ID_AMBIENTE + " " +
+                    "FROM " + TABELLA_AMBIENTE + " " +
+                    "WHERE " + AMBIENTE + " = ? AND " + RISTORANTE + " = ?";
+
 
 
 }

@@ -4,7 +4,6 @@ import com.example.meteo_gusto.bean.PrenotazioneBean;
 import com.example.meteo_gusto.controller.PrenotaRistoranteController;
 import com.example.meteo_gusto.controller_grafico.gui.GestoreScena;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
-import com.example.meteo_gusto.enumerazione.TipoAmbiente;
 import com.example.meteo_gusto.sessione.Sessione;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoComponentiGUIListaPrenotazioni;
 import com.example.meteo_gusto.utilities.supporto_gui.SupportoGUILogout;
@@ -153,7 +152,7 @@ public class ListaPrenotazioniRistoranteCG {
             HBox hBoxOra = SupportoComponentiGUIListaPrenotazioni.copiaHBox(hBoxOraPrenotazione);
 
 
-            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomePrenotante, prenotazioneBean.getUtente().getNome() + " " + prenotazioneBean.getUtente().getCognome());
+            Label nome = SupportoComponentiGUIListaPrenotazioni.creaLabel(nomePrenotante, prenotazioneBean.getNomePrenotante() + " " + prenotazioneBean.getCognomePrenotante());
             Label data = SupportoComponentiGUIListaPrenotazioni.creaLabel(dataPrenotazione, prenotazioneBean.getData().toString());
             Label ora = SupportoComponentiGUIListaPrenotazioni.creaLabel(oraPrenotazione, prenotazioneBean.getOra().toString());
 
@@ -216,16 +215,11 @@ public class ListaPrenotazioniRistoranteCG {
         campoNumeroPersone.setText(prenotazione.getNumeroPersone().toString());
         campoOraPrenotazione.setText(prenotazione.getOra().toString());
 
+        campoAmbiente.setText(prenotazione.getAmbiente().getFirst());
 
-        if(prenotazione.getAmbiente().getTipoAmbiente().equals(TipoAmbiente.ESTERNO_COPERTO)) {
-            campoAmbiente.setText("esterno coperto");
-        }else {
-            campoAmbiente.setText(prenotazione.getAmbiente().getTipoAmbiente().getId());
-        }
-
-        campoNomePrenotante.setText(prenotazione.getUtente().getNome());
-        campoCognomePrenotante.setText(prenotazione.getUtente().getCognome());
-        campoTelefonoPrenotante.setText(prenotazione.getUtente().getTelefono());
+        campoNomePrenotante.setText(prenotazione.getNomePrenotante());
+        campoCognomePrenotante.setText(prenotazione.getCognomePrenotante());
+        campoTelefonoPrenotante.setText(prenotazione.getTelefonoPrenotante());
 
         campoDietaPrenotante.setText(prenotazione.getNote());
 

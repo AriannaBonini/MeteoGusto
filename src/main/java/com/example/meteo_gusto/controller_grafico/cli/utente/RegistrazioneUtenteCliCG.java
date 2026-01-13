@@ -1,7 +1,7 @@
 package com.example.meteo_gusto.controller_grafico.cli.utente;
 
 import com.example.meteo_gusto.bean.PersonaBean;
-import com.example.meteo_gusto.bean.RegistrazioneUtenteBean;
+import com.example.meteo_gusto.bean.RegistrazionePersonaBean;
 import com.example.meteo_gusto.controller.RegistrazioneController;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreInput;
 import com.example.meteo_gusto.controller_grafico.cli.GestoreScenaCLI;
@@ -61,8 +61,8 @@ public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
         }
     }
 
-    private RegistrazioneUtenteBean prendiDatiRegistrazione() throws ValidazioneException{
-        RegistrazioneUtenteBean registrazioneUtenteBean = new RegistrazioneUtenteBean();
+    private RegistrazionePersonaBean prendiDatiRegistrazione() throws ValidazioneException{
+        RegistrazionePersonaBean registrazionePersonaBean = new RegistrazionePersonaBean();
         PersonaBean personaBean = new PersonaBean();
 
         GestoreOutput.stampaTitolo("INFORMAZIONI PERSONALI");
@@ -74,7 +74,7 @@ public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
         personaBean.setPassword(GestoreInput.leggiStringaDaInput("Inserisci la password : "));
         personaBean.setTipoPersona(TipoPersona.UTENTE);
 
-        registrazioneUtenteBean.setPersona(personaBean);
+        registrazionePersonaBean.setPersona(personaBean);
 
         GestoreOutput.stampaMessaggio("Confermi di essere maggiorenne ? ");
         GestoreOutput.stampaMessaggio("1) Si " + "2) No");
@@ -88,7 +88,7 @@ public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
             return null;
         }
 
-        return registrazioneUtenteBean;
+        return registrazionePersonaBean;
 
     }
 
