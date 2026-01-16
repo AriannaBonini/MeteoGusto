@@ -102,13 +102,14 @@ public class AmbienteDAOMySql extends QuerySQLAmbienteDAO implements AmbienteDAO
     @Override
     public Ambiente cercaExtraPerAmbiente(Ambiente ambiente) throws EccezioneDAO {
         try {
+
             GestoreConnessioneDB gestoreConn = new GestoreConnessioneDB();
 
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(CERCA_EXTRA_PER_AMBIENTE)) {
 
                 ps.setString(1, ambiente.getRistorante());
-                ps.setString(2, ambiente.categoriaAmbiente().toString());
+                ps.setString(2, ambiente.categoriaAmbiente().getId());
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {

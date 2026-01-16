@@ -179,9 +179,10 @@ public class ListaPrenotazioniUtenteCG {
 
 
     @FXML
-    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+    private void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
 
-    public void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);}
+    @FXML
+    private void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml", evento);}
 
 
     @FXML
@@ -194,7 +195,8 @@ public class ListaPrenotazioniUtenteCG {
         }
     }
 
-    public void clickDettagli(ActionEvent evento) {
+    @FXML
+    private void clickDettagli(ActionEvent evento) {
         Button dettagli=  (Button)evento.getSource();
         PrenotazioneBean prenotazione= (PrenotazioneBean)dettagli.getUserData();
 

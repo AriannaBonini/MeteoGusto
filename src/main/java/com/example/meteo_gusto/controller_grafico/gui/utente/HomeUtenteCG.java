@@ -207,13 +207,13 @@ public class HomeUtenteCG {
 
 
     @FXML
-    public void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
+    private void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
 
     @FXML
-    public void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml",evento);}
+    private void clickPrenotaRistorante(MouseEvent evento) {GestoreScena.cambiaScena("/PrenotaRistoranteFormIniziale.fxml",evento);}
 
     @FXML
-    public void clickEsci(MouseEvent evento){
+    private void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,home,"/Foto/HomeSelezionata.png","/Foto/HomeNonSelezionata.png");
 
         if (risposta) {

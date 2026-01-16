@@ -19,7 +19,7 @@ import static com.example.meteo_gusto.controller_grafico.cli.GestoreInput.opzion
 
 public class RegistrazioneUtenteCliCG implements InterfacciaCLI {
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneUtenteCliCG.class.getName());
-    RegistrazioneController registrazioneController= new RegistrazioneController();
+    private final RegistrazioneController registrazioneController= new RegistrazioneController();
 
     @Override
     public void start() {

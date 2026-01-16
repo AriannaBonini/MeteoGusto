@@ -154,7 +154,7 @@ public class PrenotaRistoranteCG {
     }
 
 
-    public void inizializzaCheckBoxMeteo() {
+    private void inizializzaCheckBoxMeteo() {
         checkBoxMeteo.setSelected(true);
 
         Tooltip tooltip = new Tooltip("Il filtro meteo non può essere disattivato");
@@ -366,7 +366,7 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    public void clickCerca() {
+    private void clickCerca() {
         cerca.setDisable(true);
         try {
             aggiornaDatiPrenotazione();
@@ -414,7 +414,7 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    public void clickFiltra() {
+    private void clickFiltra() {
         try {
             filtra.setDisable(true);
 
@@ -478,7 +478,7 @@ public class PrenotaRistoranteCG {
 
 
     @FXML
-    public void clickScopriDiPiu(ActionEvent evento) {
+    private void clickScopriDiPiu(ActionEvent evento) {
         Button scopriDiPiu= (Button)evento.getSource();
         RistoranteBean ristoranteSelezionato= (RistoranteBean)scopriDiPiu.getUserData();
 
@@ -546,7 +546,7 @@ public class PrenotaRistoranteCG {
     }
 
     @FXML
-    public void clickEsci(MouseEvent evento){
+    private void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
 
         if (risposta) {
@@ -556,10 +556,10 @@ public class PrenotaRistoranteCG {
     }
 
     @FXML
-    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+    private void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
 
     @FXML
-    public void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
+    private void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
 
 
 }

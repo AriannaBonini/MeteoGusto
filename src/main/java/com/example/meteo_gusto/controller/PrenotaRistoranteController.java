@@ -323,6 +323,7 @@ public class PrenotaRistoranteController {
             default -> ambientiCompatibili.add(new Ambiente(TipoAmbiente.INTERNO, Set.of()));
         }
 
+
         return ambientiCompatibili;
     }
 

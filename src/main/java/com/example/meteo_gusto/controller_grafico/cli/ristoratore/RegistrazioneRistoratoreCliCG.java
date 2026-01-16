@@ -25,7 +25,7 @@ import static com.example.meteo_gusto.controller_grafico.cli.GestoreInput.opzion
 public class RegistrazioneRistoratoreCliCG implements InterfacciaCLI {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneRistoratoreCliCG.class.getName());
-    RegistrazioneController registrazioneController= new RegistrazioneController();
+    private final RegistrazioneController registrazioneController= new RegistrazioneController();
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
     RistoranteBean ristoranteBean= new RistoranteBean();
     @Override

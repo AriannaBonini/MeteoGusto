@@ -81,7 +81,7 @@ public class ListaPrenotazioniRistoranteCG {
     private Label informazione;
 
 
-    PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
+    private final PrenotaRistoranteController prenotaRistoranteController= new PrenotaRistoranteController();
     private static final Logger logger = LoggerFactory.getLogger(ListaPrenotazioniRistoranteCG.class.getName());
     private List<PrenotazioneBean> listaPrenotazioniRistorante= new ArrayList<>();
     private Button bottoneAttivo = null;
@@ -181,12 +181,12 @@ public class ListaPrenotazioniRistoranteCG {
     }
 
     @FXML
-    public void clickHome(MouseEvent evento) {
+    private void clickHome(MouseEvent evento) {
         GestoreScena.cambiaScena("/HomeRistoratore.fxml",evento);
     }
 
     @FXML
-    public void clickEsci(MouseEvent evento){
+    private void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,calendario,"/Foto/IconaListaPrenotazioniRistoratoreSelezionata.png","/Foto/IconaListaPrenotazioniRistoratoreNonSelezionata.png");
 
         if (risposta) {
@@ -196,7 +196,7 @@ public class ListaPrenotazioniRistoranteCG {
     }
 
     @FXML
-    public void clickDettagli(ActionEvent evento) {
+    private void clickDettagli(ActionEvent evento) {
         Button dettagliPrenotazione;
         dettagliPrenotazione = (Button)evento.getSource();
         PrenotazioneBean prenotazione;
@@ -227,5 +227,6 @@ public class ListaPrenotazioniRistoranteCG {
 
     }
 
-    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
+    @FXML
+    private void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 }

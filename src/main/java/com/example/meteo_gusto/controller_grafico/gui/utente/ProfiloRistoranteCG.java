@@ -139,13 +139,13 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickTornaIndietro(MouseEvent evento) {
+    private void clickTornaIndietro(MouseEvent evento) {
         GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
                 (PrenotaRistoranteCG controller) -> controller.impostaFiltriSelezionati(filtriSelezionati,meteoBean));
     }
 
     @FXML
-    public void clickPrenota() {
+    private void clickPrenota() {
         try {
             PrenotazioneBean prenotazione = popolaPrenotazione();
 
@@ -195,14 +195,14 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickMenu(){GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
+    private void clickMenu(){GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 
     @FXML
-    public void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
+    private void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml",evento);}
     @FXML
-    public void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
+    private void clickListaPrenotazioni(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniUtente.fxml",evento);}
     @FXML
-    public void clickEsci(MouseEvent evento) {
+    private void clickEsci(MouseEvent evento) {
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,prenotaRistorante,"/Foto/ClocheSelezionata.png","/Foto/ClocheNonSelezionata.png");
 
         if (risposta) {
@@ -212,7 +212,7 @@ public class ProfiloRistoranteCG {
     }
 
     @FXML
-    public void clickRecensisci() {
+    private void clickRecensisci() {
         try {
             RecensioneController recensioneController = new RecensioneController();
             RecensioneBean recensioneBean = new RecensioneBean();

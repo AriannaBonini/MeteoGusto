@@ -46,7 +46,7 @@ public class RiepilogoPrenotazioneCG {
 
     private static final Logger logger = LoggerFactory.getLogger(RiepilogoPrenotazioneCG.class.getName());
     private final PrenotaRistoranteController prenotaRistoranteController = new PrenotaRistoranteController();
-    PrenotazioneBean prenotazione;
+    private PrenotazioneBean prenotazione;
 
 
     public void setRiepilogoPrenotazione(PrenotazioneBean prenotazione) {
@@ -103,7 +103,8 @@ public class RiepilogoPrenotazioneCG {
     }
 
 
-    public void clickConfermaPrenotazione(ActionEvent evento)  {
+    @FXML
+    private void clickConfermaPrenotazione(ActionEvent evento)  {
         try {
             String ambienteScelto= comboBoxAmbiente.getValue();
             if(ambienteScelto==null || ambienteScelto.isEmpty()) {

@@ -38,7 +38,7 @@ public class RegistrazioneUtenteCG {
     @FXML
     private Label infoErrore;
 
-    RegistrazioneController registrazioneController= new RegistrazioneController();
+    private final RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneUtenteCG.class.getName());
 
     public void initialize() {

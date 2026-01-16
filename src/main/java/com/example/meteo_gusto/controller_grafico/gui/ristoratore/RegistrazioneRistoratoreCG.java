@@ -116,7 +116,7 @@ public class RegistrazioneRistoratoreCG {
     private CheckBox checkBoxPranzo;
 
 
-    RegistrazioneController registrazioneController= new RegistrazioneController();
+    private final RegistrazioneController registrazioneController= new RegistrazioneController();
     private static final Logger logger = LoggerFactory.getLogger(RegistrazioneRistoratoreCG.class.getName());
     private final DateTimeFormatter formatoOrario = DateTimeFormatter.ofPattern("HH:mm");
 

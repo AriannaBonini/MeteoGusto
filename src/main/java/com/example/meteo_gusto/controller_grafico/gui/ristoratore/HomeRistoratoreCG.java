@@ -82,7 +82,7 @@ public class HomeRistoratoreCG {
 
 
     @FXML
-    public void clickEsci(MouseEvent evento){
+    private void clickEsci(MouseEvent evento){
         boolean risposta= SupportoGUILogout.gestisciLogoutCompleto(esci,home,"/Foto/HomeSelezionata.png","/Foto/HomeNonSelezionata.png");
 
         if (risposta) {
@@ -100,10 +100,10 @@ public class HomeRistoratoreCG {
     }
 
     @FXML
-    public void clickCalendario(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniRistorante.fxml",evento);}
+    private void clickCalendario(MouseEvent evento) {GestoreScena.cambiaScena("/ListaPrenotazioniRistorante.fxml",evento);}
 
     @FXML
-    public void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
+    private void clickMenu() {GestoreScena.mostraAlertSenzaConferma("Siamo spiacenti","Sezione menù non disponibile");}
 
 
 }

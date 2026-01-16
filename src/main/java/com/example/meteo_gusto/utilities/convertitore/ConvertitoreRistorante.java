@@ -63,7 +63,6 @@ public class ConvertitoreRistorante {
         ristoranteBean.setDiete(dieteDaEnumAString(ristorante.getDiete()));
 
         ristoranteBean.setAmbiente(ambienteInBean(ristorante));
-
         return ristoranteBean;
 
     }
