@@ -5,9 +5,8 @@ import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.model.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalTime;
+import java.util.*;
 
 public class RistoranteDAOMemoria implements RistoranteDAO {
 
@@ -22,7 +21,23 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
             }
 
             ristorante.setMediaStelle(BigDecimal.ZERO);
+            if(ristorante.getDiete()==null) {
+                ristorante.setDiete(new HashSet<>());
+            }
+
+            if(ristorante.orariApertura().getInizioPranzo()== null && ristorante.orariApertura().getFinePranzo()==null) {
+                ristorante.orariApertura().setInizioPranzo(LocalTime.MIDNIGHT);
+                ristorante.orariApertura().setFinePranzo(LocalTime.MIDNIGHT);
+            }
+
+            if(ristorante.orariApertura().getInizioCena()== null && ristorante.orariApertura().getFineCena()==null) {
+                ristorante.orariApertura().setInizioCena(LocalTime.MIDNIGHT);
+                ristorante.orariApertura().setFineCena(LocalTime.MIDNIGHT);
+            }
+
+
             ristorantiInMemoriaMap.put(ristorante.getPartitaIVA(), ristorante);
+
 
         } catch (Exception e) {
             throw new EccezioneDAO(

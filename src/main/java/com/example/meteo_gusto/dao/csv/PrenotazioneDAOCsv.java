@@ -57,6 +57,9 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
         try {
             int nuovoId = generaNuovoId(PRENOTAZIONE_CSV);
 
+            String note = prenotazione.getNote();
+            note = (note == null || note.isBlank()) ? "Assenti" : note;
+
             String sb = nuovoId + ";" +
                     prenotazione.getAmbiente().getIdAmbiente() + ";" +
                     prenotazione.dataPrenotazione() + ";" +
@@ -66,7 +69,7 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
                     prenotazione.getFasciaOraria().getId() + ";" +
                     "TRUE" + ";" +
                     "TRUE" + ";" +
-                    (prenotazione.getNote() != null ? prenotazione.getNote() : "");
+                    note;
 
             inserita = SupportoCSV.scriviRiga(PRENOTAZIONE_CSV, sb);
 
@@ -142,6 +145,7 @@ public class PrenotazioneDAOCsv implements PrenotazioneDAO {
                 if (emailUtente.equals(utente.getEmail())) {
                     Prenotazione prenotazione = getPrenotazione(colonne);
                     prenotazioni.add(prenotazione);
+
                 }
             }
         } catch (Exception e) {

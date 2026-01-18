@@ -114,7 +114,7 @@ public class RistoranteBean {
             throw new ValidazioneException("Il campo indirizzo è obbligatorio.");
         }
         if (!indirizzoCompleto.matches(".+,\\s*\\d+")) {
-            throw new ValidazioneException("L'indirizzo deve contenere una virgola seguita dal civico (es. getVia Roma, 12).");
+            throw new ValidazioneException("L'indirizzo deve contenere una virgola seguita dal civico (es. Via Roma, 12).");
         }
         this.indirizzoCompleto = indirizzoCompleto.trim();
     }

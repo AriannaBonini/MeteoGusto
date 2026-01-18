@@ -87,17 +87,16 @@ public class ProfiloRistoranteCG {
 
 
     public void setRistoranteSelezionato(RistoranteBean ristoranteSelezionato) {
-
         this.ristoranteSelezionato = ristoranteSelezionato;
         popolaInfoRistorante();
     }
+
     public void setFiltriCorrenti(FiltriBean filtriSelezionati, MeteoBean meteoBean) {
         this.filtriSelezionati=filtriSelezionati;
         this.meteoBean=meteoBean;
     }
 
     private void popolaInfoRistorante() {
-
         try {
             ristoranteSelezionato = new PrenotaRistoranteController().dettagliRistorante(ristoranteSelezionato);
 
@@ -106,6 +105,7 @@ public class ProfiloRistoranteCG {
             infoTelefono.setText(" • Tel : " + ristoranteSelezionato.getTelefono());
             mediaStelle.setText(ristoranteSelezionato.getMediaStelle() + "/5");
             GiorniEOrariBean giorniEOrariBean = ristoranteSelezionato.getOrariApertura();
+
 
             if (giorniEOrariBean.getInizioPranzo() == null && giorniEOrariBean.getFinePranzo() == null) {
                 infoGiorniOrariPranzoCena.setText(" • Non effettua pranzo " + " • " + giorniEOrariBean.getInizioCena() + " - " + giorniEOrariBean.getFineCena());
@@ -170,13 +170,13 @@ public class ProfiloRistoranteCG {
         prenotazioneBean.setNote(String.join(", ", diete));
 
 
-
         RistoranteBean ristoranteBean= new RistoranteBean();
         ristoranteBean.setNome(ristoranteSelezionato.getNome());
         ristoranteBean.setPartitaIVA(ristoranteSelezionato.getPartitaIVA());
         ristoranteBean.setCap(ristoranteSelezionato.getCap());
         ristoranteBean.setIndirizzoCompleto(ristoranteSelezionato.getIndirizzoCompleto());
         ristoranteBean.setCitta(ristoranteSelezionato.getCitta());
+
 
         prenotazioneBean.setRistorante(ristoranteBean);
 
