@@ -48,7 +48,7 @@ public class PrenotaRistoranteCliCG implements InterfacciaCLI {
                     case 2 -> modificaCampiFormIniziale();
                     case 3 -> scopriDiPiu();
                     case 4 -> GestoreScenaCLI.vaiAllaListaPrenotazioniUtente();
-                    case 5 -> GestoreScenaCLI.viaAllaHomeUtente();
+                    case 5 -> GestoreScenaCLI.vaiAllaHomeUtente();
                     case 6 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
                 }

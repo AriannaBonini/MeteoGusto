@@ -66,7 +66,7 @@ public class RiepilogoPrenotazioneCliCG implements InterfacciaCLI {
                 GestoreOutput.mostraAvvertenza("Successo", "Prenotazione inserita con successo");
             }
 
-            GestoreScenaCLI.viaAllaHomeUtente();
+            GestoreScenaCLI.vaiAllaHomeUtente();
 
 
         }catch (ValidazioneException e) {
@@ -75,6 +75,7 @@ public class RiepilogoPrenotazioneCliCG implements InterfacciaCLI {
             logger.error("Errore durante la registrazione della nuova prenotazione ",e );
         } catch (PrenotazioneEsistenteException e) {
             GestoreOutput.mostraAvvertenza("Attenzione",e.getMessage());
+            GestoreScenaCLI.vaiAllaHomeUtente();
         }
 
     }

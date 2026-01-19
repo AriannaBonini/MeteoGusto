@@ -44,7 +44,7 @@ public class GestoreScenaCLI {
 
     public static void vaiAllaListaPrenotazioniUtente() {new ListaPrenotazioniUtenteCliCG().start();}
     public static void vaiAPrenotaRistoranteFormIniziale() {new PrenotaRistoranteFormInizialeCliCG().start();}
-    public static void viaAllaHomeUtente() {new HomeUtenteCliCG().start();}
+    public static void vaiAllaHomeUtente() {new HomeUtenteCliCG().start();}
     public static void vaiAllaHomeRistoratore(){new HomeRistoratoreCliCG().start();}
     public static void vaiAllaSceltaRegistrazione(){new SceltaRegistrazioneCliCG().start();}
     public static void vaiAlMenuDelRistorante(){GestoreOutput.mostraAvvertenza("Siamo spiacenti","La sezione per la visualizzazione del menù del ristorante non è al momento disponibile");}

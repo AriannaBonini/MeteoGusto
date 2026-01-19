@@ -57,7 +57,7 @@ public class LoginCliCG implements InterfacciaCLI{
 
         if(personaBean.getTipoPersona().equals(TipoPersona.UTENTE)) {
             GestoreOutput.stampaMessaggio("Caricamento Home... ");
-            GestoreScenaCLI.viaAllaHomeUtente();
+            GestoreScenaCLI.vaiAllaHomeUtente();
 
         }else{
 

@@ -129,6 +129,7 @@ public class RiepilogoPrenotazioneCG {
             logger.error("Errore durante l'assegnazione dell'ambiete nella prenotazione ",e);
         } catch (PrenotazioneEsistenteException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione",e.getMessage());
+            GestoreScena.cambiaScena("/HomeUtente.fxml",evento);
         }
     }
 

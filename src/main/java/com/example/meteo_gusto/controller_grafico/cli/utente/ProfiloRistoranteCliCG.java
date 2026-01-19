@@ -41,7 +41,7 @@ public class ProfiloRistoranteCliCG implements InterfacciaCLI {
                     case 2 -> vaiAlRiepilogoDellaPrenotazione();
                     case 3 -> tornaIndietro();
                     case 4 -> GestoreScenaCLI.vaiAllaListaPrenotazioniUtente();
-                    case 5 -> GestoreScenaCLI.viaAllaHomeUtente();
+                    case 5 -> GestoreScenaCLI.vaiAllaHomeUtente();
                     case 6 -> esci=true;
                     default -> throw new ValidazioneException("Scelta non valida");
                 }
