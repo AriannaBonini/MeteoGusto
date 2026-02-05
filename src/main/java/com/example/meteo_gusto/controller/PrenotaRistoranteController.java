@@ -24,12 +24,8 @@ import java.util.*;
 public class PrenotaRistoranteController {
 
     private final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-    private final DietaDAO dietaDAO= daoFactoryFacade.getDietaDAO();
-    private final RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
     private final List<Ristorante> ristorantiPrenotabili = new ArrayList<>();
     private List<Ambiente> ambientiCompatibiliConIlMeteo=new ArrayList<>();
-    private final AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
-    private final PrenotazioneDAO prenotazioneDAO= daoFactoryFacade.getPrenotazioneDAO();
 
     /**
      * Cerca i ristoranti disponibili secondo i dati della prenotazione inseriti dall'utente ed applica le previsioni meteo
@@ -44,7 +40,7 @@ public class PrenotaRistoranteController {
 
         GiorniSettimana giornoPrenotazione = GiorniSettimanaHelper.dataInGiornoSettimana(filtriInseriti.getData());
 
-        for (Ristorante ristorante : ristoranteDAO.filtraRistorantiPerCitta(filtri)) {
+        for (Ristorante ristorante : daoFactoryFacade.getRistoranteDAO().filtraRistorantiPerCitta(filtri)) {
 
             List<Ambiente> ambientiRistoranteDisponibili= new ArrayList<>();
 
@@ -54,7 +50,7 @@ public class PrenotaRistoranteController {
             }
 
 
-            for (Ambiente ambiente : ambienteDAO.cercaAmbientiDelRistorante(ristorante)) {
+            for (Ambiente ambiente : daoFactoryFacade.getAmbienteDAO().cercaAmbientiDelRistorante(ristorante)) {
 
                 ambiente.setRistorante(ristorante.getPartitaIVA());
 
@@ -68,7 +64,7 @@ public class PrenotaRistoranteController {
                 );
 
                 int postiDisponibili = ambiente.numeroCoperti() -
-                        prenotazioneDAO.postiOccupatiPerDataEFasciaOraria(prenotazione).numeroPersone();
+                        daoFactoryFacade.getPrenotazioneDAO().postiOccupatiPerDataEFasciaOraria(prenotazione).numeroPersone();
 
 
                 if (postiDisponibili >= filtriInseriti.getNumeroPersone()) {
@@ -211,7 +207,7 @@ public class PrenotaRistoranteController {
 
             Ristorante ristoranteDaControllare= new Ristorante(ristorante.getPartitaIVA());
             ristoranteDaControllare.setDiete(filtri.getDiete());
-            Ristorante dieteRistoranteCompatibili = dietaDAO.controllaDieteDelRistorante(ristoranteDaControllare);
+            Ristorante dieteRistoranteCompatibili = daoFactoryFacade.getDietaDAO().controllaDieteDelRistorante(ristoranteDaControllare);
 
             if (dieteRistoranteCompatibili==null || dieteRistoranteCompatibili.getDiete() == null || dieteRistoranteCompatibili.getDiete().isEmpty()) {
                 return false;
@@ -252,7 +248,7 @@ public class PrenotaRistoranteController {
             return true;
         }
 
-        Ambiente ambienteConExtra = ambienteDAO.cercaExtraPerAmbiente(ambienteRistorante);
+        Ambiente ambienteConExtra = daoFactoryFacade.getAmbienteDAO().cercaExtraPerAmbiente(ambienteRistorante);
 
         Set<Extra> extraDisponibili = ambienteConExtra != null ? ambienteConExtra.getExtra() : null;
 
@@ -374,7 +370,7 @@ public class PrenotaRistoranteController {
     public RistoranteBean dettagliRistorante(RistoranteBean ristoranteBean) throws EccezioneDAO, ValidazioneException {
         Ristorante ristorante= ConvertitoreRistorante.cardRistoranteInModel(ristoranteBean);
 
-        Ristorante dettagliRistorante= ristoranteDAO.dettagliRistorante(ristorante);
+        Ristorante dettagliRistorante= daoFactoryFacade.getRistoranteDAO().dettagliRistorante(ristorante);
 
         ristorante.setTelefono(dettagliRistorante.getTelefono());
         ristorante.posizioneRistorante().setCap(dettagliRistorante.posizioneRistorante().getCap());
@@ -404,16 +400,16 @@ public class PrenotaRistoranteController {
         Ambiente ambiente= new Ambiente();
         ambiente.setRistorante(prenotazioneBean.getRistorante().getPartitaIVA());
         ambiente.setCategoria(prenotazione.getAmbiente().categoriaAmbiente());
-        Ambiente a= ambienteDAO.cercaIdAmbiente(ambiente);
+        Ambiente a= daoFactoryFacade.getAmbienteDAO().cercaIdAmbiente(ambiente);
 
         ambiente.setIdAmbiente(a.getIdAmbiente());
         prenotazione.aggiungiAmbiente(ambiente);
 
-        if (prenotazioneDAO.esistePrenotazione(prenotazione)) {
+        if (daoFactoryFacade.getPrenotazioneDAO().esistePrenotazione(prenotazione)) {
             throw new PrenotazioneEsistenteException("Esiste già una prenotazione per la data e l'ora scelta");
         }
 
-        return prenotazioneDAO.inserisciPrenotazione(prenotazione);
+        return daoFactoryFacade.getPrenotazioneDAO().inserisciPrenotazione(prenotazione);
     }
 
 
@@ -424,12 +420,12 @@ public class PrenotaRistoranteController {
         PersonaBean personaBean= ConvertitorePersona.dettagliUtentePrenotazioneInBean(persona);
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
         try{
-            persona.aggiungiPrenotazioniAttive(prenotazioneDAO.selezionaPrenotazioniUtente(persona));
+            persona.aggiungiPrenotazioniAttive(daoFactoryFacade.getPrenotazioneDAO().selezionaPrenotazioniUtente(persona));
             for(Prenotazione prenotazione: persona.prenotazioniAttive()) {
 
-                prenotazione.aggiungiAmbiente(ambienteDAO.cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
+                prenotazione.aggiungiAmbiente(daoFactoryFacade.getAmbienteDAO().cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
 
-                Ristorante ristorante= ristoranteDAO.selezionaInfoRistorante(prenotazione.getAmbiente());
+                Ristorante ristorante= daoFactoryFacade.getRistoranteDAO().selezionaInfoRistorante(prenotazione.getAmbiente());
 
                 PrenotazioneBean prenotazioneBean= ConvertitorePrenotazione.datiPrenotazioneInBean(prenotazione);
 
@@ -463,7 +459,7 @@ public class PrenotaRistoranteController {
 
             for(Ambiente ambiente: ambientiRistorante) {
 
-                ambiente.aggiungiPrenotazioniAttive(prenotazioneDAO.selezionaPrenotazioniRistoratore(ambiente));
+                ambiente.aggiungiPrenotazioniAttive(daoFactoryFacade.getPrenotazioneDAO().selezionaPrenotazioniRistoratore(ambiente));
 
                 for (Prenotazione prenotazione : ambiente.prenotazioniAttive()) {
 
@@ -495,9 +491,9 @@ public class PrenotaRistoranteController {
 
         try {
             if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazione=prenotazioneDAO.contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
+                prenotazione=daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
             }else {
-                prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
+                prenotazione = daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
             }
 
             PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
@@ -513,9 +509,9 @@ public class PrenotaRistoranteController {
     public void modificaStatoNotifica() throws ValidazioneException{
         try {
             if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazioneDAO.resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
+                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
             }else {
-                prenotazioneDAO.resettaNotificheUtente(Sessione.getInstance().getPersona());
+                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheUtente(Sessione.getInstance().getPersona());
             }
         }catch (EccezioneDAO e) {
             throw new ValidazioneException(e.getMessage());

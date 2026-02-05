@@ -1,7 +1,6 @@
 package com.example.meteo_gusto.controller;
 
 import com.example.meteo_gusto.bean.*;
-import com.example.meteo_gusto.dao.*;
 import com.example.meteo_gusto.eccezione.EccezioneDAO;
 import com.example.meteo_gusto.eccezione.ValidazioneException;
 import com.example.meteo_gusto.enumerazione.TipoAmbiente;
@@ -15,12 +14,11 @@ import java.util.*;
 public class RegistrazioneController {
 
     private static final DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-    private static final PersonaDAO personaDAO = daoFactoryFacade.getPersonaDAO();
 
     public void registraUtente(RegistrazionePersonaBean registrazionePersonaBean) throws EccezioneDAO {
         try {
             Persona utente = ConvertitorePersona.registrazioneUtenteInModel(registrazionePersonaBean.getPersona());
-            personaDAO.registraPersona(utente);
+            daoFactoryFacade.getPersonaDAO().registraPersona(utente);
         } catch (EccezioneDAO e) {
             throw new EccezioneDAO("Errore durante la registrazione dell'utente", e);
         }
@@ -28,11 +26,6 @@ public class RegistrazioneController {
 
     public void registraRistoratore(RegistrazionePersonaBean registrazioneRistoratoreBean) throws EccezioneDAO {
         try {
-            RistoranteDAO ristoranteDAO = daoFactoryFacade.getRistoranteDAO();
-            GiornoChiusuraDAO giornoChiusuraDAO = daoFactoryFacade.getGiornoChiusuraDAO();
-            DietaDAO dietaDAO = daoFactoryFacade.getDietaDAO();
-            AmbienteDAO ambienteDAO = daoFactoryFacade.getAmbienteDAO();
-
             Persona proprietarioRistorante = ConvertitorePersona.registrazioneRistoranteInModel(registrazioneRistoratoreBean.getPersona());
 
             Ristorante ristorante= proprietarioRistorante.getRistorante();
@@ -42,19 +35,19 @@ public class RegistrazioneController {
             controllaFasciaOrariaPranzo(ristorante.orariApertura());
             controllaFasciaOrariaCena(ristorante.orariApertura());
 
-            personaDAO.registraPersona(proprietarioRistorante);
-            ristoranteDAO.registraRistorante(ristorante);
+            daoFactoryFacade.getPersonaDAO().registraPersona(proprietarioRistorante);
+            DAOFactoryFacade.getInstance().getRistoranteDAO().registraRistorante(ristorante);
 
             if (ristorante.orariApertura().giorniChiusura() != null && !ristorante.orariApertura().giorniChiusura().isEmpty()) {
-                giornoChiusuraDAO.registraGiorniChiusuraRistorante(ristorante);
+                DAOFactoryFacade.getInstance().getGiornoChiusuraDAO().registraGiorniChiusuraRistorante(ristorante);
             }
 
             if (ristorante.getDiete()!=null && !ristorante.getDiete().isEmpty()) {
-                dietaDAO.registraDieta(ristorante);
+                DAOFactoryFacade.getInstance().getDietaDAO().registraDieta(ristorante);
             }
 
             List<Ambiente> listaAmbiente = ambienteRistoranteInModel(registrazioneRistoratoreBean.getPersona());
-            ambienteDAO.registraDisponibilita(listaAmbiente);
+            DAOFactoryFacade.getInstance().getAmbienteDAO().registraDisponibilita(listaAmbiente);
 
         } catch (ValidazioneException | EccezioneDAO e) {
             throw new EccezioneDAO("Errore durante la registrazione del ristoratore", e);
