@@ -424,8 +424,8 @@ public class PrenotaRistoranteController {
         PersonaBean personaBean= ConvertitorePersona.dettagliUtentePrenotazioneInBean(persona);
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
         try{
-            List<Prenotazione> listaPrenotazioni=prenotazioneDAO.selezionaPrenotazioniUtente(persona);
-            for(Prenotazione prenotazione: listaPrenotazioni) {
+            persona.aggiungiPrenotazioniAttive(prenotazioneDAO.selezionaPrenotazioniUtente(persona));
+            for(Prenotazione prenotazione: persona.prenotazioniAttive()) {
 
                 prenotazione.aggiungiAmbiente(ambienteDAO.cercaNomeAmbienteERistorante(prenotazione.getAmbiente()));
 

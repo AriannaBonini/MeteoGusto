@@ -2,6 +2,8 @@ package com.example.meteo_gusto.model;
 
 import com.example.meteo_gusto.enumerazione.TipoPersona;
 
+import java.util.List;
+
 public class Persona {
     private String nome;
     private String cognome;
@@ -10,6 +12,7 @@ public class Persona {
     private String password;
     private TipoPersona tipoPersona;
     private Ristorante ristorante;
+    private List<Prenotazione> prenotazioniAttive;
 
     /* COSTRUTTORE PER LA REGISTRAZIONE*/
     public Persona(String nome, String cognome, String telefono, String email, String password, TipoPersona tipoPersona, Ristorante ristorante) {
@@ -65,6 +68,8 @@ public class Persona {
     public TipoPersona getTipoPersona() {return tipoPersona;}
     public Ristorante getRistorante() {return ristorante;}
     public void setTipoPersona(TipoPersona tipoPersona) {this.tipoPersona = tipoPersona;}
+    public List<Prenotazione> prenotazioniAttive() {return prenotazioniAttive;}
+    public void aggiungiPrenotazioniAttive(List<Prenotazione> prenotazioniAttive) {this.prenotazioniAttive=prenotazioniAttive;}
 
     public void ristoranteDiProprieta(Ristorante ristorante) {
         if (tipoPersona.equals(TipoPersona.RISTORATORE)) {
