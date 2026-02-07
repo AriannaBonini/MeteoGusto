@@ -51,15 +51,15 @@ public class Ristorante {
     public String getTelefono() {return telefono;}
     public BigDecimal getMediaStelle() {return mediaStelle;}
     public void setMediaStelle(BigDecimal mediaStelle) {this.mediaStelle = mediaStelle;}
-    public TipoCucina getCucina() {return cucina;}
+    public TipoCucina cucinaRistorante() {return cucina;}
     public void setCucina(TipoCucina cucina) {this.cucina = cucina;}
     public FasciaPrezzoRistorante fasciaPrezzoRistorante() {return fasciaPrezzo;}
     public void setFasciaPrezzo(FasciaPrezzoRistorante fasciaPrezzo) {this.fasciaPrezzo = fasciaPrezzo;}
-    public GiorniEOrari orariApertura() {return orariApertura;}
+    public GiorniEOrari aperturaRistorante() {return orariApertura;}
     public void setOrariApertura(GiorniEOrari orariApertura) {this.orariApertura = orariApertura;}
     public Posizione posizioneRistorante() {return posizione;}
     public void setPosizione(Posizione posizione) {this.posizione = posizione;}
-    public Set<TipoDieta> getDiete() {return diete;}
+    public Set<TipoDieta> dieteOfferte() {return diete;}
     public void setDiete(Set<TipoDieta> diete) {this.diete = diete;}
     public List<Ambiente> ambientiRistorante() {return ambienti;}
     public void setAmbienti(List<Ambiente> ambienti) {this.ambienti = ambienti;}

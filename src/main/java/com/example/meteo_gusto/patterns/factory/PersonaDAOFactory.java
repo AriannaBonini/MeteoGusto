@@ -14,7 +14,7 @@ public class PersonaDAOFactory {
         };
     }
 
-    public PersonaDAO creaPersonaDAOMYSQL(){return new PersonaDAOMySql();}
-    public PersonaDAO creaPersonaDAOMEMORIA(){return new PersonaDAOMemoria();}
+    private PersonaDAO creaPersonaDAOMYSQL(){return new PersonaDAOMySql();}
+    private PersonaDAO creaPersonaDAOMEMORIA(){return new PersonaDAOMemoria();}
 
 }

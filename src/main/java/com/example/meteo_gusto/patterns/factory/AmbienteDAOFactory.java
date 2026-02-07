@@ -13,6 +13,6 @@ public class AmbienteDAOFactory {
         };
     }
 
-    public AmbienteDAO creaAmbienteDAOMYSQL(){return new AmbienteDAOMySql();}
-    public AmbienteDAO creaAmbienteDAOMEMORIA(){return new AmbienteDAOMemoria();}
+    private AmbienteDAO creaAmbienteDAOMYSQL(){return new AmbienteDAOMySql();}
+    private AmbienteDAO creaAmbienteDAOMEMORIA(){return new AmbienteDAOMemoria();}
 }

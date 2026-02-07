@@ -16,7 +16,7 @@ public class PrenotazioneDAOFactory {
         };
     }
 
-    public PrenotazioneDAO creaPrenotazioneDAOMYSQL(){return new PrenotazioneDAOMySql();}
-    public PrenotazioneDAO creaPrenotazioneDAOCSV(){return new PrenotazioneDAOCsv();}
-    public PrenotazioneDAO creaPrenotazioneDAOMEMORIA(){return new PrenotazioneDAOMemoria();}
+    private PrenotazioneDAO creaPrenotazioneDAOMYSQL(){return new PrenotazioneDAOMySql();}
+    private PrenotazioneDAO creaPrenotazioneDAOCSV(){return new PrenotazioneDAOCsv();}
+    private PrenotazioneDAO creaPrenotazioneDAOMEMORIA(){return new PrenotazioneDAOMemoria();}
 }

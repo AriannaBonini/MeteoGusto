@@ -111,15 +111,15 @@ public class PrenotaRistoranteController {
      */
     private boolean orarioDiPrenotazioneValido(Ristorante ristorante, LocalTime oraPrenotazione) {
 
-        boolean pranzoValido = ristorante.orariApertura().getInizioPranzo() != null &&
-                ristorante.orariApertura().getFinePranzo() != null &&
-                !oraPrenotazione.isBefore(ristorante.orariApertura().getInizioPranzo()) &&
-                !oraPrenotazione.isAfter(ristorante.orariApertura().getFinePranzo());
-        boolean cenaValida = ristorante.orariApertura().getInizioCena() != null &&
+        boolean pranzoValido = ristorante.aperturaRistorante().orarioInizioPranzo() != null &&
+                ristorante.aperturaRistorante().orarioFinePranzo() != null &&
+                !oraPrenotazione.isBefore(ristorante.aperturaRistorante().orarioInizioPranzo()) &&
+                !oraPrenotazione.isAfter(ristorante.aperturaRistorante().orarioFinePranzo());
+        boolean cenaValida = ristorante.aperturaRistorante().orarioInizioCena() != null &&
 
-                ristorante.orariApertura().getFineCena() != null &&
-                !oraPrenotazione.isBefore(ristorante.orariApertura().getInizioCena()) && //
-                !oraPrenotazione.isAfter(ristorante.orariApertura().getFineCena());
+                ristorante.aperturaRistorante().orarioFineCena() != null &&
+                !oraPrenotazione.isBefore(ristorante.aperturaRistorante().orarioInizioCena()) && //
+                !oraPrenotazione.isAfter(ristorante.aperturaRistorante().orarioFineCena());
 
         return pranzoValido || cenaValida;
     }
@@ -197,7 +197,7 @@ public class PrenotaRistoranteController {
 
         if (filtri.getCucine() != null &&
                 !filtri.getCucine().isEmpty() &&
-                !filtri.getCucine().contains(ristorante.getCucina())) {
+                !filtri.getCucine().contains(ristorante.cucinaRistorante())) {
             return false;
         }
 
@@ -209,11 +209,11 @@ public class PrenotaRistoranteController {
             ristoranteDaControllare.setDiete(filtri.getDiete());
             Ristorante dieteRistoranteCompatibili = daoFactoryFacade.getDietaDAO().controllaDieteDelRistorante(ristoranteDaControllare);
 
-            if (dieteRistoranteCompatibili==null || dieteRistoranteCompatibili.getDiete() == null || dieteRistoranteCompatibili.getDiete().isEmpty()) {
+            if (dieteRistoranteCompatibili==null || dieteRistoranteCompatibili.dieteOfferte() == null || dieteRistoranteCompatibili.dieteOfferte().isEmpty()) {
                 return false;
             }
 
-            ristorante.setDiete(dieteRistoranteCompatibili.getDiete());
+            ristorante.setDiete(dieteRistoranteCompatibili.dieteOfferte());
 
         }
 
@@ -379,10 +379,10 @@ public class PrenotaRistoranteController {
         GiorniEOrari aperturaRistorante= new GiorniEOrari();
         ristorante.setOrariApertura(aperturaRistorante);
 
-        ristorante.orariApertura().setInizioPranzo(dettagliRistorante.orariApertura().getInizioPranzo());
-        ristorante.orariApertura().setFinePranzo(dettagliRistorante.orariApertura().getFinePranzo());
-        ristorante.orariApertura().setInizioCena(dettagliRistorante.orariApertura().getInizioCena());
-        ristorante.orariApertura().setFineCena(dettagliRistorante.orariApertura().getFineCena());
+        ristorante.aperturaRistorante().setInizioPranzo(dettagliRistorante.aperturaRistorante().orarioInizioPranzo());
+        ristorante.aperturaRistorante().setFinePranzo(dettagliRistorante.aperturaRistorante().orarioFinePranzo());
+        ristorante.aperturaRistorante().setInizioCena(dettagliRistorante.aperturaRistorante().orarioInizioCena());
+        ristorante.aperturaRistorante().setFineCena(dettagliRistorante.aperturaRistorante().orarioFineCena());
 
         return ConvertitoreRistorante.profiloRistoranteInBean(ristorante);
     }
@@ -467,8 +467,8 @@ public class PrenotaRistoranteController {
                     prenotazione.aggiungiAmbiente(ambiente);
 
                     PrenotazioneBean prenotazioneBean = ConvertitorePrenotazione.datiPrenotazioneInBean(prenotazione);
-                    prenotazioneBean.setNomePrenotante(prenotante.getNome());
-                    prenotazioneBean.setCognomePrenotante(prenotante.getCognome());
+                    prenotazioneBean.setNomePrenotante(prenotante.nomePersona());
+                    prenotazioneBean.setCognomePrenotante(prenotante.cognomePersona());
                     prenotazioneBean.setTelefonoPrenotante(prenotante.numeroTelefonico());
 
                     listaPrenotazioniBean.add(prenotazioneBean);

@@ -97,11 +97,11 @@ public class PrenotaRistoranteFormInizialeCG {
             GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
                     (PrenotaRistoranteCG controller) -> controller.setFiltriBean(filtriBean));
         } catch (DateTimeParseException e) {
-            mostraErroreTemporaneamenteNellaLabel("Orario non valido. Usa il formato HH:mm");
+            mostraErroreTemporaneo("Orario non valido. Usa il formato HH:mm");
         }catch (NumberFormatException e) {
-            mostraErroreTemporaneamenteNellaLabel("Numero persone non valido. Riempire il campo");
+            mostraErroreTemporaneo("Numero persone non valido. Riempire il campo");
         }catch (ValidazioneException e) {
-            mostraErroreTemporaneamenteNellaLabel(e.getMessage());
+            mostraErroreTemporaneo(e.getMessage());
             logger.error("Errore di validazione dei dati inseriti", e );
         } catch (PrevisioniMeteoFuoriRangeException e) {
             GestoreScena.mostraAlertSenzaConferma("Attenzione", e.getMessage());
@@ -126,7 +126,7 @@ public class PrenotaRistoranteFormInizialeCG {
     @FXML
     private void clickHome(MouseEvent evento) {GestoreScena.cambiaScena("/HomeUtente.fxml", evento);}
 
-    private void mostraErroreTemporaneamenteNellaLabel(String messaggio) {
+    private void mostraErroreTemporaneo(String messaggio) {
         String testoIniziale = "";
         infoErrore.setText(messaggio);
 

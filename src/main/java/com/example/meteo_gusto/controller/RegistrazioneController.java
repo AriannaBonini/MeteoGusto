@@ -32,17 +32,17 @@ public class RegistrazioneController {
             ristorante.setRistoratore(proprietarioRistorante.getEmail());
 
 
-            controllaFasciaOrariaPranzo(ristorante.orariApertura());
-            controllaFasciaOrariaCena(ristorante.orariApertura());
+            controllaFasciaOrariaPranzo(ristorante.aperturaRistorante());
+            controllaFasciaOrariaCena(ristorante.aperturaRistorante());
 
             daoFactoryFacade.getPersonaDAO().registraPersona(proprietarioRistorante);
             DAOFactoryFacade.getInstance().getRistoranteDAO().registraRistorante(ristorante);
 
-            if (ristorante.orariApertura().giorniChiusura() != null && !ristorante.orariApertura().giorniChiusura().isEmpty()) {
+            if (ristorante.aperturaRistorante().giorniChiusura() != null && !ristorante.aperturaRistorante().giorniChiusura().isEmpty()) {
                 DAOFactoryFacade.getInstance().getGiornoChiusuraDAO().registraGiorniChiusuraRistorante(ristorante);
             }
 
-            if (ristorante.getDiete()!=null && !ristorante.getDiete().isEmpty()) {
+            if (ristorante.dieteOfferte()!=null && !ristorante.dieteOfferte().isEmpty()) {
                 DAOFactoryFacade.getInstance().getDietaDAO().registraDieta(ristorante);
             }
 
@@ -83,10 +83,10 @@ public class RegistrazioneController {
     private void controllaFasciaOrariaPranzo(GiorniEOrari orarioRistorante)
             throws ValidazioneException {
 
-        if (orarioRistorante.getInizioPranzo() != null && orarioRistorante.getFinePranzo() != null) {
+        if (orarioRistorante.orarioInizioPranzo() != null && orarioRistorante.orarioFinePranzo() != null) {
 
-            LocalTime inizio = orarioRistorante.getInizioPranzo();
-            LocalTime fine = orarioRistorante.getFinePranzo();
+            LocalTime inizio = orarioRistorante.orarioInizioPranzo();
+            LocalTime fine = orarioRistorante.orarioFinePranzo();
 
             if (!fine.isAfter(inizio)) {throw new ValidazioneException("L'orario di fine pranzo deve essere successivo a quello di inizio pranzo.");}
 
@@ -100,10 +100,10 @@ public class RegistrazioneController {
     private void controllaFasciaOrariaCena(GiorniEOrari orarioRistorante)
             throws ValidazioneException {
 
-        if (orarioRistorante.getInizioCena() != null && orarioRistorante.getFineCena() != null) {
+        if (orarioRistorante.orarioInizioCena() != null && orarioRistorante.orarioFineCena() != null) {
 
-            LocalTime inizio = orarioRistorante.getInizioCena();
-            LocalTime fine = orarioRistorante.getFineCena();
+            LocalTime inizio = orarioRistorante.orarioInizioCena();
+            LocalTime fine = orarioRistorante.orarioFineCena();
 
             if (!fine.isAfter(inizio)) {throw new ValidazioneException("L'orario di fine cena deve essere successivo a quello di inizio cena.");}
 

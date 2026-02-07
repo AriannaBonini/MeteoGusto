@@ -16,8 +16,8 @@ public class ConvertitorePersona {
     public static PersonaBean dettagliUtentePrenotazioneInBean(Persona persona) throws ValidazioneException {
         PersonaBean personaBean= new PersonaBean();
 
-        personaBean.setNome(persona.getNome());
-        personaBean.setCognome(persona.getCognome());
+        personaBean.setNome(persona.nomePersona());
+        personaBean.setCognome(persona.cognomePersona());
         personaBean.setTelefono(persona.numeroTelefonico());
 
         return personaBean;

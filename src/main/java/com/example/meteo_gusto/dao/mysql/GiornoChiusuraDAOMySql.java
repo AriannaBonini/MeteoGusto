@@ -26,7 +26,7 @@ public class GiornoChiusuraDAOMySql extends QuerySQLGiornoChiusuraDAO implements
         try (Connection conn = new GestoreConnessioneDB().creaConnessione();
              PreparedStatement ps = conn.prepareStatement(REGISTRA_GIORNI_CHIUSURA_RISTORANTE)) {
 
-            for (GiorniSettimana giorno : ristorante.orariApertura().giorniChiusura()) {
+            for (GiorniSettimana giorno : ristorante.aperturaRistorante().giorniChiusura()) {
                 ps.setString(1, ristorante.getPartitaIVA());
                 ps.setString(2, giorno.getId());
                 ps.addBatch();

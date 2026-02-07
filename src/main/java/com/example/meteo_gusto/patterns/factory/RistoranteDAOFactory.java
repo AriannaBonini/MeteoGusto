@@ -13,6 +13,6 @@ public class RistoranteDAOFactory {
         };
     }
 
-    public RistoranteDAO creaRistoranteDAOMYSQL(){return new RistoranteDAOMySql();}
-    public RistoranteDAO creaRistoranteDAOMEMORIA(){return new RistoranteDAOMemoria();}
+    private RistoranteDAO creaRistoranteDAOMYSQL(){return new RistoranteDAOMySql();}
+    private RistoranteDAO creaRistoranteDAOMEMORIA(){return new RistoranteDAOMemoria();}
 }

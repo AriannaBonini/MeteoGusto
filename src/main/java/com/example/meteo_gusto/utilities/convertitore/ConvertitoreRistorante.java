@@ -24,7 +24,7 @@ public class ConvertitoreRistorante {
 
             ristoranteBean.setNome(ristorante.getNome());
             ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
-            ristoranteBean.setCucina(ristorante.getCucina().getId());
+            ristoranteBean.setCucina(ristorante.cucinaRistorante().getId());
             ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
 
             listaRistorantiBean.add(ristoranteBean);
@@ -57,10 +57,10 @@ public class ConvertitoreRistorante {
         ristoranteBean.setPartitaIVA(ristorante.getPartitaIVA());
         ristoranteBean.setNome(ristorante.getNome());
         ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
-        ristoranteBean.setCucina(ristorante.getCucina().getId());
+        ristoranteBean.setCucina(ristorante.cucinaRistorante().getId());
         ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
         ristoranteBean.setFasciaPrezzo(ristorante.fasciaPrezzoRistorante().getId());
-        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.getDiete()));
+        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.dieteOfferte()));
 
         ristoranteBean.setAmbiente(ambienteInBean(ristorante));
         return ristoranteBean;
@@ -124,20 +124,20 @@ public class ConvertitoreRistorante {
 
         ristoranteBean.setPartitaIVA(ristorante.getPartitaIVA());
         ristoranteBean.setNome(ristorante.getNome());
-        ristoranteBean.setCucina((ristorante.getCucina()).getId());
+        ristoranteBean.setCucina((ristorante.cucinaRistorante()).getId());
         ristoranteBean.setMediaStelle(ristorante.getMediaStelle());
         ristoranteBean.setFasciaPrezzo((ristorante.fasciaPrezzoRistorante()).getId());
         ristoranteBean.setCitta(ristorante.posizioneRistorante().getCitta());
         ristoranteBean.setIndirizzoCompleto(ristorante.posizioneRistorante().getIndirizzoCompleto());
         ristoranteBean.setCap(ristorante.posizioneRistorante().getCap());
         ristoranteBean.setTelefono(ristorante.getTelefono());
-        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.getDiete()));
+        ristoranteBean.setDiete(dieteDaEnumAString(ristorante.dieteOfferte()));
 
         GiorniEOrariBean giorniEOrariBean= new GiorniEOrariBean();
-        giorniEOrariBean.setInizioPranzo(ristorante.orariApertura().getInizioPranzo());
-        giorniEOrariBean.setFinePranzo(ristorante.orariApertura().getFinePranzo());
-        giorniEOrariBean.setInizioCena(ristorante.orariApertura().getInizioCena());
-        giorniEOrariBean.setFineCena(ristorante.orariApertura().getFineCena());
+        giorniEOrariBean.setInizioPranzo(ristorante.aperturaRistorante().orarioInizioPranzo());
+        giorniEOrariBean.setFinePranzo(ristorante.aperturaRistorante().orarioFinePranzo());
+        giorniEOrariBean.setInizioCena(ristorante.aperturaRistorante().orarioInizioCena());
+        giorniEOrariBean.setFineCena(ristorante.aperturaRistorante().orarioFineCena());
 
         ristoranteBean.setOrariApertura(giorniEOrariBean);
         ristoranteBean.setAmbiente(ambienteInBean(ristorante));

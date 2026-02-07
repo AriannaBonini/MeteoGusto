@@ -33,11 +33,11 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                 ps.setInt(6, Integer.parseInt(ristorante.posizioneRistorante().numeroCivico()));
                 ps.setString(7, ristorante.posizioneRistorante().getCitta());
                 ps.setString(8, ristorante.posizioneRistorante().getCap());
-                ps.setString(9, ristorante.getCucina().getId());
-                ps.setTime(10, Time.valueOf(ristorante.orariApertura().getInizioPranzo()));
-                ps.setTime(11, Time.valueOf(ristorante.orariApertura().getFinePranzo()));
-                ps.setTime(12, Time.valueOf(ristorante.orariApertura().getInizioCena()));
-                ps.setTime(13, Time.valueOf(ristorante.orariApertura().getFineCena()));
+                ps.setString(9, ristorante.cucinaRistorante().getId());
+                ps.setTime(10, Time.valueOf(ristorante.aperturaRistorante().orarioInizioPranzo()));
+                ps.setTime(11, Time.valueOf(ristorante.aperturaRistorante().orarioFinePranzo()));
+                ps.setTime(12, Time.valueOf(ristorante.aperturaRistorante().orarioInizioCena()));
+                ps.setTime(13, Time.valueOf(ristorante.aperturaRistorante().orarioFineCena()));
                 ps.setString(14, ristorante.fasciaPrezzoRistorante().name());
 
                 int righeInserite = ps.executeUpdate();
@@ -81,14 +81,14 @@ public class RistoranteDAOMySql extends QuerySQLRistoranteDAO implements Ristora
                     Time inizioCena   = rs.getTime(INIZIO_CENA);
                     Time fineCena     = rs.getTime(FINE_CENA);
 
-                    if (ristoranteTrovato.orariApertura() == null) {
+                    if (ristoranteTrovato.aperturaRistorante() == null) {
                         ristoranteTrovato.setOrariApertura(new GiorniEOrari());
                     }
 
-                    if (inizioPranzo != null) ristoranteTrovato.orariApertura().setInizioPranzo(inizioPranzo.toLocalTime());
-                    if (finePranzo != null)   ristoranteTrovato.orariApertura().setFinePranzo(finePranzo.toLocalTime());
-                    if (inizioCena != null)   ristoranteTrovato.orariApertura().setInizioCena(inizioCena.toLocalTime());
-                    if (fineCena != null)     ristoranteTrovato.orariApertura().setFineCena(fineCena.toLocalTime());
+                    if (inizioPranzo != null) ristoranteTrovato.aperturaRistorante().setInizioPranzo(inizioPranzo.toLocalTime());
+                    if (finePranzo != null)   ristoranteTrovato.aperturaRistorante().setFinePranzo(finePranzo.toLocalTime());
+                    if (inizioCena != null)   ristoranteTrovato.aperturaRistorante().setInizioCena(inizioCena.toLocalTime());
+                    if (fineCena != null)     ristoranteTrovato.aperturaRistorante().setFineCena(fineCena.toLocalTime());
 
                     listaRistoranti.add(ristoranteTrovato);
                 }

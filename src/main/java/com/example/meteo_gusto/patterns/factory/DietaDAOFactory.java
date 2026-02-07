@@ -14,6 +14,6 @@ public class DietaDAOFactory {
         };
     }
 
-    public DietaDAO creaDietaDAOMYSQL(){return new DietaDAOMySql();}
-    public DietaDAO creaDietaDAOMEMORIA(){return new DietaDAOMemoria();}
+    private DietaDAO creaDietaDAOMYSQL(){return new DietaDAOMySql();}
+    private DietaDAO creaDietaDAOMEMORIA(){return new DietaDAOMemoria();}
 }

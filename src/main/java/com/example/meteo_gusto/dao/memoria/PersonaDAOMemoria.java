@@ -64,8 +64,8 @@ public class PersonaDAOMemoria implements PersonaDAO {
             if (personaTrovata != null) {
 
                 Persona info = new Persona();
-                info.setNome(personaTrovata.getNome());
-                info.setCognome(personaTrovata.getCognome());
+                info.setNome(personaTrovata.nomePersona());
+                info.setCognome(personaTrovata.cognomePersona());
                 info.setTelefono(personaTrovata.numeroTelefonico());
                 info.setEmail(personaTrovata.getEmail());
                 return info;

@@ -25,13 +25,13 @@ public class GiorniEOrari {
 
 
     /* METODI GETTER E SETTER */
-    public LocalTime getInizioPranzo() {return inizioPranzo;}
+    public LocalTime orarioInizioPranzo() {return inizioPranzo;}
     public void setInizioPranzo(LocalTime inizioPranzo) {this.inizioPranzo = inizioPranzo;}
-    public LocalTime getFinePranzo() {return finePranzo;}
+    public LocalTime orarioFinePranzo() {return finePranzo;}
     public void setFinePranzo(LocalTime finePranzo) {this.finePranzo = finePranzo;}
-    public LocalTime getInizioCena() {return inizioCena;}
+    public LocalTime orarioInizioCena() {return inizioCena;}
     public void setInizioCena(LocalTime inzioCena) {this.inizioCena = inzioCena;}
-    public LocalTime getFineCena() {return fineCena;}
+    public LocalTime orarioFineCena() {return fineCena;}
     public void setFineCena(LocalTime fineCena) {this.fineCena = fineCena;}
     public Set<GiorniSettimana> giorniChiusura() {return giorniChiusura;}
     public void setGiorniChiusura(Set<GiorniSettimana> giorniChiusura) {this.giorniChiusura = giorniChiusura;}

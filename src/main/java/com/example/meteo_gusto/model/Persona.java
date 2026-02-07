@@ -55,9 +55,9 @@ public class Persona {
 
     /* METODI GETTER E SETTER */
     public Persona(String email) {this.email=email;}
-    public String getNome() {return nome;}
+    public String nomePersona() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
-    public  String getCognome() {return cognome;}
+    public  String cognomePersona() {return cognome;}
     public void setCognome(String cognome) {this.cognome = cognome;}
     public  String numeroTelefonico() {return telefono;}
     public  void setTelefono(String telefono) {this.telefono = telefono;}

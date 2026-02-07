@@ -24,11 +24,11 @@ public class DietaDAOMemoria implements DietaDAO {
             }
 
 
-            if (ristorante.getDiete() == null) {
+            if (ristorante.dieteOfferte() == null) {
                 ristorante.setDiete(new HashSet<>());
             }
 
-            Set<TipoDieta> diete = ristorante.getDiete();
+            Set<TipoDieta> diete = ristorante.dieteOfferte();
 
             if (diete.isEmpty()) {
                 return;
@@ -51,8 +51,8 @@ public class DietaDAOMemoria implements DietaDAO {
         try {
             if (ristoranteDaControllare == null ||
                     ristoranteDaControllare.getPartitaIVA() == null ||
-                    ristoranteDaControllare.getDiete() == null ||
-                    ristoranteDaControllare.getDiete().isEmpty()) {
+                    ristoranteDaControllare.dieteOfferte() == null ||
+                    ristoranteDaControllare.dieteOfferte().isEmpty()) {
                 return null;
             }
 
@@ -61,7 +61,7 @@ public class DietaDAOMemoria implements DietaDAO {
                 return null;
             }
 
-            Set<TipoDieta> dieteValide = ristoranteDaControllare.getDiete().stream()
+            Set<TipoDieta> dieteValide = ristoranteDaControllare.dieteOfferte().stream()
                     .filter(dieteRegistrate::contains)
                     .collect(Collectors.toSet());
 

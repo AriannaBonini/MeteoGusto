@@ -21,18 +21,18 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
             }
 
             ristorante.setMediaStelle(BigDecimal.ZERO);
-            if(ristorante.getDiete()==null) {
+            if(ristorante.dieteOfferte()==null) {
                 ristorante.setDiete(new HashSet<>());
             }
 
-            if(ristorante.orariApertura().getInizioPranzo()== null && ristorante.orariApertura().getFinePranzo()==null) {
-                ristorante.orariApertura().setInizioPranzo(LocalTime.MIDNIGHT);
-                ristorante.orariApertura().setFinePranzo(LocalTime.MIDNIGHT);
+            if(ristorante.aperturaRistorante().orarioInizioPranzo()== null && ristorante.aperturaRistorante().orarioFinePranzo()==null) {
+                ristorante.aperturaRistorante().setInizioPranzo(LocalTime.MIDNIGHT);
+                ristorante.aperturaRistorante().setFinePranzo(LocalTime.MIDNIGHT);
             }
 
-            if(ristorante.orariApertura().getInizioCena()== null && ristorante.orariApertura().getFineCena()==null) {
-                ristorante.orariApertura().setInizioCena(LocalTime.MIDNIGHT);
-                ristorante.orariApertura().setFineCena(LocalTime.MIDNIGHT);
+            if(ristorante.aperturaRistorante().orarioInizioCena()== null && ristorante.aperturaRistorante().orarioFineCena()==null) {
+                ristorante.aperturaRistorante().setInizioCena(LocalTime.MIDNIGHT);
+                ristorante.aperturaRistorante().setFineCena(LocalTime.MIDNIGHT);
             }
 
 
@@ -196,7 +196,7 @@ public class RistoranteDAOMemoria implements RistoranteDAO {
                         }
                         copia.setPosizione(posizione);
 
-                        copia.setCucina(r.getCucina());
+                        copia.setCucina(r.cucinaRistorante());
                         copia.setMediaStelle(r.getMediaStelle());
 
                         return copia;

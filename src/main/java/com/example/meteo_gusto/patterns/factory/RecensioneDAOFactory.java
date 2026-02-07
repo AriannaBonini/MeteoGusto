@@ -14,6 +14,6 @@ public class RecensioneDAOFactory {
         };
     }
 
-    public RecensioneDAO creaRecensioneDAOMYSQL(){return new RecensioneDAOMySql();}
-    public RecensioneDAO creaRecensioneDAOMEMORIA(){return new RecensioneDAOMemoria();}
+    private RecensioneDAO creaRecensioneDAOMYSQL(){return new RecensioneDAOMySql();}
+    private RecensioneDAO creaRecensioneDAOMEMORIA(){return new RecensioneDAOMemoria();}
 }

@@ -14,6 +14,6 @@ public class GiornoChiusuraDAOFactory {
         };
     }
 
-    public GiornoChiusuraDAO creaGiornoChiusuraDAOMYSQL(){return new GiornoChiusuraDAOMySql();}
-    public GiornoChiusuraDAO creaGiornoChiusuraDAOMEMORIA(){return new GiornoChiusuraDAOMemoria();}
+    private GiornoChiusuraDAO creaGiornoChiusuraDAOMYSQL(){return new GiornoChiusuraDAOMySql();}
+    private GiornoChiusuraDAO creaGiornoChiusuraDAOMEMORIA(){return new GiornoChiusuraDAOMemoria();}
 }

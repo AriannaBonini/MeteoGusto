@@ -18,8 +18,8 @@ public class PersonaDAOMySql extends QuerySQLPersonaDAO implements PersonaDAO {
             try (Connection conn = gestoreConn.creaConnessione();
                  PreparedStatement ps = conn.prepareStatement(REGISTRA_UTENTE)) {
 
-                ps.setString(1, utente.getNome());
-                ps.setString(2, utente.getCognome());
+                ps.setString(1, utente.nomePersona());
+                ps.setString(2, utente.cognomePersona());
                 ps.setString(3, utente.numeroTelefonico());
                 ps.setString(4, utente.getEmail());
                 ps.setString(5, utente.getPassword());
