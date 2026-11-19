@@ -30,7 +30,17 @@ public class DAOFactoryFacade {
         this.tipoPersistenza = tipoPersistenza;
     }
 
+    private void verificaTipoPersistenza() {
+    if (tipoPersistenza == null) {
+        throw new IllegalStateException(
+            "Tipo di persistenza non inizializzato. "
+            + "Invocare initTipoPersistenza() prima di richiedere un DAO.");
+        }
+     }
+
     public PersonaDAO getPersonaDAO() {
+         verificaTipoPersistenza();
+
         if(personaDAO ==null) {
             PersonaDAOFactory personaDAOFactory = new PersonaDAOFactory();
             personaDAO = personaDAOFactory.getPersonaDAO(tipoPersistenza);
@@ -39,6 +49,8 @@ public class DAOFactoryFacade {
     }
 
     public RistoranteDAO getRistoranteDAO() {
+         verificaTipoPersistenza();
+
         if(ristoranteDAO ==null) {
             RistoranteDAOFactory ristoranteDAOFactory = new RistoranteDAOFactory();
             ristoranteDAO = ristoranteDAOFactory.getRistoranteDAO(tipoPersistenza);
@@ -47,6 +59,8 @@ public class DAOFactoryFacade {
     }
 
     public GiornoChiusuraDAO getGiornoChiusuraDAO() {
+         verificaTipoPersistenza();
+
         if(giornoChiusuraDAO ==null) {
             GiornoChiusuraDAOFactory giornoChiusuraDAOFactory = new GiornoChiusuraDAOFactory();
             giornoChiusuraDAO = giornoChiusuraDAOFactory.getGiornoChiusuraDAO(tipoPersistenza);
@@ -55,6 +69,8 @@ public class DAOFactoryFacade {
     }
 
     public DietaDAO getDietaDAO() {
+         verificaTipoPersistenza();
+
         if(dietaDAO ==null) {
             DietaDAOFactory dietaDAOFactory = new DietaDAOFactory();
             dietaDAO =dietaDAOFactory.getDietaDAO(tipoPersistenza);
@@ -63,6 +79,8 @@ public class DAOFactoryFacade {
     }
 
     public AmbienteDAO getAmbienteDAO() {
+         verificaTipoPersistenza();
+
         if(ambienteDAO ==null) {
             AmbienteDAOFactory ambienteDAOFactory = new AmbienteDAOFactory();
             ambienteDAO = ambienteDAOFactory.getAmbienteDAO(tipoPersistenza);
@@ -72,6 +90,8 @@ public class DAOFactoryFacade {
 
 
     public PrenotazioneDAO getPrenotazioneDAO() {
+         verificaTipoPersistenza();
+
         if(prenotazioneDAO ==null) {
             PrenotazioneDAOFactory prenotazioneDAOFactory= new PrenotazioneDAOFactory();
             prenotazioneDAO = prenotazioneDAOFactory.getPrenotazioneDAO(tipoPersistenza);
@@ -80,6 +100,8 @@ public class DAOFactoryFacade {
     }
 
     public RecensioneDAO getRecensioneDAO() {
+         verificaTipoPersistenza();
+
         if(recensioneDAO ==null) {
             RecensioneDAOFactory recensioneDAOFactory= new RecensioneDAOFactory();
             recensioneDAO  = recensioneDAOFactory.getRecensioneDAO(tipoPersistenza);
