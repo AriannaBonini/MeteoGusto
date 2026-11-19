@@ -423,6 +423,9 @@ public class PrenotaRistoranteController {
 
     public PersonaBean prenotazioniUtente() throws ValidazioneException{
         Persona persona= Sessione.getInstance().getPersona();
+        if(persona==null){
+            throw new ValidazioneException("Sessione non trovata");
+        }
 
         PersonaBean personaBean= ConvertitorePersona.dettagliUtentePrenotazioneInBean(persona);
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
