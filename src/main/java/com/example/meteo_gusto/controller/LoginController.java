@@ -21,7 +21,7 @@ public class LoginController {
                 return null;
             }
 
-            if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
+            if(TipoPersona.RISTORATORE.equals(persona.getTipoPersona())) {
                 persona.ristoranteDiProprieta(daoFactoryFacade.getRistoranteDAO().selezionaRistorantePerProprietario(persona));
                 persona.getRistorante().setAmbienti(daoFactoryFacade.getAmbienteDAO().cercaAmbientiDelRistorante(persona.getRistorante()));
             }
