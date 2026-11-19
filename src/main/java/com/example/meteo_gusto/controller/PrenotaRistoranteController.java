@@ -512,11 +512,21 @@ public class PrenotaRistoranteController {
             if(persona==null) {
                 throw new ValidazioneException("Sessione non valida.");
             }
+
+            if (daoFactoryFacade == null) {
+                throw new IllegalStateException("DAOFactoryFacade non inizializzato.");
+            }
             
+            PrenotazioneDAO prenotazioneDAO = daoFactoryFacade.getPrenotazioneDAO();
+            if (prenotazioneDAO == null) {
+                throw new IllegalStateException("Impossibile creare PrenotazioneDAO");
+             }
+
+        
             if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazione=daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveRistoratore(persona.getRistorante().ambientiRistorante());
+                prenotazione=prenotazioneDAO.contaNotificheAttiveRistoratore(persona.getRistorante().ambientiRistorante());
             }else {
-                prenotazione = daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveUtente(persona);
+                prenotazione = prenotazioneDAO.contaNotificheAttiveUtente(persona);
             }
 
             PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
@@ -524,7 +534,7 @@ public class PrenotaRistoranteController {
 
             return prenotazioneBean;
         }catch (EccezioneDAO e) {
-            throw new ValidazioneException(e.getMessage());
+            throw new ValidazioneException(e.getMessage()); 
         }
     }
 
