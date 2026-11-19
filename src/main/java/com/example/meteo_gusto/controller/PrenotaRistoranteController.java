@@ -505,7 +505,12 @@ public class PrenotaRistoranteController {
         Prenotazione prenotazione;
 
         try {
-            if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
+            Persona persona = Sessione.getInstance().getPersona();
+            if(persona==null) {
+                throw new ValidazioneException("Sessione non valida.");
+            }
+            
+            if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
                 prenotazione=daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
             }else {
                 prenotazione = daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
