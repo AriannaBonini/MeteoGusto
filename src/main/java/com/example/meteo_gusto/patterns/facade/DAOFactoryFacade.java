@@ -24,6 +24,9 @@ public class DAOFactoryFacade {
     }
 
     public synchronized void initTipoPersistenza(TipoPersistenza tipoPersistenza) {
+          if (tipoPersistenza == null) {
+            throw new IllegalArgumentException("Il tipo di persistenza non può essere null." );
+           }
         if (this.tipoPersistenza != null) {
             throw new IllegalStateException("Tipologia di persistenza già impostata");
         }
