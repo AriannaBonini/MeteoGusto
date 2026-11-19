@@ -41,7 +41,7 @@
     -fx-background-color: white;
     -fx-scale-x: 2.5;            /* ingrandisce in larghezza */
     -fx-scale-y: 1.0;            /* ingrandisce in altezza */
-    -fx-padding: 2;
+    -fx-padding: 2px;
 }
 
 /* ScrollPane trasparente */
