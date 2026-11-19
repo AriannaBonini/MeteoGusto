@@ -92,6 +92,9 @@ public class PrenotaRistoranteFormInizialeCG {
     private void clickCerca(ActionEvent evento) {
         try {
             FiltriBean filtriBean = creaFiltriBean();
+            if(filtriBean==null) {
+                return;
+            }
             prenotaRistoranteController.validaDati(filtriBean);
 
             GestoreScena.cambiaScenaConParametri("/PrenotaRistorante.fxml", evento,
