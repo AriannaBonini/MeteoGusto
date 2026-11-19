@@ -199,7 +199,12 @@ public class SupportoComponentiGUISchedaRistorante {
 
 
     public static Image immagineCucinaRistorante(RistoranteBean ristorantebean) {
-        String percorso = switch (TipoCucina.tipoCucinaDaId(ristorantebean.getCucina())) {
+        TipoCucina tipoCucina = TipoCucina.tipoCucinaDaId(ristorantebean.getCucina());
+        if (tipoCucina == null) {
+            return null;
+        }    
+        
+        String percorso = switch (tipoCucina) {
             case TipoCucina.ITALIANA -> "/Foto/FotoRistoranteItaliano.png";
             case TipoCucina.SUSHI -> "/Foto/FotoRistoranteGiapponese.png";
             case TipoCucina.FAST_FOOD -> "/Foto/FotoPaninoteca.png";
