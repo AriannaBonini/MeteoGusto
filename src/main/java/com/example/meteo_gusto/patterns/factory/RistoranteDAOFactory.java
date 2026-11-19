@@ -7,6 +7,10 @@ import com.example.meteo_gusto.patterns.facade.TipoPersistenza;
 
 public class RistoranteDAOFactory {
     public RistoranteDAO getRistoranteDAO(TipoPersistenza tipoPersistenza) {
+        if (tipoPersistenza == null) {
+            throw new IllegalStateException("Tipo Persistenza non impostato all'avvio");
+        }
+        
         return switch (tipoPersistenza){
             case CSV, MYSQL -> creaRistoranteDAOMYSQL();
             case MEMORIA -> creaRistoranteDAOMEMORIA();
