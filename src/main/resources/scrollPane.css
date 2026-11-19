@@ -10,7 +10,7 @@
     -fx-background-color: transparent;       /* arancione */
     -fx-background-radius: 4px;          /* angoli leggermente arrotondati */
     -fx-border-color: transparent;
-    -fx-padding: 30 0 30 0;
+    -fx-padding: 30px 0px 30px 0px;
 }
 
 /* Thumb arancione più corto */
