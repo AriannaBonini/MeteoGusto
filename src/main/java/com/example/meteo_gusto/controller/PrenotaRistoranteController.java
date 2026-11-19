@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -93,15 +94,16 @@ public class PrenotaRistoranteController {
         if (filtri.getOra() == null) {
             throw new ValidazioneException("L'orario è obbligatorio.");
         }
-        
-        LocalDate oggi = LocalDate.now();
+
+        ZoneId zona = ZoneId.of("Europe/Rome");
+        LocalDate oggi = LocalDate.now(zona);
         LocalDate maxData = oggi.plusDays(15);
 
         if (filtri.getData().isBefore(oggi) || filtri.getData().isAfter(maxData)) {
             throw new PrevisioniMeteoFuoriRangeException("Il meteo non è disponibile per prenotazioni oltre i 15 giorni dalla data odierna.");
         }
 
-        if (filtri.getData().isEqual(oggi) && filtri.getOra().isBefore(LocalTime.now())) {
+        if (filtri.getData().isEqual(oggi) && filtri.getOra().isBefore(LocalTime.now(zona))) {
             throw new ValidazioneException("L'orario non può essere nel passato per la data odierna.");
         }
 
