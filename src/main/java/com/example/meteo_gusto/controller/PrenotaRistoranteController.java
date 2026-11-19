@@ -512,10 +512,6 @@ public class PrenotaRistoranteController {
             if(persona==null) {
                 throw new ValidazioneException("Sessione non valida.");
             }
-
-            if (daoFactoryFacade == null) {
-                throw new IllegalStateException("DAOFactoryFacade non inizializzato.");
-            }
             
             PrenotazioneDAO prenotazioneDAO = daoFactoryFacade.getPrenotazioneDAO();
             if (prenotazioneDAO == null) {
