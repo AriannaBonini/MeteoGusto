@@ -218,7 +218,12 @@ public class SupportoComponentiGUISchedaRistorante {
     }
 
     public static void immagineFasciaPrezzoRistorante(RistoranteBean ristorante, HBox hBoxInfoFasciaPrezzo, boolean dimensioneGrande) {
-        switch (FasciaPrezzoRistorante.fasciaPrezzoDaId(ristorante.getFasciaPrezzo())) {
+        FasciaPrezzoRistorante fascia = FasciaPrezzoRistorante.fasciaPrezzoDaId(ristorante.getFasciaPrezzo());
+        if (fascia == null) {
+            return; 
+        }
+        
+        switch (fascia) {
             case FasciaPrezzoRistorante.ECONOMICO -> ripetiImmagineDollaro(1, hBoxInfoFasciaPrezzo,dimensioneGrande);
             case FasciaPrezzoRistorante.MODERATO -> ripetiImmagineDollaro(2, hBoxInfoFasciaPrezzo,dimensioneGrande);
             case FasciaPrezzoRistorante.COSTOSO -> ripetiImmagineDollaro(3, hBoxInfoFasciaPrezzo,dimensioneGrande);
