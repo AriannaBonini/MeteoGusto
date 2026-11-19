@@ -33,17 +33,14 @@ public class DAOFactoryFacade {
         this.tipoPersistenza = tipoPersistenza;
     }
 
-    private void verificaTipoPersistenza() {
-    if (tipoPersistenza == null) {
-        throw new IllegalStateException(
-            "Tipo di persistenza non inizializzato. "
-            + "Invocare initTipoPersistenza() prima di richiedere un DAO.");
+    private void inizializzaTipoPersistenzaSeAssente() {
+        if (tipoPersistenza == null) {
+            tipoPersistenza = TipoPersistenza.MYSQL;
         }
-     }
+    }
 
     public PersonaDAO getPersonaDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(personaDAO ==null) {
             PersonaDAOFactory personaDAOFactory = new PersonaDAOFactory();
             personaDAO = personaDAOFactory.getPersonaDAO(tipoPersistenza);
@@ -52,8 +49,7 @@ public class DAOFactoryFacade {
     }
 
     public RistoranteDAO getRistoranteDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(ristoranteDAO ==null) {
             RistoranteDAOFactory ristoranteDAOFactory = new RistoranteDAOFactory();
             ristoranteDAO = ristoranteDAOFactory.getRistoranteDAO(tipoPersistenza);
@@ -62,8 +58,7 @@ public class DAOFactoryFacade {
     }
 
     public GiornoChiusuraDAO getGiornoChiusuraDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(giornoChiusuraDAO ==null) {
             GiornoChiusuraDAOFactory giornoChiusuraDAOFactory = new GiornoChiusuraDAOFactory();
             giornoChiusuraDAO = giornoChiusuraDAOFactory.getGiornoChiusuraDAO(tipoPersistenza);
@@ -72,8 +67,7 @@ public class DAOFactoryFacade {
     }
 
     public DietaDAO getDietaDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(dietaDAO ==null) {
             DietaDAOFactory dietaDAOFactory = new DietaDAOFactory();
             dietaDAO =dietaDAOFactory.getDietaDAO(tipoPersistenza);
@@ -82,8 +76,7 @@ public class DAOFactoryFacade {
     }
 
     public AmbienteDAO getAmbienteDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(ambienteDAO ==null) {
             AmbienteDAOFactory ambienteDAOFactory = new AmbienteDAOFactory();
             ambienteDAO = ambienteDAOFactory.getAmbienteDAO(tipoPersistenza);
@@ -93,8 +86,7 @@ public class DAOFactoryFacade {
 
 
     public PrenotazioneDAO getPrenotazioneDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(prenotazioneDAO ==null) {
             PrenotazioneDAOFactory prenotazioneDAOFactory= new PrenotazioneDAOFactory();
             prenotazioneDAO = prenotazioneDAOFactory.getPrenotazioneDAO(tipoPersistenza);
@@ -103,8 +95,7 @@ public class DAOFactoryFacade {
     }
 
     public RecensioneDAO getRecensioneDAO() {
-         verificaTipoPersistenza();
-
+        inizializzaTipoPersistenzaSeAssente();
         if(recensioneDAO ==null) {
             RecensioneDAOFactory recensioneDAOFactory= new RecensioneDAOFactory();
             recensioneDAO  = recensioneDAOFactory.getRecensioneDAO(tipoPersistenza);
