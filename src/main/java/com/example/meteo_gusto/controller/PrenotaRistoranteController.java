@@ -175,7 +175,9 @@ public class PrenotaRistoranteController {
 
     private void verificaDataMeteo(FiltriBean filtriBean) throws PrevisioniMeteoFuoriRangeException {
         LocalDate dataPrenotazione = filtriBean.getData();
-        LocalDate oggi = LocalDate.now();
+
+        ZoneId zona = ZoneId.of("Europe/Rome");
+        LocalDate oggi = LocalDate.now(zona);
 
         long giorniDiDifferenza = ChronoUnit.DAYS.between(oggi, dataPrenotazione);
 
