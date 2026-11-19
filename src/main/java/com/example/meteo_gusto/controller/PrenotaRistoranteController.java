@@ -511,9 +511,9 @@ public class PrenotaRistoranteController {
             }
             
             if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                prenotazione=daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
+                prenotazione=daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveRistoratore(persona.getRistorante().ambientiRistorante());
             }else {
-                prenotazione = daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveUtente(Sessione.getInstance().getPersona());
+                prenotazione = daoFactoryFacade.getPrenotazioneDAO().contaNotificheAttiveUtente(persona);
             }
 
             PrenotazioneBean prenotazioneBean= new PrenotazioneBean();
@@ -528,10 +528,16 @@ public class PrenotaRistoranteController {
 
     public void modificaStatoNotifica() throws ValidazioneException{
         try {
-            if(Sessione.getInstance().getPersona().getTipoPersona().equals(TipoPersona.RISTORATORE)) {
-                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheRistoratore(Sessione.getInstance().getPersona().getRistorante().ambientiRistorante());
+            Persona persona = Sessione.getInstance().getPersona();
+            if(persona==null) {
+                 throw new ValidazioneException("Sessione non trovata");   
+            }
+
+            
+            if(persona.getTipoPersona().equals(TipoPersona.RISTORATORE)) {
+                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheRistoratore(persona.getRistorante().ambientiRistorante());
             }else {
-                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheUtente(Sessione.getInstance().getPersona());
+                daoFactoryFacade.getPrenotazioneDAO().resettaNotificheUtente(persona);
             }
         }catch (EccezioneDAO e) {
             throw new ValidazioneException(e.getMessage());
