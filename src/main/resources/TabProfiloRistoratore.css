@@ -12,7 +12,7 @@
 /* Rimuove la linea sotto l'header dei tab */
 .tab-pane .tab-header-area {
     -fx-background-color: transparent;
-    -fx-padding: 15 15 0 15;
+    -fx-padding: 15px 15px 0px 15px;
 }
 
 .tab-pane .tab-header-background {
@@ -24,11 +24,11 @@
 .tab {
     -fx-background-color: white;
     -fx-background-insets: 0;
-    -fx-background-radius: 5;
+    -fx-background-radius: 5px;
     -fx-border-color: #cccccc;
     -fx-border-width: 1px;
-    -fx-border-radius: 5;
-    -fx-padding: 12 25 12 25;
+    -fx-border-radius: 5px;
+    -fx-padding: 12px 25px 12px 25px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
 }
 
@@ -68,10 +68,10 @@
 .tab-content-area {
     -fx-border-color: #e97627; /* Bordo arancione */
     -fx-border-width: 1px;
-    -fx-border-radius: 5;
+    -fx-border-radius: 5px;
     -fx-background-color: white;
     -fx-background-radius: 5;
-    -fx-padding: 20;
+    -fx-padding: 20px;
 }
 
 /* Stile per il contenuto interno di ogni tab */
