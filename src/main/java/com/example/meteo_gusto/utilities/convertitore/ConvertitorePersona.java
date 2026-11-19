@@ -14,6 +14,10 @@ public class ConvertitorePersona {
      * Attributi gestiti da questo convertitore : nome, cognome, telefono
      */
     public static PersonaBean dettagliUtentePrenotazioneInBean(Persona persona) throws ValidazioneException {
+        if(persona==null){
+            throw new ValidazioneException("La persona non è presente");
+        }
+        
         PersonaBean personaBean= new PersonaBean();
 
         personaBean.setNome(persona.nomePersona());
