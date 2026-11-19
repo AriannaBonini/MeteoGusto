@@ -462,7 +462,15 @@ public class PrenotaRistoranteController {
         List<PrenotazioneBean> listaPrenotazioniBean= new ArrayList<>();
 
         try {
-            List<Ambiente> ambientiRistorante= Sessione.getInstance().getPersona().getRistorante().ambientiRistorante();
+            Persona persona = Sessione.getInstance().getPersona();
+            if (persona == null || persona.getRistorante() == null) {
+                throw new ValidazioneException("Sessione ristoratore non valida o ristorante non presente.");
+            }
+            
+            List<Ambiente> ambientiRistorante= persona.getRistorante().ambientiRistorante();
+            if (ambientiRistorante == null) {
+                throw new ValidazioneException("Nessun ambiente trovato per il ristorante");
+            }
 
             for(Ambiente ambiente: ambientiRistorante) {
 
