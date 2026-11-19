@@ -87,6 +87,13 @@ public class PrenotaRistoranteController {
     }
 
     public void validaDati(FiltriBean filtri) throws ValidazioneException, PrevisioniMeteoFuoriRangeException {
+        if(filtri==null || filtri.getData()==null) {
+            throw new ValidazioneException("La data è obbligatoria.");
+        }
+        if (filtri.getOra() == null) {
+            throw new ValidazioneException("L'orario è obbligatorio.");
+        }
+        
         LocalDate oggi = LocalDate.now();
         LocalDate maxData = oggi.plusDays(15);
 
