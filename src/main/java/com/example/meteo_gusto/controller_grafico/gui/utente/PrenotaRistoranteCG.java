@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -174,7 +175,8 @@ public class PrenotaRistoranteCG {
 
 
     private void impostaDatePicker() {
-        LocalDate oggi = LocalDate.now();
+        ZoneId zona = ZoneId.of("Europe/Rome");
+        LocalDate oggi = LocalDate.now(zona);
         LocalDate maxData = oggi.plusDays(15);
 
         campoData.setDayCellFactory(dp -> new DateCell() {
