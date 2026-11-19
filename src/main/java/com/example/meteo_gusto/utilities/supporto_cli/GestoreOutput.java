@@ -84,7 +84,11 @@ public class GestoreOutput {
     }
 
     public static String mostraFasciaPrezzoRistorante(RistoranteBean ristoranteBean) {
-        return switch (FasciaPrezzoRistorante.fasciaPrezzoDaId(ristoranteBean.getFasciaPrezzo())) {
+        FasciaPrezzoRistorante fascia = FasciaPrezzoRistorante.fasciaPrezzoDaId(ristoranteBean.getFasciaPrezzo());
+        if (fascia == null) {
+            return null;
+        }
+       return switch (fascia) {
             case FasciaPrezzoRistorante.ECONOMICO -> mostraDollariColorati(1);
             case FasciaPrezzoRistorante.MODERATO -> mostraDollariColorati(2);
             case FasciaPrezzoRistorante.COSTOSO -> mostraDollariColorati(3);
