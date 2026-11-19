@@ -513,7 +513,7 @@ public class PrenotaRistoranteController {
                 throw new ValidazioneException("Sessione non valida.");
             }
             
-            PrenotazioneDAO prenotazioneDAO = daoFactoryFacade.getPrenotazioneDAO();
+            PrenotazioneDAO prenotazioneDAO = DAOFactoryFacade.getInstance().getPrenotazioneDAO();
             if (prenotazioneDAO == null) {
                 throw new IllegalStateException("Impossibile creare PrenotazioneDAO");
              }
